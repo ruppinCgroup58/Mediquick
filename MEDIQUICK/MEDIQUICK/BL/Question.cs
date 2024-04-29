@@ -10,9 +10,10 @@
         string wrongAnswer3;
         string explanation;
         bool status;
-        string creator;
+        int creator;
+        DBServices dbs = new DBServices();
 
-        public Question(int difficulty, string content, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string explanation, bool status, string creator)
+        public Question(int difficulty, string content, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string explanation, bool status, int creator)
         {
             Difficulty = difficulty;
             Content = content;
@@ -33,6 +34,14 @@
         public string WrongAnswer3 { get => wrongAnswer3; set => wrongAnswer3 = value; }
         public string Explanation { get => explanation; set => explanation = value; }
         public bool Status { get => status; set => status = value; }
-        public string Creator { get => creator; set => creator = value; }
+        public int Creator { get => creator; set => creator = value; }
+
+        public int Insert()
+        {
+            return dbs.InsertQuestion(this);
+        }
+
+
+
     }
 }

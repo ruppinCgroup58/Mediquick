@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MEDIQUICK.BL;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,8 +25,9 @@ namespace MEDIQUICK.Controllers
 
         // POST api/<QuestionsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public int InsertQuestion([FromBody] Question value)
         {
+            return value.Insert();
         }
 
         // PUT api/<QuestionsController>/5
