@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./../styles/login-style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="./../scripts/sign-up-modal-script.js" defer></script>
+    <script src="./../scripts/ajaxCalls.js"></script>
+    <script src="./../scripts/login-script.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <title>Login - MEDIQUICK</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="card login-card">
+            <div class="logo-image"></div>
+            <form action="" id="login-form">
+                <div class="input-box email" id="email-textbox"><input type="text" placeholder="example@email.com">
+                    <img src="./../images/icons/mail.svg" alt="">
+                </div>
+                <div class="input-box" id="password-textbox"><input type="password" class="password" placeholder="password...">
+                    <img src="./../images/icons/eye-open.svg" id="password-eye-icon" onclick="togglePassword(this)">
+                    <img src="./../images/icons/password.svg" alt="">
+                </div>
+                <a href="#">forgot password?</a>
+                <input type="submit" value="log in" class="primary-btn" id="log-in-btn">
+                <label for="">or</label>
+                <input type="button" value="sign-up" class="secondary-btn" id="sign-up-btn">
+            </form>
+            
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                  <span class="close">&times;</span>
+                  <form action="" id="sign-up-form">
+                    <div class="input-box"><input class="hebrew" type="text" id="email" placeholder="מייל"></div>
+                    <div class="input-box"><input class="hebrew" type="text" id="first-name" placeholder="שם פרטי"></div>
+                    <div class="input-box"><input class="hebrew" type="text" id="last-name" placeholder="שם משפחה"></div>
+                    <div class="input-box"><input class="hebrew" type="text" id="phone-number" placeholder="מספר טלפון"></div>
+                        <div class="input-box" id="password-textbox"><input type="password" id="password" class="password" placeholder="password...">
+                            <img src="./../images/icons/eye-open.svg" id="modal-password-eye-icon" onclick="togglePassword(this)">
+                        </div>
+                        <div class="input-box" id="confirm-password-textbox"><input type="password" id="confirm-password" class="password" placeholder="confirm password...">
+                            <img src="./../images/icons/eye-open.svg" id="modal-confirm-password-eye-icon" onclick="togglePassword(this)">
+                        </div>
+                        <input type="submit" value="sign-up" class="primary-btn" id="sign-up-modal-btn">
+                  </form>
+                </div>
+              </div>
+        </div>
+    </div>
+</body>
+</html>
