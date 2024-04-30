@@ -11,6 +11,8 @@
         bool isActive;
         DBServices dbs = new DBServices();
 
+        string x = "dsfsdf";
+
         public User(string firstName, string lastName, string email, string password, string phoneNumber)
         {
             FirstName = firstName;
