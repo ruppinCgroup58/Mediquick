@@ -11,6 +11,7 @@
         bool isActive;
         DBServices dbs = new DBServices();
 
+
         public User(string firstName, string lastName, string email, string password, string phoneNumber)
         {
             FirstName = firstName;
@@ -19,6 +20,7 @@
             Password = password;
             PhoneNumber = phoneNumber;
         }
+
 
         //public User(string firstName, string lastName, string email, string password, string phoneNumber, bool isAdmin, bool isActive)
         //{
@@ -44,4 +46,6 @@
             return dbs.InsertUser(this);
         }
     }
+
+
 }
