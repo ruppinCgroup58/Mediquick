@@ -15,8 +15,7 @@ function qiFormSubmit() {
         creator: 17
     }
     
-    ajaxCall("POST", questionsAPI, JSON.stringify(newQuestion), qiPostSCB, qiPostECB)
-    return false;
+    ajaxCall("POST", questionsAPI, JSON.stringify(newQuestion), qiPostSCB, qiPostECB);
 }
 
 function qiPostSCB(isSuccess) {
