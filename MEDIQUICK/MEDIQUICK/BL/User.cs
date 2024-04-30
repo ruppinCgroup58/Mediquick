@@ -46,6 +46,10 @@
         {
             return dbs.InsertUser(this);
         }
+        public User Login(string email, string password)
+        {
+            return dbs.Login(email, password);
+        }
     }
 
 

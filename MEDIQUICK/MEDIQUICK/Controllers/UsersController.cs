@@ -30,6 +30,13 @@ namespace MEDIQUICK.Controllers
             return user.InsertUser();
         }
 
+        // POST api/<UsersController>
+        [HttpPost("{email}")]
+        public User Login(string email, [FromBody] string password)
+        {
+            return new User().Login(email, password);
+        }
+
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)

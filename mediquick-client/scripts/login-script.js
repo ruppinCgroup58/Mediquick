@@ -1,6 +1,7 @@
 let usersAPI = "https://localhost:7253/api/Users"
 
 $("#sign-up-form").submit(suFormSubmit)
+$("#login-form").submit(loginFormSubmit)
 
 function suFormSubmit() {
     if(!validateForm()) {
@@ -19,6 +20,18 @@ function suFormSubmit() {
     ajaxCall("POST", usersAPI, JSON.stringify(newUser), suPostSCB, suPostECB)
     return false;
 }
+
+function loginFormSubmit() {
+    email = $("#emailText").val();
+    password = $("#passwordText").val();
+
+
+    let usersLoginAPI = usersAPI + "/" + email;
+    ajaxCall("POST", usersLoginAPI, JSON.stringify(password), loginPostSCB, loginPostECB)
+    return false;
+}
+
+
 
 function validateForm() {
     var email = $("#email").val();
@@ -82,3 +95,17 @@ function suPostSCB(isSuccess) {
 function suPostECB(err) {
     alert(err.statusText);
 }
+
+function loginPostSCB(isSuccess) {
+    if (isSuccess) {
+        alert("login succeed!");
+        window.location.href = 'https://www.youtube.com/watch?v=sd4QiDvKklM&list=RDwHdiCwh2FZM&index=14';
+    } else {
+        alert("Adding failed");
+    }
+}
+
+function loginPostECB(err) {
+    alert(err.statusText);
+}
+
