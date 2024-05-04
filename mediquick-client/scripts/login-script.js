@@ -5,8 +5,8 @@ $("#login-form").submit(loginFormSubmit)
 
 function suFormSubmit() {
     if(!validateForm()) {
-        alert("wrong details");
-        return;
+        // alert("wrong details");
+        return false;
     }
     
     newUser = {
@@ -16,7 +16,6 @@ function suFormSubmit() {
         password: $("#password").val(),
         phoneNumber: $("#phone-number").val()
     }
-
     ajaxCall("POST", usersAPI, JSON.stringify(newUser), suPostSCB, suPostECB)
     return false;
 }
@@ -27,7 +26,12 @@ function loginFormSubmit() {
 
 
     let usersLoginAPI = usersAPI + "/" + email;
-    ajaxCall("POST", usersLoginAPI, JSON.stringify(password), loginPostSCB, loginPostECB)
+    try {
+        ajaxCall("POST", usersLoginAPI, JSON.stringify(password), loginPostSCB, loginPostECB)
+    } catch (error) {
+        alert(error)
+    }
+    
     return false;
 }
 
@@ -106,6 +110,12 @@ function loginPostSCB(isSuccess) {
 }
 
 function loginPostECB(err) {
-    alert(err.statusText);
+    if (err.responseText.includes("User Not Found")) {
+        alert ("Wrong email or password, please try again");
+        $("#emailText").focus();
+    }
 }
 
+function resetForm() {
+    $("#sign-up-form")[0].reset();
+}

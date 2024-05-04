@@ -24,6 +24,7 @@ namespace MEDIQUICK.Controllers
         }
 
         // POST api/<UsersController>
+        // ***Registration***
         [HttpPost]
         public int Post([FromBody] User user)
         {
@@ -31,6 +32,7 @@ namespace MEDIQUICK.Controllers
         }
 
         // POST api/<UsersController>
+        // ***Log in***
         [HttpPost("{email}")]
         public User Login(string email, [FromBody] string password)
         {

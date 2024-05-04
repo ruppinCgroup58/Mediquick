@@ -173,7 +173,7 @@ public class DBServices
         }
         catch (Exception ex)
         {
-            throw new HttpRequestException("Not Found", null, System.Net.HttpStatusCode.NotFound);
+            throw new HttpRequestException("User Not Found", null, System.Net.HttpStatusCode.NotFound);
         }
 
         finally
