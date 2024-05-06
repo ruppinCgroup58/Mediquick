@@ -26,10 +26,10 @@
                     <img src="./../images/icons/eye-open.svg" id="password-eye-icon" onclick="togglePassword(this)">
                     <img src="./../images/icons/password.svg" alt="">
                 </div>
-                <a href="#">forgot password?</a>
-                <input type="submit" value="log in" class="primary-btn" id="log-in-btn">
-                <label for="">or</label>
-                <input type="button" value="sign-up" class="secondary-btn" id="sign-up-btn">
+                <a href="#">?שכחת סיסמא</a>
+                <input type="submit" value="התחברות" class="primary-btn" id="log-in-btn">
+                <label for="">או</label>
+                <input type="button" value="רישום" class="secondary-btn" id="sign-up-btn">
             </form>
             
             <div id="myModal" class="modal">
@@ -43,11 +43,11 @@
                     <div class="input-box"><input class="hebrew" type="text" id="first-name" placeholder="שם פרטי"></div>
                     <div class="input-box"><input class="hebrew" type="text" id="last-name" placeholder="שם משפחה"></div>
                     <div class="input-box"><input class="hebrew" type="text" id="phone-number" placeholder="מספר טלפון"></div>
-                        <div class="input-box" id="password-textbox"><input type="password" id="password" class="password" placeholder="password...">
-                            <img src="./../images/icons/eye-open.svg" id="modal-password-eye-icon" onclick="togglePassword(this)">
+                        <div class="input-box" id="password-textbox"><input type="password" class="hebrew" id="password" class="password" placeholder="סיסמא">
+                            <img src="./../images/icons/eye-open.svg" class="eye_img" id="modal-password-eye-icon" onclick="togglePassword(this)">
                         </div>
-                        <div class="input-box" id="confirm-password-textbox"><input type="password" id="confirm-password" class="password" placeholder="confirm password...">
-                            <img src="./../images/icons/eye-open.svg" id="modal-confirm-password-eye-icon" onclick="togglePassword(this)">
+                        <div class="input-box" id="confirm-password-textbox"><input type="password" class="hebrew" id="confirm-password" class="password" placeholder="אימות סיסמא">
+                            <img src="./../images/icons/eye-open.svg" class="eye_img"  id="modal-confirm-password-eye-icon" onclick="togglePassword(this)">
                         </div>
                         <input type="submit" value="sign-up" class="primary-btn" id="sign-up-modal-btn">
                   </form>

@@ -2,7 +2,8 @@
 {
     public class Question
     {
-        int difficulty;
+        string questionSerialNumber;
+        int difficulty=1;
         string content;
         string correctAnswer;
         string wrongAnswer1;
@@ -11,10 +12,13 @@
         string explanation;
         bool status;
         int creator;
+        int totalAnswers=0;
+        int correctAnswers=0;
         DBServices dbs = new DBServices();
 
-        public Question(int difficulty, string content, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string explanation, bool status, int creator)
+        public Question(string questionSerialNumber, int difficulty, string content, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string explanation, bool status, int creator)
         {
+            QuestionSerialNumber = questionSerialNumber;
             Difficulty = difficulty;
             Content = content;
             CorrectAnswer = correctAnswer;
@@ -25,6 +29,8 @@
             Status = status;
             Creator = creator;
         }
+
+        public string QuestionSerialNumber { get => questionSerialNumber; set => questionSerialNumber = value; }
 
         public int Difficulty { get => difficulty; set => difficulty = value; }
         public string Content { get => content; set => content = value; }
@@ -41,7 +47,7 @@
             return dbs.InsertQuestion(this);
         }
 
-
+        
 
     }
 }
