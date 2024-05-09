@@ -18,9 +18,10 @@ namespace MEDIQUICK.Controllers
 
         // GET api/<QuestionsController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Question Get(int id)
         {
-            return "value";
+            Question q = new Question();
+            return q.GetQuestion(id);
         }
 
         // POST api/<QuestionsController>
@@ -31,10 +32,10 @@ namespace MEDIQUICK.Controllers
         }
 
         // PUT api/<QuestionsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, bool value)
+        [HttpPut]
+        public void Put(Question q, bool isCorrect)
         {
-
+            q.updateScore(q, isCorrect);
         }
 
         // DELETE api/<QuestionsController>/5
