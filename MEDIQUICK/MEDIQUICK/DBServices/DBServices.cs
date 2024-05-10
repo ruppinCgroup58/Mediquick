@@ -125,7 +125,7 @@ public class DBServices
         }
     }
 
-    public int updateRightScore(int id)
+    public int UpdateDifficultyLevel(Question q)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -140,7 +140,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateQuestionRightScoreCommandWithStoredProcedure("sp_updateRightScore", con, id);             // create the command
+        cmd = CreateUpdateDLCommandWithStoredProcedure("sp_updateDL", con, q);             // create the command
 
         try
         {
@@ -163,43 +163,81 @@ public class DBServices
         }
     }
 
-    public int updateWrongScore(int id)
-    {
-        SqlConnection con;
-        SqlCommand cmd;
+    //public int updateRightScore(int id)
+    //{
+    //    SqlConnection con;
+    //    SqlCommand cmd;
 
-        try
-        {
-            con = connect("myProjDB"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
+    //    try
+    //    {
+    //        con = connect("myProjDB"); // create the connection
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        // write to log
+    //        throw (ex);
+    //    }
 
-        cmd = CreateQuestionWrongScoreCommandWithStoredProcedure("sp_updateWrongScore", con, id);             // create the command
+    //    cmd = CreateQuestionRightScoreCommandWithStoredProcedure("sp_updateRightScore", con, id);             // create the command
 
-        try
-        {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-            return numEffected;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            throw (ex);
-        }
+    //    try
+    //    {
+    //        int numEffected = cmd.ExecuteNonQuery(); // execute the command
+    //        return numEffected;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        // write to log
+    //        throw (ex);
+    //    }
 
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-    }
+    //    finally
+    //    {
+    //        if (con != null)
+    //        {
+    //            // close the db connection
+    //            con.Close();
+    //        }
+    //    }
+    //}
+
+    //public int updateWrongScore(int id)
+    //{
+    //    SqlConnection con;
+    //    SqlCommand cmd;
+
+    //    try
+    //    {
+    //        con = connect("myProjDB"); // create the connection
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        // write to log
+    //        throw (ex);
+    //    }
+
+    //    cmd = CreateQuestionWrongScoreCommandWithStoredProcedure("sp_updateWrongScore", con, id);             // create the command
+
+    //    try
+    //    {
+    //        int numEffected = cmd.ExecuteNonQuery(); // execute the command
+    //        return numEffected;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        // write to log
+    //        throw (ex);
+    //    }
+
+    //    finally
+    //    {
+    //        if (con != null)
+    //        {
+    //            // close the db connection
+    //            con.Close();
+    //        }
+    //    }
+    //}
     private SqlCommand CreateQuestionGetCommandWithStoredProcedure(String spName, SqlConnection con, int id)
     {
 
@@ -278,6 +316,29 @@ public class DBServices
 
         return cmd;
     }
+
+    private SqlCommand CreateUpdateDLCommandWithStoredProcedure(String spName, SqlConnection con, Question q)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@id", q.QuestionSerialNumber);
+        cmd.Parameters.AddWithValue("@totalCorrectAnswers", q.TotalCorrectAnswers);
+        cmd.Parameters.AddWithValue("@totalAnswers", q.TotalAnswers);
+        cmd.Parameters.AddWithValue("@difficulty", q.Difficulty);
+
+        return cmd;
+    }
+
+
     #endregion
 
 

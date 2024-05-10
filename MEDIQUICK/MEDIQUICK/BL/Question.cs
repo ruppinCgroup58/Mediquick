@@ -56,19 +56,31 @@
             return dbs.InsertQuestion(this);
         }
 
-        public void updateScore(Question q, bool isCorrect)
+        //public void updateScore(Question q, bool isCorrect)
+        //{
+        //    if(isCorrect)
+        //    {
+        //        dbs.updateRightScore(q.QuestionSerialNumber);
+        //    }
+        //    else
+        //    {
+        //        dbs.updateWrongScore(q.QuestionSerialNumber);
+        //    }
+
+        //    q = q.GetQuestion(q.questionSerialNumber);
+        //    updateDifficulty(q);
+        //}
+
+        public void updateQuestionDiffLevel(Question q, bool isCorrect)
         {
+            q.TotalAnswers++;
             if(isCorrect)
             {
-                dbs.updateRightScore(q.QuestionSerialNumber);
+                q.TotalCorrectAnswers++;
             }
-            else
-            {
-                dbs.updateWrongScore(q.QuestionSerialNumber);
-            }
-
-            q = q.GetQuestion(q.questionSerialNumber);
-            updateDifficulty(q);
+            float wrongAnsProb = 1 - (float)q.TotalCorrectAnswers / (float)q.TotalAnswers;
+            q.Difficulty = setDifficultyLevel(wrongAnsProb);
+            dbs.UpdateDifficultyLevel(q);
         }
 
         public Question GetQuestion(int id)
@@ -77,32 +89,28 @@
         }
 
 
-        public void updateDifficulty(Question q)
+        public int setDifficultyLevel(float prob)
         {
-            float totalcorrect = (float)q.TotalCorrectAnswers;
-            float totalanswers = (float)q.TotalAnswers;
-            float tmpDifficulty = 1- (totalcorrect / totalanswers);
-            if(tmpDifficulty >= 0 && tmpDifficulty <= 0.2)
+            if (prob >= 0 && prob <= 0.2)
             {
-                q.Difficulty = 1;
+                return 1;
             }
-            else if (tmpDifficulty > 0.2 && tmpDifficulty <= 0.4)
+            else if (prob > 0.2 && prob <= 0.4)
             {
-                q.Difficulty = 2;
+                return 2;
             }
-            else if (tmpDifficulty > 0.4 && tmpDifficulty <= 0.6)
+            else if (prob > 0.4 && prob <= 0.6)
             {
-                q.Difficulty = 3;
+                return 3;
             }
-            else if (tmpDifficulty > 0.6 && tmpDifficulty <= 0.8)
+            else if (prob > 0.6 && prob <= 0.8)
             {
-                q.Difficulty = 4;
+                return 4;
             }
             else
             {
-                q.Difficulty = 5;
+                return 5;
             }
         }
-
     }
 }
