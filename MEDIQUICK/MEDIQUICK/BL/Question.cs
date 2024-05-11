@@ -112,5 +112,12 @@
                 return 5;
             }
         }
+
+        public Task<string> genQ()
+        {
+            Gemini gemini = new Gemini();
+            Task<string> testString = gemini.GenerateContent("12test");
+            return testString;
+        }
     }
 }

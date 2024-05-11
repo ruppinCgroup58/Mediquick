@@ -163,6 +163,11 @@ public class DBServices
         }
     }
 
+    //public string genQ()
+    //{
+
+    //}
+
     //public int updateRightScore(int id)
     //{
     //    SqlConnection con;

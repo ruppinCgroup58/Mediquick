@@ -11,9 +11,10 @@ namespace MEDIQUICK.Controllers
     {
         // GET: api/<QuestionsController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public Task<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            Question question = new Question(); 
+            return question.genQ();
         }
 
         // GET api/<QuestionsController>/5
