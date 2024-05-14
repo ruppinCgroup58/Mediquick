@@ -3,7 +3,8 @@
     public class promptContent
     {
         public static string prompt2 = "מי צייר את המונה ליזה?";
-        public static string promptText = @"תייצר לי בבקשה 2 שאלות אמריקאיות עם 4 תשובות. בפורמט JSON עם השדות הבאים:
+        
+        public static string promptText = @"תייצר לי בבקשה 5 שאלות אמריקאיות עם 4 תשובות. בפורמט JSON עם השדות הבאים:
 'Content'
 'CorrectAnswer'
 'WrongAnswer1'
