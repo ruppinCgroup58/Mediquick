@@ -1,0 +1,34 @@
+﻿* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+#usersTable {
+    margin-top: 10px;
+    border: 1px black solid;
+}
+
+#usersTable_filter > label > input {
+    margin-left: 5px;
+}
+
+.container {
+    padding-top: 40px;
+}
+
+#usersTable td, #usersTable th {
+    padding: 10px;
+    font-size: 18px;
+}
+
+.control {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+    .control > input, .control > label, .control > select {
+        margin: 15px;
+        width: 130px;
+    }
