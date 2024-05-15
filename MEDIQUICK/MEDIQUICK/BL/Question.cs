@@ -56,21 +56,6 @@
             return dbs.InsertQuestion(this);
         }
 
-        //public void updateScore(Question q, bool isCorrect)
-        //{
-        //    if(isCorrect)
-        //    {
-        //        dbs.updateRightScore(q.QuestionSerialNumber);
-        //    }
-        //    else
-        //    {
-        //        dbs.updateWrongScore(q.QuestionSerialNumber);
-        //    }
-
-        //    q = q.GetQuestion(q.questionSerialNumber);
-        //    updateDifficulty(q);
-        //}
-
         public void updateQuestionDiffLevel(Question q, bool isCorrect)
         {
             q.TotalAnswers++;
@@ -88,6 +73,10 @@
             return dbs.GetQuestion(id);
         }
 
+        public IEnumerable<Question> ReadQuestions()
+        {
+            return dbs.ReadQuestions();
+        }
 
         public int setDifficultyLevel(float prob)
         {

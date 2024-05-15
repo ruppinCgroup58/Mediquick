@@ -17,6 +17,14 @@ namespace MEDIQUICK.Controllers
             return question.genQ();
         }
 
+        // GET: api/<QuestionsController>
+        [HttpGet("/ReadQuestions")]
+        public IEnumerable<Question> ReadQuestions()
+        {
+            Question q = new Question();
+            return q.ReadQuestions();
+        }
+
         // GET api/<QuestionsController>/5
         [HttpGet("{id}")]
         public Question Get(int id)
