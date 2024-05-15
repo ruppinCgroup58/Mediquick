@@ -66,7 +66,7 @@ public class DBServices
             q.WrongAnswer2 = dataReader["wrongAnswer2"].ToString();
             q.WrongAnswer3 = dataReader["wrongAnswer3"].ToString();
             q.Explanation = dataReader["explanation"].ToString();
-            q.Status = dataReader.GetBoolean(dataReader.GetOrdinal("status"));
+            q.Status = Convert.ToInt32(dataReader["status"]);
             q.Creator = Convert.ToInt32(dataReader["creatorID"]); 
             q.TotalAnswers = Convert.ToInt32(dataReader["totalAnswers"]); 
             q.TotalCorrectAnswers = Convert.ToInt32(dataReader["correctAnswers"]); 
