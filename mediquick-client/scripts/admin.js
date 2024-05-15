@@ -1,4 +1,4 @@
-﻿var apiUsers = 
+﻿var apiUsers = 'https://localhost:7253/api/Users';
 var apiQuestion = 
 $(document).ready(function () {
 
@@ -6,8 +6,12 @@ $(document).ready(function () {
 
 function getUsersDataTable() {
     ajaxCall("GET", apiUsers, "", usersTableGetSCB, usersTableGetECB);
-    ajaxCall("GET", apiQuestion, "", questionTableGetSCB, questionTableGetECB);
     document.getElementById("usersTable").style.visibility = "visible";
+}
+
+function getQuestionDataTable(questionStatus) {
+    ajaxCall("GET", apiQuestion, "", questionTableGetSCB(questionStatus), questionTableGetECB);
+
 }
 
 function usersTableGetSCB(usersList) {
@@ -55,42 +59,45 @@ function usersTableGetECB(err) {
 function questionTableGetSCB(questionList) {
     questins = questionList; // keep the cars array in a global variable;
     try {
-        tbl = $('#QuestionTable').DataTable({
-            data: questionList,
-            pageLength: 10,
-            columns: [
-                { data: "questionSerialNumber" },
-                { data: "difficulty" },
-                { data: "content" },
-                { data: "correctAnswer" },
-                { data: "wrongAnswer1" },
-                { data: "wrongAnswer2" },
-                { data: "wrongAnswer3" },
-                { data: "explanation" },
-                {
-                    data: "status",
-                    render: function (data, type, row, meta) {
-                        if (data == true)
-                            return '<input type="checkbox" checked onclick="changeUserStatus(this)"/>';
-                        else
-                            return '<input type="checkbox" onclick="changeUserStatus(this)"/>';
-                    }
-                },
-                { data: "creator" },
-                { data: "totalAnswers" },
-                { data: "totalCorrectAnswers" },
+             tbl = $('#QuestionTable').DataTable({
+                        data: questionList,
+                        pageLength: 10,
+                        columns: [
+                            { data: "questionSerialNumber" },
+                            { data: "difficulty" },
+                            { data: "content" },
+                            { data: "correctAnswer" },
+                            { data: "wrongAnswer1" },
+                            { data: "wrongAnswer2" },
+                            { data: "wrongAnswer3" },
+                            { data: "explanation" },
+                            {
+                                data: "status",
+                                render: function (data, type, row, meta) {
+                                    if (data == true)
+                                        return '<input type="checkbox" checked onclick="changeUserStatus(this)"/>';
+                                    else
+                                        return '<input type="checkbox" onclick="changeUserStatus(this)"/>';
+                                }
+                            },
+                            { data: "creator" },
+                            { data: "totalAnswers" },
+                            { data: "totalCorrectAnswers" },
 
-            ],
-        });
+                        ],
+                    });
+       
+       
     }
     catch (err) {
         alert(err);
     }
 }
 
-function usersTableGetECB(err) {
+function questionTableGetECB(err) {
     alert("Error: " + err);
 }
+
 function changeUserStatus(user) {
     userEmail = user.parentElement.parentElement.children[3].innerHTML;
     if (user.checked) {
