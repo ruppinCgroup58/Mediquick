@@ -1,5 +1,5 @@
 ﻿var apiUsers = 'https://localhost:7253/api/Users';
-var apiQuestion = 
+var apiQuestion = 'https://localhost:7253/ReadQuestions';
 $(document).ready(function () {
 
 })
@@ -9,8 +9,8 @@ function getUsersDataTable() {
     document.getElementById("usersTable").style.visibility = "visible";
 }
 
-function getQuestionDataTable(questionStatus) {
-    ajaxCall("GET", apiQuestion, "", questionTableGetSCB(questionStatus), questionTableGetECB);
+function getQuestisonsDataTable() {
+    ajaxCall("GET", apiQuestion, "", questionsTableGetSCB, questionsTableGetECB);
 
 }
 
@@ -56,11 +56,11 @@ function usersTableGetECB(err) {
     alert("Error: " + err);
 }
 
-function questionTableGetSCB(questionList) {
-    questins = questionList; // keep the cars array in a global variable;
+function questionsTableGetSCB(data) {
+    questins = data; // keep the cars array in a global variable;
     try {
              tbl = $('#QuestionTable').DataTable({
-                        data: questionList,
+                        data: data,
                         pageLength: 10,
                         columns: [
                             { data: "questionSerialNumber" },
@@ -74,10 +74,26 @@ function questionTableGetSCB(questionList) {
                             {
                                 data: "status",
                                 render: function (data, type, row, meta) {
-                                    if (data == true)
-                                        return '<input type="checkbox" checked onclick="changeUserStatus(this)"/>';
-                                    else
-                                        return '<input type="checkbox" onclick="changeUserStatus(this)"/>';
+                                    if (data == 1)
+                                        return `<select id="myList">
+                                                    <option value="מאושר" selected>מאושר</option>
+                                                    <option value="ממתין">ממתין</option>
+                                                    <option value="נדחה">נדחה</option>
+                                                </select>`;
+                                    else if(data == 0) {
+                                        return `<select id="myList">
+                                                    <option value="מאושר">מאושר</option>
+                                                    <option value="ממתין" selected>ממתין</option>
+                                                    <option value="נדחה">נדחה</option>
+                                                </select>`;
+
+                                    } else {
+                                        return `<select id="myList">
+                                                    <option value="מאושר">מאושר</option>
+                                                    <option value="ממתין">ממתין</option>
+                                                    <option value="נדחה" selected>נדחה</option>
+                                                </select>`;
+                                    }
                                 }
                             },
                             { data: "creator" },
@@ -94,7 +110,7 @@ function questionTableGetSCB(questionList) {
     }
 }
 
-function questionTableGetECB(err) {
+function questionsTableGetECB(err) {
     alert("Error: " + err);
 }
 
@@ -105,7 +121,7 @@ function changeUserStatus(user) {
     } else {
         newStatus = false;
     }
-    let address = apiUsers + /email/${ userEmail }/newStatus/${ newStatus };
+    let address = `apiUsers + /email/${ userEmail }/newStatus/${ newStatus }`;
     ajaxCall("POST", address, "", usersTablePostSCB, usersTablePostECB);
 }
 function usersTablePostSCB(answer) {
@@ -117,7 +133,7 @@ function usersTablePostECB(err) {
 
 function getReport() {
     let selectedMonth = document.getElementById("month").value;
-    let address = apiVacations + /${selectedMonth};
+    let address = `apiVacations + /${selectedMonth}`;
     ajaxCall("GET", address, "", getReportSCB, getReportECB);
 }
 

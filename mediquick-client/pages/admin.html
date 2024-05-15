@@ -9,7 +9,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
             crossorigin="anonymous"></script>
-    <script src="./../js/ajaxCalls.js"></script>
+    <script src="./../scripts/ajaxCalls.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,8 +30,9 @@
     <div class="control">
         <div id="btnDiv" style="width:100%; text-align:center">
             <input type="button" value="ניהול משתמשים" id="manageUsersBtn" onclick="getUsersDataTable()" />
-            <input type="button" value="ניהול מאגר שאלות" id="manageQuestionsBtn" onclick="getQuestionDataTable()" />
-            <input type="button" value="ניהול מאגר ביניים" id="manageTmpQuestionsBtn" onclick="getTmpQuestionDataTable()" />
+            <!-- <input type="button" value="ניהול מאגר שאלות" id="manageQuestionsBtn" onclick="getQuestionDataTable('true')" />
+            <input type="button" value="ניהול מאגר ביניים" id="manageTmpQuestionsBtn" onclick="getQuestionDataTable('false')" /> -->
+            <input type="button" value="ניהול מאגר שאלות" id="manageTmpQuestionsBtn" onclick="getQuestisonsDataTable()"
         </div>
         <div class="container">
             <form id="UsersForm">
