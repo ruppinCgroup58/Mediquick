@@ -10,7 +10,7 @@
         string wrongAnswer2;
         string wrongAnswer3;
         string explanation;
-        bool status;
+        int status;
         int creator;
         int totalAnswers;
         int totalCorrectAnswers;
@@ -21,7 +21,7 @@
         {
 
         }
-        public Question(int questionSerialNumber, int difficulty, string content, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string explanation, bool status, int creator, int totalAnswers, int totalCorrectAnswers)
+        public Question(int questionSerialNumber, int difficulty, string content, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string explanation, int status, int creator, int totalAnswers, int totalCorrectAnswers)
         {
             QuestionSerialNumber = questionSerialNumber;
             Difficulty = difficulty;
@@ -38,7 +38,6 @@
         }
 
         public int QuestionSerialNumber { get => questionSerialNumber; set => questionSerialNumber = value; }
-
         public int Difficulty { get => difficulty; set => difficulty = value; }
         public string Content { get => content; set => content = value; }
         public string CorrectAnswer { get => correctAnswer; set => correctAnswer = value; }
@@ -46,7 +45,7 @@
         public string WrongAnswer2 { get => wrongAnswer2; set => wrongAnswer2 = value; }
         public string WrongAnswer3 { get => wrongAnswer3; set => wrongAnswer3 = value; }
         public string Explanation { get => explanation; set => explanation = value; }
-        public bool Status { get => status; set => status = value; }
+        public int Status { get => status; set => status = value; }
         public int Creator { get => creator; set => creator = value; }
         public int TotalAnswers { get => totalAnswers; set => totalAnswers = value; }
         public int TotalCorrectAnswers { get => totalCorrectAnswers; set => totalCorrectAnswers = value; }

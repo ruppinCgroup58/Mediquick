@@ -1,5 +1,5 @@
 ﻿var apiUsers = 'https://localhost:7253/api/Users';
-var apiQuestion = 
+var apiQuestion = 'https://localhost:7253/ReadQuestions';
 $(document).ready(function () {
 
 })
