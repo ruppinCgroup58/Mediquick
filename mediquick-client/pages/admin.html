@@ -18,25 +18,26 @@
     <!--<link href="../css/style.css" rel="stylesheet" />
     <link href="../css/style2.css" rel="stylesheet" />-->
     <link rel="stylesheet" href="./../styles/admin-style.css">
-    <link href="https://cdn.datatables.net/2.0.1/css/dataTables.dataTables.css" rel="stylesheet" />
+    <!-- <link href="https://cdn.datatables.net/2.0.1/css/dataTables.dataTables.css" rel="stylesheet" /> -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
-    <script src="../scripts/admin.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script> -->
+    <script src="../scripts/admin.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css" />
+  
+    <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
 </head>
 <body>
     <div class="control">
         <div id="btnDiv" style="width:100%; text-align:center">
             <input type="button" value="ניהול משתמשים" id="manageUsersBtn" onclick="getUsersDataTable()" />
-            <!-- <input type="button" value="ניהול מאגר שאלות" id="manageQuestionsBtn" onclick="getQuestionDataTable('true')" />
-            <input type="button" value="ניהול מאגר ביניים" id="manageTmpQuestionsBtn" onclick="getQuestionDataTable('false')" /> -->
-            <input type="button" value="ניהול מאגר שאלות" id="manageTmpQuestionsBtn" onclick="getQuestisonsDataTable()"
+            <input type="button" value="ניהול מאגר שאלות" id="manageQuestionsBtn" onclick="getQuestisonsDataTable()"
         </div>
         <div class="container">
-            <form id="UsersForm">
-                <table id="usersTable" class="display nowrap" style="width:100%; visibility: hidden">
+            <form id="UsersForm" style="width:100%; visibility: collapse;">
+                <table id="usersTable" class="display nowrap" style="width:100%;">
                     <thead>
                         <tr>
                             <th>שם פרטי</th>
@@ -49,28 +50,8 @@
                     </thead>
                 </table>
             </form>
-            <form id="QuestionForm">
-                <table id="QuestionTable" class="display nowrap" style="width:100%; visibility: hidden">
-                    <thead>
-                        <tr>
-                            <th>מס סידורי</th>
-                            <th>רמת קושי</th>
-                            <th>תוכן השאלה</th>
-                            <th>תשובה נכונה</th>
-                            <th>מסיח 1</th>
-                            <th>מסיח 2</th>
-                            <th>מסיח 3</th>
-                            <th>הסבר</th>
-                            <th>סטטוס</th>
-                            <th>יוצר</th>
-                            <th>מספר שאלות כולל</th>
-                            <th>מספר שאלות נכונות</th>
-                        </tr>
-                    </thead>
-                </table>
-            </form>
-            <form id="TmpQuestionForm">
-                <table id="TmpQuestionTable" class="display nowrap" style="width:100%; visibility: hidden">
+            <form id="QuestionForm" style="width:100%; visibility: collapse;">
+                <table id="QuestionTable" class="display nowrap" style="width:100%;">
                     <thead>
                         <tr>
                             <th>מס סידורי</th>

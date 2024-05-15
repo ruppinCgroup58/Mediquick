@@ -6,17 +6,21 @@ $(document).ready(function () {
 
 function getUsersDataTable() {
     ajaxCall("GET", apiUsers, "", usersTableGetSCB, usersTableGetECB);
-    document.getElementById("usersTable").style.visibility = "visible";
 }
 
 function getQuestisonsDataTable() {
     ajaxCall("GET", apiQuestion, "", questionsTableGetSCB, questionsTableGetECB);
-
 }
 
 function usersTableGetSCB(usersList) {
+    $("#QuestionForm").css("visibility", "collapse");
+    $("#UsersForm").css("visibility", "visible");
+    $("#manageUsersBtn").prop("disabled", true);
+    $("#manageQuestionsBtn").prop("disabled", false);
+
     users = usersList; // keep the cars array in a global variable;
     try {
+        $('#usersTable').DataTable().destroy();
         tbl = $('#usersTable').DataTable({
             data: usersList,
             pageLength: 10,
@@ -56,11 +60,16 @@ function usersTableGetECB(err) {
     alert("Error: " + err);
 }
 
-function questionsTableGetSCB(data) {
-    questins = data; // keep the cars array in a global variable;
+function questionsTableGetSCB(questionsList) {
+    $("#QuestionForm").css("visibility", "visible");
+    $("#UsersForm").css("visibility", "collapse");
+    $("#manageUsersBtn").prop("disabled", false);
+    $("#manageQuestionsBtn").prop("disabled", true);
+    questins = questionsList; // keep the cars array in a global variable;
     try {
+        $('#QuestionTable').DataTable().destroy();
              tbl = $('#QuestionTable').DataTable({
-                        data: data,
+                        data: questionsList,
                         pageLength: 10,
                         columns: [
                             { data: "questionSerialNumber" },
@@ -114,28 +123,24 @@ function questionsTableGetECB(err) {
     alert("Error: " + err);
 }
 
-function changeUserStatus(user) {
-    userEmail = user.parentElement.parentElement.children[3].innerHTML;
-    if (user.checked) {
-        newStatus = true;
-    } else {
-        newStatus = false;
-    }
-    let address = `apiUsers + /email/${ userEmail }/newStatus/${ newStatus }`;
-    ajaxCall("POST", address, "", usersTablePostSCB, usersTablePostECB);
-}
-function usersTablePostSCB(answer) {
-    alert(answer);
-}
-function usersTablePostECB(err) {
-    alert("Error: " + err);
-}
+// function changeUserStatus(user) {
+//     userEmail = user.parentElement.parentElement.children[3].innerHTML;
+//     if (user.checked) {
+//         newStatus = true;
+//     } else {
+//         newStatus = false;
+//     }
+//     let address = `apiUsers + /email/${ userEmail }/newStatus/${ newStatus }`;
+//     ajaxCall("POST", address, "", usersTablePostSCB, usersTablePostECB);
+// }
+// function usersTablePostSCB(answer) {
+//     alert(answer);
+// }
+// function usersTablePostECB(err) {
+//     alert("Error: " + err);
+// }
 
-function getReport() {
-    let selectedMonth = document.getElementById("month").value;
-    let address = `apiVacations + /${selectedMonth}`;
-    ajaxCall("GET", address, "", getReportSCB, getReportECB);
-}
+
 
 function getReportSCB(objectList) {
     let str = `<table border="1" id="usersTable" class="display nowrap" style="width:100%" > <thead>
