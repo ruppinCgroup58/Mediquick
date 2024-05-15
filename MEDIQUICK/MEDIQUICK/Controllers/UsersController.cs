@@ -11,9 +11,9 @@ namespace MEDIQUICK.Controllers
     {
         // GET: api/<UsersController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<User> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new User().ReadUsers();
         }
 
         // GET api/<UsersController>/5

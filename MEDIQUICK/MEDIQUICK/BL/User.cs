@@ -23,17 +23,6 @@
         }
 
 
-        //public User(string firstName, string lastName, string email, string password, string phoneNumber, bool isAdmin, bool isActive)
-        //{
-        //    FirstName = firstName;
-        //    LastName = lastName;
-        //    Email = email;
-        //    Password = password;
-        //    PhoneNumber = phoneNumber;
-        //    IsAdmin = isAdmin;
-        //    IsActive = isActive;
-        //}
-
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }
         public string Email { get => email; set => email = value; }
@@ -49,6 +38,10 @@
         public User Login(string email, string password)
         {
             return dbs.Login(email, password);
+        }
+        public List<User> ReadUsers()
+        {
+            return dbs.ReadUsers();
         }
     }
 

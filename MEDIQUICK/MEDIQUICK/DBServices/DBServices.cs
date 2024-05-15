@@ -121,7 +121,7 @@ public class DBServices
                 q.WrongAnswer2 = dataReader["wrongAnswer2"].ToString();
                 q.WrongAnswer3 = dataReader["wrongAnswer3"].ToString();
                 q.Explanation = dataReader["explanation"].ToString();
-                q.Status = dataReader.GetBoolean(dataReader.GetOrdinal("status"));
+                q.Status = Convert.ToInt32(dataReader["status"]);
                 q.Creator = Convert.ToInt32(dataReader["creatorID"]);
                 q.TotalAnswers = Convert.ToInt32(dataReader["totalAnswers"]);
                 q.TotalCorrectAnswers = Convert.ToInt32(dataReader["correctAnswers"]);
@@ -427,6 +427,59 @@ public class DBServices
         }
     }
 
+    public List<User> ReadUsers()
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+        List<User> usersList = new List<User>();
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = CreateGe5tUserCommandWithStoredProcedureWithoutParameters("sp_getUsers", con);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);            
+            while (dataReader.Read())
+            {
+                User u = new User();
+                u.FirstName = dataReader["firstName"].ToString();
+                u.LastName = dataReader["lastName"].ToString();
+                u.Email = dataReader["email"].ToString();
+                u.Password = dataReader["password"].ToString();
+                u.PhoneNumber = dataReader["phoneNumber"].ToString();
+                u.IsAdmin = bool.Parse(dataReader["isAdmin"].ToString());
+                u.IsActive = bool.Parse(dataReader["isActive"].ToString());
+                usersList.Add(u);
+            }
+            return usersList;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
     private SqlCommand CreateUserInsertCommandWithStoredProcedure(String spName, SqlConnection con, User user)
     {
 
@@ -465,6 +518,22 @@ public class DBServices
         cmd.Parameters.AddWithValue("@email", email);
 
         cmd.Parameters.AddWithValue("@password", password);
+
+        return cmd;
+    }
+
+    private SqlCommand CreateGe5tUserCommandWithStoredProcedureWithoutParameters(String spName, SqlConnection con)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
 
         return cmd;
     }
