@@ -26,14 +26,17 @@
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script> -->
     <script src="../scripts/admin.js" defer></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css" />
-  
     <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
+    <script src="../scripts/addQuestionModal.js" defer></script>
+
 </head>
 <body>
     <div class="control">
         <div id="btnDiv" style="width:100%; text-align:center">
             <input type="button" value="ניהול משתמשים" id="manageUsersBtn" onclick="getUsersDataTable()" />
-            <input type="button" value="ניהול מאגר שאלות" id="manageQuestionsBtn" onclick="getQuestisonsDataTable()"
+            <input type="button" value="ניהול מאגר שאלות" id="manageQuestionsBtn" onclick="getQuestisonsDataTable()" />
+            <br /><br />
+            <input type="button" value="הוספת שאלה בעזרת בינה מלאכותית" id="addQuestionByGemini" onclick="addQuestionByGemini()" />
         </div>
         <div class="container">
             <form id="UsersForm" style="width:100%; visibility: collapse;">
@@ -71,8 +74,22 @@
                 </table>
             </form>
         </div>
-        <div id="report">
 
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="clear-form suForm">
+                    <img src="./../images/icons/clear-form-24.svg" alt="" class="clear-form-logo" title="Delete details" onclick="resetForm()">
+                </div>
+                <form action="" id="addQuestionForm" class="AQForm">
+                    <div class="input-box"><input class="hebrew" type="text" id="email" placeholder="מספר שאלות רצוי"></div>
+                    <div class="input-box">
+                        <input class="hebrew" type="file" id="first-name" placeholder="טעינת קובץ">
+                    </div>
+                    
+                    <input type="submit" value="שליחה" class="primary-btn" id="send-orders-modal-btn">
+                </form>
+            </div>
         </div>
     </div>
 </body>

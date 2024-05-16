@@ -4,6 +4,7 @@ $(document).ready(function () {
 
 })
 
+
 function getUsersDataTable() {
     ajaxCall("GET", apiUsers, "", usersTableGetSCB, usersTableGetECB);
 }
@@ -160,4 +161,8 @@ function getReportSCB(objectList) {
 }
 function getReportECB(err) {
     alert("Error: " + err);
+}
+
+function resetForm() {
+    $("#addQuestionForm")[0].reset();
 }
