@@ -32,3 +32,19 @@
         margin: 15px;
         width: 130px;
     }
+
+
+.modal .modal-content #addQuestionForm {
+    width: 75%;
+    height: 300px;
+}
+
+.modal .input-box input {
+    height: 60%;
+}
+
+#addQuestionByGemini {
+    margin-top: 4%;
+    font-size: 20px;
+}
+    
