@@ -11,7 +11,7 @@ namespace MEDIQUICK.Controllers
     {
         // GET: api/<QuestionsController>
         [HttpGet]
-        public Task<string> Get()
+        public Task<string> Get(string content)
         {
             Question question = new Question(); 
             return question.genQ();

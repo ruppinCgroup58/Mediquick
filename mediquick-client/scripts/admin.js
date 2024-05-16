@@ -4,6 +4,11 @@ $(document).ready(function () {
 
 })
 
+ 
+$("addQuestionForm").submit(addQuestionToGemini)
+{
+
+}
 
 function getUsersDataTable() {
     ajaxCall("GET", apiUsers, "", usersTableGetSCB, usersTableGetECB);
@@ -165,4 +170,71 @@ function getReportECB(err) {
 
 function resetForm() {
     $("#addQuestionForm")[0].reset();
+}
+
+function addQuestionToGemini() {
+document.getElementById('fileInput').addEventListener('change', function (event) {
+    var file = event.target.files[0];
+    var filePath = URL.createObjectURL(file);
+
+    // קריאה לפונקציה והעברת הנתיב של הקובץ
+    myFunction(filePath);
+});
+    
+    orderToGemini = "@תייצר לי " + $("#numOfQuestions").val() + "שאלות אמריקאיות עם 4 תשובות. בפורמט JSON עם השדות הבאים:" + 
+    'Content'
+    'CorrectAnswer'
+    'WrongAnswer1'
+    'WrongAnswer2'
+    'WrongAnswer3'
+    'Explanation'
+        + "השאלות יתבססו על הטקסט הבא:";
+
+    orderToGemini += readPdfToString(filePath);
+    ajaxCall("GET", apiQuestion, orderToGemini, GeminiQuestionGetSCB, GeminiQuestionGetECB);
+
+    return false;
+}
+
+function  readPdfToString(filePath) {
+    return new Promise((resolve, reject) => {
+        // טעינת הקובץ PDF
+        pdfjsLib.getDocument(filePath).promise.then(function (pdf) {
+            var pdfText = ''; // מחרוזת שתכיל את כל התוכן של ה־PDF
+
+            // לולאה על כל הדפים בקובץ
+            var promises = [];
+            for (let i = 1; i <= pdf.numPages; i++) {
+                // קריאת התוכן של הדף
+                var promise = pdf.getPage(i).then(function (page) {
+                    return page.getTextContent().then(function (content) {
+                        // המרת התוכן למחרוזת
+                        var pageText = content.items.map(function (item) {
+                            return item.str;
+                        }).join(' ');
+
+                        // הוספת התוכן של הדף למחרוזת
+                        pdfText += pageText;
+                    });
+                });
+                promises.push(promise);
+            }
+
+            // אחרי שקריאת כל הדפים נסיים את הפעולה ונחזיר את המחרוזת
+            Promise.all(promises).then(() => {
+                resolve(pdfText);
+            });
+        }).catch(function (error) {
+            // אם יש תקלה בקריאת הקובץ PDF, נזרוק שגיאה
+            reject(error);
+        });
+    });
+}
+
+function GeminiQuestionGetSCB(questions) {
+    executeLogIn(questions);
+}
+
+function GeminiQuestionGetSCB(err) {
+    alert(err.statusText);
 }
