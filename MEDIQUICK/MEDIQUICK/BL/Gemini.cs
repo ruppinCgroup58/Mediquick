@@ -74,7 +74,7 @@ public class Gemini
 
 
 
-            return responseText;
+            return last_content;
         }
         catch (Exception e)
         {

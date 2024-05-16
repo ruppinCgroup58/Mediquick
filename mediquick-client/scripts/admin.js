@@ -171,15 +171,6 @@ function resetForm() {
 }
 
 function addQuestionToGemini() {
-    var filePath = "";
-    var fileInput = document.getElementById('fileInput');
-    var file = fileInput.files[0];
-    filePath = URL.createObjectURL(file);
-//document.getElementById('fileInput').addEventListener('change', function (event) {
-//    var file = event.target.files[0];
-//    filePath = URL.createObjectURL(file);
-//});
-    
     orderToGemini = `תייצר לי ${$("#numOfQuestions").val()} שאלות אמריקאיות עם 4 תשובות. בפורמט JSON עם השדות הבאים: 
     'Content'
     'CorrectAnswer'
@@ -187,58 +178,81 @@ function addQuestionToGemini() {
     'WrongAnswer2'
     'WrongAnswer3'
     'Explanation'
-        השאלות יתבססו על הטקסט הבא:`;
-    var addToString = "";
-    readPdfToString(filePath)
-        .then((pdfString) => {
-            addToString = pdfString;
-    })
-        .catch((error) => {
-            console.error('אירעה שגיאה בקריאת ה־PDF:', error);
-        });
-    orderToGemini += addToString;
-    ajaxCall("POST", geminiAPI, JSON.stringify(orderToGemini), GeminiQuestionGetSCB, GeminiQuestionGetECB);
+        השאלות יתבססו על הטקסט הבא: ${$("#textInput").val()}`;
 
-    return false;
+        ajaxCall("POST", geminiAPI, JSON.stringify(orderToGemini), GeminiQuestionGetSCB, GeminiQuestionGetECB);
+
 }
 
-function  readPdfToString(filePath) {
-    return new Promise((resolve, reject) => {
-        // טעינת הקובץ PDF
-        pdfjsLib.getDocument(filePath).promise.then(function (pdf) {
-            var pdfText = ''; // מחרוזת שתכיל את כל התוכן של ה־PDF
+//function addQuestionToGemini() {
+//    var filePath = "";
+//    var fileInput = document.getElementById('fileInput');
+//    var file = fileInput.files[0];
+//    filePath = URL.createObjectURL(file);
+////document.getElementById('fileInput').addEventListener('change', function (event) {
+////    var file = event.target.files[0];
+////    filePath = URL.createObjectURL(file);
+////});
+    
+//    orderToGemini = `תייצר לי ${$("#numOfQuestions").val()} שאלות אמריקאיות עם 4 תשובות. בפורמט JSON עם השדות הבאים: 
+//    'Content'
+//    'CorrectAnswer'
+//    'WrongAnswer1'
+//    'WrongAnswer2'
+//    'WrongAnswer3'
+//    'Explanation'
+//        השאלות יתבססו על הטקסט הבא:`;
+//    var addToString = "";
+//    readPdfToString(filePath)
+//        .then((pdfString) => {
+//            addToString = pdfString;
+//    })
+//        .catch((error) => {
+//            console.error('אירעה שגיאה בקריאת ה־PDF:', error);
+//        });
+//    orderToGemini += addToString;
+//    ajaxCall("POST", geminiAPI, JSON.stringify(orderToGemini), GeminiQuestionGetSCB, GeminiQuestionGetECB);
 
-            // לולאה על כל הדפים בקובץ
-            var promises = [];
-            for (let i = 1; i <= pdf.numPages; i++) {
-                // קריאת התוכן של הדף
-                var promise = pdf.getPage(i).then(function (page) {
-                    return page.getTextContent().then(function (content) {
-                        // המרת התוכן למחרוזת
-                        var pageText = content.items.map(function (item) {
-                            return item.str;
-                        }).join(' ');
+//    return false;
+//}
 
-                        // הוספת התוכן של הדף למחרוזת
-                        pdfText += pageText;
-                    });
-                });
-                promises.push(promise);
-            }
+//function  readPdfToString(filePath) {
+//    return new Promise((resolve, reject) => {
+//        // טעינת הקובץ PDF
+//        pdfjsLib.getDocument(filePath).promise.then(function (pdf) {
+//            var pdfText = ''; // מחרוזת שתכיל את כל התוכן של ה־PDF
 
-            // אחרי שקריאת כל הדפים נסיים את הפעולה ונחזיר את המחרוזת
-            Promise.all(promises).then(() => {
-                resolve(pdfText);
-            });
-        }).catch(function (error) {
-            // אם יש תקלה בקריאת הקובץ PDF, נזרוק שגיאה
-            reject(error);
-        });
-    });
-}
+//            // לולאה על כל הדפים בקובץ
+//            var promises = [];
+//            for (let i = 1; i <= pdf.numPages; i++) {
+//                // קריאת התוכן של הדף
+//                var promise = pdf.getPage(i).then(function (page) {
+//                    return page.getTextContent().then(function (content) {
+//                        // המרת התוכן למחרוזת
+//                        var pageText = content.items.map(function (item) {
+//                            return item.str;
+//                        }).join(' ');
 
-function GeminiQuestionGetSCB(questions) {
-    executeLogIn(questions);
+//                        // הוספת התוכן של הדף למחרוזת
+//                        pdfText += pageText;
+//                    });
+//                });
+//                promises.push(promise);
+//            }
+
+//            // אחרי שקריאת כל הדפים נסיים את הפעולה ונחזיר את המחרוזת
+//            Promise.all(promises).then(() => {
+//                resolve(pdfText);
+//            });
+//        }).catch(function (error) {
+//            // אם יש תקלה בקריאת הקובץ PDF, נזרוק שגיאה
+//            reject(error);
+//        });
+//    });
+//}
+
+function GeminiQuestionGetSCB(data) {
+    alert("השאלות נוספו בהצלחה למאגר");
 }
 
 function GeminiQuestionGetECB(err) {
