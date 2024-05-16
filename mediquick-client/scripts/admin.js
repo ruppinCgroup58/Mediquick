@@ -1,14 +1,12 @@
 ﻿var apiUsers = 'https://localhost:7253/api/Users';
 var apiQuestion = 'https://localhost:7253/ReadQuestions';
-$(document).ready(function () {
+var geminiAPI = 'https://localhost:7253/Gemini';
+//$(document).ready(function () {
 
-})
+//})
 
  
-$("addQuestionForm").submit(addQuestionToGemini)
-{
-
-}
+$("#addQuestionForm").submit(addQuestionToGemini)
 
 function getUsersDataTable() {
     ajaxCall("GET", apiUsers, "", usersTableGetSCB, usersTableGetECB);
@@ -173,25 +171,33 @@ function resetForm() {
 }
 
 function addQuestionToGemini() {
-document.getElementById('fileInput').addEventListener('change', function (event) {
-    var file = event.target.files[0];
-    var filePath = URL.createObjectURL(file);
-
-    // קריאה לפונקציה והעברת הנתיב של הקובץ
-    myFunction(filePath);
-});
+    var filePath = "";
+    var fileInput = document.getElementById('fileInput');
+    var file = fileInput.files[0];
+    filePath = URL.createObjectURL(file);
+//document.getElementById('fileInput').addEventListener('change', function (event) {
+//    var file = event.target.files[0];
+//    filePath = URL.createObjectURL(file);
+//});
     
-    orderToGemini = "@תייצר לי " + $("#numOfQuestions").val() + "שאלות אמריקאיות עם 4 תשובות. בפורמט JSON עם השדות הבאים:" + 
+    orderToGemini = `תייצר לי ${$("#numOfQuestions").val()} שאלות אמריקאיות עם 4 תשובות. בפורמט JSON עם השדות הבאים: 
     'Content'
     'CorrectAnswer'
     'WrongAnswer1'
     'WrongAnswer2'
     'WrongAnswer3'
     'Explanation'
-        + "השאלות יתבססו על הטקסט הבא:";
-
-    orderToGemini += readPdfToString(filePath);
-    ajaxCall("GET", apiQuestion, orderToGemini, GeminiQuestionGetSCB, GeminiQuestionGetECB);
+        השאלות יתבססו על הטקסט הבא:`;
+    var addToString = "";
+    readPdfToString(filePath)
+        .then((pdfString) => {
+            addToString = pdfString;
+    })
+        .catch((error) => {
+            console.error('אירעה שגיאה בקריאת ה־PDF:', error);
+        });
+    orderToGemini += addToString;
+    ajaxCall("POST", geminiAPI, JSON.stringify(orderToGemini), GeminiQuestionGetSCB, GeminiQuestionGetECB);
 
     return false;
 }
@@ -235,6 +241,6 @@ function GeminiQuestionGetSCB(questions) {
     executeLogIn(questions);
 }
 
-function GeminiQuestionGetSCB(err) {
+function GeminiQuestionGetECB(err) {
     alert(err.statusText);
 }

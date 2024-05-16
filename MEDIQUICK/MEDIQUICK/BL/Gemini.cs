@@ -42,7 +42,7 @@ public class Gemini
                     Role = "USER",
                     Parts =
                     {
-                        new Part { Text = promptContent.promptText }
+                        new Part { Text = promptToGemini }
                     }
                 }
             }

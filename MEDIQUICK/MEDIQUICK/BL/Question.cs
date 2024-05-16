@@ -101,10 +101,10 @@
             }
         }
 
-        public Task<string> genQ()
+        public Task<string> genQ(string content)
         {
             Gemini gemini = new Gemini();
-            Task<string> testString = gemini.GenerateContent("12test");          
+            Task<string> testString = gemini.GenerateContent(content);          
             return testString;
         }
     }

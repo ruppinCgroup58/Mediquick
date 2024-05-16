@@ -10,11 +10,11 @@ namespace MEDIQUICK.Controllers
     public class QuestionsController : ControllerBase
     {
         // GET: api/<QuestionsController>
-        [HttpGet]
-        public Task<string> Get(string content)
+        [HttpPost("/Gemini")]
+        public Task<string> Post([FromBody] string content)
         {
             Question question = new Question(); 
-            return question.genQ();
+            return question.genQ(content);
         }
 
         // GET: api/<QuestionsController>
