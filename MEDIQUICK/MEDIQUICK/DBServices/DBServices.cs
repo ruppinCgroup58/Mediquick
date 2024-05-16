@@ -343,7 +343,7 @@ public class DBServices
 
     //-----------User class Functions-----------
     #region User's Functions
-    public int InsertUser(User user)
+    public User InsertUser(User user)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -363,7 +363,7 @@ public class DBServices
         try
         {
             int numEffected = cmd.ExecuteNonQuery(); // execute the command
-            return numEffected;
+            return user;
         }
         catch (Exception ex)
         {
@@ -407,8 +407,8 @@ public class DBServices
             //u.FamilyName = dataReader["familyName"].ToString();
             u.Email = dataReader["email"].ToString();
             u.Password = dataReader["password"].ToString();
-            //u.IsAdmin = bool.Parse(dataReader["isAdmin"].ToString());
-            //u.IsActive = bool.Parse(dataReader["isActive"].ToString());
+            u.IsAdmin = bool.Parse(dataReader["isAdmin"].ToString());
+            u.IsActive = bool.Parse(dataReader["isActive"].ToString());
 
             return u;
         }

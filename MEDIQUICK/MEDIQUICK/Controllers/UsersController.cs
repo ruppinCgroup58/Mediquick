@@ -26,7 +26,7 @@ namespace MEDIQUICK.Controllers
         // POST api/<UsersController>
         // ***Registration***
         [HttpPost]
-        public int Post([FromBody] User user)
+        public User Post([FromBody] User user)
         {
             return user.InsertUser();
         }

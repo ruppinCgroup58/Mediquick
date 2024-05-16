@@ -31,7 +31,7 @@
         public bool IsAdmin { get => isAdmin; set => isAdmin = value; }
         public bool IsActive { get => isActive; set => isActive = value; }
 
-        public int InsertUser()
+        public User InsertUser()
         {
             return dbs.InsertUser(this);
         }

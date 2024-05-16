@@ -176,7 +176,7 @@ body {
     cursor: pointer;
   }
 
-  .hebrew::placeholder {
+  .hebrew::placeholder, .align-right {
     text-align: right;
   }
 
