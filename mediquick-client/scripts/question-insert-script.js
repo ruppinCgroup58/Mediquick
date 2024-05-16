@@ -31,37 +31,3 @@ function qiPostSCB(isSuccess) {
 function qiPostECB(err) {
     alert(err.statusText);
 }
-
-function readImage(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            const imageData = event.target.result; // Base64-encoded image data
-            resolve(imageData);
-        };
-        reader.onerror = function(error) {
-            reject(error);
-        };
-        reader.readAsDataURL(file);
-    });
-}
-
-function uploadImage() {
-    const fileInput = document.getElementById('imageInput');
-    const file = fileInput.files[0];
-
-    if (!file) {
-        console.error('No file selected');
-        return;
-    }
-
-    readImage(file)
-        .then(imageData => {
-            console.log('Image read successfully:', imageData);
-            // Do whatever you want with imageData here
-            return imageData;
-        })
-        .catch(error => {
-            console.error('Error reading image:', error);
-        });
-}
