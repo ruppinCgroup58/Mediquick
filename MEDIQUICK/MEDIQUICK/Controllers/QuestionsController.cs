@@ -44,6 +44,7 @@ namespace MEDIQUICK.Controllers
         [HttpPut("{isCorrect}")]
         public void Put(bool isCorrect,[FromBody] string id)
         {
+            Question q = new Question();
             q.updateQuestionDiffLevel(id, isCorrect);
         }
 

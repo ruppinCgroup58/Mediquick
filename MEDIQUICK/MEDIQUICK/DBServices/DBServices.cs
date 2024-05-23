@@ -197,7 +197,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateUpdateDLCommandWithStoredProcedure("sp_updateDL", con, id, isCorrect);             // create the command
+        cmd = CreateUpdateDLCommandWithStoredProcedure("sp_UpdateQuestioncounts", con, id, isCorrect);             // create the command
 
         try
         {
