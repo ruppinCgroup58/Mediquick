@@ -26,10 +26,11 @@ textarea {
     display: grid;
     direction: rtl;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
 }
 
-.input {
+
+    .input {
     margin-bottom: 15px;
     margin-top: 15px;
     height: 10vh;
