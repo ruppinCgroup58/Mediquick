@@ -11,9 +11,8 @@ function qiFormSubmit() {
         wrongAnswer2 : $("#wrong-answer2").val(),
         wrongAnswer3 : $("#wrong-answer3").val(),
         explanation : $("#explanation").val(),
-        status: false,
-        creator: 17,
-        iamgeURL: uploadImage()
+        status: 0,
+        creator: 17
     }
 
     ajaxCall("POST", questionsAPI, JSON.stringify(newQuestion), qiPostSCB, qiPostECB);
