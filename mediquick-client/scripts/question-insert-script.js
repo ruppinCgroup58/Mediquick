@@ -1,7 +1,10 @@
 let questionsAPI = "https://localhost:7253/api/Questions"
 let topicApi = "https://localhost:7253/api/Topics"
-ajaxCall("GET", topicApi, JSON.stringify(newQuestion), qiPostSCB, qiPostECB);
+ajaxCall("GET", topicApi, '', topicGetSCB, topicGetECB);
 $("#qiForm").submit(confirmQuestionSubmit)
+
+
+
 
 function confirmQuestionSubmit() {
     // Ask the user a yes or no question
@@ -44,6 +47,17 @@ function qiPostSCB(isSuccess) {
 }
 
 function qiPostECB(err) {
+    alert(err.statusText);
+}
+
+function topicGetSCB(topicList) {
+    for (var i = 0; i < topicList.length; i++) {
+        $("#myDataList").append('<option value=" ' + topicList[i].topicName + ' ">');
+    }
+
+}
+
+function topicGetECB(err) {
     alert(err.statusText);
 }
 
