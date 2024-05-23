@@ -1,8 +1,23 @@
 let questionsAPI = "https://localhost:7253/api/Questions"
 
-$("#qiForm").submit(qiFormSubmit)
+$("#qiForm").submit(confirmQuestionSubmit)
+
+function confirmQuestionSubmit() {
+    // Ask the user a yes or no question
+    var userResponse = confirm("האם אתה בטוח? לא ניתן לערוך את השאלה לאח מכן");
+
+    // Check the user's response
+    if (userResponse) {
+        // User clicked "OK"
+        qiFormSubmit();
+        
+    } else {
+        return false;
+    }
+}
 
 function qiFormSubmit() {
+    let userConnected = sessionStorage.getItem('user');
     newQuestion = {
         difficulty: 0,
         content : $("#content").val(),
@@ -12,11 +27,11 @@ function qiFormSubmit() {
         wrongAnswer3 : $("#wrong-answer3").val(),
         explanation : $("#explanation").val(),
         status: 0,
-        creator: 17
+        creator: userConnected
     }
 
     ajaxCall("POST", questionsAPI, JSON.stringify(newQuestion), qiPostSCB, qiPostECB);
-    return false;
+    
 }
 
 function qiPostSCB(isSuccess) {

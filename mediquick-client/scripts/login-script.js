@@ -1,4 +1,4 @@
-let usersAPI = "https://localhost:7253/api/Users"
+let usersAPI = "https://proj.ruppin.ac.il/cgroup58/test2/tar1/api/Users"
 
 $("#sign-up-form").submit(suFormSubmit)
 $("#login-form").submit(loginFormSubmit)

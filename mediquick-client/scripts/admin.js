@@ -1,4 +1,4 @@
-﻿var apiUsers = 'https://localhost:7253/api/Users';
+﻿var apiUsers = 'https://proj.ruppin.ac.il/cgroup58/test2/tar1/api/Users';
 var apiQuestion = 'https://localhost:7253/ReadQuestions';
 var geminiAPI = 'https://localhost:7253/Gemini';
 //$(document).ready(function () {

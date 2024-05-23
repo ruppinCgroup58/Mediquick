@@ -29,7 +29,11 @@
     <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
     <script src="../scripts/addQuestionModal.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js" defer></script>
-
+    <style>
+        table th, table td {
+            width: 11px !important;
+        }
+    </style>
 
 </head>
 <body>
@@ -56,7 +60,7 @@
                 </table>
             </form>
             <form id="QuestionForm" style="width:100%; visibility: collapse;">
-                <table id="QuestionTable" class="display nowrap" style="width:100%;">
+                <table id="QuestionTable" class="display" style="width:100%;">
                     <thead>
                         <tr>
                             <th>מס סידורי</th>
