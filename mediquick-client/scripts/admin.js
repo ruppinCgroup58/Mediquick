@@ -87,46 +87,26 @@ function questionsTableGetSCB(questionsList) {
                             {
                                 data: "status",
                                 render: function (data, type, row, meta) {
-                                    //if (data == 1)
-                                    //    return `<select id="myList">
-                                    //                <option value="מאושר" selected>מאושר</option>
-                                    //                <option value="ממתין">ממתין</option>
-                                    //                <option value="נדחה">נדחה</option>
-                                    //            </select>`;
-                                    //else if(data == 0) {
-                                    //    return `<select id="myList">
-                                    //                <option value="מאושר">מאושר</option>
-                                    //                <option value="ממתין" selected>ממתין</option>
-                                    //                <option value="נדחה">נדחה</option>
-                                    //            </select>`;
+                                    if (data == 1)
+                                        return `<select class="myList" onchange="changeQuestionStatus(this)">
+                                                    <option value="מאושר" selected>מאושר</option>
+                                                    <option value="ממתין">ממתין</option>
+                                                    <option value="נדחה">נדחה</option>                                                    
+                                                </select>`;
+                                    else if(data == 0) {
+                                        return `<select class="myList" onchange="changeQuestionStatus(this)">
+                                                    <option value="מאושר">מאושר</option>
+                                                    <option value="ממתין" selected>ממתין</option>
+                                                    <option value="נדחה">נדחה</option>
+                                                </select>`;
 
-                                    //} else {
-                                    //    return `<select id="myList">
-                                    //                <option value="מאושר">מאושר</option>
-                                    //                <option value="ממתין">ממתין</option>
-                                    //                <option value="נדחה" selected>נדחה</option>
-                                    //            </select>`;
-                                    //}
-                                    if (data == 1) {
-                                        selectHtml = `<select class="status-select" data-id="${row.id}">
-                                                        <option value="מאושר" selected>מאושר</option>
-                                                        <option value="ממתין">ממתין</option>
-                                                        <option value="נדחה">נדחה</option>
-                                                    </select>`;
-                                    } else if (data == 0) {
-                                        selectHtml = `<select class="status-select" data-id="${row.id}">
-                                                        <option value="מאושר">מאושר</option>
-                                                        <option value="ממתין" selected>ממתין</option>
-                                                        <option value="נדחה">נדחה</option>
-                                                    </select>`;
                                     } else {
-                                        selectHtml = `<select class="status-select" data-id="${row.id}">
-                                                        <option value="מאושר">מאושר</option>
-                                                        <option value="ממתין">ממתין</option>
-                                                        <option value="נדחה" selected>נדחה</option>
-                                                    </select>`;
+                                        return `<select class="myList" onchange="changeQuestionStatus(this)">
+                                                    <option value="מאושר">מאושר</option>
+                                                    <option value="ממתין">ממתין</option>
+                                                    <option value="נדחה" selected>נדחה</option>
+                                                </select>`;
                                     }
-                                    return selectHtml;
                                 }
                             },
                             { data: "creator" },
@@ -163,30 +143,18 @@ function questionsTableGetECB(err) {
      alert("Error: " + err);
  }
 
-// Add event listener to handle select changes
-$('#QuestionTable').on('change', '.status-select', function () {
-    const selectedValue = $(this).val();
-    const questionId = $(this).data('id');
-    console.log('Selected value:', selectedValue);
-    console.log('Question ID:', questionId);
-    // Add your logic here to handle the select change
-});
-//function changeQuestionStatus(questionStatus) {
-//    statuss = user.parentElement.parentElement.children[3].innerHTML;
-//    //if (user.checked) {
-//    //    newStatus = true;
-//    //} else {
-//    //    newStatus = false;
-//    //}
-//    //let address = `apiUsers + /email/${userEmail}/newStatus/${newStatus}`;
-//    //ajaxCall("POST", address, "", usersTableP ostSCB, usersTablePostECB);
-//}
-//function changeQuestionStatus(answer) {
-//    alert(answer);
-//}
-//function changeQuestionStatus(err) {
-//    alert("Error: " + err);
-//}
+function changeQuestionStatus(questionStatus) {
+    newstatuss = questionStatus.parentElement.parentElement.children[8].firstElementChild.selectedIndex;
+    newstatus = newstatus - 1;
+    let address = `apiUsers + /email/${userEmail}/newStatus/${newStatus}`;
+    //ajaxCall("POST", address, "", usersTablePostSCB, usersTablePostECB);
+}
+function changeQuestionStatusSCB(answer) {
+    alert(answer);
+}
+function changeQuestionStatusECB(err) {
+    alert("Error: " + err);
+}
 
 
 
