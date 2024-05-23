@@ -1,21 +1,25 @@
-﻿* {
+﻿*{
     font-family: 'Montserrat', sans-serif;
 }
 
-#usersTable {
+
+#usersTable, #QuestionTable {
     margin-top: 10px;
     border: 1px black solid;
+    align-items: flex-end; /* Align items to the right */
 }
 
 #usersTable_filter > label > input {
     margin-left: 5px;
 }
-
+#QuestionTable > label > input {
+    margin-left: 5px;
+}
 .container {
     padding-top: 40px;
 }
 
-#usersTable td, #usersTable th {
+#usersTable td, #usersTable th, #QuestionTable td, #QuestionTable th {
     padding: 10px;
     font-size: 18px;
 }
@@ -28,23 +32,56 @@
     width: 100%;
 }
 
-    .control > input, .control > label, .control > select {
-        margin: 15px;
-        width: 130px;
-    }
-
-
-.modal .modal-content #addQuestionForm {
-    width: 75%;
-    height: 300px;
+.control > input, .control > label, .control > select {
+    margin: 15px;
+    width: 130px;
 }
 
-.modal .input-box input {
-    height: 60%;
+
+.btn-admin {
+    font-size: 15px;
+    width: 20%;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background-color: #03a696;
+    color: #ffffff;
 }
 
-#addQuestionByGemini {
-    margin-top: 4%;
-    font-size: 20px;
+table.dataTable thead {
+    background-color: #0b4848bf;
+    color:white;
 }
-    
+
+.modal-content {
+    width: 650px;
+    height: 250px;
+    align-items: center;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    position: relative;
+    background-color: #fefefe;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+#addQuestionForm div{
+    margin:20px;
+}
+
+.input-box input {
+    width: 100%; /* Full width */
+   /* padding: 10px;*/
+    box-sizing: border-box;
+    text-align: right; /* Align text inside input to the right */
+    direction: rtl; /* Ensure placeholder text aligns properly for right-to-left languages */
+}
+
+.primary-btn {
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+    background-color: #03a696;
+    color: #ffffff;
+}
