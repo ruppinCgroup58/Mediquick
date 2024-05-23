@@ -112,7 +112,6 @@ function questionsTableGetSCB(questionsList) {
                             { data: "creator" },
                             { data: "totalAnswers" },
                             { data: "totalCorrectAnswers" },
-
                         ],
                     });
        
