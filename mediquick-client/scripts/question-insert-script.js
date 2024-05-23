@@ -1,5 +1,6 @@
 let questionsAPI = "https://localhost:7253/api/Questions"
-
+let topicApi = "https://localhost:7253/api/Topics"
+ajaxCall("GET", topicApi, JSON.stringify(newQuestion), qiPostSCB, qiPostECB);
 $("#qiForm").submit(confirmQuestionSubmit)
 
 function confirmQuestionSubmit() {
@@ -44,4 +45,8 @@ function qiPostSCB(isSuccess) {
 
 function qiPostECB(err) {
     alert(err.statusText);
+}
+
+function renderTopicsList() {
+
 }

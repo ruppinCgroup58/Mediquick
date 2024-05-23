@@ -114,7 +114,7 @@ function resetForm() {
 function executeLogIn(user) {
     if (user) {
         if (user.isActive) {
-            userConnected = $("#email").val();
+            userConnected = $("#emailText").val();
             sessionStorage.setItem('user', userConnected);
             if (user.isAdmin) {
                 window.location.href = "admin.html";
