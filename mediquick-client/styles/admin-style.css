@@ -2,7 +2,8 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-#usersTable {
+
+#usersTable, #QuestionTable {
     margin-top: 10px;
     border: 1px black solid;
 }
@@ -10,12 +11,14 @@
 #usersTable_filter > label > input {
     margin-left: 5px;
 }
-
+#QuestionTable > label > input {
+    margin-left: 5px;
+}
 .container {
     padding-top: 40px;
 }
 
-#usersTable td, #usersTable th {
+#usersTable td, #usersTable th, #QuestionTable td, #QuestionTable th {
     padding: 10px;
     font-size: 18px;
 }
@@ -28,10 +31,10 @@
     width: 100%;
 }
 
-    .control > input, .control > label, .control > select {
-        margin: 15px;
-        width: 130px;
-    }
+.control > input, .control > label, .control > select {
+    margin: 15px;
+    width: 130px;
+}
 
 
 .modal .modal-content #addQuestionForm {
@@ -43,8 +46,18 @@
     height: 60%;
 }
 
-#addQuestionByGemini {
+/*#addQuestionByGemini {
     margin-top: 4%;
     font-size: 20px;
+}*/
+
+
+.btn-admin {
+    font-size: 15px;
+    width: 25%;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background-color: #03a696;
+    color: #ffffff;
 }
-    
