@@ -67,7 +67,7 @@ public class DBServices
             q.WrongAnswer3 = dataReader["wrongAnswer3"].ToString();
             q.Explanation = dataReader["explanation"].ToString();
             q.Status = Convert.ToInt32(dataReader["status"]);
-            q.Creator = Convert.ToInt32(dataReader["creatorID"]); 
+            q.Creator = dataReader["creatorID"].ToString(); 
             q.TotalAnswers = Convert.ToInt32(dataReader["totalAnswers"]); 
             q.TotalCorrectAnswers = Convert.ToInt32(dataReader["correctAnswers"]); 
             return q;
@@ -122,7 +122,7 @@ public class DBServices
                 q.WrongAnswer3 = dataReader["wrongAnswer3"].ToString();
                 q.Explanation = dataReader["explanation"].ToString();
                 q.Status = Convert.ToInt32(dataReader["status"]);
-                q.Creator = Convert.ToInt32(dataReader["creatorID"]);
+                q.Creator = dataReader["creatorID"].ToString();
                 q.TotalAnswers = Convert.ToInt32(dataReader["totalAnswers"]);
                 q.TotalCorrectAnswers = Convert.ToInt32(dataReader["correctAnswers"]);
                 qList.Add(q); 

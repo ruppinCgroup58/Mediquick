@@ -11,7 +11,7 @@
         string wrongAnswer3;
         string explanation;
         int status;
-        int creator;
+        string creator;
         int totalAnswers;
         int totalCorrectAnswers;
         DBServices dbs = new DBServices();
@@ -21,7 +21,7 @@
         {
 
         }
-        public Question(int questionSerialNumber, int difficulty, string content, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string explanation, int status, int creator, int totalAnswers, int totalCorrectAnswers)
+        public Question(int questionSerialNumber, int difficulty, string content, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string explanation, int status, string creator, int totalAnswers, int totalCorrectAnswers)
         {
             QuestionSerialNumber = questionSerialNumber;
             Difficulty = difficulty;
@@ -46,7 +46,7 @@
         public string WrongAnswer3 { get => wrongAnswer3; set => wrongAnswer3 = value; }
         public string Explanation { get => explanation; set => explanation = value; }
         public int Status { get => status; set => status = value; }
-        public int Creator { get => creator; set => creator = value; }
+        public string Creator { get => creator; set => creator = value; }
         public int TotalAnswers { get => totalAnswers; set => totalAnswers = value; }
         public int TotalCorrectAnswers { get => totalCorrectAnswers; set => totalCorrectAnswers = value; }
 
@@ -81,30 +81,6 @@
         public IEnumerable<Question> ReadQuestions()
         {
             return dbs.ReadQuestions();
-        }
-
-      //  public int setDifficultyLevel(float prob)
-        {
-            if (prob >= 0 && prob <= 0.2)
-            {
-                return 1;
-            }
-            else if (prob > 0.2 && prob <= 0.4)
-            {
-                return 2;
-            }
-            else if (prob > 0.4 && prob <= 0.6)
-            {
-                return 3;
-            }
-            else if (prob > 0.6 && prob <= 0.8)
-            {
-                return 4;
-            }
-            else
-            {
-                return 5;
-            }
         }
 
         public Task<string> genQ(string content)

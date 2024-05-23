@@ -19,7 +19,7 @@ function confirmQuestionSubmit() {
 function qiFormSubmit() {
     let userConnected = sessionStorage.getItem('user');
     newQuestion = {
-        difficulty: 0,
+        difficulty: 1,
         content : $("#content").val(),
         correctAnswer : $("#correct-answer").val(),
         wrongAnswer1 : $("#wrong-answer1").val(),
