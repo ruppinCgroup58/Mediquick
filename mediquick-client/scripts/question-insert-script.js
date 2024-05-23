@@ -1,10 +1,26 @@
 let questionsAPI = "https://localhost:7253/api/Questions"
+let topicApi = "https://localhost:7253/api/Topics"
+ajaxCall("GET", topicApi, JSON.stringify(newQuestion), qiPostSCB, qiPostECB);
+$("#qiForm").submit(confirmQuestionSubmit)
 
-$("#qiForm").submit(qiFormSubmit)
+function confirmQuestionSubmit() {
+    // Ask the user a yes or no question
+    var userResponse = confirm("האם אתה בטוח? לא ניתן לערוך את השאלה לאח מכן");
+
+    // Check the user's response
+    if (userResponse) {
+        // User clicked "OK"
+        qiFormSubmit();
+        
+    } else {
+        return false;
+    }
+}
 
 function qiFormSubmit() {
+    let userConnected = sessionStorage.getItem('user');
     newQuestion = {
-        difficulty: 0,
+        difficulty: 1,
         content : $("#content").val(),
         correctAnswer : $("#correct-answer").val(),
         wrongAnswer1 : $("#wrong-answer1").val(),
@@ -12,11 +28,11 @@ function qiFormSubmit() {
         wrongAnswer3 : $("#wrong-answer3").val(),
         explanation : $("#explanation").val(),
         status: 0,
-        creator: 17
+        creator: userConnected
     }
 
     ajaxCall("POST", questionsAPI, JSON.stringify(newQuestion), qiPostSCB, qiPostECB);
-    return false;
+    
 }
 
 function qiPostSCB(isSuccess) {
@@ -29,4 +45,8 @@ function qiPostSCB(isSuccess) {
 
 function qiPostECB(err) {
     alert(err.statusText);
+}
+
+function renderTopicsList() {
+
 }

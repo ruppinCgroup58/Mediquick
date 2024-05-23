@@ -67,7 +67,7 @@ public class DBServices
             q.WrongAnswer3 = dataReader["wrongAnswer3"].ToString();
             q.Explanation = dataReader["explanation"].ToString();
             q.Status = Convert.ToInt32(dataReader["status"]);
-            q.Creator = Convert.ToInt32(dataReader["creatorID"]); 
+            q.Creator = dataReader["creatorID"].ToString(); 
             q.TotalAnswers = Convert.ToInt32(dataReader["totalAnswers"]); 
             q.TotalCorrectAnswers = Convert.ToInt32(dataReader["correctAnswers"]); 
             return q;
@@ -122,7 +122,7 @@ public class DBServices
                 q.WrongAnswer3 = dataReader["wrongAnswer3"].ToString();
                 q.Explanation = dataReader["explanation"].ToString();
                 q.Status = Convert.ToInt32(dataReader["status"]);
-                q.Creator = Convert.ToInt32(dataReader["creatorID"]);
+                q.Creator = dataReader["creatorID"].ToString();
                 q.TotalAnswers = Convert.ToInt32(dataReader["totalAnswers"]);
                 q.TotalCorrectAnswers = Convert.ToInt32(dataReader["correctAnswers"]);
                 qList.Add(q); 
@@ -182,7 +182,7 @@ public class DBServices
         }
     }
 
-    public int UpdateDifficultyLevel(Question q)
+    public int UpdateDifficultyLevel(string id, bool isCorrect)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -197,7 +197,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateUpdateDLCommandWithStoredProcedure("sp_updateDL", con, q);             // create the command
+        cmd = CreateUpdateDLCommandWithStoredProcedure("sp_UpdateQuestioncounts", con, id, isCorrect);             // create the command
 
         try
         {
@@ -315,7 +315,7 @@ public class DBServices
         return cmd;
     }
 
-    private SqlCommand CreateUpdateDLCommandWithStoredProcedure(String spName, SqlConnection con, Question q)
+    private SqlCommand CreateUpdateDLCommandWithStoredProcedure(String spName, SqlConnection con, string id, bool isCorrect)
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
@@ -328,10 +328,9 @@ public class DBServices
 
         cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
 
-        cmd.Parameters.AddWithValue("@id", q.QuestionSerialNumber);
-        cmd.Parameters.AddWithValue("@totalCorrectAnswers", q.TotalCorrectAnswers);
-        cmd.Parameters.AddWithValue("@totalAnswers", q.TotalAnswers);
-        cmd.Parameters.AddWithValue("@difficulty", q.Difficulty);
+        cmd.Parameters.AddWithValue("@id", id);
+        cmd.Parameters.AddWithValue("@isCorrect", isCorrect);
+
 
         return cmd;
     }
@@ -358,7 +357,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateUserInsertCommandWithStoredProcedure("sp_insertUser", con, user);             // create the command
+        cmd = CreateUserInsertCommandWithStoredProcedure("sp_UpdateQuestioncounts", con, user);             // create the command
 
         try
         {
@@ -444,7 +443,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateGe5tUserCommandWithStoredProcedureWithoutParameters("sp_getUsers", con);             // create the command
+        cmd = CreateGetUserCommandWithStoredProcedureWithoutParameters("sp_getUsers", con);             // create the command
 
         try
         {
@@ -522,7 +521,7 @@ public class DBServices
         return cmd;
     }
 
-    private SqlCommand CreateGe5tUserCommandWithStoredProcedureWithoutParameters(String spName, SqlConnection con)
+    private SqlCommand CreateGetUserCommandWithStoredProcedureWithoutParameters(String spName, SqlConnection con)
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
@@ -538,6 +537,57 @@ public class DBServices
         return cmd;
     }
 
+    #endregion
+
+
+    //-----------Topic class Functions-----------
+    #region Topic's Region
+    public List<Topic> GetTopics()
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+        List<Topic> topicsList = new List<Topic>();
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = CreateCommandWithStoredProcedureWithoutParameters("sp_getTopics", con);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            while (dataReader.Read())
+            {
+                Topic t = new Topic();
+                t.TopicName = dataReader["topicName"].ToString();
+                topicsList.Add(t);
+            }
+            return topicsList;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
     #endregion
 }
 

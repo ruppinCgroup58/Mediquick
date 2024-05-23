@@ -65,7 +65,7 @@ public class Gemini
                 string jsonString = item.ToString();
 
                 Question tmpQuestion = JsonConvert.DeserializeObject<Question>(jsonString);
-                tmpQuestion.Creator = 9999;
+                tmpQuestion.Creator = "Gemini";
 
                 dbs.InsertQuestion(tmpQuestion);
             }

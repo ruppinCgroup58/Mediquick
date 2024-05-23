@@ -1,4 +1,4 @@
-let usersAPI = "https://localhost:7253/api/Users"
+let usersAPI = "https://proj.ruppin.ac.il/cgroup58/test2/tar1/api/Users"
 
 $("#sign-up-form").submit(suFormSubmit)
 $("#login-form").submit(loginFormSubmit)
@@ -114,12 +114,12 @@ function resetForm() {
 function executeLogIn(user) {
     if (user) {
         if (user.isActive) {
-            userConnected = $("#email").val();
+            userConnected = $("#emailText").val();
             sessionStorage.setItem('user', userConnected);
             if (user.isAdmin) {
                 window.location.href = "admin.html";
             } else {
-                window.location.href = "https://www.youtube.com/watch?app=desktop&v=sd4QiDvKklM&list=RDwHdiCwh2FZM&index=14";
+                window.location.href = "question-insert.html";
             }
         } else {
             alert("This user is not active, Please contact the admin");
