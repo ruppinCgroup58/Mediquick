@@ -9,16 +9,16 @@
     <link rel="stylesheet" href="./../styles/question-insert-style.css">
     <link rel="stylesheet" href="./../styles/navbar-style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
     <title>הוספת שאלה</title>
 </head>
 <body>
     <header>
-       <img src="./../images/logo1.png" class="logo" alt="">
+        <img src="./../images/logo1.png" class="logo" alt="">
         <nav>
             <div class="nav-links">
                 <div>מבחן</div>
@@ -37,10 +37,6 @@
                         <textarea id="content" class="input" required></textarea>
                     </div>
                     <div class="grid-item">
-                        <label for="" class="hebrew">הסבר</label>
-                        <textarea id="explanation" class="input" required></textarea>
-                    </div>
-                    <div class="grid-item">
                         <label for="" class="hebrew">תשובה נכונה</label>
                         <textarea id="correct-answer" class="input correct-answer" required></textarea>
                     </div>
@@ -56,6 +52,17 @@
                         <label for="" class="hebrew">תשובה שגויה 3</label>
                         <textarea id="wrong-answer3" class="input" required></textarea>
                     </div>
+                    <div class="grid-item">
+                        <label for="" class="hebrew">הסבר</label>
+                        <textarea id="explanation" class="input"></textarea>
+                    </div>
+                    <div class="grid-item">
+                        <label for="subject" class="hebrew">נושא השאלה</label>
+                        <input list="myDataList" id="subject" class="input">
+                        <datalist id="myDataList">
+                            
+                        </datalist>
+                    </div>
                     <div class="info-text">
                         כל השדות הינן חובה. <br>השאלה תועבר למאגר הביניים לאישור המנהל לפני שתתווסף למערכת.<br> המנהל רשאי לערוך את כל רכיבי השאלה לפי שיקול דעתו.
                     </div>
@@ -66,3 +73,4 @@
     </main>
 </body>
 </html>
+
