@@ -55,17 +55,23 @@
             return dbs.InsertQuestion(this);
         }
 
-        public void updateQuestionDiffLevel(Question q, bool isCorrect)
+        //public void updateQuestionDiffLevel(Question q, bool isCorrect)
+        //{
+        //    q.TotalAnswers++;
+        //    if(isCorrect)
+        //    {
+        //        q.TotalCorrectAnswers++;
+        //    }
+        //    float wrongAnsProb = 1 - (float)q.TotalCorrectAnswers / (float)q.TotalAnswers;
+        //q.Difficulty = setDifficultyLevel(wrongAnsProb);
+        //    dbs.UpdateDifficultyLevel(q);
+        //}
+
+        public void updateQuestionDiffLevel(string id, bool isCorrect)
         {
-            q.TotalAnswers++;
-            if(isCorrect)
-            {
-                q.TotalCorrectAnswers++;
-            }
-            float wrongAnsProb = 1 - (float)q.TotalCorrectAnswers / (float)q.TotalAnswers;
-            q.Difficulty = setDifficultyLevel(wrongAnsProb);
-            dbs.UpdateDifficultyLevel(q);
+            dbs.UpdateDifficultyLevel(id, isCorrect);
         }
+
 
         public Question GetQuestion(int id)
         {
@@ -77,7 +83,7 @@
             return dbs.ReadQuestions();
         }
 
-        public int setDifficultyLevel(float prob)
+      //  public int setDifficultyLevel(float prob)
         {
             if (prob >= 0 && prob <= 0.2)
             {
