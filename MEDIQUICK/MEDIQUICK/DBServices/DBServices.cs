@@ -443,7 +443,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateGe5tUserCommandWithStoredProcedureWithoutParameters("sp_getUsers", con);             // create the command
+        cmd = CreateGetUserCommandWithStoredProcedureWithoutParameters("sp_getUsers", con);             // create the command
 
         try
         {
@@ -521,7 +521,7 @@ public class DBServices
         return cmd;
     }
 
-    private SqlCommand CreateGe5tUserCommandWithStoredProcedureWithoutParameters(String spName, SqlConnection con)
+    private SqlCommand CreateGetUserCommandWithStoredProcedureWithoutParameters(String spName, SqlConnection con)
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
@@ -537,6 +537,57 @@ public class DBServices
         return cmd;
     }
 
+    #endregion
+
+
+    //-----------Topic class Functions-----------
+    #region Topic's Region
+    public List<Topic> GetTopics()
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+        List<Topic> topicsList = new List<Topic>();
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = CreateCommandWithStoredProcedureWithoutParameters("sp_getTopics", con);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            while (dataReader.Read())
+            {
+                Topic t = new Topic();
+                t.TopicName = dataReader["topicName"].ToString();
+                topicsList.Add(t);
+            }
+            return topicsList;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
     #endregion
 }
 
