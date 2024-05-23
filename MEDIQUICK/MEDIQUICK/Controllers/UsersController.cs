@@ -16,6 +16,13 @@ namespace MEDIQUICK.Controllers
             return new User().ReadUsers();
         }
 
+        [HttpPost("email/{email}/newStatus/{newStatus}")]
+        public bool ChangeStatus(string email, bool newStatus)
+        {
+            //email/{email}/newStatus/{newStatus}
+            return new User().ChangeUsersStatus(email, newStatus);
+        }
+
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
         public string Get(int id)

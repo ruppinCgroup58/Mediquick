@@ -43,6 +43,12 @@
         {
             return dbs.ReadUsers();
         }
+
+        
+        public bool ChangeUsersStatus(string email, bool newStatus)
+        {
+            return dbs.ChangeUsersStatus(email, newStatus);
+        }
     }
 
 

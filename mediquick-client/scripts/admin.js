@@ -1,4 +1,4 @@
-﻿var apiUsers = 'https://proj.ruppin.ac.il/cgroup58/test2/tar1/api/Users';
+﻿var apiUsers = 'https://localhost:7253/api/Users';
 var apiQuestion = 'https://localhost:7253/ReadQuestions';
 var geminiAPI = 'https://localhost:7253/Gemini';
 //$(document).ready(function () {
@@ -153,7 +153,7 @@ function questionsTableGetECB(err) {
      } else {
          newStatus = false;
      }
-     let address = `apiUsers + /email/${ userEmail }/newStatus/${ newStatus }`;
+     let address = apiUsers + `/email/${userEmail}/newStatus/${newStatus}`;
      ajaxCall("POST", address, "", usersTablePostSCB, usersTablePostECB);
  }
  function usersTablePostSCB(answer) {
@@ -181,12 +181,12 @@ $('#QuestionTable').on('change', '.status-select', function () {
 //    //let address = `apiUsers + /email/${userEmail}/newStatus/${newStatus}`;
 //    //ajaxCall("POST", address, "", usersTableP ostSCB, usersTablePostECB);
 //}
-function changeQuestionStatus(answer) {
-    alert(answer);
-}
-function changeQuestionStatus(err) {
-    alert("Error: " + err);
-}
+//function changeQuestionStatus(answer) {
+//    alert(answer);
+//}
+//function changeQuestionStatus(err) {
+//    alert("Error: " + err);
+//}
 
 
 

@@ -380,6 +380,43 @@ public class DBServices
         }
     }
 
+    public bool ChangeUsersStatus(string email, bool newStatus)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = CreateUserChangeStatusCommandWithStoredProcedureWithParameters("sp_changeUserStatus", con, email, newStatus);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            if (numEffected > 0) { return true; } else { return false; }
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
     public User Login(string email, string password)
     {
         SqlConnection con;
@@ -479,6 +516,25 @@ public class DBServices
 
     }
 
+    private SqlCommand CreateUserChangeStatusCommandWithStoredProcedureWithParameters(String spName, SqlConnection con, string email, bool newStatus)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@email", email);
+
+        cmd.Parameters.AddWithValue("@newStatus", newStatus);
+
+        return cmd;
+    }
     private SqlCommand CreateUserInsertCommandWithStoredProcedure(String spName, SqlConnection con, User user)
     {
 
