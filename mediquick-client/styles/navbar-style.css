@@ -13,6 +13,7 @@ header {
     margin: 0;
     display: flex;
     align-items:center;
+    color: rgba(43, 47, 53, 0.5)
 }
 
 nav {
