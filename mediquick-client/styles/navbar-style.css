@@ -1,3 +1,12 @@
+* {
+    font-family: 'poppins', sans-serif;
+}
+
+body {
+    margin: 0;
+
+}
+
 header {
     display: flex;
     justify-content: space-between;
@@ -20,6 +29,14 @@ nav {
     height: 100%;
 }
 
+.nav-links a {
+    text-decoration: none;
+}
+
+.nav-links a:visited {
+    color: rgba(43, 47, 53, 0.5);
+}
+
 .nav-links div {
     display: flex;
     justify-content: center;
@@ -27,7 +44,7 @@ nav {
     align-content: center;
     width: 70px;
     text-align: center;
-    height: 100%;
+    height: 50px;
     transition: all 0.3s ease 0s;
 }
 
@@ -45,4 +62,9 @@ nav {
     cursor: pointer;
     margin-right: auto;
     align-self:normal;
+}
+
+.clicked {
+    background-color: #ffffff;
+    color: #03a696;
 }

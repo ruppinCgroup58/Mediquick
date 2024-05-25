@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- jQuery library -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- ajax Calls -->
     <script src="./../scripts/ajaxCalls.js"></script>
     <!-- page script -->
@@ -12,28 +14,41 @@
     <!-- Styles -->
     <link rel="stylesheet" href="./../styles/navbar-style.css">
     <link rel="stylesheet" href="./../styles/main-page-style.css">
+    <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
+        rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
-    
-    <title>MEDIQUICK</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:wght@200;300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <title>MEDIQUICK - עמוד ראשי</title>
 </head>
+
 <body>
     <header>
         <img src="./../images/logo1.png" class="logo" alt="">
-         <nav>
-             <div class="nav-links">
-                 <div>מבחן</div>
-                 <div>תרגול</div>
-                 <div><img src="./../images/icons/person.svg" alt=""></div>
-                 <div><img src="./../images/icons/home.svg" alt=""></div>
-             </div>
-         </nav>
-     </header>
-     <main>
+        <nav>
+            <div class="nav-links">
+                <a href="./test.html">
+                    <div>מבחן</div>
+                </a>
+                <a href="./practice.html">
+                    <div>תרגול</div>
+                </a>
+                <a href="./personal-page.html">
+                    <div><img src="./../images/icons/person.svg" alt=""></div>
+                </a>
+                <a href="#">
+                    <div class="clicked"><img src="./../images/icons/home-clicked.svg" alt=""></div>
+                </a>
+            </div>
+        </nav>
+    </header>
+    <main>
         <img src="./../images/main-page-image.svg">
         <div class="container">
             <h1>מאגר שאלות</h1>
@@ -41,9 +56,8 @@
                 <a href="./question-insert.html">הוסף שאלה
                     <img src="./../images/icons/plus-circle.svg" alt="">
                 </a>
-                
             </div>
-            <div class=" flex-cards">
+            <div class="flex-cards">
                 <div class="card">
                     <div class="title">שיקום חבלות מוח</div>
                     <div class="percentage-circle" data-percentage="67">
@@ -79,10 +93,10 @@
                             <circle class="circle-progress" cx="50" cy="50" r="40"></circle>
                         </svg>
                     </div>
-                    
                 </div>
             </div>
         </div>
-     </main>
+    </main>
 </body>
+
 </html>
