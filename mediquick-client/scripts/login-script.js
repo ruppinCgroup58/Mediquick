@@ -119,7 +119,7 @@ function executeLogIn(user) {
             if (user.isAdmin) {
                 window.location.href = "admin.html";
             } else {
-                window.location.href = "question-insert.html";
+                window.location.href = "main-page.html";
             }
         } else {
             alert("This user is not active, Please contact the admin");
