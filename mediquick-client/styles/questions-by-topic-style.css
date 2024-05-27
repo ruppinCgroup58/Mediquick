@@ -22,6 +22,9 @@
     margin: 25px;
     transition: 0.3s ease;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .closed {
@@ -42,8 +45,4 @@
 .question img {
     width: 20px;
     height: 20px;
-    position: relative;
-    left: 50px;
-    top: -20px;
-    z-index: 1;
 }
