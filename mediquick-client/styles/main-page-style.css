@@ -32,6 +32,10 @@ h1 {
     flex-wrap: wrap;
 }
 
+.flex-cards a {
+    text-decoration: none;
+}
+
 .card {
     background: #f7f7f7;
     border-radius: 20px;

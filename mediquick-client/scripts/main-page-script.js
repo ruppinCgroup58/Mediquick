@@ -17,18 +17,24 @@ function AddProgressPercentage() {
 function getUserProgressSCB(objectList) {
   str = "";
   for (let i = 0; i < objectList.length; i++) {
-    str += `<div class="card">
-        <div class="title">${objectList[i].topicName}</div>
-        <div class="percentage-circle" data-percentage="${objectList[i].answeredRatio}">
-            <svg viewBox="0 0 100 100">
-                <circle class="circle-bg" cx="50" cy="50" r="40"></circle>
-                <circle class="circle-progress" cx="50" cy="50" r="40"></circle>
-            </svg>
-        </div>
-    </div>`;
+    str += `<div class="card" onclick="goToQBTPage('${objectList[i].topicName}')">
+    <div class="title">${objectList[i].topicName}</div>
+    <div class="percentage-circle" data-percentage="${objectList[i].answeredRatio}">
+        <svg viewBox="0 0 100 100">
+            <circle class="circle-bg" cx="50" cy="50" r="40"></circle>
+            <circle class="circle-progress" cx="50" cy="50" r="40"></circle>
+        </svg>
+    </div>
+</div>`;
   }
-  document.getElementById("cards").innerHTML = str;
+  document.getElementById("cards-container").innerHTML = str;
   AddProgressPercentage();
 }
 
-function getUserProgressECB() {}
+function getUserProgressECB(err) {
+    alert(err.statusText);
+}
+
+function goToQBTPage(topicName) {
+  window.location.href = `questions-by-topic.html?topicName=${topicName}`
+}

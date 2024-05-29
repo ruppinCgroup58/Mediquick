@@ -1,3 +1,9 @@
+let GetQuestionsByTopicAPI = "https://localhost:7253/topicName/";
+const params = new URLSearchParams(window.location.search);
+const topicName = params.get('topicName');
+GetQuestionsByTopicAPI += topicName;
+ajaxCall("GET", topiGetQuestionsByTopicAPIcApi, "", getUserProgressSCB, getUserProgressECB);
+
 const questionsCollection = document.getElementsByClassName('question');
 const questionsArray = Array.from(questionsCollection);
 questionsArray.forEach(question => {
