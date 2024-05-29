@@ -51,6 +51,10 @@
         {
             return dbs.ChangeUsersStatus(email, newStatus);
         }
+        public bool ChangeAdminStatus(string email, bool newAdminStatus)
+        {
+            return dbs.ChangeAdminStatus(email, newAdminStatus);
+        }
     }
 
 
