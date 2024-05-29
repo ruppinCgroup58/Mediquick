@@ -53,7 +53,27 @@ function usersTableGetSCB(usersList) {
                     }
                 },
             ],
+        
+            language: {
+                processing: "מעבד...",
+                search: "חפש:",
+                lengthMenu: "הצג _MENU_ פריטים",
+                info: "מציג _START_ עד _END_ מתוך _TOTAL_ פריטים",
+                infoEmpty: "מציג 0 עד 0 מתוך 0 פריטים",
+                infoFiltered: "(מסונן מתוך _MAX_ פריטים)",
+                infoPostFix: "",
+                loadingRecords: "טוען...",
+                zeroRecords: "לא נמצאו רשומות תואמות",
+                emptyTable: "אין נתונים זמינים בטבלה",
+                paginate: {
+                    first: "ראשון",
+                    previous: "קודם",
+                    next: "הבא",
+                    last: "אחרון"
+                }
+            }
         });
+      
     }
     catch (err) {
         alert(err);
@@ -112,7 +132,25 @@ function questionsTableGetSCB(questionsList) {
                             { data: "creator" },
                             { data: "totalAnswers" },
                             { data: "totalCorrectAnswers" },
-                        ],
+                 ],
+                 language: {
+                     processing: "מעבד...",
+                     search: "חפש:",
+                     lengthMenu: "הצג _MENU_ פריטים",
+                     info: "מציג _START_ עד _END_ מתוך _TOTAL_ פריטים",
+                     infoEmpty: "מציג 0 עד 0 מתוך 0 פריטים",
+                     infoFiltered: "(מסונן מתוך _MAX_ פריטים)",
+                     infoPostFix: "",
+                     loadingRecords: "טוען...",
+                     zeroRecords: "לא נמצאו רשומות תואמות",
+                     emptyTable: "אין נתונים זמינים בטבלה",
+                     paginate: {
+                         first: "ראשון",
+                         previous: "קודם",
+                         next: "הבא",
+                         last: "אחרון"
+                     }
+                 }
                     });
        
        

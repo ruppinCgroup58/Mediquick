@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html dir="rtl">
 
 <head>
     <meta charset="utf-8" />
@@ -8,7 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="./../scripts/ajaxCalls.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -17,7 +17,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
     <!--<link href="../css/style.css" rel="stylesheet" />
     <link href="../css/style2.css" rel="stylesheet" />-->
-    <link rel="stylesheet" href="./../styles/admin-style.css">
     <!-- <link href="https://cdn.datatables.net/2.0.1/css/dataTables.dataTables.css" rel="stylesheet" /> -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -30,80 +29,92 @@
     <script src="../scripts/addQuestionModal.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js" defer></script>
     <link href="../styles/navbar-style.css" defer rel="stylesheet" />
+    <!-- Open-Sans font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:wght@200;300;400;500;600&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="./../styles/admin-style.css">
+
 </head>
 
-<body>
+<body dir="rtl">
     <header>
         <img src="./../images/logo1.png" class="logo" alt="">
     </header>
-    <br />
-
-    <div class="control">
-        <div id="btnDiv" style="width:100%; text-align:center">
-            <input type="button" class="btn-admin" value="ניהול משתמשים" id="manageUsersBtn"
-                onclick="getUsersDataTable()" />
-            <input type="button" class="btn-admin" value="ניהול מאגר שאלות" id="manageQuestionsBtn"
-                onclick="getQuestisonsDataTable()" />
-            <br /><br />
-            <input type="button" class="btn-admin" value="הוספת שאלה בעזרת בינה מלאכותית" id="addQuestionByGemini"
-                onclick="addQuestionByGemini()" />
-        </div>
-        <div class="container">
-            <form id="UsersForm" style="width:100%; visibility: collapse;">
-                <table id="usersTable" class="display nowrap" style="width:100%;">
-                    <thead>
-                        <tr>
-                            <th>שם פרטי</th>
-                            <th>שם משפחה</th>
-                            <th>דואר אלקטרוני</th>
-                            <th>מספר נייד</th>
-                            <th>פעיל</th>
-                            <th>מנהל</th>
-                        </tr>
-                    </thead>
-                </table>
-            </form>
-            <form id="QuestionForm" style="width:100%; visibility: collapse;">
-                <table id="QuestionTable" class="display" style="width:100%;">
-                    <thead>
-                        <tr>
-                            <th>מס סידורי</th>
-                            <th>רמת קושי</th>
-                            <th>תוכן השאלה</th>
-                            <th>תשובה נכונה</th>
-                            <th>מסיח 1</th>
-                            <th>מסיח 2</th>
-                            <th>מסיח 3</th>
-                            <th>הסבר</th>
-                            <th>סטטוס</th>
-                            <th>יוצר</th>
-                            <th>מספר שאלות כולל</th>
-                            <th>מספר שאלות נכונות</th>
-                        </tr>
-                    </thead>
-                </table>
-            </form>
-        </div>
-
-        <div id="myModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <div class="clear-form suForm">
-                    <img src="./../images/icons/clear-form-24.svg" alt="" class="clear-form-logo" title="Delete details"
-                        onclick="resetForm()">
-                </div>
-                <br />
-                <form action="" id="addQuestionForm" class="AQForm">
-                    <div class="input-box"><input class="hebrew" type="number" id="numOfQuestions" pattern="[1-8]{1}"
-                            placeholder="מספר שאלות רצוי" required></div>
-                    <div class="input-box">
-                        <input class="hebrew" type="text" id="textInput" placeholder="הזן את הטקסט הרצוי" required>
-                    </div>
-                    <input type="submit" value="שליחה" class="primary-btn" id="send-orders-modal-btn">
+    <main>
+        <br />
+        <div class="control">
+            <div id="btnDiv" style="width:100%; text-align:center">
+                <input type="button" class="btn-admin" value="ניהול משתמשים" id="manageUsersBtn"
+                       onclick="getUsersDataTable()" />
+                <input type="button" class="btn-admin" value="ניהול מאגר שאלות" id="manageQuestionsBtn"
+                       onclick="getQuestisonsDataTable()" />
+                <br /><br />
+                <input type="button" class="btn-admin" value="הוספת שאלה בעזרת בינה מלאכותית" id="addQuestionByGemini"
+                       onclick="addQuestionByGemini()" />
+            </div>
+            <div class="container">
+                <form id="UsersForm" style="width:100%; visibility: collapse;">
+                    <table id="usersTable" class="display nowrap" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th>שם פרטי</th>
+                                <th>שם משפחה</th>
+                                <th>דואר אלקטרוני</th>
+                                <th>סיסמא</th>
+                                <th>מספר נייד</th>
+                                <th>פעיל</th>
+                                <th>מנהל</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </form>
+                <form id="QuestionForm" style="width:100%; visibility: collapse;">
+                    <table id="QuestionTable" class="display" style="width:100%;">
+                        <thead dir="rtl">
+                            <tr>
+                                <th>מס סידורי</th>
+                                <th>רמת קושי</th>
+                                <th>תוכן השאלה</th>
+                                <th>תשובה נכונה</th>
+                                <th>מסיח 1</th>
+                                <th>מסיח 2</th>
+                                <th>מסיח 3</th>
+                                <th>הסבר</th>
+                                <th>סטטוס</th>
+                                <th>יוצר</th>
+                                <th>מספר שאלות כולל</th>
+                                <th>מספר שאלות נכונות</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </form>
             </div>
+
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div class="clear-form suForm">
+                        <img src="./../images/icons/clear-form-24.svg" alt="" class="clear-form-logo" title="Delete details"
+                             onclick="resetForm()">
+                    </div>
+                    <br />
+                    <form action="" id="addQuestionForm" class="AQForm">
+                        <div class="input-box">
+                            <input class="hebrew" type="number" id="numOfQuestions" pattern="[1-8]{1}"
+                                   placeholder="מספר שאלות רצוי" required>
+                        </div>
+                        <div class="input-box">
+                            <input class="hebrew" type="text" id="textInput" placeholder="הזן את הטקסט הרצוי" required>
+                        </div>
+                        <input type="submit" value="שליחה" class="primary-btn" id="send-orders-modal-btn">
+                    </form>
+                </div>
+            </div>
         </div>
-    </div>
+    </main>
+   
 </body>
 
 </html>
