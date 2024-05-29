@@ -489,6 +489,7 @@ public class DBServices
             while (dataReader.Read())
             {
                 User u = new User();
+                u.UserID = Convert.ToInt32(dataReader["UserID"]);
                 u.FirstName = dataReader["firstName"].ToString();
                 u.LastName = dataReader["lastName"].ToString();
                 u.Email = dataReader["email"].ToString();

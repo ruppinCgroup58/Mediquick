@@ -35,7 +35,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:wght@200;300;400;500;600&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="./../styles/admin-style.css">
-
+    <script src="../scripts/edit-user-modal.js"></script>
 </head>
 
 <body dir="rtl">
@@ -59,6 +59,7 @@
                     <table id="usersTable" class="display nowrap" style="width:100%;">
                         <thead>
                             <tr>
+                                <th>מזהה</th>
                                 <th>שם פרטי</th>
                                 <th>שם משפחה</th>
                                 <th>דואר אלקטרוני</th>
@@ -66,6 +67,7 @@
                                 <th>מספר נייד</th>
                                 <th>פעיל</th>
                                 <th>מנהל</th>
+                                <th>עריכה</th>
                             </tr>
                         </thead>
                     </table>
@@ -90,6 +92,38 @@
                         </thead>
                     </table>
                 </form>
+            </div>
+            <div id="editUserModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div class="clear-form suForm">
+                        <img src="./../images/icons/clear-form-24.svg" alt="" class="clear-form-logo"
+                             title="Delete details" onclick="resetForm()">
+                    </div>
+                    <form action="" id="editUserModal" class="eUForm">
+                        <div class="input-box">
+                            <input class="hebrew" type="text" id="first-name" placeholder="שם פרטי">
+                        </div>
+                        <div class="input-box">
+                            <input class="hebrew" type="text" id="last-name" placeholder="שם משפחה">
+                        </div>
+                        <div class="input-box">
+                            <input class="hebrew" type="email" id="email"
+                                   placeholder="דואר אלקטרוני">
+                        </div>
+                        <div class="input-box" id="password-textbox">
+                            <input type="password" class="hebrew align-right"
+                                   id="password" class="password" placeholder="סיסמא">
+                            <img src="./../images/icons/eye-open.svg" class="eye_img" id="modal-password-eye-icon"
+                                 onclick="togglePassword(this)">
+                        </div>
+                        <div class="input-box">
+                            <input class="hebrew" type="text" id="phone-number"
+                                   placeholder="מספר טלפון">
+                        </div>
+                        <input type="submit" value="עדכן" class="primary-btn" id="edit-user-modal-btn">
+                    </form>
+                </div>
             </div>
 
             <div id="myModal" class="modal">

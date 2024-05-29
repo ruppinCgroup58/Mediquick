@@ -7,6 +7,7 @@ var geminiAPI = 'https://localhost:7253/Gemini';
 
  
 $("#addQuestionForm").submit(addQuestionToGemini)
+$("#editUserModal").submit(edit-user-row)
 
 function getUsersDataTable() {
     ajaxCall("GET", apiUsers, "", usersTableGetSCB, usersTableGetECB);
@@ -29,11 +30,12 @@ function usersTableGetSCB(usersList) {
             data: usersList,
             pageLength: 10,
             columns: [
-                { data: "firstName" },
-                { data: "lastName" },
-                { data: "email" },
-                { data: "password" },
-                { data: "phoneNumber" },
+                { data: "userID" },
+                { data: "firstName" ,editable: true },
+                { data: "lastName", editable: true },
+                { data: "email", editable: true },
+                { data: "password", editable: true },
+                { data: "phoneNumber", editable: true },
                 {
                     data: "isAdmin",
                     render: function (data, type, row, meta) {
@@ -52,8 +54,13 @@ function usersTableGetSCB(usersList) {
                             return '<input type="checkbox" onclick="changeUserStatus(this)"/>';
                     }
                 },
+                {
+                    data: null, // This column does not map to a property in the data
+                    render: function (data, type, row, meta) {
+                        return '<button class="edit-user-row" onclick=editRow(this)>Edit</button>';
+                    }
+                },
             ],
-        
             language: {
                 processing: "מעבד...",
                 search: "חפש:",
@@ -78,6 +85,18 @@ function usersTableGetSCB(usersList) {
     catch (err) {
         alert(err);
     }
+}
+
+function editRow(item) {
+  //  var rowIndex = item.parentElement._DT_CellIndex.row;
+    var tr = item.parentElement.parentElement;
+    var row = table.row(tr);
+    var rowData = row.data();
+
+} 
+
+function editUserRow() {
+
 }
 
 function usersTableGetECB(err) {
@@ -132,6 +151,7 @@ function questionsTableGetSCB(questionsList) {
                             { data: "creator" },
                             { data: "totalAnswers" },
                             { data: "totalCorrectAnswers" },
+                            { data: "edit" },
                  ],
                  language: {
                      processing: "מעבד...",
@@ -151,7 +171,7 @@ function questionsTableGetSCB(questionsList) {
                          last: "אחרון"
                      }
                  }
-                    });
+    });
        
        
     }
@@ -172,14 +192,32 @@ function questionsTableGetECB(err) {
          newStatus = false;
      }
      let address = apiUsers + `/email/${userEmail}/newStatus/${newStatus}`;
-     ajaxCall("POST", address, "", usersTablePostSCB, usersTablePostECB);
+     ajaxCall("POST", address, "", changeUserStatusPostSCB,changeUserStatusPostECB);
  }
- function usersTablePostSCB(answer) {
+function changeUserStatusPostSCB(answer) {
      alert(answer);
  }
- function usersTablePostECB(err) {
+function changeUserStatusPostECB(err) {
      alert("Error: " + err);
- }
+}
+
+function changeUserAdminStatus(user) {
+    userEmail = user.parentElement.parentElement.children[2].innerHTML;
+    if (user.checked) {
+        newAdminStatus = true;
+    } else {
+        newAdminStatus = false;
+    }
+    let address = apiUsers + `/email/${userEmail}/newAdminStatus/${newAdminStatus}`;
+    ajaxCall("POST", address, "", usersTablePostSCB, usersTablePostECB);
+}
+function usersTablePostSCB(answer) {
+    alert(answer);
+}
+function usersTablePostECB(err) {
+    alert("Error: " + err);
+}
+
 
 function changeQuestionStatus(questionStatus) {
     newstatuss = questionStatus.parentElement.parentElement.children[8].firstElementChild.selectedIndex;
