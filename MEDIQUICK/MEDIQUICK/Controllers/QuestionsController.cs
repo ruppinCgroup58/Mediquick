@@ -26,7 +26,7 @@ namespace MEDIQUICK.Controllers
         }
 
         // GET: api/<QuestionsController>
-        [HttpGet("/GetQuestionsByTopic")]
+        [HttpGet("topicName/{topicName}")]
         public List<Question> GetQuestionsByTopic(string topicName)
         {
             Question q = new Question();
