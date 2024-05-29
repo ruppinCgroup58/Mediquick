@@ -14,6 +14,7 @@
         string creator;
         int totalAnswers;
         int totalCorrectAnswers;
+        string topic;
         DBServices dbs = new DBServices();
 
 
@@ -21,7 +22,7 @@
         {
 
         }
-        public Question(int questionSerialNumber, int difficulty, string content, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string explanation, int status, string creator, int totalAnswers, int totalCorrectAnswers)
+        public Question(int questionSerialNumber, int difficulty, string content, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string explanation, int status, string creator, int totalAnswers, int totalCorrectAnswers, string topic)
         {
             QuestionSerialNumber = questionSerialNumber;
             Difficulty = difficulty;
@@ -35,6 +36,7 @@
             Creator = creator;
             TotalAnswers = totalAnswers;
             TotalCorrectAnswers = totalCorrectAnswers;
+            Topic = topic;
         }
 
         public int QuestionSerialNumber { get => questionSerialNumber; set => questionSerialNumber = value; }
@@ -49,6 +51,7 @@
         public string Creator { get => creator; set => creator = value; }
         public int TotalAnswers { get => totalAnswers; set => totalAnswers = value; }
         public int TotalCorrectAnswers { get => totalCorrectAnswers; set => totalCorrectAnswers = value; }
+        public string Topic { get => topic; set => topic = value; }
 
         public int Insert()
         {
@@ -88,6 +91,11 @@
             Gemini gemini = new Gemini();
             Task<string> testString = gemini.GenerateContent(content);          
             return testString;
+        }
+
+        public List<Question> GetQuestionsByTopic(string topicName)
+        {
+            return dbs.GetQuestionsByTopic(topicName);
         }
     }
 }

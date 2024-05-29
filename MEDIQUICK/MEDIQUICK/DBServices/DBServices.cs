@@ -35,6 +35,64 @@ public class DBServices
 
     //-----------Question class Functions-----------
     #region Question's Functions
+
+    public List<Question> GetQuestionsByTopic(string topicName)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = CreateGetQuestionsByTopicCommandWithStoredProcedure("sp_getQuestionByTopic", con, topicName);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection); // execute the command
+            List<Question> qList = new List<Question>();
+
+            while (dataReader.Read())
+            {
+                Question q = new Question();
+                q.QuestionSerialNumber = Convert.ToInt32(dataReader["questionSerialNumber"]);
+                //q.Difficulty = Convert.ToInt32(dataReader["difficulty"]);
+                q.Content = dataReader["content"].ToString();
+                q.CorrectAnswer = dataReader["correctAnswer"].ToString();
+                q.WrongAnswer1 = dataReader["wrongAnswer1"].ToString();
+                q.WrongAnswer2 = dataReader["wrongAnswer2"].ToString();
+                q.WrongAnswer3 = dataReader["wrongAnswer3"].ToString();
+                q.Explanation = dataReader["explanation"].ToString();
+                //q.Status = Convert.ToInt32(dataReader["status"]);
+                //q.Creator = dataReader["creatorID"].ToString();
+                //q.TotalAnswers = Convert.ToInt32(dataReader["totalAnswers"]);
+                //q.TotalCorrectAnswers = Convert.ToInt32(dataReader["correctAnswers"]);
+                qList.Add(q);
+            }
+            return qList;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
     public Question GetQuestion(int id)
     {
         SqlConnection con;
@@ -218,6 +276,24 @@ public class DBServices
                 con.Close();
             }
         }
+    }
+
+    private SqlCommand CreateGetQuestionsByTopicCommandWithStoredProcedure(String spName, SqlConnection con, string topicName)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@topicName", topicName);
+
+        return cmd;
     }
 
     private SqlCommand CreateQuestionGetCommandWithStoredProcedure(String spName, SqlConnection con, int id)
@@ -489,6 +565,7 @@ public class DBServices
             while (dataReader.Read())
             {
                 User u = new User();
+                u.UserID = Convert.ToInt32(dataReader["UserID"]);
                 u.FirstName = dataReader["firstName"].ToString();
                 u.LastName = dataReader["lastName"].ToString();
                 u.Email = dataReader["email"].ToString();
