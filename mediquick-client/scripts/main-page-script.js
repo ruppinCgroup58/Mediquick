@@ -1,3 +1,8 @@
+let topicApi = "https://localhost:7253/api/Topics";
+let userConnected = sessionStorage.getItem('user');
+topicApi += '/UserID/' + userConnected;
+ajaxCall("GET", topicApi, '', topicGetSCB, topicGetECB);
+
 document.addEventListener("DOMContentLoaded", function() {
     const circles = document.querySelectorAll('.percentage-circle');
 

@@ -18,7 +18,7 @@ namespace MEDIQUICK.Controllers
         }
 
         // GET api/<TopicsController>/5
-        [HttpGet("{id}")]
+        [HttpGet("UserID/{id}")]
         public string Get(int id)
         {
             return "value";

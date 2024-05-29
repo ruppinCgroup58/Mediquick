@@ -14,8 +14,8 @@ body {
 }
 
 .container {
-    max-width: 1000px;
-    width: 100%;
+    max-width: 1400px;
+    width: 90%;
     /* padding: 20px; */
 }
 
@@ -35,14 +35,13 @@ h1 {
 .card {
     background: #f7f7f7;
     border-radius: 20px;
-    
-    padding: 20px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    border: 1.25px solid #03a696;
-    width: 170px;
+    border: 1.25px solid rgba(0,0,0,0.6);
+    width: 160px;
 }
 
 .percentage-circle {
