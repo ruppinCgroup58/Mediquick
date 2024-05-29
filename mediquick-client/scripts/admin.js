@@ -37,15 +37,6 @@ function usersTableGetSCB(usersList) {
                 { data: "password", editable: true },
                 { data: "phoneNumber", editable: true },
                 {
-                    data: "isAdmin",
-                    render: function (data, type, row, meta) {
-                        if (data == true)
-                            return '<input type="checkbox" checked onclick="changeUserStatus(this)"/>';
-                        else
-                            return '<input type="checkbox" onclick="changeUserStatus(this)"/>';
-                    }
-                },
-                {
                     data: "isActive",
                     render: function (data, type, row, meta) {
                         if (data == true)
@@ -54,6 +45,16 @@ function usersTableGetSCB(usersList) {
                             return '<input type="checkbox" onclick="changeUserStatus(this)"/>';
                     }
                 },
+                {
+                    data: "isAdmin",
+                    render: function (data, type, row, meta) {
+                        if (data == true)
+                            return '<input type="checkbox" checked onclick="changeUserAdminStatus(this)"/>';
+                        else
+                            return '<input type="checkbox" onclick="changeUserAdminStatus(this)"/>';
+                    }
+                },
+
                 {
                     data: null, // This column does not map to a property in the data
                     render: function (data, type, row, meta) {
@@ -185,7 +186,7 @@ function questionsTableGetECB(err) {
 }
 
  function changeUserStatus(user) {
-     userEmail = user.parentElement.parentElement.children[2].innerHTML;
+     userEmail = user.parentElement.parentElement.children[3].innerHTML;
      if (user.checked) {
          newStatus = true;
      } else {
@@ -202,7 +203,7 @@ function changeUserStatusPostECB(err) {
 }
 
 function changeUserAdminStatus(user) {
-    userEmail = user.parentElement.parentElement.children[2].innerHTML;
+    userEmail = user.parentElement.parentElement.children[3].innerHTML;
     if (user.checked) {
         newAdminStatus = true;
     } else {
