@@ -7,7 +7,7 @@ var geminiAPI = 'https://localhost:7253/Gemini';
 
  
 $("#addQuestionForm").submit(addQuestionToGemini)
-$("#editUserModal").submit(edit-user-row)
+$("#editUserModal").submit(editUserRow)
 
 function getUsersDataTable() {
     ajaxCall("GET", apiUsers, "", usersTableGetSCB, usersTableGetECB);
