@@ -18,10 +18,10 @@ namespace MEDIQUICK.Controllers
         }
 
         // GET api/<TopicsController>/5
-        [HttpGet("UserID/{id}")]
-        public string Get(int id)
+        [HttpGet("UserID/{userID}")]
+        public List<object> Get(int userID)
         {
-            return "value";
+            return  new Topic().GetUserProgress(userID);
         }
 
         // POST api/<TopicsController>

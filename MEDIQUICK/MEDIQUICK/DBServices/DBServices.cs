@@ -441,6 +441,7 @@ public class DBServices
             User u = new User();
             //u.FirstName = dataReader["firstName"].ToString();
             //u.FamilyName = dataReader["familyName"].ToString();
+            u.UserID = dataReader.GetInt32("userId");
             u.Email = dataReader["email"].ToString();
             u.Password = dataReader["password"].ToString();
             u.IsAdmin = bool.Parse(dataReader["isAdmin"].ToString());
@@ -644,6 +645,74 @@ public class DBServices
         }
 
     }
-    #endregion
+
+    public List<object> GetUserProgress(int userID)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        List<Object> objectList = new List<Object>();       //Ad-Hoc Objects
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = CreateGetUPPCommandWithStoredProcedure("sp_getUserProgress", con,userID);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            while (dataReader.Read())
+            {
+                objectList.Add(new
+                {
+                    topicName = dataReader["topicName"].ToString(),
+                    AnsweredRatio = Convert.ToInt32(dataReader["AnsweredRatio"])
+                });
+            }
+            return objectList;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
+    private SqlCommand CreateGetUPPCommandWithStoredProcedure(String spName, SqlConnection con,int userID)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@userID", userID);
+
+
+        return cmd;
+    }
 }
+    #endregion
+
 

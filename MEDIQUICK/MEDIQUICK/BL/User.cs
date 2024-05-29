@@ -2,6 +2,7 @@
 {
     public class User
     {
+        int userID;
         string firstName;
         string lastName;
         string email;
@@ -30,6 +31,7 @@
         public string PhoneNumber { get => phoneNumber; set => phoneNumber = value; }
         public bool IsAdmin { get => isAdmin; set => isAdmin = value; }
         public bool IsActive { get => isActive; set => isActive = value; }
+        public int UserID { get => userID; set => userID = value; }
 
         public User InsertUser()
         {

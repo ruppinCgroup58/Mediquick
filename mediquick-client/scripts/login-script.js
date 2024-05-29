@@ -1,4 +1,5 @@
-let usersAPI = "https://proj.ruppin.ac.il/cgroup58/test2/tar1/api/Users"
+//let usersAPI = "https://proj.ruppin.ac.il/cgroup58/test2/tar1/api/Users"
+let usersAPI = "https://localhost:7253/api/Users"
 
 $("#sign-up-form").submit(suFormSubmit)
 $("#login-form").submit(loginFormSubmit)
@@ -116,6 +117,7 @@ function executeLogIn(user) {
         if (user.isActive) {
             userConnected = $("#emailText").val();
             sessionStorage.setItem('user', userConnected);
+            sessionStorage.setItem('id', user.userID);
             if (user.isAdmin) {
                 window.location.href = "admin.html";
             } else {

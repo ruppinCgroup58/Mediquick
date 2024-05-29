@@ -20,5 +20,10 @@
         {
             return dbs.GetTopics();
         }
+
+        public List<object> GetUserProgress(int userID)
+        {
+            return dbs.GetUserProgress(userID);
+        }
     }
 }
