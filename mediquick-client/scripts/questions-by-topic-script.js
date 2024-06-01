@@ -56,12 +56,15 @@ function HeartIconEL() {
   });
 }
 function getQuestionsByTopicSCB(questionsList) {
+  $("#main-header")[0].innerHTML += topicName;
+  document.title += ` ${topicName}`;
   let str = "";
   for (let i = 0; i < questionsList.length; i++) {
     str = `<div class="closed question">
     <div class="question-wrapper">
         <div class="question-content">
-            <b>${questionsList[i].content}</b>
+            <b>${questionsList[i].questionSerialNumber}. 
+              ${questionsList[i].content}</b>
         </div>
         <div class="options">
             <div class="option-1">
@@ -85,10 +88,10 @@ function getQuestionsByTopicSCB(questionsList) {
     <img class="icon"
         src="./../images/icons/empty-heart.svg" alt="" srcset="">
 </div>`;
-    if (i <= questionsList.length / 2) {
+    if (i <= questionsList.length / 2 - 1) {
       document.getElementsByClassName("col1")[0].innerHTML += str;
     } else {
-      document.getElementsByClassName("col1")[0].innerHTML += str;
+      document.getElementsByClassName("col2")[0].innerHTML += str;
     }
   }
   OpenCloseEL();
