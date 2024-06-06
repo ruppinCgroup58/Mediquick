@@ -12,6 +12,7 @@ $("#editUserModal").submit(editUserRow)
 
 function getUsersDataTable() {
     ajaxCall("GET", apiUsers, "", usersTableGetSCB, usersTableGetECB);
+    return false;
 }
 
 function getQuestisonsDataTable() {
@@ -59,7 +60,7 @@ function usersTableGetSCB(usersList) {
                 {
                     data: null, // This column does not map to a property in the data
                     render: function (data, type, row, meta) {
-                        return '<button class="edit-user-row" onclick=editRow(this)>Edit</button>';
+                        return '<button class="edit-user-row" onclick=editRow(this)>ערוך</button>';
                     }
                 },
             ],
@@ -90,10 +91,16 @@ function usersTableGetSCB(usersList) {
 }
 
 function editRow(item) {
+
+    var modal = document.getElementById("EditUserModal");
+
+    //// When the user clicks the button, open the modal
+    
+        modal.style.display = "block";
+    
   //  var rowIndex = item.parentElement._DT_CellIndex.row;
-    var tr = item.parentElement.parentElement;
-    var row = table.row(tr);
-    var rowData = row.data();
+ //   var tr = item.parentElement.parentElement;
+
 
 } 
 
@@ -118,31 +125,31 @@ function questionsTableGetSCB(questionsList) {
                         pageLength: 10,
                         columns: [
                             { data: "questionSerialNumber" },
-                            { data: "difficulty" },
                             { data: "content" },
                             { data: "correctAnswer" },
                             { data: "wrongAnswer1" },
                             { data: "wrongAnswer2" },
                             { data: "wrongAnswer3" },
                             { data: "explanation" },
+                            { data: "difficulty" },
                             {
                                 data: "status",
                                 render: function (data, type, row, meta) {
                                     if (data == 1)
-                                        return `<select class="myList" onchange="changeQuestionStatus(this)">
+                                        return `<select class="myList" onchange="changeQuestionStatus(this.parentElement.parentElement)">
                                                     <option value="מאושר" selected>מאושר</option>
                                                     <option value="ממתין">ממתין</option>
                                                     <option value="נדחה">נדחה</option>                                                    
                                                 </select>`;
                                     else if(data == 0) {
-                                        return `<select class="myList" onchange="changeQuestionStatus(this)">
+                                        return `<select class="myList" onchange="changeQuestionStatus(this.parentElement.parentElement)">
                                                     <option value="מאושר">מאושר</option>
                                                     <option value="ממתין" selected>ממתין</option>
                                                     <option value="נדחה">נדחה</option>
                                                 </select>`;
 
                                     } else {
-                                        return `<select class="myList" onchange="changeQuestionStatus(this)">
+                                        return `<select class="myList" onchange="changeQuestionStatus(this.parentElement.parentElement)">
                                                     <option value="מאושר">מאושר</option>
                                                     <option value="ממתין">ממתין</option>
                                                     <option value="נדחה" selected>נדחה</option>
@@ -156,7 +163,7 @@ function questionsTableGetSCB(questionsList) {
                             {
                                 data: null, // This column does not map to a property in the data
                                 render: function (data, type, row, meta) {
-                                    return '<button class="edit-user-row" onclick=editRow(this)>Edit</button>';
+                                    return '<button class="edit-user-row" onclick=editRow(this)>ערוך</button>';
                                 }
                             },
                  ],
@@ -226,19 +233,38 @@ function usersTablePostECB(err) {
 }
 
 
-function changeQuestionStatus(questionStatus) {
-    currentStatus = questionStatus.parentElement.parentElement.children[8].firstElementChild.selectedIndex;
-    newStatus = currentStatus - 1;
+function changeQuestionStatus(row) {
+    newStatus = row.children[8].firstElementChild.value;
+    if (newStatus == 'מאושר') {
+        changedStatus = 1;
+    }
+    else if (newStatus == 'ממתין') {
+        changedStatus = 0;
+    }
+    else {
+        changedStatus = -1;
+    }
+    id = row.firstChild.innerHTML;
     let address = apiQuestion + `id/${id}`;
-    ajaxCall("PUT", address, JSON.stringify(newStatus), changeQuestionStatusSCB, changeQuestionStatusECB);
+    ajaxCall("PUT", address, JSON.stringify(changedStatus), changeQuestionStatusSCB, changeQuestionStatusECB);
 }
-function changeQuestionStatusSCB(answer) {
-    alert(answer);
-}
-function changeQuestionStatusECB(err) {
-    alert("Error: " + err);
+function changeQuestionStatusSCB(response) {
+    alert("השאלה עודכנה בהצלחה");
+    // כאן ניתן להוסיף פעולות נוספות לאחר העדכון המוצלח
 }
 
+function changeQuestionStatusECB(err) {
+    let errorMessage;
+
+    if (err.responseText) {
+        errorMessage = JSON.parse(err.responseText).message;
+    } else {
+        errorMessage = "שגיאת תקשורת עם השרת";
+    }
+
+    alert(errorMessage);
+    // כאן ניתן להוסיף פעולות נוספות לטיפול בשגיאה
+}
 
 
 function getReportSCB(objectList) {
@@ -353,3 +379,45 @@ function GeminiQuestionGetSCB(data) {
 function GeminiQuestionGetECB(err) {
     alert(err.statusText);
 }
+
+
+
+// Get the modal
+var modal = document.getElementById("EditUserModal");
+
+// Get the button that opens the modal
+var btn = document.getElementsByClassName("edit-user-row")[0];
+
+// Get the <span> element that closes the modal
+var span1 = document.getElementsByClassName("close")[0];
+
+//// When the user clicks the button, open the modal
+//btn.onclick = function () {
+//    modal.style.display = "block";
+//}
+
+// When the user clicks on <span> (x), close the modal
+span1.onclick = function () {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+const passwordInput = document.getElementsByClassName("password");
+
+function togglePassword(element) {
+    const box = element.parentElement.firstChild;
+    if (box.type === 'password') {
+        box.type = 'text';
+        element.src = "./../images/icons/eye-closed.svg";
+    } else {
+        box.type = 'password';
+        element.src = "./../images/icons/eye-open.svg";
+    }
+}
+const img = document.querySelector("#password-textbox>img")

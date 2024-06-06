@@ -57,11 +57,12 @@ namespace MEDIQUICK.Controllers
         }
 
         [HttpPut("id/{id}")]
-        public void Put(int id,[FromBody] int newStatus)
+        public void Put(int id, [FromBody] int newStatus)
         {
             Question q = new Question();
-            q.changeQuestionStatus(id,newStatus);
+            q.changeQuestionStatus(id, newStatus);
         }
+
 
         // DELETE api/<QuestionsController>/5
         [HttpDelete("{id}")]
