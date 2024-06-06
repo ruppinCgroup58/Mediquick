@@ -3,13 +3,13 @@
     public class Question
     {
         int questionSerialNumber;
-        int difficulty=1;
         string content;
         string correctAnswer;
         string wrongAnswer1;
         string wrongAnswer2;
         string wrongAnswer3;
         string explanation;
+        int difficulty = 1;
         int status;
         string creator;
         int totalAnswers;
@@ -70,7 +70,7 @@
         //    dbs.UpdateDifficultyLevel(q);
         //}
 
-        public void updateQuestionDiffLevel(string id, bool isCorrect)
+        public void updateQuestionDiffLevel(int id, bool isCorrect)
         {
             dbs.UpdateDifficultyLevel(id, isCorrect);
         }
@@ -96,6 +96,11 @@
         public List<Question> GetQuestionsByTopic(string topicName)
         {
             return dbs.GetQuestionsByTopic(topicName);
+        }
+
+        public void changeQuestionStatus(int id, int newStatus)
+        {
+            dbs.changeQuestionStatus(id, newStatus);
         }
     }
 }

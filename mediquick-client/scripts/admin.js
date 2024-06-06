@@ -1,6 +1,7 @@
 ﻿var apiUsers = 'https://localhost:7253/api/Users';
-var apiQuestion = 'https://localhost:7253/ReadQuestions';
+var apiReadQuestion = 'https://localhost:7253/ReadQuestions';
 var geminiAPI = 'https://localhost:7253/Gemini';
+var apiQuestion = 'https://localhost:7253/api/Questions/';
 //$(document).ready(function () {
 
 //})
@@ -14,7 +15,7 @@ function getUsersDataTable() {
 }
 
 function getQuestisonsDataTable() {
-    ajaxCall("GET", apiQuestion, "", questionsTableGetSCB, questionsTableGetECB);
+    ajaxCall("GET", apiReadQuestion, "", questionsTableGetSCB, questionsTableGetECB);
 }
 
 function usersTableGetSCB(usersList) {
@@ -152,7 +153,12 @@ function questionsTableGetSCB(questionsList) {
                             { data: "creator" },
                             { data: "totalAnswers" },
                             { data: "totalCorrectAnswers" },
-                            { data: "edit" },
+                            {
+                                data: null, // This column does not map to a property in the data
+                                render: function (data, type, row, meta) {
+                                    return '<button class="edit-user-row" onclick=editRow(this)>Edit</button>';
+                                }
+                            },
                  ],
                  language: {
                      processing: "מעבד...",
@@ -221,10 +227,10 @@ function usersTablePostECB(err) {
 
 
 function changeQuestionStatus(questionStatus) {
-    newstatuss = questionStatus.parentElement.parentElement.children[8].firstElementChild.selectedIndex;
-    newstatus = newstatus - 1;
-    let address = `apiUsers + /email/${userEmail}/newStatus/${newStatus}`;
-    //ajaxCall("POST", address, "", usersTablePostSCB, usersTablePostECB);
+    currentStatus = questionStatus.parentElement.parentElement.children[8].firstElementChild.selectedIndex;
+    newStatus = currentStatus - 1;
+    let address = apiQuestion + `id/${id}`;
+    ajaxCall("PUT", address, JSON.stringify(newStatus), changeQuestionStatusSCB, changeQuestionStatusECB);
 }
 function changeQuestionStatusSCB(answer) {
     alert(answer);
