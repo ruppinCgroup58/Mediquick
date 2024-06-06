@@ -170,6 +170,7 @@ function questionsTableGetSCB(questionsList) {
                             { data: "wrongAnswer2" },
                             { data: "wrongAnswer3" },
                             { data: "explanation" },
+                            { data: "topic" },
                             { data: "difficulty" },
                             {
                                 data: "status",
@@ -285,6 +286,7 @@ function addQuestionToGemini() {
     'WrongAnswer2'
     'WrongAnswer3'
     'Explanation'
+    'Topic'
         השאלות יתבססו על הטקסט הבא: ${$("#textInput").val()}`;
 
         ajaxCall("POST", geminiAPI, JSON.stringify(orderToGemini), GeminiQuestionGetSCB, GeminiQuestionGetECB);
