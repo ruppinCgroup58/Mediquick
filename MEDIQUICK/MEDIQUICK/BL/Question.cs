@@ -9,12 +9,12 @@
         string wrongAnswer2;
         string wrongAnswer3;
         string explanation;
+        string topic;
         int difficulty = 1;
         int status;
         string creator;
         int totalAnswers;
         int totalCorrectAnswers;
-        string topic;
         DBServices dbs = new DBServices();
 
 
@@ -86,7 +86,10 @@
         {
             return dbs.GetQuestion(id);
         }
-
+        public List<Question>GetFavouriteQuestionsByUser(int userId)
+        {
+            return dbs.GetFavouriteQuestionsUser(userId);
+        }
         public IEnumerable<Question> ReadQuestions()
         {
             return dbs.ReadQuestions();

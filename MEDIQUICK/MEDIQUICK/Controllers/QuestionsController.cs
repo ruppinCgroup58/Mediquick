@@ -33,6 +33,13 @@ namespace MEDIQUICK.Controllers
             return q.GetQuestionsByTopic(topicName,userId);
         }
 
+        // GET: api/<QuestionsController>
+        [HttpGet("userId/{userId}")]
+        public List<Question> GetFavouriteQuestionsByUser(int userId)
+        {
+            Question q = new Question();
+            return q.GetFavouriteQuestionsByUser(userId);
+        }
         // GET api/<QuestionsController>/5
         [HttpGet("{id}")]
         public Question Get(int id)
