@@ -105,3 +105,7 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
     right: 80%;
 }
 
+.clear-form-logo{
+    left: 30px;
+    position: absolute;
+}
