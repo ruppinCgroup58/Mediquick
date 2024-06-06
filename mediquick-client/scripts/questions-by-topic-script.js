@@ -82,14 +82,21 @@ function getQuestionsByTopicSCB(questionsList) {
                 ד. ${questionsList[i].wrongAnswer3}
             </div>
             <br>
-        </div>
-        <div class="explanation">
+            <div class="explanation">
             <b><u>הסבר:</u></b> ${questionsList[i].explanation}
         </div>
-    </div>
-    <img class="icon"
-        src="./../images/icons/empty-heart.svg" alt="" srcset="">
-</div>`;
+        </div>
+        
+    </div>`;
+if (questionsList[i].isFavourite != 0) {
+  str += `<img class="icon"
+  src="./../images/icons/full-heart.svg" alt="" srcset="">
+</div>`
+} else {
+  str += `<img class="icon"
+  src="./../images/icons/empty-heart.svg" alt="" srcset="">
+</div>`
+}
     if (i <= questionsList.length / 2 - 0.5) {
       document.getElementsByClassName("col1")[0].innerHTML += str;
     } else {
