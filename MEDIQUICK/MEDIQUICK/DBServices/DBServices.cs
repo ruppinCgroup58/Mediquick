@@ -351,6 +351,7 @@ public class DBServices
         cmd.Parameters.AddWithValue("@explanation", question.Explanation);
         cmd.Parameters.AddWithValue("@creatorID", question.Creator);
         cmd.Parameters.AddWithValue("@difficulty", question.Difficulty);
+        cmd.Parameters.AddWithValue("@topicId", question.Topic);
 
         return cmd;
     }
@@ -759,6 +760,7 @@ public class DBServices
             while (dataReader.Read())
             {
                 Topic t = new Topic();
+                t.TopicId = Convert.ToInt32(dataReader["topicId"]);
                 t.TopicName = dataReader["topicName"].ToString();
                 topicsList.Add(t);
             }

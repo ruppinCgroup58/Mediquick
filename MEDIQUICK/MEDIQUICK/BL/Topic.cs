@@ -2,18 +2,18 @@
 {
     public class Topic
     {
-        int topidId;
+        int topicId;
         string topicName;
         DBServices dbs = new DBServices();
         public Topic() { }
 
-        public Topic(int topidId, string topicName)
+        public Topic(int topicId, string topicName)
         {
-            TopidId = topidId;
+            TopicId = topicId;
             TopicName = topicName;
         }
 
-        public int TopidId { get => topidId; set => topidId = value; }
+        public int TopicId { get => topicId; set => topicId = value; }
         public string TopicName { get => topicName; set => topicName = value; }
 
         public List<Topic> GetTopics()

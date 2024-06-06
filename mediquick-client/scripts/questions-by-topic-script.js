@@ -88,7 +88,7 @@ function getQuestionsByTopicSCB(questionsList) {
     <img class="icon"
         src="./../images/icons/empty-heart.svg" alt="" srcset="">
 </div>`;
-    if (i <= questionsList.length / 2 - 1) {
+    if (i <= questionsList.length / 2 - 0.5) {
       document.getElementsByClassName("col1")[0].innerHTML += str;
     } else {
       document.getElementsByClassName("col2")[0].innerHTML += str;

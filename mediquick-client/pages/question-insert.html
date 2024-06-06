@@ -65,11 +65,10 @@
                         <textarea id="explanation" class="input"></textarea>
                     </div>
                     <div class="grid-item">
-                        <label for="subject" class="hebrew">נושא השאלה</label>
-                        <input list="myDataList" id="subject" class="input">
-                        <datalist id="myDataList">
-                            
-                        </datalist>
+                        <label for="topicsList" class="hebrew">נושא השאלה</label>
+                        <select id="topicsList" class="input" required>
+                            <option value="" disabled selected hidden>בחר נושא</option>
+                        </select>
                     </div>
                     <div class="info-text">
                         כל השדות הינן חובה. <br>השאלה תועבר למאגר הביניים לאישור המנהל לפני שתתווסף למערכת.<br> המנהל רשאי לערוך את כל רכיבי השאלה לפי שיקול דעתו.
