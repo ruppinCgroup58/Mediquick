@@ -146,6 +146,7 @@ function editUserRow(item) {
 
 
 
+let topicApi = "https://localhost:7253/api/Topics";
 
 //question
 function getQuestisonsDataTable() {
@@ -170,7 +171,7 @@ function questionsTableGetSCB(questionsList) {
                             { data: "wrongAnswer2" },
                             { data: "wrongAnswer3" },
                             { data: "explanation" },
-                            { data: "topic" },
+                            { data: "topic"},
                             { data: "difficulty" },
                             {
                                 data: "status",
