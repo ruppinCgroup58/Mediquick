@@ -170,17 +170,12 @@ public class DBServices
             {
                 Question q = new Question();
                 q.QuestionSerialNumber = Convert.ToInt32(dataReader["questionSerialNumber"]);
-                q.Difficulty = Convert.ToInt32(dataReader["difficulty"]);
                 q.Content = dataReader["content"].ToString();
                 q.CorrectAnswer = dataReader["correctAnswer"].ToString();
                 q.WrongAnswer1 = dataReader["wrongAnswer1"].ToString();
                 q.WrongAnswer2 = dataReader["wrongAnswer2"].ToString();
                 q.WrongAnswer3 = dataReader["wrongAnswer3"].ToString();
                 q.Explanation = dataReader["explanation"].ToString();
-                q.Status = Convert.ToInt32(dataReader["status"]);
-                q.Creator = dataReader["creatorID"].ToString();
-                q.TotalAnswers = Convert.ToInt32(dataReader["totalAnswers"]);
-                q.TotalCorrectAnswers = Convert.ToInt32(dataReader["correctAnswers"]);
                 qList.Add(q);
             }
             return qList;
