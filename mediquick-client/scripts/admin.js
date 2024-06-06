@@ -8,17 +8,14 @@ var apiQuestion = 'https://localhost:7253/api/Questions/';
 
  
 $("#addQuestionForm").submit(addQuestionToGemini)
-$("#editUserModal").submit(editUserRow)
+//$("#editUserModal").submit(editUserRow)
+
+//user
 
 function getUsersDataTable() {
     ajaxCall("GET", apiUsers, "", usersTableGetSCB, usersTableGetECB);
     return false;
 }
-
-function getQuestisonsDataTable() {
-    ajaxCall("GET", apiReadQuestion, "", questionsTableGetSCB, questionsTableGetECB);
-}
-
 function usersTableGetSCB(usersList) {
     $("#QuestionForm").css("visibility", "collapse");
     $("#UsersForm").css("visibility", "visible");
@@ -60,7 +57,7 @@ function usersTableGetSCB(usersList) {
                 {
                     data: null, // This column does not map to a property in the data
                     render: function (data, type, row, meta) {
-                        return '<button class="edit-user-row" onclick=editRow(this)>ערוך</button>';
+                        return '<button class="edit-user-row" onclick=editUserRow(this); return false;>ערוך</button>';
                     }
                 },
             ],
@@ -89,29 +86,71 @@ function usersTableGetSCB(usersList) {
         alert(err);
     }
 }
-
-function editRow(item) {
-
-    var modal = document.getElementById("EditUserModal");
-
-    //// When the user clicks the button, open the modal
-    
-        modal.style.display = "block";
-    
-  //  var rowIndex = item.parentElement._DT_CellIndex.row;
- //   var tr = item.parentElement.parentElement;
-
-
-} 
-
-function editUserRow() {
-
-}
-
 function usersTableGetECB(err) {
     alert("Error: " + err);
 }
 
+
+
+//change User Status
+function changeUserStatus(user) {
+    userEmail = user.parentElement.parentElement.children[3].innerHTML;
+    if (user.checked) {
+        newStatus = true;
+    } else {
+        newStatus = false;
+    }
+    let address = apiUsers + `/email/${userEmail}/newStatus/${newStatus}`;
+    ajaxCall("POST", address, "", changeUserStatusPostSCB,changeUserStatusPostECB);
+}
+function changeUserStatusPostSCB(answer) {
+    alert(answer);
+}
+function changeUserStatusPostECB(err) {
+    alert("Error: " + err);
+}
+
+//change admin status
+function changeUserAdminStatus(user) {
+    userEmail = user.parentElement.parentElement.children[3].innerHTML;
+    if (user.checked) {
+        newAdminStatus = true;
+    } else {
+        newAdminStatus = false;
+    }
+    let address = apiUsers + `/email/${userEmail}/newAdminStatus/${newAdminStatus}`;
+    ajaxCall("POST", address, "", usersTablePostSCB, usersTablePostECB);
+}
+function usersTablePostSCB(answer) {
+    alert(answer);
+}
+function usersTablePostECB(err) {
+    alert("Error: " + err);
+}
+
+
+
+function editUserRow(item) {
+
+    let editUserModal = document.getElementById("EditUserModal");
+
+    // When the user clicks the button, open the modal
+    console.log("1");
+    
+    editUserModal.style.display = "block";
+
+    console.log("2");
+    return false;
+
+} 
+
+
+
+
+//question
+function getQuestisonsDataTable() {
+    ajaxCall("GET", apiReadQuestion, "", questionsTableGetSCB, questionsTableGetECB);
+}
 function questionsTableGetSCB(questionsList) {
     $("#QuestionForm").css("visibility", "visible");
     $("#UsersForm").css("visibility", "collapse");
@@ -163,7 +202,7 @@ function questionsTableGetSCB(questionsList) {
                             {
                                 data: null, // This column does not map to a property in the data
                                 render: function (data, type, row, meta) {
-                                    return '<button class="edit-user-row" onclick=editRow(this)>ערוך</button>';
+                                    return '<button class="edit-user-row" onclick=editQuestionRow(this)>ערוך</button>';
                                 }
                             },
                  ],
@@ -193,46 +232,14 @@ function questionsTableGetSCB(questionsList) {
         alert(err);
     }
 }
-
 function questionsTableGetECB(err) {
     alert("Error: " + err);
 }
 
- function changeUserStatus(user) {
-     userEmail = user.parentElement.parentElement.children[3].innerHTML;
-     if (user.checked) {
-         newStatus = true;
-     } else {
-         newStatus = false;
-     }
-     let address = apiUsers + `/email/${userEmail}/newStatus/${newStatus}`;
-     ajaxCall("POST", address, "", changeUserStatusPostSCB,changeUserStatusPostECB);
- }
-function changeUserStatusPostSCB(answer) {
-     alert(answer);
- }
-function changeUserStatusPostECB(err) {
-     alert("Error: " + err);
-}
-
-function changeUserAdminStatus(user) {
-    userEmail = user.parentElement.parentElement.children[3].innerHTML;
-    if (user.checked) {
-        newAdminStatus = true;
-    } else {
-        newAdminStatus = false;
-    }
-    let address = apiUsers + `/email/${userEmail}/newAdminStatus/${newAdminStatus}`;
-    ajaxCall("POST", address, "", usersTablePostSCB, usersTablePostECB);
-}
-function usersTablePostSCB(answer) {
-    alert(answer);
-}
-function usersTablePostECB(err) {
-    alert("Error: " + err);
-}
 
 
+
+//cahnge question status
 function changeQuestionStatus(row) {
     newStatus = row.children[8].firstElementChild.value;
     if (newStatus == 'מאושר') {
@@ -252,7 +259,6 @@ function changeQuestionStatusSCB(response) {
     alert("השאלה עודכנה בהצלחה");
     // כאן ניתן להוסיף פעולות נוספות לאחר העדכון המוצלח
 }
-
 function changeQuestionStatusECB(err) {
     let errorMessage;
 
@@ -267,31 +273,11 @@ function changeQuestionStatusECB(err) {
 }
 
 
-function getReportSCB(objectList) {
-    let str = `<table border="1" id="usersTable" class="display nowrap" style="width:100%" > <thead>
-                    <tr>
-                        <th>City</th>
-                        <th>Average Price</th>
-                    </tr>
-                    </thead>`;
-    for (let i = 0; i < objectList.length; i++) {
-        str += `<tr>
-                    <td>${objectList[i]["city"]}</td>
-                    <td>${objectList[i]["avg"]}</td>
-                </tr>`
-    }
-    str += '</table>';
-    document.getElementById("report").innerHTML = str;
-}
-function getReportECB(err) {
-    alert("Error: " + err);
-}
 
-function resetForm() {
-    $("#addQuestionForm")[0].reset();
-}
-
+//gemini
 function addQuestionToGemini() {
+
+
     orderToGemini = `תייצר לי ${$("#numOfQuestions").val()} שאלות אמריקאיות עם 4 תשובות. בפורמט JSON עם השדות הבאים: 
     'Content'
     'CorrectAnswer'
@@ -304,6 +290,39 @@ function addQuestionToGemini() {
         ajaxCall("POST", geminiAPI, JSON.stringify(orderToGemini), GeminiQuestionGetSCB, GeminiQuestionGetECB);
 
 }
+function GeminiQuestionGetSCB(data) {
+    alert("השאלות נוספו בהצלחה למאגר");
+}
+function GeminiQuestionGetECB(err) {
+    alert(err.statusText);
+}
+
+
+
+
+
+// function getReportSCB(objectList) {
+//     let str = `<table border="1" id="usersTable" class="display nowrap" style="width:100%" > <thead>
+//                     <tr>
+//                         <th>City</th>
+//                         <th>Average Price</th>
+//                     </tr>
+//                     </thead>`;
+//     for (let i = 0; i < objectList.length; i++) {
+//         str += `<tr>
+//                     <td>${objectList[i]["city"]}</td>
+//                     <td>${objectList[i]["avg"]}</td>
+//                 </tr>`
+//     }
+//     str += '</table>';
+//     document.getElementById("report").innerHTML = str;
+// }
+// function getReportECB(err) {
+//     alert("Error: " + err);
+// }
+// function resetForm() {
+//     $("#addQuestionForm")[0].reset();
+// }
 
 //function addQuestionToGemini() {
 //    var filePath = "";
@@ -371,53 +390,3 @@ function addQuestionToGemini() {
 //        });
 //    });
 //}
-
-function GeminiQuestionGetSCB(data) {
-    alert("השאלות נוספו בהצלחה למאגר");
-}
-
-function GeminiQuestionGetECB(err) {
-    alert(err.statusText);
-}
-
-
-
-// Get the modal
-var modal = document.getElementById("EditUserModal");
-
-// Get the button that opens the modal
-var btn = document.getElementsByClassName("edit-user-row")[0];
-
-// Get the <span> element that closes the modal
-var span1 = document.getElementsByClassName("close")[0];
-
-//// When the user clicks the button, open the modal
-//btn.onclick = function () {
-//    modal.style.display = "block";
-//}
-
-// When the user clicks on <span> (x), close the modal
-span1.onclick = function () {
-    modal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-
-const passwordInput = document.getElementsByClassName("password");
-
-function togglePassword(element) {
-    const box = element.parentElement.firstChild;
-    if (box.type === 'password') {
-        box.type = 'text';
-        element.src = "./../images/icons/eye-closed.svg";
-    } else {
-        box.type = 'password';
-        element.src = "./../images/icons/eye-open.svg";
-    }
-}
-const img = document.querySelector("#password-textbox>img")
