@@ -48,6 +48,15 @@ namespace MEDIQUICK.Controllers
             return value.Insert();
         }
 
+        // POST api/<QuestionsController>
+        [HttpPost("questionId/{questionId}/userId/{userId}")]
+        public int toggleFavouriteQuestion(int questionId, int userId)
+        {
+            Question q = new Question();
+            return q.toggleFavouriteQuestion(questionId,userId);
+                         
+        }
+
         // PUT api/<QuestionsController>/5
         [HttpPut("{isCorrect}")]
         public void Put(bool isCorrect,[FromBody] int id)

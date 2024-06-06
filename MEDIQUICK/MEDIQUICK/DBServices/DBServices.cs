@@ -238,7 +238,43 @@ public class DBServices
             }
         }
     }
+    public int toggleFavouriteQ(int questionId, int userId)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
 
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = toggleFavouriteQuestionCommandWithStoredProcedure("sp_toggleFavouriteQuestion", con,  questionId, userId);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
     public int UpdateDifficultyLevel(int id, bool isCorrect)
     {
         SqlConnection con;
@@ -392,6 +428,25 @@ public class DBServices
         cmd.Parameters.AddWithValue("@creatorID", question.Creator);
         cmd.Parameters.AddWithValue("@difficulty", question.Difficulty);
         cmd.Parameters.AddWithValue("@topicId", question.Topic);
+
+        return cmd;
+    }
+
+    private SqlCommand toggleFavouriteQuestionCommandWithStoredProcedure(String spName, SqlConnection con, int questionId, int userId)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@questionId", questionId);
+        cmd.Parameters.AddWithValue("@userId", userId);
 
         return cmd;
     }

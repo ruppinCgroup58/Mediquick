@@ -58,6 +58,12 @@
             return dbs.InsertQuestion(this);
         }
 
+        public int toggleFavouriteQuestion(int questionId, int userId)
+        {
+            return dbs.toggleFavouriteQ(questionId, userId);
+
+        }
+
         //public void updateQuestionDiffLevel(Question q, bool isCorrect)
         //{
         //    q.TotalAnswers++;
