@@ -1,4 +1,5 @@
-﻿using MEDIQUICK.BL;
+﻿using Google.Cloud.AIPlatform.V1;
+using MEDIQUICK.BL;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -36,7 +37,7 @@ public class DBServices
     //-----------Question class Functions-----------
     #region Question's Functions
 
-    public List<Question> GetQuestionsByTopic(string topicName)
+    public List<Object> GetQuestionsByTopic(string topicName , int userId )
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -51,31 +52,29 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateGetQuestionsByTopicCommandWithStoredProcedure("sp_getQuestionByTopic", con, topicName);             // create the command
+        cmd = CreateGetQuestionsByTopicCommandWithStoredProcedure("sp_getQuestionByTopic", con, topicName, userId);             // create the command
 
         try
         {
             SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection); // execute the command
-            List<Question> qList = new List<Question>();
+            List<Object> ObjectList = new List<Object>();
 
             while (dataReader.Read())
             {
-                Question q = new Question();
-                q.QuestionSerialNumber = Convert.ToInt32(dataReader["questionSerialNumber"]);
-                //q.Difficulty = Convert.ToInt32(dataReader["difficulty"]);
-                q.Content = dataReader["content"].ToString();
-                q.CorrectAnswer = dataReader["correctAnswer"].ToString();
-                q.WrongAnswer1 = dataReader["wrongAnswer1"].ToString();
-                q.WrongAnswer2 = dataReader["wrongAnswer2"].ToString();
-                q.WrongAnswer3 = dataReader["wrongAnswer3"].ToString();
-                q.Explanation = dataReader["explanation"].ToString();
-                //q.Status = Convert.ToInt32(dataReader["status"]);
-                //q.Creator = dataReader["creatorID"].ToString();
-                //q.TotalAnswers = Convert.ToInt32(dataReader["totalAnswers"]);
-                //q.TotalCorrectAnswers = Convert.ToInt32(dataReader["correctAnswers"]);
-                qList.Add(q);
+                ObjectList.Add(new
+                {
+                    QuestionSerialNumber = Convert.ToInt32(dataReader["questionSerialNumber"]),
+                    Content = dataReader["content"].ToString(),
+                    CorrectAnswer = dataReader["correctAnswer"].ToString(),
+                    WrongAnswer1 = dataReader["wrongAnswer1"].ToString(),
+                    WrongAnswer2 = dataReader["wrongAnswer2"].ToString(),
+                    WrongAnswer3 = dataReader["wrongAnswer3"].ToString(),
+                    Explanation = dataReader["explanation"].ToString(),
+                    isFavourite = dataReader["isFavourite"].ToString()
+                });
             }
-            return qList;
+
+            return ObjectList;
         }
         catch (Exception ex)
         {
@@ -317,7 +316,7 @@ public class DBServices
     }
 
 
-    private SqlCommand CreateGetQuestionsByTopicCommandWithStoredProcedure(String spName, SqlConnection con, string topicName)
+    private SqlCommand CreateGetQuestionsByTopicCommandWithStoredProcedure(String spName, SqlConnection con, string topicName,int userId)
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
@@ -331,6 +330,8 @@ public class DBServices
         cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
 
         cmd.Parameters.AddWithValue("@topicName", topicName);
+
+        cmd.Parameters.AddWithValue("@userId", userId);
 
         return cmd;
     }

@@ -93,9 +93,9 @@
             return testString;
         }
 
-        public List<Question> GetQuestionsByTopic(string topicName)
+        public List<Object> GetQuestionsByTopic(string topicName, int userId)
         {
-            return dbs.GetQuestionsByTopic(topicName);
+            return dbs.GetQuestionsByTopic(topicName, userId);
         }
 
         public void changeQuestionStatus(int id, int newStatus)
