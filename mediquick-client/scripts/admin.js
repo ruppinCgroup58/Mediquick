@@ -57,7 +57,7 @@ function usersTableGetSCB(usersList) {
                 {
                     data: null, // This column does not map to a property in the data
                     render: function (data, type, row, meta) {
-                        return '<button class="edit-user-row" onclick=editUserRow(this); return false;>ערוך</button>';
+                        return '<button type="button" class="edit-user-row" onclick=editUserRow(this); return false;>ערוך</button>';
                     }
                 },
             ],
@@ -203,7 +203,7 @@ function questionsTableGetSCB(questionsList) {
                             {
                                 data: null, // This column does not map to a property in the data
                                 render: function (data, type, row, meta) {
-                                    return '<button class="edit-user-row" onclick=editQuestionRow(this)>ערוך</button>';
+                                    return '<button type="button" class="edit-user-row" onclick=editQuestionRow(this)>ערוך</button>';
                                 }
                             },
                  ],

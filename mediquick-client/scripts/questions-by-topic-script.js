@@ -89,12 +89,12 @@ function getQuestionsByTopicSCB(questionsList) {
         
     </div>`;
 if (questionsList[i].isFavourite != 0) {
-  str += `<img class="icon"
-  src="./../images/icons/full-heart.svg" alt="" srcset="">
+  str += `<img class="icon fav"
+  src="./../images/icons/full-heart.svg" onclick="toggleFavourite(${questionsList[i].questionSerialNumber})" alt="" srcset="">
 </div>`
 } else {
   str += `<img class="icon"
-  src="./../images/icons/empty-heart.svg" alt="" srcset="">
+  src="./../images/icons/empty-heart.svg" onclick="toggleFavourite(${questionsList[i].questionSerialNumber})" alt="" srcset="">
 </div>`
 }
     if (i <= questionsList.length / 2 - 0.5) {
@@ -108,5 +108,24 @@ if (questionsList[i].isFavourite != 0) {
 }
 
 function getQuestionsByTopicECB(err) {
+  alert(err.statusText);
+}
+
+function toggleFavourite(questionId) {
+  let toggleFavouritesAPI = `https://localhost:7253/api/Questions/questionId/${questionId}/userId/${userConnected}`;
+  ajaxCall(
+    "POST",
+    toggleFavouritesAPI,
+    "",
+    toggleFavouriteSCB,
+    toggleFavouriteECB
+  );
+}
+
+function toggleFavouriteSCB(num) {
+  console.log(num);
+}
+
+function toggleFavouriteECB(err) {
   alert(err.statusText);
 }
