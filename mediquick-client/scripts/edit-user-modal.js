@@ -25,11 +25,11 @@ userSpan.onclick = function () {
 //     }
 // }
 
-const passwordInput = document.getElementsByClassName("password");
+const passwordInput = document.getElementsByClassName("password")[0];
 
 function togglePassword(element) {
     const box = element.parentElement.firstChild;
-    if (box.type === 'password') {
+    if (box.type == 'password') {
         box.type = 'text';
         element.src = "./../images/icons/eye-closed.svg";
     } else {

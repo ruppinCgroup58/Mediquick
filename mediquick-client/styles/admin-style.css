@@ -55,7 +55,7 @@ table.dataTable thead {
 
 .modal-content {
     width: 650px;
-    height: 250px;
+    height: 480px;
     align-items: center;
     margin: auto;
     padding: 20px;
@@ -106,6 +106,83 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
 }
 
 .clear-form-logo{
-    left: 30px;
+    left: 15px;
     position: absolute;
+}
+
+#send-orders-modal-btn{
+    position: absolute;  
+    top: 180px;
+    right: 40px;
+}
+
+
+
+/* Add margin between input fields */
+#EditUserModal .input-box {
+    margin-bottom: 20px; /* Adjust as needed */
+}
+
+/* Ensure the input fields take full width and have padding */
+#EditUserModal .input-box input {
+    width: 100%;
+    padding: 10px; /* Adjust as needed */
+    box-sizing: border-box;
+    text-align: right; /* Align text inside input to the right */
+    direction: rtl; /* Ensure placeholder text aligns properly for right-to-left languages */
+}
+
+/* Style the submit button */
+#EditUserModal .primary-btn {
+    margin-top: 30px;
+    display: block;
+    width: 100%;
+    padding: 10px; /* Adjust as needed */
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* Position the eye icon within the password input box */
+.password-box {
+    position: relative;
+}
+
+.password-box input {
+    padding-right: 40px; /* Make space for the eye icon */
+}
+
+.eye_img {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+/* Add margin below the clear form logo */
+.suForm {
+    margin-bottom: 20px; /* Adjust as needed */
+}
+
+/* Add margin between the close button and the clear form logo */
+.modal-content .close {
+    margin-bottom: 20px; /* Adjust as needed */
+}
+
+/* Add margin between the clear form logo and the first input field */
+.suForm {
+    margin-bottom: 20px; /* Adjust as needed */
+}
+
+#geminiModal{
+    width: 650px;
+    height: 250px;
+    align-items: center;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    position: relative;
+    background-color: #fefefe;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
