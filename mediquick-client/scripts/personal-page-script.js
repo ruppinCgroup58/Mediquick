@@ -32,10 +32,10 @@ function getFavouriteQuestionsSCB(questionsList) {
                             ד. ${questionsList[i].wrongAnswer3}
                         </div>
                         <br>
+                        </div>
                         <div class="explanation">
                         <b><u>הסבר:</u></b> ${questionsList[i].explanation}
                         </div>
-                    </div>
                 </div>
             </div>`;
   }
@@ -68,6 +68,85 @@ function HeartIconEL() {
   });
 }
 
+// function OpenCloseEL() {
+//   //Adding event listeners to handle the logic of questions open and closed display types
+//   const questionsCollection = document.getElementsByClassName("question");
+//   const questionsArray = Array.from(questionsCollection);
+//   questionsArray.forEach((question) => {
+//     question.addEventListener("click", () => {
+//       // Close all other divs
+//       questionsArray.forEach((d) => {
+//         if (d !== question) {
+//           d.classList.remove("open");
+//           d.classList.add("closed");
+//         }
+//       });
+
+//       // Toggle the clicked div
+//       if (question.classList.contains("open")) {
+        
+//         question.classList.remove("open");
+//         question.classList.add("closed");
+//       } else {
+//         question.classList.remove("closed");
+//         question.classList.add("open");
+//         setTimeout(() => {
+//           console.log("Process ended after 0.7 seconds.");
+//           question.style.height = 'auto';
+//       }, 200);
+//       }
+//     });
+//   });
+// }
+
+// Add this function to set the height to auto after transition ends
+// function setAutoHeight(element) {
+//   element.style.height = 'auto';
+// }
+
+// function OpenCloseEL() {
+//   const questionsCollection = document.getElementsByClassName("question");
+//   const questionsArray = Array.from(questionsCollection);
+//   questionsArray.forEach((question) => {
+//       question.addEventListener("click", () => {
+//           // Close all other divs
+//           questionsArray.forEach((d) => {
+//               if (d !== question) {
+//                   d.classList.remove("open");
+//                   d.classList.add("closed");
+//                   d.style.height = '50px';
+//               }
+//           });
+
+//           // Toggle the clicked div
+//           if (question.classList.contains("open")) {
+//               question.classList.remove("open");
+//               question.classList.add("closed");
+//               question.style.height = '50px';
+//           } else {
+//               question.classList.remove("closed");
+//               question.classList.add("open");
+//               // Calculate the full height of the content
+//               const fullHeight = question.scrollHeight + 'px';
+
+//               // Use requestAnimationFrame to ensure the transition is smooth
+//               requestAnimationFrame(() => {
+//                   question.style.height = fullHeight;
+
+//                   // Set the height to auto after the transition ends
+//                   question.addEventListener('transitionend', function setAuto() {
+//                       // Use requestAnimationFrame to ensure it's applied immediately
+//                       requestAnimationFrame(() => {
+//                           question.style.height = 'auto';
+//                       });
+//                       question.removeEventListener('transitionend', setAuto);
+//                   });
+//               });
+//           }
+//       });
+//   });
+// }
+
 function OpenCloseEL() {
   //Adding event listeners to handle the logic of questions open and closed display types
   const questionsCollection = document.getElementsByClassName("question");
@@ -90,9 +169,18 @@ function OpenCloseEL() {
         question.classList.remove("closed");
         question.classList.add("open");
       }
+      
+      //calculate the margin-top for the explanation div to be at the buttom of the question div
+      const margin = calculateMargin();
+      
+      let expDiv = document.getElementsByClassName('open')[0].firstElementChild.lastElementChild;
+      expDiv.style.marginTop = margin + "px";
+
     });
   });
 }
+
+
 
 function toggleFavourite(questionId) {
   let toggleFavouritesAPI = `https://localhost:7253/api/Questions/questionId/${questionId}/userId/${userConnected}`;
@@ -111,4 +199,17 @@ function toggleFavouriteSCB(num) {
 
 function toggleFavouriteECB(err) {
   alert(err.statusText);
+}
+
+function calculateMargin() {
+  let contentDiv = document.getElementsByClassName('open')[0].firstElementChild.children[0];
+      let optionsDiv = document.getElementsByClassName('open')[0].firstElementChild.children[1];
+      let expDiv = document.getElementsByClassName('open')[0].firstElementChild.lastElementChild;
+
+      let questionDivHieght = 238;
+      let contentDivHeight = contentDiv.getBoundingClientRect().height;
+      let optionsDivHeight = optionsDiv.getBoundingClientRect().height;
+      let expDivHeight = expDiv.getBoundingClientRect().height;
+
+      return questionDivHieght - contentDivHeight - optionsDivHeight - expDivHeight;
 }

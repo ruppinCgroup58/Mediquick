@@ -34,6 +34,13 @@ function OpenCloseEL() {
         question.classList.remove("closed");
         question.classList.add("open");
       }
+      
+      //calculate the margin-top for the explanation div to be at the buttom of the question div
+      const margin = calculateMargin();
+      
+      let expDiv = document.getElementsByClassName('open')[0].firstElementChild.lastElementChild;
+      expDiv.style.marginTop = margin + "px";
+
     });
   });
 }
@@ -82,9 +89,9 @@ function getQuestionsByTopicSCB(questionsList) {
                 ד. ${questionsList[i].wrongAnswer3}
             </div>
             <br>
-            <div class="explanation">
-            <b><u>הסבר:</u></b> ${questionsList[i].explanation}
         </div>
+        <div class="explanation">
+            <b><u>הסבר:</u></b> ${questionsList[i].explanation}
         </div>
         
     </div>`;
@@ -128,4 +135,17 @@ function toggleFavouriteSCB(num) {
 
 function toggleFavouriteECB(err) {
   alert(err.statusText);
+}
+
+function calculateMargin() {
+  let contentDiv = document.getElementsByClassName('open')[0].firstElementChild.children[0];
+      let optionsDiv = document.getElementsByClassName('open')[0].firstElementChild.children[1];
+      let expDiv = document.getElementsByClassName('open')[0].firstElementChild.lastElementChild;
+
+      let questionDivHieght = 238;
+      let contentDivHeight = contentDiv.getBoundingClientRect().height;
+      let optionsDivHeight = optionsDiv.getBoundingClientRect().height;
+      let expDivHeight = expDiv.getBoundingClientRect().height;
+
+      return questionDivHieght - contentDivHeight - optionsDivHeight - expDivHeight;
 }
