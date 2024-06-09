@@ -59,7 +59,7 @@ namespace MEDIQUICK.Controllers
         {
         }
 
-        [HttpPost("/updateUserDetails")]
+        [HttpPut("/updateUserDetails")]
         public bool updateUserDetail([FromBody] User u)
         {
             return new User().updateUserDetail(u);
