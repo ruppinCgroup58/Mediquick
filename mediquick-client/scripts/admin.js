@@ -3,13 +3,13 @@ var apiReadQuestion = 'https://localhost:7253/ReadQuestions';
 var geminiAPI = 'https://localhost:7253/Gemini';
 var apiQuestion = 'https://localhost:7253/api/Questions/';
 var apiUpdateUser = 'https://localhost:7253/updateUserDetails';
+
 //$(document).ready(function () {
 
 //})
 
  
 $("#addQuestionForm").submit(addQuestionToGemini)
-$("#editUserModal").submit(UpdateUserDetailsFormSubmit)
 
 //user
 
@@ -141,30 +141,44 @@ function editUserRow(item) {
 
     document.getElementById('first-name').value = item.parentElement.parentElement.children[1].textContent;  
     document.getElementById('last-name').value = item.parentElement.parentElement.children[2].textContent;  
-    document.getElementById('email').value = item.parentElement.parentElement.children[3].textContent;  
     document.getElementById('password').value = item.parentElement.parentElement.children[4].textContent;  
     document.getElementById('phone-number').value = item.parentElement.parentElement.children[5].textContent; 
-    
+    email=item.parentElement.parentElement.children[3].textContent;  
+    $("#editUserModal").submit(UpdateUserDetailsFormSubmit(email));
+
     return false;
 
 } 
 
-function UpdateUserDetailsFormSubmit() {
+function UpdateUserDetailsFormSubmit(email) {
     // if(!validateForm()) {
     //     return false;
     // }
     
     updateUserDetails = {
-        userId: item.parentElement.parentElement.children[0].textContent,
         firstName: $("#first-name").val(),
         lastName: $("#last-name").val(),
-        email: $("#email").val(),
+        email: email,
         password: $("#password").val(),
-        phoneNumber: $("#phone-number").val(),
+        phoneNumber: $("#phone-number").val()
     }
 
-   // ajaxCall("Put", apiUpdateUser, JSON.stringify(updateUserDetails), suPostSCB, suPostECB)
+    console.log(1);
+    ajaxCall("Put", apiUpdateUser, JSON.stringify(updateUserDetails), updateUserPostSCB, updateUserPostECB)
     return false;
+}
+
+function updateUserPostSCB(data){
+    if(data){
+        alert("השינוי התעדכן בהצלחה!");
+    }
+    else{
+        alert("השינוי לא הצליח");
+    }
+}
+
+function updateUserPostECB(err){
+    alert(err);
 }
 
 // function validateForm() {
