@@ -965,7 +965,6 @@ public class DBServices
 
         cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
 
-        cmd.Parameters.AddWithValue("@id", u.UserID);
         cmd.Parameters.AddWithValue("@firstName", u.FirstName);
         cmd.Parameters.AddWithValue("@lastName", u.LastName);
         cmd.Parameters.AddWithValue("@email", u.Email);
