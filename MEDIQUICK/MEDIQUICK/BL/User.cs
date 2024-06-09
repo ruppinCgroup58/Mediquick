@@ -55,6 +55,11 @@
         {
             return dbs.ChangeAdminStatus(email, newAdminStatus);
         }
+
+        public bool updateUserDetail(User u)
+        {
+            return dbs.updateUserDetail(u);
+        }
     }
 
 

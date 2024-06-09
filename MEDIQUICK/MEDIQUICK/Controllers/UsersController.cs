@@ -59,6 +59,13 @@ namespace MEDIQUICK.Controllers
         {
         }
 
+        [HttpPost("/updateUserDetails")]
+        public bool updateUserDetail([FromBody] User u)
+        {
+            return new User().updateUserDetail(u);
+        }
+
+
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)

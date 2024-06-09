@@ -8,7 +8,7 @@ var apiQuestion = 'https://localhost:7253/api/Questions/';
 
  
 $("#addQuestionForm").submit(addQuestionToGemini)
-//$("#editUserModal").submit(editUserRow)
+$("#editUserModal").submit(UpdateUserDetailsFormSubmit)
 
 //user
 
@@ -135,14 +135,34 @@ function editUserRow(item) {
     let editUserModal = document.getElementById("EditUserModal");
 
     // When the user clicks the button, open the modal
-    console.log("1");
     
     editUserModal.style.display = "block";
 
-    console.log("2");
+    document.getElementById('first-name').value = item.parentElement.parentElement.children[1].textContent;  
+    document.getElementById('last-name').value = item.parentElement.parentElement.children[2].textContent;  
+    document.getElementById('email').value = item.parentElement.parentElement.children[3].textContent;  
+    document.getElementById('password').value = item.parentElement.parentElement.children[4].textContent;  
+    document.getElementById('phone-number').value = item.parentElement.parentElement.children[5].textContent; 
+    
     return false;
 
 } 
+
+function UpdateUserDetailsFormSubmit() {
+    if(!validateForm()) {
+        return false;
+    }
+    
+    updateUserDetails = {
+        firstName: $("#first-name").val(),
+        lastName: $("#last-name").val(),
+        email: $("#email").val(),
+        password: $("#password").val(),
+        phoneNumber: $("#phone-number").val(),
+    }
+    ajaxCall("POST", usersAPI, JSON.stringify(newUser), suPostSCB, suPostECB)
+    return false;
+}
 
 
 
