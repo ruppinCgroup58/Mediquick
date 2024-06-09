@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +9,11 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- ajax Calls -->
     <script src="./../scripts/ajaxCalls.js"></script>
+    <script src="./../scripts/parctice-script.js"></script>
 
     <!-- Styles -->
     <link rel="stylesheet" href="./../styles/navbar-style.css">
+    <link rel="stylesheet" href="./../styles/practice-style.css">
 
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,6 +28,7 @@
 
     <title>תרגול</title>
 </head>
+
 <body>
     <header>
         <img src="./../images/logo1.png" class="logo" alt="">
@@ -45,5 +49,34 @@
             </div>
         </nav>
     </header>
+    <main>
+        <h1>נושא</h1>
+        <form id="start-practice-form">
+            <ul id="topicsList" class="topics-list">
+            </ul>
+            <div id="diffsList">
+                <input type="checkbox" id="diffLevel1" value="1">
+                <label for="diffLevel1">קל</label>
+                <br>
+                <input type="checkbox" id="diffLevel2" value="2">
+                <label for="diffLevel2">קל-בינוני</label>
+                <br>
+                <input type="checkbox" id="diffLevel3" value="3">
+                <label for="diffLevel3">בינוני</label>
+                <br>
+                <input type="checkbox" id="diffLevel4" value="4">
+                <label for="diffLevel4">בינוני - קשה</label>
+                <br>
+                <input type="checkbox" id="diffLevel5" value="5">
+                <label for="diffLevel5">קשה</label>
+            </div>
+            <input type="submit" value="התחל תרגול" class="primary-btn" id="start-practice-btn">
+        </form>
+
+        <div id="practice" class="practice">
+            
+        </div>
+    </main>
 </body>
+
 </html>
