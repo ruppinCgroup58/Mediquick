@@ -1,31 +1,44 @@
-let topicApi = "https://localhost:7253/api/Topics";
-ajaxCall("GET", topicApi, "", topicGetSCB, topicGetECB);
+let topicAPI = "https://localhost:7253/api/Topics";
+let practiceAPI = "https://localhost:7253/api/Practices";
+ajaxCall("GET", topicAPI, "", topicGetSCB, topicGetECB);
 $("#start-practice-form").submit(startPracticeFormSubmit);
 
 function startPracticeFormSubmit() {
-  const selectedTopics = [];
+  const selectedTopicsArray = [];
   document
     .querySelectorAll('#topicsList input[type="checkbox"]:checked')
     .forEach((checkbox) => {
-      selectedTopics.push(checkbox.value);
+      selectedTopicsArray.push(checkbox.value);
     });
 
   // Convert the selectedTopics array to a string
-  const selectedTopicsString = selectedTopics.join(",");
+  const selectedTopicsString = selectedTopicsArray.join(",");
 
-  const selectedDiffs = [];
+  const selectedDiffLevelsArray = [];
   document
     .querySelectorAll('#diffsList input[type="checkbox"]:checked')
     .forEach((checkbox) => {
-      selectedTopics.push(checkbox.value);
+      selectedDiffLevelsArray.push(checkbox.value);
     });
 
   // Convert the selectedTopics array to a string
-  const selectedDiffsString = selectedTopics.join(",");
+  const selectedDiffLevelsString = selectedDiffLevelsArray.join(",");
 
   //send the 2 strings to the server, the userid can be sent in the url
-  ajaxCall("POST", topicApi, "", startPracticeSCB, startPracticeECB);
-
+  const practiceStringObject = {
+    practiceSerialNuber: "1",
+    questionsList: [],
+    selectedTopics: selectedTopicsString,
+    selectedDiffLevels: selectedDiffLevelsString
+  };
+  ajaxCall(
+    "POST",
+    practiceAPI,
+    JSON.stringify(practiceStringObject),
+    startPracticeSCB,
+    startPracticeECB
+  );
+  return false;
 }
 
 function topicGetSCB(topicList) {
@@ -44,10 +57,10 @@ function topicGetECB(err) {
 }
 
 function startPracticeSCB(questionsList) {
-    //rendering the questions dynamically
-    $("#practice")[0].innerHTML = str;
+  //rendering the questions dynamically
+  $("#practice")[0].innerHTML = str;
 }
 
 function startPracticeECB(err) {
-    alert(err.statusText);
+  alert(err.statusText);
 }

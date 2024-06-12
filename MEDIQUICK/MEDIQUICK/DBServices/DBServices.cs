@@ -978,7 +978,7 @@ public class DBServices
 
 
     //-----------Topic class Functions-----------
-    #region Topic's Region
+    #region Topic's Functions
     public List<Topic> GetTopics()
     {
 
@@ -1093,7 +1093,93 @@ public class DBServices
 
         return cmd;
     }
-}
     #endregion
+
+    //-----------Practice class Functions-----------
+    #region Practice's Functions
+    public List<Object> GeneratePractice(string selectedTopics, string selectedDiffLevels)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = CreateGeneratePracticeCommandWithStoredProcedure("sp_GetFilteredQuestions", con, selectedTopics, selectedDiffLevels);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection); // execute the command
+            List<Object> ObjectList = new List<Object>();
+
+            while (dataReader.Read())
+            {
+                ObjectList.Add(new
+                {
+                    QuestionSerialNumber = Convert.ToInt32(dataReader["questionSerialNumber"]),
+                    Content = dataReader["content"].ToString(),
+                    CorrectAnswer = dataReader["correctAnswer"].ToString(),
+                    WrongAnswer1 = dataReader["wrongAnswer1"].ToString(),
+                    WrongAnswer2 = dataReader["wrongAnswer2"].ToString(),
+                    WrongAnswer3 = dataReader["wrongAnswer3"].ToString(),
+                    Explanation = dataReader["explanation"].ToString(),
+                    //isFavourite = dataReader["isFavourite"].ToString()
+                });
+            }
+
+            return ObjectList;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+    private SqlCommand CreateGeneratePracticeCommandWithStoredProcedure(String spName, SqlConnection con, string selectedTopics, string selectedDiffLevels)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@topics", selectedTopics);
+
+        cmd.Parameters.AddWithValue("@difficulties", selectedDiffLevels);
+
+        return cmd;
+    }
+
+    #endregion
+
+
+    //-----------Test class Functions-----------
+    #region Test's Functions
+
+    #endregion
+}
+
 
 

@@ -1,6 +1,6 @@
 let questionsAPI = "https://localhost:7253/api/Questions";
 let topicApi = "https://localhost:7253/api/Topics";
-ajaxCall("GET", topicApi, "", topicGetSCB, topicGetECB);
+ajaxCall("GET", topicAPI, "", topicGetSCB, topicGetECB);
 $("#qiForm").submit(confirmQuestionSubmit);
 
 function confirmQuestionSubmit() {
