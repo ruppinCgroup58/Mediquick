@@ -1,3 +1,158 @@
+main {
+    direction: rtl;
+    height: calc(100vh - 50px);
+}
+
 li {
     list-style: none;
+}
+
+h3 {
+    color: #03a696;
+    margin: 0;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.grid {
+    display: grid;
+    grid-template-rows: 2fr 4fr 4fr;
+    grid-template-columns: 1fr 3fr;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+    /* Adjust as needed */
+}
+
+.filters {
+    width: 0px;
+    height: 0px;
+    /* transition: width 0.5s ease;
+    transition: opacity 0.5s ease;
+    transition: height 1s ease; */
+    opacity: 0;
+    white-space: nowrap;
+    grid-row-start: 1;
+    grid-row-end: 4;
+    font-size: 20px;
+    transition: 0.7s ease;
+
+}
+
+.filters.show {
+    width: 300px;
+    height: 800px;
+    opacity: 1;
+
+}
+
+#filter-btn {
+    width: 150px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background-color: #03a696;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+#favourites-btn,
+#expl-btn {
+    background-color: #ffffff;
+    color: #03a696;
+    border: 1px solid #03a696;
+    width: 150px;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+}
+
+
+#favourites-btn img {
+    width: 20px;
+}
+
+.arrows img:not(.disabled-btn):hover {
+    opacity: 0.75;
+    transition: all 0.3s ease 0s;
+}
+
+.disabled-btn {
+    opacity: 0.5;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px
+}
+
+.grid-item {
+    display: flex;
+    align-items: center;
+}
+
+.explanation {
+    flex-direction: column;
+    align-items: start;
+
+}
+
+.expl-content {
+    width: 100%;
+    height: 0px;
+    opacity: 0;
+    transition: 0.5s ease;
+    white-space: pre-line;
+    overflow: hidden;
+}
+
+.buttons img {
+    width: 30px;
+}
+
+.arrows {
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+}
+
+.option {
+    width: fit-content;
+    cursor: pointer;
+}
+
+.selected-option {
+    background-color: #03a69645;
+    border-radius: 15px;
+    padding: 0px 8px;
+    opacity: 0.9;
+    transition: 0.2s ease;
+}
+
+.primary-btn {
+    width: 85%;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background-color: #03a696;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.secondary-btn {
+    background-color: #ffffff;
+    color: #03a696;
+    border: 1px solid #03a696;
+    width: 85%;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
 }
