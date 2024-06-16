@@ -1097,7 +1097,7 @@ public class DBServices
 
     //-----------Practice class Functions-----------
     #region Practice's Functions
-    public List<Object> GeneratePractice(string selectedTopics, string selectedDiffLevels)
+    public List<Object> GeneratePractice(string selectedTopics, string selectedDiffLevels, int userId)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -1112,7 +1112,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateGeneratePracticeCommandWithStoredProcedure("sp_GetFilteredQuestions", con, selectedTopics, selectedDiffLevels);             // create the command
+        cmd = CreateGeneratePracticeCommandWithStoredProcedure("sp_GetFilteredQuestions", con, selectedTopics, selectedDiffLevels, userId);             // create the command
 
         try
         {
@@ -1130,7 +1130,7 @@ public class DBServices
                     WrongAnswer2 = dataReader["wrongAnswer2"].ToString(),
                     WrongAnswer3 = dataReader["wrongAnswer3"].ToString(),
                     Explanation = dataReader["explanation"].ToString(),
-                    //isFavourite = dataReader["isFavourite"].ToString()
+                    isFavourite = dataReader["isFavourite"].ToString()
                 });
             }
 
@@ -1152,7 +1152,7 @@ public class DBServices
         }
     }
 
-    private SqlCommand CreateGeneratePracticeCommandWithStoredProcedure(String spName, SqlConnection con, string selectedTopics, string selectedDiffLevels)
+    private SqlCommand CreateGeneratePracticeCommandWithStoredProcedure(String spName, SqlConnection con, string selectedTopics, string selectedDiffLevels, int userId)
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
@@ -1169,6 +1169,8 @@ public class DBServices
 
         cmd.Parameters.AddWithValue("@difficulties", selectedDiffLevels);
 
+        cmd.Parameters.AddWithValue("@userId ", userId);
+       
         return cmd;
     }
 

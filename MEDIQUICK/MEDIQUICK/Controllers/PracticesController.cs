@@ -24,10 +24,10 @@ namespace MEDIQUICK.Controllers
         }
 
         // POST api/<PracticesController>
-        [HttpPost]
+        [HttpPost("/GeneratePractice")]
         public List<Object> GeneratePractice([FromBody] Practice p)
         {
-            return p.GeneratePractice(p.SelectedTopics, p.SelectedDiffLevels);
+            return p.GeneratePractice(p.SelectedTopics, p.SelectedDiffLevels,p.UserId);
         }
 
         // PUT api/<PracticesController>/5
