@@ -1,9 +1,11 @@
 let topicAPI = "https://localhost:7253/api/Topics";
-let practiceAPI = "https://localhost:7253/api/Practices";
+let practiceAPI = "https://localhost:7253/";
 let userConnected = sessionStorage.getItem("id");
 let questions = [];
 let explanations = [];
+let heartIcons = [];
 let currentQuestionIndex = 0;
+let explShown = 0;
 
 ajaxCall("GET", topicAPI, "", topicGetSCB, topicGetECB);
 $("#start-practice-form").submit(startPracticeFormSubmit);
@@ -35,10 +37,12 @@ function startPracticeFormSubmit() {
     questionsList: [],
     selectedTopics: selectedTopicsString,
     selectedDiffLevels: selectedDiffLevelsString,
+    userId: userConnected
   };
+  let generatePracticeAPI = practiceAPI += "GeneratePractice";
   ajaxCall(
     "POST",
-    practiceAPI,
+    generatePracticeAPI,
     JSON.stringify(practiceStringObject),
     startPracticeSCB,
     startPracticeECB
@@ -47,25 +51,35 @@ function startPracticeFormSubmit() {
 }
 
 const filterButton = $("#filter-btn")[0];
+const startPracticeBtn = $("#start-practice-btn")[0];
 
 // Add an event listener to the button
-filterButton.addEventListener("click", function () {
+filterButton.addEventListener("click", toggleFilters);
+
+function toggleFilters() {
   const filtersDiv = document.getElementById("filters");
   filtersDiv.classList.toggle("show");
-});
+}
+startPracticeBtn.addEventListener("click", toggleFilters)
 
 function AddELToExplBtn() {
   const explButton = $("#expl-btn")[0];
-  explButton.addEventListener("click", function () {
-    const explDiv = document.getElementsByClassName("expl-content")[0];
+  explButton.addEventListener("click", toggleExpl);
+}
+
+function toggleExpl() {
+  const explDiv = document.getElementsByClassName("expl-content")[0];
     if (getComputedStyle(explDiv).height == "0px") {
       explDiv.style.height = "100px";
       explDiv.style.opacity = "1";
+      explShown = 1;
+      $("#expl-btn")[0].innerHTML = 'הסתר הסבר'
     } else {
       explDiv.style.height = "0px";
       explDiv.style.opacity = "0";
+      explShown = 0;
+      $("#expl-btn")[0].innerHTML = 'הצג הסבר'
     }
-  });
 }
 
 function applySelectedAnimation() {
@@ -133,10 +147,15 @@ function startPracticeSCB(questionsList) {
                               </li>
                           </ul>
                       </div>
+                      <button id="favourites-btn" class="secondary-btn" onclick="toggleFavourite(${question.questionSerialNumber})">
+                    <span>הוסף למועדפים</span>
+                    <img id="favourite-icon" src="" alt="">
+                </button>
                   </div>`
   );
 
   explanations = questionsList.map((question) => `${question.explanation}`);
+  heartIcons = questionsList.map((question) => `${question.isFavourite == 1 ? './../images/icons/full-heart.svg' : './../images/icons/empty-heart.svg'}`)
 
   renderQuestion(currentQuestionIndex);
   //applySelectedAnimation();
@@ -155,6 +174,17 @@ function toggleFavourite(questionId) {
     toggleFavouriteSCB,
     toggleFavouriteECB
   );
+  toggleHeartIcon();
+}
+
+function toggleHeartIcon() {
+  const heartIcon = $("#favourite-icon")[0];
+  if (heartIcon.src.includes('empty')) {
+    heartIcon.src = './../images/icons/full-heart.svg';
+  } else {
+    heartIcon.src = './../images/icons/empty-heart.svg';
+  }
+  heartIcons[currentQuestionIndex] = heartIcon.src;
 }
 
 function toggleFavouriteSCB(num) {
@@ -172,8 +202,13 @@ function renderQuestion(index) {
   const explanationText = document.getElementById("expl");
   questionContainer.innerHTML = questions[index];
   explanationText.innerHTML = explanations[index];
+  let heartIcon = $("#favourite-icon")[0];
+  heartIcon.src = heartIcons[index];
   applySelectedAnimation();
   AddELToExplBtn();
+  if (explShown) {
+    toggleExpl();
+  }
 }
 
 function prevQuestion() {
