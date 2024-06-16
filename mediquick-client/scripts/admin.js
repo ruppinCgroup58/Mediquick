@@ -143,11 +143,12 @@ function editUserRow(item) {
     document.getElementById('last-name').value = item.parentElement.parentElement.children[2].textContent;  
     document.getElementById('password').value = item.parentElement.parentElement.children[4].textContent;  
     document.getElementById('phone-number').value = item.parentElement.parentElement.children[5].textContent; 
-    email=item.parentElement.parentElement.children[3].textContent;  
-    $("#editUserModal").submit(UpdateUserDetailsFormSubmit(email));
-
-    return false;
-
+    $("#editUserModal").submit(function (event) {
+        event.preventDefault(); // למנוע מהטופס להגיש בצורה רגילה
+        var email = item.parentElement.parentElement.children[3].textContent;  
+        UpdateUserDetailsFormSubmit(email);
+    });
+   
 } 
 
 function UpdateUserDetailsFormSubmit(email) {
@@ -163,9 +164,8 @@ function UpdateUserDetailsFormSubmit(email) {
         phoneNumber: $("#phone-number").val()
     }
 
-    console.log(1);
     ajaxCall("Put", apiUpdateUser, JSON.stringify(updateUserDetails), updateUserPostSCB, updateUserPostECB)
-    return false;
+    ajaxCall("GET", apiUsers, "", usersTableGetSCB, usersTableGetECB);  
 }
 
 function updateUserPostSCB(data){
@@ -175,6 +175,10 @@ function updateUserPostSCB(data){
     else{
         alert("השינוי לא הצליח");
     }
+
+    let editUserModal = document.getElementById("EditUserModal");
+
+    editUserModal.style.display = "none";
 }
 
 function updateUserPostECB(err){
@@ -326,11 +330,31 @@ function questionsTableGetECB(err) {
 }
 
 
+//edit question modal
+function editQuestionRow(item) {
+
+    let editQuestionModal = document.getElementById("EditQuestionModal");
+
+    // When the user clicks the button, open the modal
+
+    editQuestionModal.style.display = "block";
+
+    //document.getElementById('first-name').value = item.parentElement.parentElement.children[1].textContent;
+    //document.getElementById('last-name').value = item.parentElement.parentElement.children[2].textContent;
+    //document.getElementById('password').value = item.parentElement.parentElement.children[4].textContent;
+    //document.getElementById('phone-number').value = item.parentElement.parentElement.children[5].textContent;
+    //$("#editQuestionModal").submit(function (event) {
+    //    event.preventDefault(); // למנוע מהטופס להגיש בצורה רגילה
+    //    var email = item.parentElement.parentElement.children[3].textContent;
+    //    UpdateUserDetailsFormSubmit(email);
+    //});
+
+}
 
 
 //cahnge question status
 function changeQuestionStatus(row) {
-    newStatus = row.children[8].firstElementChild.value;
+    newStatus = row.children[9].firstElementChild.value;
     if (newStatus == 'מאושר') {
         changedStatus = 1;
     }
