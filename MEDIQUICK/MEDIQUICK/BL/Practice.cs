@@ -7,6 +7,7 @@
         string selectedDiffLevels;
         List<Question> questionsList;
         DBServices dbs = new DBServices();
+        int userId;
 
         public Practice() { }
 
@@ -41,10 +42,11 @@
         public List<Question> QuestionsList { get => questionsList; set => questionsList = value; }
         public string SelectedTopics { get => selectedTopics; set => selectedTopics = value; }
         public string SelectedDiffLevels { get => selectedDiffLevels; set => selectedDiffLevels = value; }
+        public int UserId { get => userId; set => userId = value; }
 
-        public List<Object> GeneratePractice(string selectedTopics, string selectedDiffLevels)
+        public List<Object> GeneratePractice(string selectedTopics, string selectedDiffLevels,int userId)
         {
-            return dbs.GeneratePractice(selectedTopics, selectedDiffLevels);
+            return dbs.GeneratePractice(selectedTopics, selectedDiffLevels ,userId);
         }
 
     }
