@@ -119,21 +119,21 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
 
 
 /* Add margin between input fields */
-#EditUserModal .input-box {
+#EditUserModal .input-box, #EditQuestionModal .input-box {
     margin-bottom: 20px; /* Adjust as needed */
 }
 
 /* Ensure the input fields take full width and have padding */
-#EditUserModal .input-box input {
-    width: 100%;
-    padding: 10px; /* Adjust as needed */
-    box-sizing: border-box;
-    text-align: right; /* Align text inside input to the right */
-    direction: rtl; /* Ensure placeholder text aligns properly for right-to-left languages */
-}
+    #EditUserModal .input-box input, #EditQuestionModal .input-box {
+        width: 100%;
+        padding: 10px; /* Adjust as needed */
+        box-sizing: border-box;
+        text-align: right; /* Align text inside input to the right */
+        direction: rtl; /* Ensure placeholder text aligns properly for right-to-left languages */
+    }
 
 /* Style the submit button */
-#EditUserModal .primary-btn {
+#EditUserModal .primary-btn, #EditQuestionModal .primary-btn {
     margin-top: 30px;
     display: block;
     width: 100%;
@@ -185,4 +185,8 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
     position: relative;
     background-color: #fefefe;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+#questionEditModal{
+    height: 600px;
 }
