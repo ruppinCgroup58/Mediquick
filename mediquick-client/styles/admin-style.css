@@ -124,7 +124,7 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
 }
 
 /* Ensure the input fields take full width and have padding */
-    #EditUserModal .input-box input, #EditQuestionModal .input-box {
+    #EditUserModal .input-box input, #EditQuestionModal .input-box input {
         width: 100%;
         padding: 10px; /* Adjust as needed */
         box-sizing: border-box;

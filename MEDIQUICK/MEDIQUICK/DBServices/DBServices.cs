@@ -92,6 +92,42 @@ public class DBServices
         }
     }
 
+    public bool updateQuestionDetail(Question q)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = CreateQuestionChangeDetailsCommandWithStoredProcedureWithParameters("sp_updateQuestionDetail", con, q);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            if (numEffected > 0) { return true; } else { return false; }
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
     public Question GetQuestion(int id)
     {
         SqlConnection con;
@@ -403,6 +439,30 @@ public class DBServices
         }
     }
 
+    private SqlCommand CreateQuestionChangeDetailsCommandWithStoredProcedureWithParameters(String spName, SqlConnection con, Question q)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@qSerialNumber", q.QuestionSerialNumber);
+        cmd.Parameters.AddWithValue("@content", q.Content);
+        cmd.Parameters.AddWithValue("@rightAnswer", q.CorrectAnswer);
+        cmd.Parameters.AddWithValue("@wrongAnswer1", q.WrongAnswer1);
+        cmd.Parameters.AddWithValue("@wrongAnswer2", q.WrongAnswer2);
+        cmd.Parameters.AddWithValue("@wrongAnswer3", q.WrongAnswer3);
+        cmd.Parameters.AddWithValue("@explanation", q.Explanation);
+        cmd.Parameters.AddWithValue("@topic", q.Topic);
+
+        return cmd;
+    }
 
     private SqlCommand CreateGetQuestionsByTopicCommandWithStoredProcedure(String spName, SqlConnection con, string topicName,int userId)
     {

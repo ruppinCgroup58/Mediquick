@@ -5,7 +5,7 @@ let GeminiModal = document.getElementById("myModal");
 var btn = document.getElementById("addQuestionByGemini");
 
 // Get the <span> element that closes the modal
-var spanGeminiModal = document.getElementsByClassName("close")[1];
+var spanGeminiModal = document.getElementsByClassName("close")[2];
 
 // When the user clicks the button, open the modal
 btn.onclick = function () {
@@ -23,7 +23,7 @@ window.onclick = function (event) {
         GeminiModal.style.display = "none";
     }
 }
-function resetForm() {
+function resetGeminiForm() {
     $("#addQuestionForm")[0].reset();
 }
 

@@ -339,16 +339,54 @@ function editQuestionRow(item) {
 
     editQuestionModal.style.display = "block";
 
-    //document.getElementById('first-name').value = item.parentElement.parentElement.children[1].textContent;
-    //document.getElementById('last-name').value = item.parentElement.parentElement.children[2].textContent;
-    //document.getElementById('password').value = item.parentElement.parentElement.children[4].textContent;
-    //document.getElementById('phone-number').value = item.parentElement.parentElement.children[5].textContent;
-    //$("#editQuestionModal").submit(function (event) {
-    //    event.preventDefault(); // למנוע מהטופס להגיש בצורה רגילה
-    //    var email = item.parentElement.parentElement.children[3].textContent;
-    //    UpdateUserDetailsFormSubmit(email);
-    //});
+    document.getElementById('content').value = item.parentElement.parentElement.children[1].textContent;
+    document.getElementById('rightAnswer').value = item.parentElement.parentElement.children[2].textContent;
+    document.getElementById('wrongAnswer1').value = item.parentElement.parentElement.children[3].textContent;
+    document.getElementById('wrongAnswer2').value = item.parentElement.parentElement.children[4].textContent;
+    document.getElementById('wrongAnswer3').value = item.parentElement.parentElement.children[5].textContent;
+    document.getElementById('explanation').value = item.parentElement.parentElement.children[6].textContent;
+    document.getElementById('topic').value = item.parentElement.parentElement.children[7].textContent;
+    $("#editQuestionModal").submit(function (event) {
+        event.preventDefault(); // למנוע מהטופס להגיש בצורה רגילה
+        var qSerialNumber = item.parentElement.parentElement.children[0].textContent;
+        UpdateQuestionDetailsFormSubmit(qSerialNumber);
+    });
 
+}
+
+function UpdateQuestionDetailsFormSubmit(qSerialNumber) {
+    updateQuestionDetails = {
+        questionSerialNumber: qSerialNumber,
+        content: $("#content").val(),
+        correctAnswer: $("#rightAnswer").val(), 
+        wrongAnswer1: $("#wrongAnswer1").val(),
+        wrongAnswer2: $("#wrongAnswer2").val(),
+        wrongAnswer3: $("#wrongAnswer3").val(),
+        eplanation: $("#explanation").val(),
+        topic: $("#topic").val()
+        
+    }
+
+    ajaxCall("Put", apiUpdateUser, JSON.stringify(updateQuestionDetails), updateQuestionPostSCB, updatequestionPostECB)
+    ajaxCall("GET", apiReadQuestion, "", questionsTableGetSCB, questionsTableGetECB);
+}
+
+
+function updateQuestionPostSCB(data) {
+    if (data) {
+        alert("השינוי התעדכן בהצלחה!");
+    }
+    else {
+        alert("השינוי לא הצליח");
+    }
+
+    let editUserModal = document.getElementById("EditQuestionModal");
+
+    editUserModal.style.display = "none";
+}
+
+function updateQuestionPostECB(err) {
+    alert(err);
 }
 
 

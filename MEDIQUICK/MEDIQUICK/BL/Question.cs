@@ -111,5 +111,10 @@
         {
             dbs.changeQuestionStatus(id, newStatus);
         }
+
+        public bool updateQuestionDetail(Question q)
+        {
+            return dbs.updateQuestionDetail(q);
+        }
     }
 }

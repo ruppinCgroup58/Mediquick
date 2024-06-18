@@ -79,6 +79,11 @@ namespace MEDIQUICK.Controllers
             q.changeQuestionStatus(id, newStatus);
         }
 
+        [HttpPut("/updateQuestionDetails")]
+        public bool updateQuestionDetail([FromBody] Question q)
+        {
+            return new Question().updateQuestionDetail(q);
+        }
 
         // DELETE api/<QuestionsController>/5
         [HttpDelete("{id}")]
