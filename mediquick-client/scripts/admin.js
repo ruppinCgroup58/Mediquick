@@ -2,7 +2,8 @@
 var apiReadQuestion = 'https://localhost:7253/ReadQuestions';
 var geminiAPI = 'https://localhost:7253/Gemini';
 var apiQuestion = 'https://localhost:7253/api/Questions/';
-var apiUpdateUser = 'https://localhost:7253/updateUserDetails';
+var apiUpdateUserDetails = 'https://localhost:7253/updateUserDetails';
+var apiUpdateQuestionDetails = 'https://localhost:7253/updateQuestionDetails';
 
 //$(document).ready(function () {
 
@@ -164,7 +165,7 @@ function UpdateUserDetailsFormSubmit(email) {
         phoneNumber: $("#phone-number").val()
     }
 
-    ajaxCall("Put", apiUpdateUser, JSON.stringify(updateUserDetails), updateUserPostSCB, updateUserPostECB)
+    ajaxCall("Put", apiUpdateUserDetails, JSON.stringify(updateUserDetails), updateUserPostSCB, updateUserPostECB)
     ajaxCall("GET", apiUsers, "", usersTableGetSCB, usersTableGetECB);  
 }
 
@@ -346,8 +347,10 @@ function editQuestionRow(item) {
     document.getElementById('wrongAnswer3').value = item.parentElement.parentElement.children[5].textContent;
     document.getElementById('explanation').value = item.parentElement.parentElement.children[6].textContent;
     document.getElementById('topic').value = item.parentElement.parentElement.children[7].textContent;
-    $("#editQuestionModal").submit(function (event) {
+    $("#EditQuestionModal").submit(function (event) {
+        console.log(10);
         event.preventDefault(); // למנוע מהטופס להגיש בצורה רגילה
+        console.log(20);
         var qSerialNumber = item.parentElement.parentElement.children[0].textContent;
         UpdateQuestionDetailsFormSubmit(qSerialNumber);
     });
@@ -363,11 +366,9 @@ function UpdateQuestionDetailsFormSubmit(qSerialNumber) {
         wrongAnswer2: $("#wrongAnswer2").val(),
         wrongAnswer3: $("#wrongAnswer3").val(),
         eplanation: $("#explanation").val(),
-        topic: $("#topic").val()
-        
+        topic: $("#topic").val()       
     }
-
-    ajaxCall("Put", apiUpdateUser, JSON.stringify(updateQuestionDetails), updateQuestionPostSCB, updatequestionPostECB)
+    ajaxCall("PUT", apiUpdateQuestionDetails, JSON.stringify(updateQuestionDetails), updateQuestionPostSCB, updateQuestionPostECB)
     ajaxCall("GET", apiReadQuestion, "", questionsTableGetSCB, questionsTableGetECB);
 }
 
@@ -380,13 +381,13 @@ function updateQuestionPostSCB(data) {
         alert("השינוי לא הצליח");
     }
 
-    let editUserModal = document.getElementById("EditQuestionModal");
+    let editQuestionModal = document.getElementById("EditQuestionModal");
 
-    editUserModal.style.display = "none";
+    editQuestionModal.style.display = "none";
 }
 
 function updateQuestionPostECB(err) {
-    alert(err);
+    alert("כוסעמק");
 }
 
 

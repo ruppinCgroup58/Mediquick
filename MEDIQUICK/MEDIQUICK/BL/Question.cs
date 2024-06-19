@@ -22,7 +22,9 @@
         {
 
         }
-        public Question(int questionSerialNumber, int difficulty, string content, string correctAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string explanation, int status, string creator, int totalAnswers, int totalCorrectAnswers, string topic)
+        public Question(int questionSerialNumber, int difficulty, string content, string correctAnswer, 
+            string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string explanation, int status, 
+            string creator, int totalAnswers, int totalCorrectAnswers, string topic)
         {
             QuestionSerialNumber = questionSerialNumber;
             Difficulty = difficulty;

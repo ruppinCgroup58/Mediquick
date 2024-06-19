@@ -2,6 +2,7 @@
 using MEDIQUICK.BL;
 using System.Data;
 using System.Data.SqlClient;
+using static Google.Api.Gax.Grpc.Gcp.AffinityConfig.Types;
 
 public class DBServices
 {
@@ -264,7 +265,7 @@ public class DBServices
                 q.WrongAnswer2 = dataReader["wrongAnswer2"].ToString();
                 q.WrongAnswer3 = dataReader["wrongAnswer3"].ToString();
                 q.Explanation = dataReader["explanation"].ToString();
-                q.Topic = dataReader["topicId"].ToString();
+                q.Topic = dataReader["topicId"].ToString(); 
                 q.Status = Convert.ToInt32(dataReader["status"]);
                 q.Creator = dataReader["creatorID"].ToString();
                 q.TotalAnswers = Convert.ToInt32(dataReader["totalAnswers"]);
@@ -459,8 +460,8 @@ public class DBServices
         cmd.Parameters.AddWithValue("@wrongAnswer2", q.WrongAnswer2);
         cmd.Parameters.AddWithValue("@wrongAnswer3", q.WrongAnswer3);
         cmd.Parameters.AddWithValue("@explanation", q.Explanation);
-        cmd.Parameters.AddWithValue("@topic", q.Topic);
-
+        int topicInt = int.Parse(q.Topic);
+        cmd.Parameters.AddWithValue("@Topic", topicInt);
         return cmd;
     }
 
