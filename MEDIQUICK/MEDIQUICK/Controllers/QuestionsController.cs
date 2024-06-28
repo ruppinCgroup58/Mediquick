@@ -79,7 +79,7 @@ namespace MEDIQUICK.Controllers
             q.changeQuestionStatus(id, newStatus);
         }
 
-        [HttpPut("/updateQuestionDetails")]
+        [HttpPatch("/updateQuestionDetails")]
         public bool updateQuestionDetail([FromBody] Question q)
         {
             return new Question().updateQuestionDetail(q);

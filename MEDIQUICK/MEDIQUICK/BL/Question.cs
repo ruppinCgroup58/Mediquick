@@ -66,18 +66,6 @@
 
         }
 
-        //public void updateQuestionDiffLevel(Question q, bool isCorrect)
-        //{
-        //    q.TotalAnswers++;
-        //    if(isCorrect)
-        //    {
-        //        q.TotalCorrectAnswers++;
-        //    }
-        //    float wrongAnsProb = 1 - (float)q.TotalCorrectAnswers / (float)q.TotalAnswers;
-        //q.Difficulty = setDifficultyLevel(wrongAnsProb);
-        //    dbs.UpdateDifficultyLevel(q);
-        //}
-
         public void updateQuestionDiffLevel(int id, bool isCorrect)
         {
             dbs.UpdateDifficultyLevel(id, isCorrect);

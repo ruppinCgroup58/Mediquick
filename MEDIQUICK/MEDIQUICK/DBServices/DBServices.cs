@@ -460,8 +460,7 @@ public class DBServices
         cmd.Parameters.AddWithValue("@wrongAnswer2", q.WrongAnswer2);
         cmd.Parameters.AddWithValue("@wrongAnswer3", q.WrongAnswer3);
         cmd.Parameters.AddWithValue("@explanation", q.Explanation);
-        int topicInt = int.Parse(q.Topic);
-        cmd.Parameters.AddWithValue("@Topic", topicInt);
+        cmd.Parameters.AddWithValue("@Topic", q.Topic);
         return cmd;
     }
 

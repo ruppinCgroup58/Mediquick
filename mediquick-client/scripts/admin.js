@@ -4,12 +4,13 @@ var geminiAPI = 'https://localhost:7253/Gemini';
 var apiQuestion = 'https://localhost:7253/api/Questions/';
 var apiUpdateUserDetails = 'https://localhost:7253/updateUserDetails';
 var apiUpdateQuestionDetails = 'https://localhost:7253/updateQuestionDetails';
+var topicApi = "https://localhost:7253/api/Topics";
 
 //$(document).ready(function () {
 
 //})
 
- 
+
 $("#addQuestionForm").submit(addQuestionToGemini)
 
 //user
@@ -238,7 +239,6 @@ function updateUserPostECB(err){
 
 
 
-let topicApi = "https://localhost:7253/api/Topics";
 
 //question
 function getQuestisonsDataTable() {
@@ -336,17 +336,48 @@ function editQuestionRow(item) {
 
     let editQuestionModal = document.getElementById("EditQuestionModal");
 
+        $.ajax({
+            url: topicApi, method: 'GET',
+            success: function (data) {
+                var topicSelect = $('#topicSelect');
+                $('#topicSelect').empty();
+                data.forEach(function (topic) {
+                    topicSelect.append(new Option(topic.topicName, topic.topicId));
+                });
+                topicsLoaded = true;
+
+                editQuestionModal.style.display = "block";
+
+                document.getElementById('content').value = item.parentElement.parentElement.children[1].textContent;
+                document.getElementById('rightAnswer').value = item.parentElement.parentElement.children[2].textContent;
+                document.getElementById('wrongAnswer1').value = item.parentElement.parentElement.children[3].textContent;
+                document.getElementById('wrongAnswer2').value = item.parentElement.parentElement.children[4].textContent;
+                document.getElementById('wrongAnswer3').value = item.parentElement.parentElement.children[5].textContent;
+                document.getElementById('explanation').value = item.parentElement.parentElement.children[6].textContent;
+                //document.getElementById('topicSelect').value = item.parentElement.parentElement.children[7].textContent;
+                var topicText = item.parentElement.parentElement.children[7].textContent;
+                var topicSelect = $('#topicSelect');
+
+                // Find the option with the specific text and set it as selected
+                var found = false;
+                topicSelect.children('option').each(function () {
+                    if ($(this).text() === topicText) {
+                        $(this).prop('selected', true);
+                        found = true;
+                        return false; // Exit the loop once the item is found
+                    }
+                });
+               
+            },
+            error: function (err) {
+                console.error('Failed to load topics:', err);
+              
+            }
+        });
+    
+    
     // When the user clicks the button, open the modal
 
-    editQuestionModal.style.display = "block";
-
-    document.getElementById('content').value = item.parentElement.parentElement.children[1].textContent;
-    document.getElementById('rightAnswer').value = item.parentElement.parentElement.children[2].textContent;
-    document.getElementById('wrongAnswer1').value = item.parentElement.parentElement.children[3].textContent;
-    document.getElementById('wrongAnswer2').value = item.parentElement.parentElement.children[4].textContent;
-    document.getElementById('wrongAnswer3').value = item.parentElement.parentElement.children[5].textContent;
-    document.getElementById('explanation').value = item.parentElement.parentElement.children[6].textContent;
-    document.getElementById('topic').value = item.parentElement.parentElement.children[7].textContent;
     $("#EditQuestionModal").submit(function (event) {
         console.log(10);
         event.preventDefault(); // למנוע מהטופס להגיש בצורה רגילה
@@ -365,10 +396,11 @@ function UpdateQuestionDetailsFormSubmit(qSerialNumber) {
         wrongAnswer1: $("#wrongAnswer1").val(),
         wrongAnswer2: $("#wrongAnswer2").val(),
         wrongAnswer3: $("#wrongAnswer3").val(),
-        eplanation: $("#explanation").val(),
-        topic: $("#topic").val()       
+        explanation: $("#explanation").val(),
+        creator: "0",
+        topic: document.getElementById("topicSelect").selectedOptions[0].value 
     }
-    ajaxCall("PUT", apiUpdateQuestionDetails, JSON.stringify(updateQuestionDetails), updateQuestionPostSCB, updateQuestionPostECB)
+    ajaxCall("PATCH", apiUpdateQuestionDetails, JSON.stringify(updateQuestionDetails), updateQuestionPostSCB, updateQuestionPostECB)
     ajaxCall("GET", apiReadQuestion, "", questionsTableGetSCB, questionsTableGetECB);
 }
 
