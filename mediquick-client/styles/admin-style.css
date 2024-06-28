@@ -22,6 +22,7 @@
 #usersTable td, #usersTable th, #QuestionTable td, #QuestionTable th {
     padding: 10px;
     font-size: 18px;
+    vertical-align: middle; /* Ensure text is vertically aligned in the middle */
 }
 
 .control {
@@ -77,6 +78,7 @@ table.dataTable thead {
     text-align: right; /* Align text inside input to the right */
     direction: rtl; /* Ensure placeholder text aligns properly for right-to-left languages */
 }
+
 
 .primary-btn {
     font-size: 15px;

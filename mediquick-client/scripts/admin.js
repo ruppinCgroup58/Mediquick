@@ -10,6 +10,12 @@ var topicApi = "https://localhost:7253/api/Topics";
 
 //})
 
+$(document).ready(function () {
+    $('.toggle-row-btn').click(function () {
+        $(this).find('i').toggleClass('fa-chevron-down fa-chevron-up');
+        $(this).closest('tr').next().toggle();
+    });
+});
 
 $("#addQuestionForm").submit(addQuestionToGemini)
 
@@ -255,8 +261,10 @@ function questionsTableGetSCB(questionsList) {
              tbl = $('#QuestionTable').DataTable({
                         data: questionsList,
                         pageLength: 10,
-                        columns: [
-                            { data: "questionSerialNumber" },
+                         columns: [
+                             {
+                                 data: "questionSerialNumber"
+                             },
                             { data: "content" },
                             { data: "correctAnswer" },
                             { data: "wrongAnswer1" },
