@@ -7,6 +7,9 @@
     margin-top: 10px;
     border: 1px black solid;
     align-items: flex-end; /* Align items to the right */
+    width: 100%; /* או כל רוחב אחר שמתאים */
+    margin: 0 auto; /* כדי למרכז את הטבלה */
+    overflow-x: auto; /* לאפשר גלילה אופקית */
 }
 
 #usersTable_filter > label > input {
@@ -71,9 +74,9 @@ table.dataTable thead {
     margin:20px;
 }
 
-.input-box input {
+.input-box input, #topicSelectToGemini {
     width: 100%; /* Full width */
-   /* padding: 10px;*/
+    /* padding: 10px;*/
     box-sizing: border-box;
     text-align: right; /* Align text inside input to the right */
     direction: rtl; /* Ensure placeholder text aligns properly for right-to-left languages */
@@ -114,11 +117,18 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
 
 #send-orders-modal-btn{
     position: absolute;  
-    top: 180px;
+    top: 280px;
     right: 40px;
 }
 
-
+.btn-admin {
+    min-width: 250px; /* או כל ערך אחר שמתאים */
+    max-width: 100%;
+    margin:10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 /* Add margin between input fields */
 #EditUserModal .input-box, #EditQuestionModal .input-box {
@@ -178,7 +188,7 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
 
 #geminiModal{
     width: 650px;
-    height: 250px;
+    height: 340px;
     align-items: center;
     margin: auto;
     padding: 20px;
@@ -191,4 +201,12 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
 
 #questionEditModal{
     height: 600px;
+}
+
+.form-control{
+    height:45px;
+}
+
+.edit-user-row{
+width:100%;
 }

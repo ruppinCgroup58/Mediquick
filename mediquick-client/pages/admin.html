@@ -4,40 +4,35 @@
 <head>
     <meta charset="utf-8" />
     <title>Admin</title>
+    <!-- קישורים ל-Bootstrap CSS ו-JS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- קישור נוסף ל-jQuery (לא חובה, כבר יש אחד מעלה) -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="./../scripts/ajaxCalls.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
     <!--<link href="../css/style.css" rel="stylesheet" />
     <link href="../css/style2.css" rel="stylesheet" />-->
-    <!-- <link href="https://cdn.datatables.net/2.0.1/css/dataTables.dataTables.css" rel="stylesheet" /> -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script> -->
-    <script src="../scripts/admin.js" defer></script>
+    <!-- קישורים ל-DataTables CSS ו-JS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.7/css/dataTables.dataTables.css" />
     <script src="https://cdn.datatables.net/2.0.7/js/dataTables.js"></script>
+
+    <!-- קישורים לסקריפטים וקבצי CSS מקומיים -->
+    <script src="./../scripts/ajaxCalls.js"></script>
+    <script src="../scripts/admin.js" defer></script>
     <script src="../scripts/addQuestionModal.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js" defer></script>
     <link href="../styles/navbar-style.css" defer rel="stylesheet" />
-    <!-- Open-Sans font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:wght@200;300;400;500;600&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="./../styles/admin-style.css">
-    <!--<script src="./../scripts/edit-user-modal.js" defer></script>
-    <script src="./../scripts/edit-question-modal.js" defer></script>-->
     <script src="../scripts/editModals.js" defer></script>
+
 
 </head>
 
@@ -49,19 +44,19 @@
         <br />
         <div class="control">
             <div id="btnDiv" style="width:100%; text-align:center">
-                <input type="button" class="btn-admin" value="ניהול משתמשים" id="manageUsersBtn"
+                <input type="button" class="btn-admin btn btn-primary" value="ניהול משתמשים" id="manageUsersBtn"
                        onclick="getUsersDataTable()" />
-                <input type="button" class="btn-admin" value="ניהול מאגר שאלות" id="manageQuestionsBtn"
+                <input type="button" class="btn-admin btn btn-primary" value="ניהול מאגר שאלות" id="manageQuestionsBtn"
                        onclick="getQuestisonsDataTable()" />
-                <br /><br />
-                <input type="button" class="btn-admin" value="הוספת שאלה בעזרת בינה מלאכותית" id="addQuestionByGemini"
+                <br />
+                <input type="button" class="btn-admin btn btn-primary" value="הוספת שאלה בעזרת בינה מלאכותית" id="addQuestionByGemini"
                        onclick="addQuestionByGemini()" />
             </div>
 
             <!--datatable-->
             <div class="container">
                 <form id="UsersForm" style="width:100%; visibility: collapse;">
-                    <table id="usersTable" class="display nowrap" style="width:100%;">
+                    <table id="usersTable" class="display nowrap table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>מזהה</th>
@@ -78,10 +73,9 @@
                     </table>
                 </form>
                 <form id="QuestionForm" style="width:100%; visibility: collapse;">
-                    <table id="QuestionTable" class="display" style="width:100%;">
+                    <table id="QuestionTable" class="display table table-striped table-bordered">
                         <thead dir="rtl">
                             <tr>
-                                
                                 <th>מס סידורי</th>
                                 <th>תוכן השאלה</th>
                                 <th>תשובה נכונה</th>
@@ -112,22 +106,22 @@
                     </div>
                     <form action="" id="editUserModal" class="eUForm">
                         <div class="input-box">
-                            <input class="hebrew" type="text" id="first-name" placeholder="שם פרטי">
+                            <input class="hebrew form-control" type="text" id="first-name" placeholder="שם פרטי">
                         </div>
                         <div class="input-box">
-                            <input class="hebrew" type="text" id="last-name" placeholder="שם משפחה">
+                            <input class="hebrew form-control" type="text" id="last-name" placeholder="שם משפחה">
                         </div>
                         <div class="input-box password-box">
-                            <input type="password" class="hebrew align-right"
-                                   id="password" class="password" placeholder="סיסמא">
+                            <input type="password" class="hebrew form-control align-right"
+                                   id="password" placeholder="סיסמא">
                             <img src="./../images/icons/eye-open.svg" class="eye_img" id="modal-password-eye-icon"
                                  onclick="togglePasswordAdmin(this)">
                         </div>
                         <div class="input-box">
-                            <input class="hebrew" type="text" id="phone-number"
+                            <input class="hebrew form-control" type="text" id="phone-number"
                                    placeholder="מספר טלפון">
                         </div>
-                        <input type="submit" value="עדכן" class="primary-btn" id="edit-user-modal-btn">
+                        <input type="submit" value="עדכן" class="primary-btn btn btn-primary" id="edit-user-modal-btn">
                     </form>
                 </div>
             </div>
@@ -142,30 +136,29 @@
                     </div>
                     <form action="" id="editQuestionForm" class="eUForm">
                         <div class="input-box">
-                            <input class="hebrew" type="text" id="content" placeholder="תוכן">
+                            <input class="hebrew form-control" type="text" id="content" placeholder="תוכן">
                         </div>
                         <div class="input-box">
-                            <input class="hebrew" type="text" id="rightAnswer" placeholder="תשובה נכונה">
-                        </div> 
-                        <div class="input-box">
-                            <input class="hebrew" type="text" id="wrongAnswer1" placeholder="מסיח 1">
+                            <input class="hebrew form-control" type="text" id="rightAnswer" placeholder="תשובה נכונה">
                         </div>
                         <div class="input-box">
-                            <input class="hebrew" type="text" id="wrongAnswer2" placeholder="מסיח 2">
+                            <input class="hebrew form-control" type="text" id="wrongAnswer1" placeholder="מסיח 1">
                         </div>
                         <div class="input-box">
-                            <input class="hebrew" type="text" id="wrongAnswer3" placeholder="מסיח 3">
+                            <input class="hebrew form-control" type="text" id="wrongAnswer2" placeholder="מסיח 2">
                         </div>
                         <div class="input-box">
-                            <input class="hebrew" type="text" id="explanation" placeholder="הסבר">
+                            <input class="hebrew form-control" type="text" id="wrongAnswer3" placeholder="מסיח 3">
                         </div>
                         <div class="input-box">
-                            <!--<input class="hebrew" type="text" id="topic" placeholder="נושא">-->
-                            <select id="topicSelect" name="topic">
+                            <input class="hebrew form-control" type="text" id="explanation" placeholder="הסבר">
+                        </div>
+                        <div class="input-box">
+                            <select id="topicSelect" name="topic" class="form-control">
                                 <!-- Options will be loaded dynamically -->
                             </select>
                         </div>
-                        <input type="submit" value="עדכן" class="primary-btn" id="edit-Question-modal-btn">
+                        <input type="submit" value="עדכן" class="primary-btn btn btn-primary" id="edit-Question-modal-btn">
                     </form>
                 </div>
             </div>
@@ -181,19 +174,23 @@
                     <br />
                     <form action="" id="addQuestionForm" class="AQForm">
                         <div class="input-box">
-                            <input class="hebrew" type="number" id="numOfQuestions" pattern="[1-8]{1}"
+                            <input class="hebrew form-control" type="number" id="numOfQuestions" pattern="[1-8]{1}"
                                    placeholder="מספר שאלות רצוי" required>
                         </div>
                         <div class="input-box">
-                            <input class="hebrew" type="text" id="textInput" placeholder="הזן את הטקסט הרצוי" required>
+                            <input class="hebrew form-control" type="text" id="textInput" placeholder="הזן את הטקסט הרצוי" required>
                         </div>
-                        <input type="submit" value="שליחה" class="primary-btn" id="send-orders-modal-btn">
+                        <div class="input-box">
+                            <select id="topicSelectToGemini" name="topic" class="form-control" required>
+                                <!-- Options will be loaded dynamically -->
+                            </select>
+                        </div>
+                        <input type="submit" value="שליחה" class="primary-btn btn btn-primary" id="send-orders-modal-btn">
                     </form>
                 </div>
             </div>
         </div>
-</main>
-   
+    </main>
 </body>
 
 </html>
