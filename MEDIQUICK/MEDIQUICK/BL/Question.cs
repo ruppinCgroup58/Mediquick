@@ -97,9 +97,9 @@
             return dbs.GetQuestionsByTopic(topicName, userId);
         }
 
-        public void changeQuestionStatus(int id, int newStatus)
+        public int changeQuestionStatus(int id, int newStatus)
         {
-            dbs.changeQuestionStatus(id, newStatus);
+            return dbs.changeQuestionStatus(id, newStatus);
         }
 
         public bool updateQuestionDetail(Question q)

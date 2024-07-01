@@ -73,10 +73,10 @@ namespace MEDIQUICK.Controllers
         }
 
         [HttpPut("id/{id}")]
-        public void Put(int id, [FromBody] int newStatus)
+        public int Put(int id, [FromBody] int newStatus)
         {
             Question q = new Question();
-            q.changeQuestionStatus(id, newStatus);
+           return q.changeQuestionStatus(id, newStatus);
         }
 
         [HttpPatch("/updateQuestionDetails")]

@@ -144,19 +144,20 @@ function editUserRow(item) {
     
     editUserModal.style.display = "block";
 
+    document.getElementById('email').value = item.parentElement.parentElement.children[3].textContent;  
     document.getElementById('first-name').value = item.parentElement.parentElement.children[1].textContent;  
     document.getElementById('last-name').value = item.parentElement.parentElement.children[2].textContent;  
     document.getElementById('password').value = item.parentElement.parentElement.children[4].textContent;  
     document.getElementById('phone-number').value = item.parentElement.parentElement.children[5].textContent; 
-    $("#editUserModal").submit(function (event) {
-        event.preventDefault(); // למנוע מהטופס להגיש בצורה רגילה
-        var email = item.parentElement.parentElement.children[3].textContent;  
-        UpdateUserDetailsFormSubmit(email);
-    });
-   
 } 
 
-function UpdateUserDetailsFormSubmit(email) {
+$("#editUserModal").submit(function (event) {
+    event.preventDefault(); // למנוע מהטופס להגיש בצורה רגילה
+    email = document.getElementById('email').value;
+    UpdateUserDetailsFormSubmit(email);
+});
+
+function UpdateUserDetailsFormSubmit(userEmail) {
     // if(!validateForm()) {
     //     return false;
     // }
@@ -164,18 +165,19 @@ function UpdateUserDetailsFormSubmit(email) {
     updateUserDetails = {
         firstName: $("#first-name").val(),
         lastName: $("#last-name").val(),
-        email: email,
+        email: userEmail,
         password: $("#password").val(),
         phoneNumber: $("#phone-number").val()
     }
 
     ajaxCall("Put", apiUpdateUserDetails, JSON.stringify(updateUserDetails), updateUserPostSCB, updateUserPostECB)
-    ajaxCall("GET", apiUsers, "", usersTableGetSCB, usersTableGetECB);  
 }
 
 function updateUserPostSCB(data){
     if(data){
         alert("השינוי התעדכן בהצלחה!");
+        ajaxCall("GET", apiUsers, "", usersTableGetSCB, usersTableGetECB);  
+
     }
     else{
         alert("השינוי לא הצליח");
@@ -341,57 +343,58 @@ function editQuestionRow(item) {
 
     let editQuestionModal = document.getElementById("EditQuestionModal");
 
-        $.ajax({
-            url: topicApi, method: 'GET',
-            success: function (data) {
-                var topicSelect = $('#topicSelect');
-                $('#topicSelect').empty();
-                data.forEach(function (topic) {
-                    topicSelect.append(new Option(topic.topicName, topic.topicId));
-                });
-                topicsLoaded = true;
+    $.ajax({
+        url: topicApi, method: 'GET',
+        success: function (data) {
+            var topicSelect = $('#topicSelect');
+            $('#topicSelect').empty();
+            data.forEach(function (topic) {
+                topicSelect.append(new Option(topic.topicName, topic.topicId));
+            });
+            topicsLoaded = true;
 
-                editQuestionModal.style.display = "block";
+            editQuestionModal.style.display = "block";
 
-                document.getElementById('content').value = item.parentElement.parentElement.children[1].textContent;
-                document.getElementById('rightAnswer').value = item.parentElement.parentElement.children[2].textContent;
-                document.getElementById('wrongAnswer1').value = item.parentElement.parentElement.children[3].textContent;
-                document.getElementById('wrongAnswer2').value = item.parentElement.parentElement.children[4].textContent;
-                document.getElementById('wrongAnswer3').value = item.parentElement.parentElement.children[5].textContent;
-                document.getElementById('explanation').value = item.parentElement.parentElement.children[6].textContent;
-                //document.getElementById('topicSelect').value = item.parentElement.parentElement.children[7].textContent;
-                var topicText = item.parentElement.parentElement.children[7].textContent;
-                var topicSelect = $('#topicSelect');
+            document.getElementById('qSerialNumber').value = item.parentElement.parentElement.children[0].textContent;
+            document.getElementById('content').value = item.parentElement.parentElement.children[1].textContent;
+            document.getElementById('rightAnswer').value = item.parentElement.parentElement.children[2].textContent;
+            document.getElementById('wrongAnswer1').value = item.parentElement.parentElement.children[3].textContent;
+            document.getElementById('wrongAnswer2').value = item.parentElement.parentElement.children[4].textContent;
+            document.getElementById('wrongAnswer3').value = item.parentElement.parentElement.children[5].textContent;
+            document.getElementById('explanation').value = item.parentElement.parentElement.children[6].textContent;
+            //document.getElementById('topicSelect').value = item.parentElement.parentElement.children[7].textContent;
+            var topicText = item.parentElement.parentElement.children[7].textContent;
+            var topicSelect = $('#topicSelect');
 
-                // Find the option with the specific text and set it as selected
-                var found = false;
-                topicSelect.children('option').each(function () {
-                    if ($(this).text() === topicText) {
-                        $(this).prop('selected', true);
-                        found = true;
-                        return false; // Exit the loop once the item is found
-                    }
-                });
-               
-            },
-            error: function (err) {
-                console.error('Failed to load topics:', err);
-              
-            }
-        });
-    
-    
+            // Find the option with the specific text and set it as selected
+            var found = false;
+            topicSelect.children('option').each(function () {
+                if ($(this).text() === topicText) {
+                    $(this).prop('selected', true);
+                    found = true;
+                    return false; // Exit the loop once the item is found
+                }
+            });
+
+        },
+        error: function (err) {
+            console.error('Failed to load topics:', err);
+
+        }
+    });
+
+}  
     // When the user clicks the button, open the modal
 
     $("#EditQuestionModal").submit(function (event) {
         console.log(10);
         event.preventDefault(); // למנוע מהטופס להגיש בצורה רגילה
         console.log(20);
-        var qSerialNumber = item.parentElement.parentElement.children[0].textContent;
+        var qSerialNumber = document.getElementById('qSerialNumber').value
         UpdateQuestionDetailsFormSubmit(qSerialNumber);
     });
 
-}
+
 
 function UpdateQuestionDetailsFormSubmit(qSerialNumber) {
     updateQuestionDetails = {
@@ -406,13 +409,14 @@ function UpdateQuestionDetailsFormSubmit(qSerialNumber) {
         topic: document.getElementById("topicSelect").selectedOptions[0].value 
     }
     ajaxCall("PATCH", apiUpdateQuestionDetails, JSON.stringify(updateQuestionDetails), updateQuestionPostSCB, updateQuestionPostECB)
-    ajaxCall("GET", apiReadQuestion, "", questionsTableGetSCB, questionsTableGetECB);
 }
 
 
 function updateQuestionPostSCB(data) {
     if (data) {
         alert("השינוי התעדכן בהצלחה!");
+        ajaxCall("GET", apiReadQuestion, "", questionsTableGetSCB, questionsTableGetECB);
+
     }
     else {
         alert("השינוי לא הצליח");
@@ -446,19 +450,9 @@ function changeQuestionStatus(row) {
 }
 function changeQuestionStatusSCB(response) {
     alert("השאלה עודכנה בהצלחה");
-    // כאן ניתן להוסיף פעולות נוספות לאחר העדכון המוצלח
 }
 function changeQuestionStatusECB(err) {
-    let errorMessage;
-
-    if (err.responseText) {
-        errorMessage = JSON.parse(err.responseText).message;
-    } else {
-        errorMessage = "שגיאת תקשורת עם השרת";
-    }
-
-    alert(errorMessage);
-    // כאן ניתן להוסיף פעולות נוספות לטיפול בשגיאה
+    alert("שגיאת תקשורת עם השרת");
 }
 
 

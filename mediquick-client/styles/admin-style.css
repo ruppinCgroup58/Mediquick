@@ -59,7 +59,7 @@ table.dataTable thead {
 
 .modal-content {
     width: 650px;
-    height: 420px;
+    height: 470px;
     align-items: center;
     margin: auto;
     padding: 20px;
@@ -200,7 +200,7 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
 }
 
 #questionEditModal{
-    height: 600px;
+    height: 660px;
 }
 
 .form-control{
