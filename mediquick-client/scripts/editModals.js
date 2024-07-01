@@ -27,6 +27,9 @@ window.onclick = function (event) {
     else if (event.target == EditQuestionModal) {
         EditQuestionModal.style.display = "none";
     }
+    else if (event.target == GeminiModal) {
+        GeminiModal.style.display = "none";
+    }
 }
 
 function togglePasswordAdmin(element) {

@@ -6,9 +6,6 @@ var apiUpdateUserDetails = 'https://localhost:7253/updateUserDetails';
 var apiUpdateQuestionDetails = 'https://localhost:7253/updateQuestionDetails';
 var topicApi = "https://localhost:7253/api/Topics";
 
-//$(document).ready(function () {
-
-//})
 
 $(document).ready(function () {
     $('.toggle-row-btn').click(function () {
@@ -469,6 +466,8 @@ function changeQuestionStatusECB(err) {
 //gemini
 function addQuestionToGemini() {
 
+    selectedTopic = document.getElementById("topicSelectToGemini").selectedOptions[0].value;
+    console.log(selectedTopic);
 
     orderToGemini = `תייצר לי ${$("#numOfQuestions").val()} שאלות אמריקאיות עם 4 תשובות. בפורמט JSON עם השדות הבאים: 
     'Content'
@@ -477,109 +476,18 @@ function addQuestionToGemini() {
     'WrongAnswer2'
     'WrongAnswer3'
     'Explanation'
-    'Topic'
-        השאלות יתבססו על הטקסט הבא: ${$("#textInput").val()}`;
+'topic'
+כאשר ה 'topic'  יכיל את: ${selectedTopic}
+        השאלות יתבססו על הטקסט הבא: ${$("#textInput").val()} 
+        אל תשאל שאלות שמחייבות לראות את הטקסט`;
 
         ajaxCall("POST", geminiAPI, JSON.stringify(orderToGemini), GeminiQuestionGetSCB, GeminiQuestionGetECB);
-
+    return false;
 }
 function GeminiQuestionGetSCB(data) {
     alert("השאלות נוספו בהצלחה למאגר");
+    document.getElementById("myModal").style.display = "none";
 }
 function GeminiQuestionGetECB(err) {
     alert(err.statusText);
 }
-
-
-
-
-
-// function getReportSCB(objectList) {
-//     let str = `<table border="1" id="usersTable" class="display nowrap" style="width:100%" > <thead>
-//                     <tr>
-//                         <th>City</th>
-//                         <th>Average Price</th>
-//                     </tr>
-//                     </thead>`;
-//     for (let i = 0; i < objectList.length; i++) {
-//         str += `<tr>
-//                     <td>${objectList[i]["city"]}</td>
-//                     <td>${objectList[i]["avg"]}</td>
-//                 </tr>`
-//     }
-//     str += '</table>';
-//     document.getElementById("report").innerHTML = str;
-// }
-// function getReportECB(err) {
-//     alert("Error: " + err);
-// }
-// function resetForm() {
-//     $("#addQuestionForm")[0].reset();
-// }
-
-//function addQuestionToGemini() {
-//    var filePath = "";
-//    var fileInput = document.getElementById('fileInput');
-//    var file = fileInput.files[0];
-//    filePath = URL.createObjectURL(file);
-////document.getElementById('fileInput').addEventListener('change', function (event) {
-////    var file = event.target.files[0];
-////    filePath = URL.createObjectURL(file);
-////});
-    
-//    orderToGemini = `תייצר לי ${$("#numOfQuestions").val()} שאלות אמריקאיות עם 4 תשובות. בפורמט JSON עם השדות הבאים: 
-//    'Content'
-//    'CorrectAnswer'
-//    'WrongAnswer1'
-//    'WrongAnswer2'
-//    'WrongAnswer3'
-//    'Explanation'
-//        השאלות יתבססו על הטקסט הבא:`;
-//    var addToString = "";
-//    readPdfToString(filePath)
-//        .then((pdfString) => {
-//            addToString = pdfString;
-//    })
-//        .catch((error) => {
-//            console.error('אירעה שגיאה בקריאת ה־PDF:', error);
-//        });
-//    orderToGemini += addToString;
-//    ajaxCall("POST", geminiAPI, JSON.stringify(orderToGemini), GeminiQuestionGetSCB, GeminiQuestionGetECB);
-
-//    return false;
-//}
-
-//function  readPdfToString(filePath) {
-//    return new Promise((resolve, reject) => {
-//        // טעינת הקובץ PDF
-//        pdfjsLib.getDocument(filePath).promise.then(function (pdf) {
-//            var pdfText = ''; // מחרוזת שתכיל את כל התוכן של ה־PDF
-
-//            // לולאה על כל הדפים בקובץ
-//            var promises = [];
-//            for (let i = 1; i <= pdf.numPages; i++) {
-//                // קריאת התוכן של הדף
-//                var promise = pdf.getPage(i).then(function (page) {
-//                    return page.getTextContent().then(function (content) {
-//                        // המרת התוכן למחרוזת
-//                        var pageText = content.items.map(function (item) {
-//                            return item.str;
-//                        }).join(' ');
-
-//                        // הוספת התוכן של הדף למחרוזת
-//                        pdfText += pageText;
-//                    });
-//                });
-//                promises.push(promise);
-//            }
-
-//            // אחרי שקריאת כל הדפים נסיים את הפעולה ונחזיר את המחרוזת
-//            Promise.all(promises).then(() => {
-//                resolve(pdfText);
-//            });
-//        }).catch(function (error) {
-//            // אם יש תקלה בקריאת הקובץ PDF, נזרוק שגיאה
-//            reject(error);
-//        });
-//    });
-//}

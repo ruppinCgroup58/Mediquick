@@ -1,4 +1,21 @@
-﻿// Get the modal
+﻿//טעינת נושאים למודל
+$.ajax({
+    url: topicApi, method: 'GET',
+    success: function (data) {
+        var topicSelectToGemini = $('#topicSelectToGemini');
+        $('#topicSelectToGemini').empty();
+        data.forEach(function (topic) {
+            topicSelectToGemini.append(new Option(topic.topicName, topic.topicId));
+        });
+        topicsLoaded = true;
+    },
+    error: function (err) {
+        console.error('Failed to load topics:', err);
+
+    }
+});
+
+// Get the modal
 let GeminiModal = document.getElementById("myModal");
 
 // Get the button that opens the modal
@@ -17,12 +34,7 @@ spanGeminiModal.onclick = function () {
     GeminiModal.style.display = "none";
 }
 
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-    if (event.target == GeminiModal) {
-        GeminiModal.style.display = "none";
-    }
-}
+
 function resetGeminiForm() {
     $("#addQuestionForm")[0].reset();
 }

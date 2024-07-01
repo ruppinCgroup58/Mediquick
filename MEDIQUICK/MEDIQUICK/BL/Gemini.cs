@@ -56,23 +56,35 @@ public class Gemini
             string new_content = responseText.Replace("json", "");
             string last_content = new_content.Replace("```", "");
 
-            // ניתוח JSON למערך
-            JArray json_data = JsonConvert.DeserializeObject<JArray>(last_content);
- 
-            // עקוב אחר כל פריט במערך
-            foreach (JObject item in json_data)
-            {
-                string jsonString = item.ToString();
 
+            // ניתוח JSON ל-JToken
+            JToken json_data = JsonConvert.DeserializeObject<JToken>(last_content);
+
+            // בדיקת סוג ה-JSON
+            if (json_data is JArray jsonArray)
+            {
+                // אם ה-JSON הוא מערך, נעבור על כל אובייקט במערך
+                foreach (JObject item in jsonArray)
+                {
+                    string jsonString = item.ToString();
+                    Question tmpQuestion = JsonConvert.DeserializeObject<Question>(jsonString);
+                    tmpQuestion.Creator = "Gemini";
+                    dbs.InsertQuestion(tmpQuestion);
+                }
+            }
+            else if (json_data is JObject jsonObject)
+            {
+                // אם ה-JSON הוא אובייקט בודד, נעבד אותו כאובייקט יחיד
+                string jsonString = jsonObject.ToString();
                 Question tmpQuestion = JsonConvert.DeserializeObject<Question>(jsonString);
                 tmpQuestion.Creator = "Gemini";
-
                 dbs.InsertQuestion(tmpQuestion);
             }
-
-         
-
-
+            else
+            {
+                // טיפול במקרה שבו הפורמט אינו מזוהה
+                throw new InvalidOperationException("Unsupported JSON format");
+            }
 
             return last_content;
         }
