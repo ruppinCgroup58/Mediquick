@@ -34,7 +34,10 @@
             return dbs.InsertComment(this);
         }
 
-
+        public bool updateCommentDetail(Comment comment)
+        {
+            return dbs.updateCommentDetail(comment);
+        }
 
 
     }

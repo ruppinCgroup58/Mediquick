@@ -39,5 +39,9 @@ namespace MEDIQUICK.BL
             return dbs.InsertIssue(this);
         }
 
+        public bool updateIssueDetail(Issue issue)
+        {
+            return dbs.updateIssueDetail(issue);
+        }
     }
 }

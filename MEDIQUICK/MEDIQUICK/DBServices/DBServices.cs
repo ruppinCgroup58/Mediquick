@@ -1240,11 +1240,13 @@ public class DBServices
     //-----------Test class Functions-----------
     #region Test's Functions
 
+
+
     #endregion
 
 
     //-----------forumIssue class Functions-----------
-
+    #region forumIssue's Functions
     public int InsertIssue(Issue issue)
     {
         SqlConnection con;
@@ -1283,7 +1285,43 @@ public class DBServices
         }
     }
 
+    public bool updateIssueDetail(Issue issue)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
 
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = CreateIssueChangeDetailsCommandWithStoredProcedureWithParameters("sp_updateIssueDetail", con,  issue);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            if (numEffected > 0) { return true; } else { return false; }
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+   
 
     private SqlCommand CreateIssueInsertCommandWithStoredProcedure(String spName, SqlConnection con, Issue issue)
     {
@@ -1307,8 +1345,29 @@ public class DBServices
         return cmd;
     }
 
-    //-----------forumComment class Functions-----------
+    private SqlCommand CreateIssueChangeDetailsCommandWithStoredProcedureWithParameters(String spName, SqlConnection con, Issue issue)
+    {
 
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@issueId", issue.IssueId);
+        cmd.Parameters.AddWithValue("@title", issue.Title);
+        cmd.Parameters.AddWithValue("@content", issue.Content);
+        return cmd;
+    }
+
+    #endregion
+
+    //-----------forumComment class Functions-----------
+    #region forumComment's Functions
     public int InsertComment(Comment comment)
     {
         SqlConnection con;
@@ -1347,7 +1406,42 @@ public class DBServices
         }
     }
 
+    public bool updateCommentDetail(Comment comment)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
 
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = CreateCommentChangeDetailsCommandWithStoredProcedureWithParameters("sp_updateCommentDetail", con, comment);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            if (numEffected > 0) { return true; } else { return false; }
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
 
     private SqlCommand CreateCommentInsertCommandWithStoredProcedure(String spName, SqlConnection con, Comment comment)
     {
@@ -1368,6 +1462,28 @@ public class DBServices
 
         return cmd;
     }
+    
+    private SqlCommand CreateCommentChangeDetailsCommandWithStoredProcedureWithParameters(String spName, SqlConnection con, Comment comment)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@commentId", comment.CommentId);
+        cmd.Parameters.AddWithValue("@content", comment.Content);
+        return cmd;
+    }
+   
+    
+    
+    #endregion
 }
 
 
