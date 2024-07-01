@@ -1,5 +1,6 @@
 let topicAPI = "https://localhost:7253/api/Topics";
 let practiceAPI = "https://localhost:7253/";
+let generatePracticeAPI = practiceAPI += "GeneratePractice";
 let userConnected = sessionStorage.getItem("id");
 let questions = [];
 let explanations = [];
@@ -39,7 +40,7 @@ function startPracticeFormSubmit() {
     selectedDiffLevels: selectedDiffLevelsString,
     userId: userConnected
   };
-  let generatePracticeAPI = practiceAPI += "GeneratePractice";
+  
   ajaxCall(
     "POST",
     generatePracticeAPI,
@@ -158,6 +159,7 @@ function startPracticeSCB(questionsList) {
   heartIcons = questionsList.map((question) => `${question.isFavourite == 1 ? './../images/icons/full-heart.svg' : './../images/icons/empty-heart.svg'}`)
 
   renderQuestion(currentQuestionIndex);
+  handleArrowBtn();
   //applySelectedAnimation();
 }
 
@@ -216,12 +218,7 @@ function prevQuestion() {
     currentQuestionIndex--;
     renderQuestion(currentQuestionIndex);
   }
-  if (currentQuestionIndex == 0) {
-    document.getElementById("prevQ").classList.add("disabled-btn");
-  } else {
-    document.getElementById("prevQ").classList.remove("disabled-btn");
-    document.getElementById("nextQ").classList.remove("disabled-btn");
-  }
+  handleArrowBtn();
 }
 
 function nextQuestion() {
@@ -229,10 +226,23 @@ function nextQuestion() {
     currentQuestionIndex++;
     renderQuestion(currentQuestionIndex);
   }
+  handleArrowBtn();
+}
+
+function handleArrowBtn() {
+  //check if it's the first question
+  if (currentQuestionIndex == 0) {
+    document.getElementById("prevQ").classList.add("disabled-btn");
+  } else {
+    document.getElementById("prevQ").classList.remove("disabled-btn");
+    // document.getElementById("nextQ").classList.remove("disabled-btn");
+  }
+
+  //check if it's the last question
   if (currentQuestionIndex == questions.length - 1) {
     document.getElementById("nextQ").classList.add("disabled-btn");
   } else {
-    document.getElementById("prevQ").classList.remove("disabled-btn");
+    // document.getElementById("prevQ").classList.remove("disabled-btn");
     document.getElementById("nextQ").classList.remove("disabled-btn");
   }
 }
