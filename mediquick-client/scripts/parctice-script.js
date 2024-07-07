@@ -112,8 +112,34 @@ function topicGetECB(err) {
   alert(err.statusText);
 }
 
+function shuffleAnswers(questionsList) {
+  return questionsList.map(question => {
+    // צור רשימה של תשובות עם המידע הנוסף האם הן נכונות או לא
+    const answers = [
+      { content: question.correctAnswer, isCorrect: true },
+      { content: question.wrongAnswer1, isCorrect: false },
+      { content: question.wrongAnswer2, isCorrect: false },
+      { content: question.wrongAnswer3, isCorrect: false }
+    ];
+
+    // ערבל את התשובות
+    for (let i = answers.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [answers[i], answers[j]] = [answers[j], answers[i]];
+    }
+
+    // החזר את השאלה עם התשובות המעורבלות
+    return {
+      ...question,
+      shuffledAnswers: answers
+    };
+  });
+}
+
+
 function startPracticeSCB(questionsList) {
-  questions = questionsList.map(
+  const shuffledQuestions = shuffleAnswers(questionsList);
+  questions = shuffledQuestions.map(
     (question) => `<div class="question-wrapper">
                       <div class="question-content">
                           <b>${question.questionSerialNumber}. ${question.content}</b>
@@ -122,28 +148,28 @@ function startPracticeSCB(questionsList) {
                           <ul>
                               <li>
                                   <div class="option-1">
-                                      <p class="option">א. ${question.correctAnswer}</p>
+                                      <p class="option">א. ${question.shuffledAnswers[0].content}</p>
                                   </div>
                               </li>
                           </ul>
                           <ul>
                               <li>
                                   <div class="option-2">
-                                      <p class="option">ג. ${question.wrongAnswer1}</p>
+                                      <p class="option">ב. ${question.shuffledAnswers[1].content}</p>
                                   </div>
                               </li>
                           </ul>
                           <ul>
                               <li>
                                   <div class="option-3">
-                                      <p class="option">ג. ${question.wrongAnswer2}</p>
+                                      <p class="option">ג. ${question.shuffledAnswers[2].content}</p>
                                   </div>
                               </li>
                           </ul>
                           <ul>
                               <li>
                                   <div class="option-4">
-                                      <p class="option">ג. ${question.wrongAnswer3}</p>
+                                      <p class="option">ד. ${question.shuffledAnswers[3].content}</p>
                                   </div>
                               </li>
                           </ul>

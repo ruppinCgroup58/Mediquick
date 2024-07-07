@@ -97,12 +97,16 @@ function getQuestionsByTopicSCB(questionsList) {
 
               </div>`;
     if (questionsList[i].isFavourite != 0) {
+      str +=`<div class="icons">`;
       str += `<img class="icon fav"
-  src="./../images/icons/full-heart.svg" onclick="toggleFavourite(${questionsList[i].questionSerialNumber})" alt="" srcset="">`;
+  src="./../images/icons/full-heart.svg" onclick="toggleFavourite(${questionsList[i].questionSerialNumber})" alt="" srcset="">
+    <img src="./../images/icons/round-v.svg" alt="" srcset="">`;
     } else {
       str += `<img class="icon"
-  src="./../images/icons/empty-heart.svg" onclick="toggleFavourite(${questionsList[i].questionSerialNumber})" alt="" srcset="">`;
+  src="./../images/icons/empty-heart.svg" onclick="toggleFavourite(${questionsList[i].questionSerialNumber})" alt="" srcset="">
+  <img src="./../images/icons/round-v.svg" alt="" srcset="">`;
     }
+    str += `</div>`;
     str += `</div>`;
     if (i <= questionsList.length / 2 - 0.5) {
       document.getElementsByClassName("col1")[0].innerHTML += str;
