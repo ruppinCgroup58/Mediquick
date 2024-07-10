@@ -125,7 +125,6 @@ public class DBServices
                     WrongAnswer2 = dataReader["wrongAnswer2"].ToString(),
                     WrongAnswer3 = dataReader["wrongAnswer3"].ToString(),
                     Explanation = dataReader["explanation"].ToString(),
-                    isFavourite = dataReader["isFavourite"].ToString()
                 });
             }
 
