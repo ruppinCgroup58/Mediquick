@@ -323,7 +323,6 @@ public class DBServices
                 q.Creator = dataReader["creatorID"].ToString();
                 q.TotalAnswers = Convert.ToInt32(dataReader["totalAnswers"]);
                 q.TotalCorrectAnswers = Convert.ToInt32(dataReader["correctAnswers"]);
-                q.Topic = dataReader["topicId"].ToString();
                 qList.Add(q); 
             }
             return qList;
