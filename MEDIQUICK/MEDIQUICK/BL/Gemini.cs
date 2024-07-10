@@ -94,7 +94,7 @@ public class Gemini
         }
     }
 
-    public async Task<string> GenerateContentSimilarity(string promptToGemini)
+    public async Task<string> GeminiForSimilarity(string promptToGemini)
     {
         string projectId = "crested-plexus-422813-c6";  //modified
         string location = "me-west1";                   //modified

@@ -91,7 +91,12 @@
             Task<string> testString = gemini.GenerateContent(content);          
             return testString;
         }
-
+        public Task<string> GeminiForSimilarity(string content)
+        {
+            Gemini gemini = new Gemini();
+            Task<string> testString = gemini.GeminiForSimilarity(content);
+            return testString;
+        }
         public List<Object> GetQuestionsByTopicAndId(int topicId, int userId)
         {
             return dbs.GetQuestionsByTopicAndId(topicId, userId);

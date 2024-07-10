@@ -18,6 +18,13 @@ namespace MEDIQUICK.Controllers
         }
 
         // GET: api/<QuestionsController>
+        [HttpPost("/GeminiForSimilarity")]
+        public Task<string> GeminiForSimilarity([FromBody] string content)
+        {
+            Question question = new Question();
+            return question.GeminiForSimilarity(content);
+        }
+        // GET: api/<QuestionsController>
         [HttpGet("/ReadQuestions")]
         public IEnumerable<Question> ReadQuestions()
         {
