@@ -5,7 +5,6 @@ var apiQuestion = 'https://localhost:7253/api/Questions/';
 var apiUpdateUserDetails = 'https://localhost:7253/updateUserDetails';
 var apiUpdateQuestionDetails = 'https://localhost:7253/updateQuestionDetails';
 var topicApi = 'https://localhost:7253/api/Topics';
-var apiQuestionByTopic = 'https://localhost:7253/api/Questions/qId/'
 
 $(document).ready(function () {
     $('.toggle-row-btn').click(function () {
@@ -344,15 +343,20 @@ function questionsTableGetECB(err) {
 }
 
 //Check-similarity-level
-function CheckSimilarityLevel(item){
-    idQuestionToCheck = item.parentElement.parentElement.children[0].innerHTML;
+function CheckSimilarityLevel(item) {
+    var idQuestionToCheck = item.parentElement.parentElement.children[0].innerHTML;
     topicQuestionToCheck = item.parentElement.parentElement.children[7].innerHTML;
+    var apiQuestionByTopic = 'https://localhost:7253/api/Questions/qId/';
     apiQuestionByTopic = apiQuestionByTopic + idQuestionToCheck + '/topicName/' + topicQuestionToCheck;
-    ajaxCall("GET", apiQuestionByTopic, '', getQuestionByTopicGetSCB, getQuestionByTopicGetECB);
+    ajaxCall("GET", apiQuestionByTopic, '', function (data) {
+        getQuestionByTopicGetSCB(idQuestionToCheck, data);
+    }, getQuestionByTopicGetECB);
 }
 
-function getQuestionByTopicGetSCB(data) {
-    console.log('השאלות הובאו בהצלחה');
+function getQuestionByTopicGetSCB(idQuestionToCheck,data) {
+    idQuestionToCheck;
+    listOfQuestions = JSON.stringify(data);
+    
 }
 function getQuestionByTopicGetECB(data) {
     console.log('ERROR');
