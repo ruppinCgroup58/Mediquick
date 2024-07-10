@@ -53,7 +53,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateGetQuestionsByTopicAndIdCommandWithStoredProcedure("sp_getQuestionByTopic", con, topicName, userId);             // create the command
+        cmd = CreateGetQuestionsByTopicAndIdCommandWithStoredProcedure("sp_getQuestionByTopicAndId", con, topicName, userId);             // create the command
 
         try
         {
@@ -551,6 +551,7 @@ public class DBServices
         cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
 
         cmd.Parameters.AddWithValue("@topicName", topicName);
+
 
         return cmd;
     }
