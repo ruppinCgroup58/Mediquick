@@ -96,15 +96,17 @@ function getQuestionsByTopicSCB(questionsList) {
                   </div>
 
               </div>`;
+    str += `<div class="icons">`;
     if (questionsList[i].isFavourite != 0) {
-      str +=`<div class="icons">`;
-      str += `<img class="icon fav"
-  src="./../images/icons/full-heart.svg" onclick="toggleFavourite(${questionsList[i].questionSerialNumber})" alt="" srcset="">
-    <img src="./../images/icons/round-v.svg" alt="" srcset="">`;
+      str += `<img src="./../images/icons/round-v.svg" alt="" srcset="">
+              <img class="icon fav"
+                src="./../images/icons/full-heart.svg" onclick="toggleFavourite(${questionsList[i].questionSerialNumber})" alt="" srcset="">
+    `;
     } else {
-      str += `<img class="icon"
+      str += `<img src="./../images/icons/round-v.svg" alt="" srcset="">
+      <img class="icon"
   src="./../images/icons/empty-heart.svg" onclick="toggleFavourite(${questionsList[i].questionSerialNumber})" alt="" srcset="">
-  <img src="./../images/icons/round-v.svg" alt="" srcset="">`;
+  `;
     }
     str += `</div>`;
     str += `</div>`;
@@ -149,7 +151,11 @@ function calculateMargin() {
   let expDiv =
     document.getElementsByClassName("open")[0].firstElementChild
       .lastElementChild;
-  console.log(document.getElementsByClassName("open")[0].firstElementChild.getBoundingClientRect().height);
+  console.log(
+    document
+      .getElementsByClassName("open")[0]
+      .firstElementChild.getBoundingClientRect().height
+  );
   let questionDivHieght = 238;
   let contentDivHeight = contentDiv.getBoundingClientRect().height;
   let optionsDivHeight = optionsDiv.getBoundingClientRect().height;

@@ -83,6 +83,7 @@ function toggleExpl() {
     }
 }
 
+//Activated when a user clicks on an option
 function applySelectedAnimation() {
   //Selecting options
   document.querySelectorAll(".option").forEach((option) => {
