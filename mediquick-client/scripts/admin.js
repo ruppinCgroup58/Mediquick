@@ -4,8 +4,7 @@ var geminiAPI = 'https://localhost:7253/Gemini';
 var apiQuestion = 'https://localhost:7253/api/Questions/';
 var apiUpdateUserDetails = 'https://localhost:7253/updateUserDetails';
 var apiUpdateQuestionDetails = 'https://localhost:7253/updateQuestionDetails';
-var topicApi = "https://localhost:7253/api/Topics";
-
+var topicApi = 'https://localhost:7253/api/Topics';
 
 $(document).ready(function () {
     $('.toggle-row-btn').click(function () {
@@ -344,10 +343,39 @@ function questionsTableGetECB(err) {
 }
 
 //Check-similarity-level
-function CheckSimilarityLevel(item){
-    idQuestionToCheck = item.parentElement.parentElement.children[0].innerHTML;
+function CheckSimilarityLevel(item) {
+    var idQuestionToCheck = item.parentElement.parentElement.children[0].innerHTML;
     topicQuestionToCheck = item.parentElement.parentElement.children[7].innerHTML;
+    var apiQuestionByTopic = 'https://localhost:7253/api/Questions/qId/';
+    apiQuestionByTopic = apiQuestionByTopic + idQuestionToCheck + '/topicName/' + topicQuestionToCheck;
+    QuestionToCheck= {
+        questionSerialNumber: idQuestionToCheck,
+        content: item.parentElement.parentElement.children[1].innerHTML,
+        correctAnswer: item.parentElement.parentElement.children[2].innerHTML,
+        wrongAnswer1: item.parentElement.parentElement.children[3].innerHTML,
+        wrongAnswer2: item.parentElement.parentElement.children[4].innerHTML,
+        wrongAnswer3: item.parentElement.parentElement.children[5].innerHTML,
+        explanation: item.parentElement.parentElement.children[6].innerHTML,                
+    }
+    stringQuestionToCheck = JSON.stringify(QuestionToCheck);
+    ajaxCall("GET", apiQuestionByTopic, '', function (data) {
+        getQuestionByTopicGetSCB(stringQuestionToCheck, data);
+    }, getQuestionByTopicGetECB);
 }
+
+function getQuestionByTopicGetSCB(stringQuestionToCheck,data) {
+    listOfQuestions = JSON.stringify(data);
+    textToGemini = `
+תספק לי רמת דמיון סמנטי בין ${stringQuestionToCheck} 
+ל: ${listOfQuestions} ,
+תן לי את התשובה בדירוג רמת דמיון באחוזים.
+תן תשובה רק של הדירוג הכי גבוה ואת מספר השאלה עם רמת הדמיון הכי גבוהה. את התשובה תסדר במבנה הבא: json{ selectedQuestion: highestScore }
+`;
+}
+function getQuestionByTopicGetECB(data) {
+    console.log('ERROR');
+}
+
 
 //edit question modal
 function editQuestionRow(item) {

@@ -93,7 +93,7 @@ public class DBServices
             }
         }
     }
-    public List<Object> GetQuestionsByTopic(string topicName)
+    public List<Object> GetQuestionsByTopic(int qId, string topicName)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -108,7 +108,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateGetQuestionsByTopicCommandWithStoredProcedure("sp_getQuestionByTopic", con, topicName);             // create the command
+        cmd = CreateGetQuestionsByTopicCommandWithStoredProcedure("sp_getQuestionByTopic", con, qId, topicName);             // create the command
 
         try
         {
@@ -216,7 +216,8 @@ public class DBServices
             q.Status = Convert.ToInt32(dataReader["status"]);
             q.Creator = dataReader["creatorID"].ToString(); 
             q.TotalAnswers = Convert.ToInt32(dataReader["totalAnswers"]); 
-            q.TotalCorrectAnswers = Convert.ToInt32(dataReader["correctAnswers"]); 
+            q.TotalCorrectAnswers = Convert.ToInt32(dataReader["correctAnswers"]);
+            q.Topic = dataReader["topicId"].ToString();
             return q;
         }
         catch (Exception ex)
@@ -323,7 +324,6 @@ public class DBServices
                 q.Creator = dataReader["creatorID"].ToString();
                 q.TotalAnswers = Convert.ToInt32(dataReader["totalAnswers"]);
                 q.TotalCorrectAnswers = Convert.ToInt32(dataReader["correctAnswers"]);
-
                 qList.Add(q); 
             }
             return qList;
@@ -537,7 +537,7 @@ public class DBServices
         return cmd;
     }
 
-    private SqlCommand CreateGetQuestionsByTopicCommandWithStoredProcedure(String spName, SqlConnection con, string topicName)
+    private SqlCommand CreateGetQuestionsByTopicCommandWithStoredProcedure(String spName, SqlConnection con,int qId, string topicName)
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
@@ -552,6 +552,7 @@ public class DBServices
 
         cmd.Parameters.AddWithValue("@topicName", topicName);
 
+        cmd.Parameters.AddWithValue("@qId", qId);
 
         return cmd;
     }
