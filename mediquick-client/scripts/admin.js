@@ -348,19 +348,35 @@ function CheckSimilarityLevel(item) {
     topicQuestionToCheck = item.parentElement.parentElement.children[7].innerHTML;
     var apiQuestionByTopic = 'https://localhost:7253/api/Questions/qId/';
     apiQuestionByTopic = apiQuestionByTopic + idQuestionToCheck + '/topicName/' + topicQuestionToCheck;
+    QuestionToCheck= {
+        questionSerialNumber: idQuestionToCheck,
+        content: item.parentElement.parentElement.children[1].innerHTML,
+        correctAnswer: item.parentElement.parentElement.children[2].innerHTML,
+        wrongAnswer1: item.parentElement.parentElement.children[3].innerHTML,
+        wrongAnswer2: item.parentElement.parentElement.children[4].innerHTML,
+        wrongAnswer3: item.parentElement.parentElement.children[5].innerHTML,
+        explanation: item.parentElement.parentElement.children[6].innerHTML,                
+    }
+    stringQuestionToCheck = JSON.stringify(QuestionToCheck);
     ajaxCall("GET", apiQuestionByTopic, '', function (data) {
-        getQuestionByTopicGetSCB(idQuestionToCheck, data);
+        getQuestionByTopicGetSCB(stringQuestionToCheck, data);
     }, getQuestionByTopicGetECB);
 }
 
-function getQuestionByTopicGetSCB(idQuestionToCheck,data) {
-    idQuestionToCheck;
+function getQuestionByTopicGetSCB(stringQuestionToCheck,data) {
     listOfQuestions = JSON.stringify(data);
-    
+    textToGemini = `
+תספק לי רמת דמיון סמנטי בין ${stringQuestionToCheck} 
+ל: ${listOfQuestions} ,
+תן לי את התשובה בדירוג רמת דמיון באחוזים.
+תן תשובה רק של הדירוג הכי גבוה ואת מספר השאלה עם רמת הדמיון הכי גבוהה. את התשובה תסדר במבנה הבא: json{ selectedQuestion: highestScore }
+`;
 }
 function getQuestionByTopicGetECB(data) {
     console.log('ERROR');
 }
+
+
 //edit question modal
 function editQuestionRow(item) {
 
