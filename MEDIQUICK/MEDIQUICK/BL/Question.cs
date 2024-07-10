@@ -92,9 +92,9 @@
             return testString;
         }
 
-        public List<Object> GetQuestionsByTopicAnaId(string topicName, int userId)
+        public List<Object> GetQuestionsByTopicAndId(int topicId, int userId)
         {
-            return dbs.GetQuestionsByTopicAnaId(topicName, userId);
+            return dbs.GetQuestionsByTopicAndId(topicId, userId);
         }
 
         public List<Object> GetQuestionsByTopic(string topicName)

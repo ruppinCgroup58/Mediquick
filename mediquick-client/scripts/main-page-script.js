@@ -17,7 +17,7 @@ function AddProgressPercentage() {
 function getUserProgressSCB(objectList) {
   str = "";
   for (let i = 0; i < objectList.length; i++) {
-    str += `<div class="card" onclick="goToQBTPage('${objectList[i].topicName}')">
+    str += `<div class="card" onclick="goToQBTPage(${objectList[i].topicId +", '"+ objectList[i].topicName}')">
     <div class="title">${objectList[i].topicName}</div>
     <div class="percentage-circle" data-percentage="${objectList[i].answeredRatio}">
         <svg viewBox="0 0 100 100">
@@ -35,6 +35,6 @@ function getUserProgressECB(err) {
     alert(err.statusText);
 }
 
-function goToQBTPage(topicName) {
-  window.location.href = `questions-by-topic.html?topicName=${topicName}`
+function goToQBTPage(topicId, topicName) {
+  window.location.href = `questions-by-topic.html?topicId=${topicId}&topicName=${topicName}`
 }

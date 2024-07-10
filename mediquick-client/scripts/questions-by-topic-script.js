@@ -1,7 +1,8 @@
-let GetQuestionsByTopicAPI = "https://localhost:7253/api/Questions/topicName/";
+let GetQuestionsByTopicAPI = "https://localhost:7253/api/Questions/topicId/";
 const params = new URLSearchParams(window.location.search);
+const topicId = params.get("topicId");
 const topicName = params.get("topicName");
-GetQuestionsByTopicAPI += topicName;
+GetQuestionsByTopicAPI += topicId;
 let userConnected = sessionStorage.getItem("id");
 GetQuestionsByTopicAPI += `/userId/ ${userConnected}`;
 ajaxCall(
@@ -67,7 +68,7 @@ function HeartIconEL() {
 }
 function getQuestionsByTopicSCB(questionsList) {
   $("#main-header")[0].innerHTML += topicName;
-  document.title += ` ${topicName}`;
+  document.title += ` ${topicId}`;
   let str = "";
   for (let i = 0; i < questionsList.length; i++) {
     str = `<div class="closed question">
@@ -97,13 +98,17 @@ function getQuestionsByTopicSCB(questionsList) {
 
               </div>`;
     str += `<div class="icons">`;
+    if(questionsList[i].userAnswered != 0) {
+      str +=`<img src="./../images/icons/round-v.svg" alt="" srcset="">`
+    }
     if (questionsList[i].isFavourite != 0) {
-      str += `<img src="./../images/icons/round-v.svg" alt="" srcset="">
+      str += `
               <img class="icon fav"
                 src="./../images/icons/full-heart.svg" onclick="toggleFavourite(${questionsList[i].questionSerialNumber})" alt="" srcset="">
     `;
     } else {
-      str += `<img src="./../images/icons/round-v.svg" alt="" srcset="">
+      str += `
+      
       <img class="icon"
   src="./../images/icons/empty-heart.svg" onclick="toggleFavourite(${questionsList[i].questionSerialNumber})" alt="" srcset="">
   `;
