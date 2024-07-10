@@ -92,7 +92,7 @@ public class DBServices
             }
         }
     }
-    public List<Object> GetQuestionsByTopic(string topicName)
+    public List<Object> GetQuestionsByTopic(int qId, string topicName)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -107,7 +107,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateGetQuestionsByTopicCommandWithStoredProcedure("sp_getQuestionByTopic", con, topicName);             // create the command
+        cmd = CreateGetQuestionsByTopicCommandWithStoredProcedure("sp_getQuestionByTopic", con, qId, topicName);             // create the command
 
         try
         {
@@ -536,7 +536,7 @@ public class DBServices
         return cmd;
     }
 
-    private SqlCommand CreateGetQuestionsByTopicCommandWithStoredProcedure(String spName, SqlConnection con, string topicName)
+    private SqlCommand CreateGetQuestionsByTopicCommandWithStoredProcedure(String spName, SqlConnection con,int qId, string topicName)
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
@@ -551,6 +551,7 @@ public class DBServices
 
         cmd.Parameters.AddWithValue("@topicName", topicName);
 
+        cmd.Parameters.AddWithValue("@qId", qId);
 
         return cmd;
     }

@@ -4,8 +4,8 @@ var geminiAPI = 'https://localhost:7253/Gemini';
 var apiQuestion = 'https://localhost:7253/api/Questions/';
 var apiUpdateUserDetails = 'https://localhost:7253/updateUserDetails';
 var apiUpdateQuestionDetails = 'https://localhost:7253/updateQuestionDetails';
-var topicApi = "https://localhost:7253/api/Topics";
-
+var topicApi = 'https://localhost:7253/api/Topics';
+var apiQuestionByTopic = 'https://localhost:7253/api/Questions/qId/'
 
 $(document).ready(function () {
     $('.toggle-row-btn').click(function () {
@@ -347,8 +347,16 @@ function questionsTableGetECB(err) {
 function CheckSimilarityLevel(item){
     idQuestionToCheck = item.parentElement.parentElement.children[0].innerHTML;
     topicQuestionToCheck = item.parentElement.parentElement.children[7].innerHTML;
+    apiQuestionByTopic = apiQuestionByTopic + idQuestionToCheck + '/topicName/' + topicQuestionToCheck;
+    ajaxCall("GET", apiQuestionByTopic, '', getQuestionByTopicGetSCB, getQuestionByTopicGetECB);
 }
 
+function getQuestionByTopicGetSCB(data) {
+    console.log('השאלות הובאו בהצלחה');
+}
+function getQuestionByTopicGetECB(data) {
+    console.log('ERROR');
+}
 //edit question modal
 function editQuestionRow(item) {
 

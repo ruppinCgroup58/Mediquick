@@ -34,11 +34,11 @@ namespace MEDIQUICK.Controllers
         }
 
         // GET: api/<QuestionsController>
-        [HttpGet("topicName/{topicName}")]
-        public List<Object> GetQuestionsByTopic(string topicName)
+        [HttpGet("qId/{qId}/topicName/{topicName}")]
+        public List<Object> GetQuestionsByTopic(int qId ,string topicName)
         {
             Question q = new Question();
-            return q.GetQuestionsByTopic(topicName);
+            return q.GetQuestionsByTopic(qId,topicName);
         }
         // GET: api/<QuestionsController>
         [HttpGet("userId/{userId}")]

@@ -97,9 +97,9 @@
             return dbs.GetQuestionsByTopicAnaId(topicName, userId);
         }
 
-        public List<Object> GetQuestionsByTopic(string topicName)
+        public List<Object> GetQuestionsByTopic(int qId,string topicName)
         {
-            return dbs.GetQuestionsByTopic(topicName);
+            return dbs.GetQuestionsByTopic(qId,topicName);
         }
         public int changeQuestionStatus(int id, int newStatus)
         {
