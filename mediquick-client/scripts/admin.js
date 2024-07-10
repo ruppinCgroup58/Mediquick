@@ -302,13 +302,13 @@ function questionsTableGetSCB(questionsList) {
                             {
                                 data: null, // This column does not map to a property in the data
                                 render: function (data, type, row, meta) {
-                                    return '<button type="button" class="edit-user-row" onclick=editQuestionRow(this)>ערוך</button>';
+                                    return '<button type="button" title="לחץ כאן על מנת לערוך שאלה זו" class="edit-user-row" onclick=editQuestionRow(this)>ערוך</button>';
                                 }
                              },
                              {
                                  data: null, // This column does not map to a property in the data
                                  render: function (data, type, row, meta) {
-                                     return '<button type="button" class="Check-similarity-level" onclick=CheckSimilarityLevel(this)>בדוק</button>';
+                                     return '<button type="button" title="לחץ כאן על מנת לייבא את השאלות הדומות ביותר לשאלה זו" class="Check-similarity-level" onclick=CheckSimilarityLevel(this)>בדוק</button>';
                                  }
                              },
                  ],
@@ -348,6 +348,16 @@ function CheckSimilarityLevel(item) {
     topicQuestionToCheck = item.parentElement.parentElement.children[7].innerHTML;
     var apiQuestionByTopic = 'https://localhost:7253/api/Questions/qId/';
     apiQuestionByTopic = apiQuestionByTopic + idQuestionToCheck + '/topicName/' + topicQuestionToCheck;
+    stringStatus = item.parentElement.parentElement.children[9].firstElementChild.value;
+    if (stringStatus == 'מאושר') {
+        intStatus = 1;
+    }
+    else if (stringStatus == 'ממתין') {
+        intStatus = 0;
+    }
+    else if (stringStatus == 'נדחה') {
+        intStatus = -1;
+    }
     QuestionToCheck= {
         questionSerialNumber: idQuestionToCheck,
         content: item.parentElement.parentElement.children[1].innerHTML,
@@ -355,7 +365,13 @@ function CheckSimilarityLevel(item) {
         wrongAnswer1: item.parentElement.parentElement.children[3].innerHTML,
         wrongAnswer2: item.parentElement.parentElement.children[4].innerHTML,
         wrongAnswer3: item.parentElement.parentElement.children[5].innerHTML,
-        explanation: item.parentElement.parentElement.children[6].innerHTML,                
+        explanation: item.parentElement.parentElement.children[6].innerHTML,      
+        topic: item.parentElement.parentElement.children[7].innerHTML,     
+        difficulty: item.parentElement.parentElement.children[8].innerHTML,     
+        status: intStatus,
+        creator: item.parentElement.parentElement.children[10].innerHTML,     
+        totalAnswers: item.parentElement.parentElement.children[11].innerHTML,     
+        totalCorrectAnswers: item.parentElement.parentElement.children[12].innerHTML
     }
     stringQuestionToCheck = JSON.stringify(QuestionToCheck);
     ajaxCall("GET", apiQuestionByTopic, '', function (data) {
@@ -368,6 +384,12 @@ function getQuestionByTopicGetSCB(stringQuestionToCheck,data) {
     textToGemini = `תספק לי רמת דמיון סמנטי בין ${stringQuestionToCheck} ל-${listOfQuestions}. תן לי את התשובה בדירוג רמת דמיון באחוזים. החזר את שלוש השאלות עם הדירוג הכי גבוה, אך לא לכלול את השאלה הנבדקת עצמה בתוצאות. התשובה תהיה במבנה הבא:
 
 json{
+  "questionToCheck": {
+    "questionSerialNumber": "", "Content": "", "CorrectAnswer": "",
+    "WrongAnswer1": "", "WrongAnswer2": "", "WrongAnswer3": "",
+    "Explanation": "", "topic": "", "difficulty": "",
+    "status": "", "creator": "", "totalAnswers": "", "totalCorrectAnswers": ""
+  },
   topQuestions: [
             {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
             'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
@@ -377,8 +399,7 @@ json{
             'creator' 'totalAnswers' 'totalCorrectAnswers'}, 
             {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
             'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
-            'creator' 'totalAnswers' 'totalCorrectAnswers'}           
-           
+            'creator' 'totalAnswers' 'totalCorrectAnswers'}                     
   ]
 }`;
 
@@ -391,7 +412,10 @@ function getQuestionByTopicGetECB(data) {
 }
 
 function geminiForSimilaritySCB(data) {
-    questionsTableGetSCB(data.topQuestions);
+    let combinedQuestions = data.topQuestions;
+    combinedQuestions.unshift(data.questionToCheck);
+    document.getElementById("renderQuestionTableAgain").style.display = "block";
+    questionsTableGetSCB(combinedQuestions);
 }
 
 function geminiForSimilarityECB(err) {
