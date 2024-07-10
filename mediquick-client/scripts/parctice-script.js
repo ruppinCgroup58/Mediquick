@@ -7,6 +7,7 @@ let explanations = [];
 let heartIcons = [];
 let currentQuestionIndex = 0;
 let explShown = 0;
+var shuffledQuestions;
 
 ajaxCall("GET", topicAPI, "", topicGetSCB, topicGetECB);
 $("#start-practice-form").submit(startPracticeFormSubmit);
@@ -94,6 +95,7 @@ function applySelectedAnimation() {
         .forEach((opt) => opt.classList.remove("selected-option"));
       // Add 'selected' class to the clicked option
       option.classList.add("selected-option");
+      HandleQuestionAnswer();
     });
   });
 }
@@ -139,38 +141,39 @@ function shuffleAnswers(questionsList) {
 
 
 function startPracticeSCB(questionsList) {
-  const shuffledQuestions = shuffleAnswers(questionsList);
+  let counter = 1;
+  shuffledQuestions = shuffleAnswers(questionsList);
   questions = shuffledQuestions.map(
-    (question) => `<div class="question-wrapper">
+    (question) => `<div id="${counter - 1}" class="question-wrapper">
                       <div class="question-content">
-                          <b>${question.questionSerialNumber}. ${question.content}</b>
+                          <b>${counter++}. ${question.content}</b>
                       </div>
                       <div class="options">
                           <ul>
                               <li>
                                   <div class="option-1">
-                                      <p class="option">א. ${question.shuffledAnswers[0].content}</p>
+                                      <p data-number="0" class="option">א. ${question.shuffledAnswers[0].content}</p>
                                   </div>
                               </li>
                           </ul>
                           <ul>
                               <li>
                                   <div class="option-2">
-                                      <p class="option">ב. ${question.shuffledAnswers[1].content}</p>
+                                      <p data-number="1" class="option">ב. ${question.shuffledAnswers[1].content}</p>
                                   </div>
                               </li>
                           </ul>
                           <ul>
                               <li>
                                   <div class="option-3">
-                                      <p class="option">ג. ${question.shuffledAnswers[2].content}</p>
+                                      <p data-number="2" class="option">ג. ${question.shuffledAnswers[2].content}</p>
                                   </div>
                               </li>
                           </ul>
                           <ul>
                               <li>
                                   <div class="option-4">
-                                      <p class="option">ד. ${question.shuffledAnswers[3].content}</p>
+                                      <p data-number="3" class="option">ד. ${question.shuffledAnswers[3].content}</p>
                                   </div>
                               </li>
                           </ul>
@@ -272,4 +275,28 @@ function handleArrowBtn() {
     // document.getElementById("prevQ").classList.remove("disabled-btn");
     document.getElementById("nextQ").classList.remove("disabled-btn");
   }
+}
+
+function HandleQuestionAnswer() {
+  let qId = document.getElementById("question-container").firstChild.id;
+  let answerChosenIndex = document.getElementsByClassName('selected-option')[0].dataset.number;
+  let isCorrect = shuffledQuestions[qId].shuffledAnswers[answerChosenIndex].isCorrect
+  console.log(isCorrect);
+  let qSerialNumber = shuffledQuestions[qId].questionSerialNumber;
+  console.log(qSerialNumber)
+  let req = {
+    qId: qSerialNumber,
+    userId: userConnected,
+    isCorrect: isCorrect
+  }
+  console.log(req)
+  //לשלוח בקשה עם המשתנים USERID, QUESTIONID, ISCORRECT
+  //לנתיב שנטלי תיצור
+  // ajaxCall(
+  //   "POST",
+  //   generatePracticeAPI,
+  //   JSON.stringify(practiceStringObject),
+  //   startPracticeSCB,
+  //   startPracticeECB
+  // );
 }
