@@ -1575,7 +1575,7 @@ public class DBServices
         }
     }
 
-    public bool updateCommenInctive(Comment comment)
+    public bool updateCommentInactive(Comment comment)
     {
         SqlConnection con;
         SqlCommand cmd;

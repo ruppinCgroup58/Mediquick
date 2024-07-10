@@ -44,9 +44,9 @@
             return dbs.updateCommentDetail(comment);
         }
 
-        public bool updateCommenInctive(Comment comment)
+        public bool updateCommentInactive(Comment comment)
         {
-            return dbs.updateCommenInctive(comment);
+            return dbs.updateCommentInactive(comment);
         }
 
     }
