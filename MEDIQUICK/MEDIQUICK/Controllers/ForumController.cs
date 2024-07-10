@@ -68,9 +68,9 @@ namespace MEDIQUICK.Controllers
         }
 
         [HttpPatch("/updateCommenInctive")]
-        public bool updateCommenInctive([FromBody] Comment comment)
+        public bool updateCommentInactive([FromBody] Comment comment)
         {
-            return new Comment().updateCommenInctive(comment);
+            return new Comment().updateCommentInactive(comment);
         }
 
         // DELETE api/<ForumController>/5
