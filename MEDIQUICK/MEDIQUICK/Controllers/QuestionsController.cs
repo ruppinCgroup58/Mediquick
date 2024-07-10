@@ -27,12 +27,19 @@ namespace MEDIQUICK.Controllers
 
         // GET: api/<QuestionsController>
         [HttpGet("topicName/{topicName}/userId/{userId}")]
-        public List<Object> GetQuestionsByTopic(string topicName,int userId)
+        public List<Object> GetQuestionsByTopicAnaId(string topicName,int userId)
         {
             Question q = new Question();
-            return q.GetQuestionsByTopic(topicName,userId);
+            return q.GetQuestionsByTopicAnaId(topicName,userId);
         }
 
+        // GET: api/<QuestionsController>
+        [HttpGet("qId/{qId}/topicName/{topicName}")]
+        public List<Object> GetQuestionsByTopic(int qId ,string topicName)
+        {
+            Question q = new Question();
+            return q.GetQuestionsByTopic(qId,topicName);
+        }
         // GET: api/<QuestionsController>
         [HttpGet("userId/{userId}")]
         public List<Question> GetFavouriteQuestionsByUser(int userId)

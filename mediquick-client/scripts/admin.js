@@ -4,8 +4,7 @@ var geminiAPI = 'https://localhost:7253/Gemini';
 var apiQuestion = 'https://localhost:7253/api/Questions/';
 var apiUpdateUserDetails = 'https://localhost:7253/updateUserDetails';
 var apiUpdateQuestionDetails = 'https://localhost:7253/updateQuestionDetails';
-var topicApi = "https://localhost:7253/api/Topics";
-
+var topicApi = 'https://localhost:7253/api/Topics';
 
 $(document).ready(function () {
     $('.toggle-row-btn').click(function () {
@@ -305,7 +304,13 @@ function questionsTableGetSCB(questionsList) {
                                 render: function (data, type, row, meta) {
                                     return '<button type="button" class="edit-user-row" onclick=editQuestionRow(this)>ערוך</button>';
                                 }
-                            },
+                             },
+                             {
+                                 data: null, // This column does not map to a property in the data
+                                 render: function (data, type, row, meta) {
+                                     return '<button type="button" class="Check-similarity-level" onclick=CheckSimilarityLevel(this)>בדוק</button>';
+                                 }
+                             },
                  ],
                  language: {
                      processing: "מעבד...",
@@ -335,6 +340,40 @@ function questionsTableGetSCB(questionsList) {
 }
 function questionsTableGetECB(err) {
     alert("Error: " + err);
+}
+
+//Check-similarity-level
+function CheckSimilarityLevel(item) {
+    var idQuestionToCheck = item.parentElement.parentElement.children[0].innerHTML;
+    topicQuestionToCheck = item.parentElement.parentElement.children[7].innerHTML;
+    var apiQuestionByTopic = 'https://localhost:7253/api/Questions/qId/';
+    apiQuestionByTopic = apiQuestionByTopic + idQuestionToCheck + '/topicName/' + topicQuestionToCheck;
+    QuestionToCheck= {
+        questionSerialNumber: idQuestionToCheck,
+        content: item.parentElement.parentElement.children[1].innerHTML,
+        correctAnswer: item.parentElement.parentElement.children[2].innerHTML,
+        wrongAnswer1: item.parentElement.parentElement.children[3].innerHTML,
+        wrongAnswer2: item.parentElement.parentElement.children[4].innerHTML,
+        wrongAnswer3: item.parentElement.parentElement.children[5].innerHTML,
+        explanation: item.parentElement.parentElement.children[6].innerHTML,                
+    }
+    stringQuestionToCheck = JSON.stringify(QuestionToCheck);
+    ajaxCall("GET", apiQuestionByTopic, '', function (data) {
+        getQuestionByTopicGetSCB(stringQuestionToCheck, data);
+    }, getQuestionByTopicGetECB);
+}
+
+function getQuestionByTopicGetSCB(stringQuestionToCheck,data) {
+    listOfQuestions = JSON.stringify(data);
+    textToGemini = `
+תספק לי רמת דמיון סמנטי בין ${stringQuestionToCheck} 
+ל: ${listOfQuestions} ,
+תן לי את התשובה בדירוג רמת דמיון באחוזים.
+תן תשובה רק של הדירוג הכי גבוה ואת מספר השאלה עם רמת הדמיון הכי גבוהה. את התשובה תסדר במבנה הבא: json{ selectedQuestion: highestScore }
+`;
+}
+function getQuestionByTopicGetECB(data) {
+    console.log('ERROR');
 }
 
 
@@ -473,7 +512,8 @@ function addQuestionToGemini() {
 'topic'
 כאשר ה 'topic'  יכיל את: ${selectedTopic}
         השאלות יתבססו על הטקסט הבא: ${$("#textInput").val()} 
-        אל תשאל שאלות שמחייבות לראות את הטקסט`;
+        אל תשאל שאלות שמחייבות לראות את הטקסט,
+        במשתנה EXPLANATION  התייחס רק לתוכן הטקסט ואל תתן הפניה לטקסט`;
 
         ajaxCall("POST", geminiAPI, JSON.stringify(orderToGemini), GeminiQuestionGetSCB, GeminiQuestionGetECB);
     return false;
@@ -481,6 +521,8 @@ function addQuestionToGemini() {
 function GeminiQuestionGetSCB(data) {
     alert("השאלות נוספו בהצלחה למאגר");
     document.getElementById("myModal").style.display = "none";
+    ajaxCall("GET", apiReadQuestion, "", questionsTableGetSCB, questionsTableGetECB);
+
 }
 function GeminiQuestionGetECB(err) {
     alert(err.statusText);
