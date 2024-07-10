@@ -92,11 +92,15 @@
             return testString;
         }
 
-        public List<Object> GetQuestionsByTopic(string topicName, int userId)
+        public List<Object> GetQuestionsByTopicAnaId(string topicName, int userId)
         {
-            return dbs.GetQuestionsByTopic(topicName, userId);
+            return dbs.GetQuestionsByTopicAnaId(topicName, userId);
         }
 
+        public List<Object> GetQuestionsByTopic(string topicName)
+        {
+            return dbs.GetQuestionsByTopic(topicName);
+        }
         public int changeQuestionStatus(int id, int newStatus)
         {
             return dbs.changeQuestionStatus(id, newStatus);

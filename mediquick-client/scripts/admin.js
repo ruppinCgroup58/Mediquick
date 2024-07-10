@@ -305,7 +305,13 @@ function questionsTableGetSCB(questionsList) {
                                 render: function (data, type, row, meta) {
                                     return '<button type="button" class="edit-user-row" onclick=editQuestionRow(this)>ערוך</button>';
                                 }
-                            },
+                             },
+                             {
+                                 data: null, // This column does not map to a property in the data
+                                 render: function (data, type, row, meta) {
+                                     return '<button type="button" class="Check-similarity-level" onclick=CheckSimilarityLevel(this)>בדוק</button>';
+                                 }
+                             },
                  ],
                  language: {
                      processing: "מעבד...",
@@ -337,6 +343,11 @@ function questionsTableGetECB(err) {
     alert("Error: " + err);
 }
 
+//Check-similarity-level
+function CheckSimilarityLevel(item){
+    idQuestionToCheck = item.parentElement.parentElement.children[0].innerHTML;
+    topicQuestionToCheck = item.parentElement.parentElement.children[7].innerHTML;
+}
 
 //edit question modal
 function editQuestionRow(item) {
@@ -473,7 +484,8 @@ function addQuestionToGemini() {
 'topic'
 כאשר ה 'topic'  יכיל את: ${selectedTopic}
         השאלות יתבססו על הטקסט הבא: ${$("#textInput").val()} 
-        אל תשאל שאלות שמחייבות לראות את הטקסט`;
+        אל תשאל שאלות שמחייבות לראות את הטקסט,
+        במשתנה EXPLANATION  התייחס רק לתוכן הטקסט ואל תתן הפניה לטקסט`;
 
         ajaxCall("POST", geminiAPI, JSON.stringify(orderToGemini), GeminiQuestionGetSCB, GeminiQuestionGetECB);
     return false;
@@ -481,6 +493,8 @@ function addQuestionToGemini() {
 function GeminiQuestionGetSCB(data) {
     alert("השאלות נוספו בהצלחה למאגר");
     document.getElementById("myModal").style.display = "none";
+    ajaxCall("GET", apiReadQuestion, "", questionsTableGetSCB, questionsTableGetECB);
+
 }
 function GeminiQuestionGetECB(err) {
     alert(err.statusText);
