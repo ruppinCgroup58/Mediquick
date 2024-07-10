@@ -38,7 +38,7 @@ public class DBServices
     //-----------Question class Functions-----------
     #region Question's Functions
 
-    public List<Object> GetQuestionsByTopic(string topicName , int userId )
+    public List<Object> GetQuestionsByTopic(string topicName, int userId)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -151,7 +151,7 @@ public class DBServices
             SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection); // execute the command
             dataReader.Read();
             Question q = new Question();
-            
+
             q.QuestionSerialNumber = Convert.ToInt32(dataReader["questionSerialNumber"]);
             q.Difficulty = Convert.ToInt32(dataReader["difficulty"]);
             q.Content = dataReader["content"].ToString();
@@ -161,9 +161,9 @@ public class DBServices
             q.WrongAnswer3 = dataReader["wrongAnswer3"].ToString();
             q.Explanation = dataReader["explanation"].ToString();
             q.Status = Convert.ToInt32(dataReader["status"]);
-            q.Creator = dataReader["creatorID"].ToString(); 
-            q.TotalAnswers = Convert.ToInt32(dataReader["totalAnswers"]); 
-            q.TotalCorrectAnswers = Convert.ToInt32(dataReader["correctAnswers"]); 
+            q.Creator = dataReader["creatorID"].ToString();
+            q.TotalAnswers = Convert.ToInt32(dataReader["totalAnswers"]);
+            q.TotalCorrectAnswers = Convert.ToInt32(dataReader["correctAnswers"]);
             return q;
         }
         catch (Exception ex)
@@ -181,7 +181,7 @@ public class DBServices
             }
         }
     }
-      public List<Question> GetFavouriteQuestionsUser( int userId)
+    public List<Question> GetFavouriteQuestionsUser(int userId)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -265,13 +265,13 @@ public class DBServices
                 q.WrongAnswer2 = dataReader["wrongAnswer2"].ToString();
                 q.WrongAnswer3 = dataReader["wrongAnswer3"].ToString();
                 q.Explanation = dataReader["explanation"].ToString();
-                q.Topic = dataReader["topicName"].ToString(); 
+                q.Topic = dataReader["topicName"].ToString();
                 q.Status = Convert.ToInt32(dataReader["status"]);
                 q.Creator = dataReader["creatorID"].ToString();
                 q.TotalAnswers = Convert.ToInt32(dataReader["totalAnswers"]);
                 q.TotalCorrectAnswers = Convert.ToInt32(dataReader["correctAnswers"]);
 
-                qList.Add(q); 
+                qList.Add(q);
             }
             return qList;
         }
@@ -342,7 +342,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = toggleFavouriteQuestionCommandWithStoredProcedure("sp_toggleFavouriteQuestion", con,  questionId, userId);             // create the command
+        cmd = toggleFavouriteQuestionCommandWithStoredProcedure("sp_toggleFavouriteQuestion", con, questionId, userId);             // create the command
 
         try
         {
@@ -464,7 +464,7 @@ public class DBServices
         return cmd;
     }
 
-    private SqlCommand CreateGetQuestionsByTopicCommandWithStoredProcedure(String spName, SqlConnection con, string topicName,int userId)
+    private SqlCommand CreateGetQuestionsByTopicCommandWithStoredProcedure(String spName, SqlConnection con, string topicName, int userId)
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
@@ -501,8 +501,8 @@ public class DBServices
 
         return cmd;
     }
-    
-        private SqlCommand GetFavouriteQuestionsUserCommandWithStoredProcedure(String spName, SqlConnection con, int userId)
+
+    private SqlCommand GetFavouriteQuestionsUserCommandWithStoredProcedure(String spName, SqlConnection con, int userId)
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
@@ -881,7 +881,7 @@ public class DBServices
 
         try
         {
-            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);            
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
             while (dataReader.Read())
             {
                 User u = new User();
@@ -1103,7 +1103,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateGetUPPCommandWithStoredProcedure("sp_getUserProgress", con,userID);             // create the command
+        cmd = CreateGetUPPCommandWithStoredProcedure("sp_getUserProgress", con, userID);             // create the command
 
         try
         {
@@ -1135,7 +1135,7 @@ public class DBServices
 
     }
 
-    private SqlCommand CreateGetUPPCommandWithStoredProcedure(String spName, SqlConnection con,int userID)
+    private SqlCommand CreateGetUPPCommandWithStoredProcedure(String spName, SqlConnection con, int userID)
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
@@ -1230,7 +1230,7 @@ public class DBServices
         cmd.Parameters.AddWithValue("@difficulties", selectedDiffLevels);
 
         cmd.Parameters.AddWithValue("@userId ", userId);
-       
+
         return cmd;
     }
 
@@ -1300,7 +1300,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateIssueChangeDetailsCommandWithStoredProcedureWithParameters("sp_updateIssueDetail", con,  issue);             // create the command
+        cmd = CreateIssueChangeDetailsCommandWithStoredProcedureWithParameters("sp_updateIssueDetail", con, issue);             // create the command
 
         try
         {
@@ -1321,7 +1321,44 @@ public class DBServices
             }
         }
     }
-   
+
+    public bool toggleIssueStatus(Issue issue)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = toggleIssueStatusWithStoredProcedureWithParameters("sp_toggleIssueStatus", con, issue);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            if (numEffected > 0) { return true; } else { return false; }
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
 
     private SqlCommand CreateIssueInsertCommandWithStoredProcedure(String spName, SqlConnection con, Issue issue)
     {
@@ -1341,7 +1378,7 @@ public class DBServices
         cmd.Parameters.AddWithValue("@title", issue.Title);
         cmd.Parameters.AddWithValue("@content ", issue.Content);
 
-   
+
         return cmd;
     }
 
@@ -1361,6 +1398,23 @@ public class DBServices
         cmd.Parameters.AddWithValue("@issueId", issue.IssueId);
         cmd.Parameters.AddWithValue("@title", issue.Title);
         cmd.Parameters.AddWithValue("@content", issue.Content);
+        return cmd;
+    }
+
+    private SqlCommand toggleIssueStatusWithStoredProcedureWithParameters(String spName, SqlConnection con, Issue issue)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@issueId", issue.IssueId);
         return cmd;
     }
 
@@ -1443,6 +1497,43 @@ public class DBServices
         }
     }
 
+    public bool updateCommenInctive(Comment comment)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = updateCommenInctiveWithStoredProcedureWithParameters("sp_setCommentInactive", con, comment); // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            if (numEffected > 0) { return true; } else { return false; }
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
     private SqlCommand CreateCommentInsertCommandWithStoredProcedure(String spName, SqlConnection con, Comment comment)
     {
 
@@ -1462,7 +1553,7 @@ public class DBServices
 
         return cmd;
     }
-    
+
     private SqlCommand CreateCommentChangeDetailsCommandWithStoredProcedureWithParameters(String spName, SqlConnection con, Comment comment)
     {
 
@@ -1480,9 +1571,27 @@ public class DBServices
         cmd.Parameters.AddWithValue("@content", comment.Content);
         return cmd;
     }
-   
-    
-    
+
+    private SqlCommand updateCommenInctiveWithStoredProcedureWithParameters(String spName, SqlConnection con, Comment comment)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@issueId", comment.IssueId);
+        cmd.Parameters.AddWithValue("@commentId", comment.CommentId);
+        return cmd;
+
+
+       
+    } 
     #endregion
 }
 

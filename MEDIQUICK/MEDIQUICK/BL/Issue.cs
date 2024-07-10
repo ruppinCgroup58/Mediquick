@@ -11,12 +11,13 @@ namespace MEDIQUICK.BL
         string title;
         string content;
         DateTime createdAt;
+        bool isClosed;
         DBServices dbs = new DBServices();
         public Issue()
         {
 
         }
-        public Issue(int issueId, int topicId, int userId, string title, string content, DateTime createdAt)
+        public Issue(int issueId, int topicId, int userId, string title, string content, DateTime createdAt , bool isClosed)
         {
             this.issueId = issueId;
             this.topicId = topicId;
@@ -24,6 +25,8 @@ namespace MEDIQUICK.BL
             this.title = title;
             this.content = content;
             this.createdAt = createdAt;
+            this.isClosed = isClosed;
+
         }
 
         public int IssueId { get => issueId; set => issueId = value; }
@@ -32,7 +35,7 @@ namespace MEDIQUICK.BL
         public string Title { get => title; set => title = value; }
         public string Content { get => content; set => content = value; }
         public DateTime CreatedAt { get => createdAt; set => createdAt = value; }
-
+        public bool IsClosed { get => isClosed; set => isClosed = value; }
 
         public int Insert()
         {
@@ -43,5 +46,12 @@ namespace MEDIQUICK.BL
         {
             return dbs.updateIssueDetail(issue);
         }
+
+        public bool toggleIssueStatus(Issue issue)
+        {
+            return dbs.toggleIssueStatus(issue);
+        }
+
     }
 }
+ 

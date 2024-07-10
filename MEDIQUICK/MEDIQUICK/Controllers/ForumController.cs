@@ -61,6 +61,17 @@ namespace MEDIQUICK.Controllers
         }
 
 
+        [HttpPatch("/toggleIssueStatus")]
+        public bool toggleIssueStatus([FromBody] Issue issue)
+        {
+            return new Issue().toggleIssueStatus(issue);
+        }
+
+        [HttpPatch("/updateCommenInctive")]
+        public bool updateCommenInctive([FromBody] Comment comment)
+        {
+            return new Comment().updateCommenInctive(comment);
+        }
 
         // DELETE api/<ForumController>/5
         [HttpDelete("{id}")]
