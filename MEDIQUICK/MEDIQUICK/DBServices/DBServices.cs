@@ -71,8 +71,12 @@ public class DBServices
                     WrongAnswer2 = dataReader["wrongAnswer2"].ToString(),
                     WrongAnswer3 = dataReader["wrongAnswer3"].ToString(),
                     Explanation = dataReader["explanation"].ToString(),
-                    isFavourite = dataReader["isFavourite"].ToString(),
-                    userAnswered = dataReader["userAnswered"].ToString()
+                    Topic = dataReader["topicId"].ToString(),
+                    difficulty = Convert.ToInt32(dataReader["difficulty"]),
+                    status = Convert.ToInt32(dataReader["status"]),
+                    creator = dataReader["topicId"].ToString(),
+                    totalAnswers = Convert.ToInt32(dataReader["totalAnswers"]),
+                    totalCorrectAnswers =Convert.ToInt32(dataReader["correctAnswers"])
                 });
             }
 

@@ -365,17 +365,38 @@ function CheckSimilarityLevel(item) {
 
 function getQuestionByTopicGetSCB(stringQuestionToCheck,data) {
     listOfQuestions = JSON.stringify(data);
-    textToGemini = `
-תספק לי רמת דמיון סמנטי בין ${stringQuestionToCheck} 
-ל: ${listOfQuestions} ,
-תן לי את התשובה בדירוג רמת דמיון באחוזים.
-תן תשובה רק של הדירוג הכי גבוה ואת מספר השאלה עם רמת הדמיון הכי גבוהה. את התשובה תסדר במבנה הבא: json{ selectedQuestion: highestScore }
-`;
+    textToGemini = `תספק לי רמת דמיון סמנטי בין ${stringQuestionToCheck} ל-${listOfQuestions}. תן לי את התשובה בדירוג רמת דמיון באחוזים. החזר את שלוש השאלות עם הדירוג הכי גבוה, אך לא לכלול את השאלה הנבדקת עצמה בתוצאות. התשובה תהיה במבנה הבא:
+
+json{
+  topQuestions: [
+            {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+            'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+            'creator' 'totalAnswers' 'totalCorrectAnswers'},  
+            {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+            'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+            'creator' 'totalAnswers' 'totalCorrectAnswers'}, 
+            {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+            'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+            'creator' 'totalAnswers' 'totalCorrectAnswers'}           
+           
+  ]
+}`;
+
+    var geminiForSimilarity = 'https://localhost:7253/GeminiForSimilarity'; 
+    ajaxCall("POST", geminiForSimilarity, JSON.stringify(textToGemini), geminiForSimilaritySCB, geminiForSimilarityECB);
+
 }
 function getQuestionByTopicGetECB(data) {
     console.log('ERROR');
 }
 
+function geminiForSimilaritySCB(data) {
+    questionsTableGetSCB(data.topQuestions);
+}
+
+function geminiForSimilarityECB(err) {
+
+}
 
 //edit question modal
 function editQuestionRow(item) {
