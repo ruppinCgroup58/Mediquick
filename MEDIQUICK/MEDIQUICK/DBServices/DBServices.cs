@@ -38,7 +38,11 @@ public class DBServices
     //-----------Question class Functions-----------
     #region Question's Functions
 
+<<<<<<< HEAD
     public List<Object> GetQuestionsByTopic(string topicName, int userId)
+=======
+    public List<Object> GetQuestionsByTopicAndId(int topicId, int userId)
+>>>>>>> df54246b6da1f4ca8397dc057f42e5cd50097bb9
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -53,7 +57,11 @@ public class DBServices
             throw (ex);
         }
 
+<<<<<<< HEAD
         cmd = CreateGetQuestionsByTopicCommandWithStoredProcedure("sp_getQuestionByTopic", con, topicName, userId);             // create the command
+=======
+        cmd = CreateGetQuestionsByTopicAndIdCommandWithStoredProcedure("sp_getQuestionByTopicAndId", con, topicId, userId);             // create the command
+>>>>>>> df54246b6da1f4ca8397dc057f42e5cd50097bb9
 
         try
         {
@@ -71,7 +79,8 @@ public class DBServices
                     WrongAnswer2 = dataReader["wrongAnswer2"].ToString(),
                     WrongAnswer3 = dataReader["wrongAnswer3"].ToString(),
                     Explanation = dataReader["explanation"].ToString(),
-                    isFavourite = dataReader["isFavourite"].ToString()
+                    isFavourite = dataReader["isFavourite"].ToString(),
+                    userAnswered = dataReader["userAnswered"].ToString()
                 });
             }
 
@@ -464,7 +473,11 @@ public class DBServices
         return cmd;
     }
 
+<<<<<<< HEAD
     private SqlCommand CreateGetQuestionsByTopicCommandWithStoredProcedure(String spName, SqlConnection con, string topicName, int userId)
+=======
+    private SqlCommand CreateGetQuestionsByTopicAndIdCommandWithStoredProcedure(String spName, SqlConnection con, int topicId, int userId)
+>>>>>>> df54246b6da1f4ca8397dc057f42e5cd50097bb9
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
@@ -477,7 +490,7 @@ public class DBServices
 
         cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
 
-        cmd.Parameters.AddWithValue("@topicName", topicName);
+        cmd.Parameters.AddWithValue("@topicId", topicId);
 
         cmd.Parameters.AddWithValue("@userId", userId);
 
@@ -1112,6 +1125,7 @@ public class DBServices
             {
                 objectList.Add(new
                 {
+                    topicId = Convert.ToInt32(dataReader["topicId"]),
                     topicName = dataReader["topicName"].ToString(),
                     AnsweredRatio = Convert.ToInt32(dataReader["AnsweredRatio"])
                 });
