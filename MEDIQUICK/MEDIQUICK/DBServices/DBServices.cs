@@ -38,11 +38,7 @@ public class DBServices
     //-----------Question class Functions-----------
     #region Question's Functions
 
-<<<<<<< HEAD
-    public List<Object> GetQuestionsByTopic(string topicName, int userId)
-=======
-    public List<Object> GetQuestionsByTopicAndId(int topicId, int userId)
->>>>>>> df54246b6da1f4ca8397dc057f42e5cd50097bb9
+    public List<Object> GetQuestionsByTopic(int qId, string topicName)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -57,11 +53,62 @@ public class DBServices
             throw (ex);
         }
 
-<<<<<<< HEAD
-        cmd = CreateGetQuestionsByTopicCommandWithStoredProcedure("sp_getQuestionByTopic", con, topicName, userId);             // create the command
-=======
+        cmd = CreateGetQuestionsByTopicCommandWithStoredProcedure("sp_getQuestionByTopic", con, qId, topicName);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection); // execute the command
+            List<Object> ObjectList = new List<Object>();
+
+            while (dataReader.Read())
+            {
+                ObjectList.Add(new
+                {
+                    QuestionSerialNumber = Convert.ToInt32(dataReader["questionSerialNumber"]),
+                    Content = dataReader["content"].ToString(),
+                    CorrectAnswer = dataReader["correctAnswer"].ToString(),
+                    WrongAnswer1 = dataReader["wrongAnswer1"].ToString(),
+                    WrongAnswer2 = dataReader["wrongAnswer2"].ToString(),
+                    WrongAnswer3 = dataReader["wrongAnswer3"].ToString(),
+                    Explanation = dataReader["explanation"].ToString(),
+                    isFavourite = dataReader["isFavourite"].ToString(),
+                    userAnswered = dataReader["userAnswered"].ToString()
+                });
+            }
+
+            return ObjectList;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+    public List<Object> GetQuestionsByTopicAndId(int topicId, int userId)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
         cmd = CreateGetQuestionsByTopicAndIdCommandWithStoredProcedure("sp_getQuestionByTopicAndId", con, topicId, userId);             // create the command
->>>>>>> df54246b6da1f4ca8397dc057f42e5cd50097bb9
 
         try
         {
@@ -173,6 +220,7 @@ public class DBServices
             q.Creator = dataReader["creatorID"].ToString();
             q.TotalAnswers = Convert.ToInt32(dataReader["totalAnswers"]);
             q.TotalCorrectAnswers = Convert.ToInt32(dataReader["correctAnswers"]);
+            q.Topic = dataReader["topicId"].ToString();
             return q;
         }
         catch (Exception ex)
@@ -473,11 +521,7 @@ public class DBServices
         return cmd;
     }
 
-<<<<<<< HEAD
-    private SqlCommand CreateGetQuestionsByTopicCommandWithStoredProcedure(String spName, SqlConnection con, string topicName, int userId)
-=======
     private SqlCommand CreateGetQuestionsByTopicAndIdCommandWithStoredProcedure(String spName, SqlConnection con, int topicId, int userId)
->>>>>>> df54246b6da1f4ca8397dc057f42e5cd50097bb9
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
@@ -493,6 +537,26 @@ public class DBServices
         cmd.Parameters.AddWithValue("@topicId", topicId);
 
         cmd.Parameters.AddWithValue("@userId", userId);
+
+        return cmd;
+    }
+
+    private SqlCommand CreateGetQuestionsByTopicCommandWithStoredProcedure(String spName, SqlConnection con, int qId, string topicName)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@qId", qId);
+
+        cmd.Parameters.AddWithValue("@topicName", topicName);
 
         return cmd;
     }
