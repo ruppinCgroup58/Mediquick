@@ -418,6 +418,10 @@ function geminiForSimilaritySCB(data) {
     questionsTableGetSCB(combinedQuestions);
 }
 
+function renderQuestionTableAgain() {
+    getQuestisonsDataTable();
+}
+
 function geminiForSimilarityECB(err) {
 
 }
