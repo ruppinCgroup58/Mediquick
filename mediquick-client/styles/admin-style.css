@@ -210,3 +210,14 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
 .edit-user-row{
 width:100%;
 }
+
+.input-box input, #renderQuestionTableAgain {
+    min-width: 150px;
+    width: 150px;
+    padding: 0px;
+    height: 30px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    color: #03a696;
+    border: 1px solid #03a696;
+}
