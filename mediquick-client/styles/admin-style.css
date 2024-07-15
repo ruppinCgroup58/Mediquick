@@ -211,7 +211,7 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
 width:100%;
 }
 
-.input-box input, #renderQuestionTableAgain {
+.input-box input #renderQuestionTableAgain {
     min-width: 150px;
     width: 150px;
     padding: 0px;

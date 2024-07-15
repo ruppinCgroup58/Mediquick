@@ -576,8 +576,9 @@ function addQuestionToGemini() {
 'topic'
 כאשר ה 'topic'  יכיל את: ${selectedTopic}
         השאלות יתבססו על הטקסט הבא: ${$("#textInput").val()} 
-        אל תשאל שאלות שמחייבות לראות את הטקסט,
-        במשתנה EXPLANATION  התייחס רק לתוכן הטקסט ואל תתן הפניה לטקסט`;
+     אני מעוניין בהסברים מקצועיים ללא הפניות לטקסט המקורי. ההסברים צריכים להיות ברורים,
+     תמציתיים ומנומקים היטב. אשמח אם תסביר את התשובה הנכונה תוך שימוש במושגים רלוונטיים מתחום הידע.
+     אל תכלול גרשיים בטקסט שבתוך הJSON`;
 
         ajaxCall("POST", geminiAPI, JSON.stringify(orderToGemini), GeminiQuestionGetSCB, GeminiQuestionGetECB);
     return false;
