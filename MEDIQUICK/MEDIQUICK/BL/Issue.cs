@@ -37,6 +37,15 @@ namespace MEDIQUICK.BL
         public DateTime CreatedAt { get => createdAt; set => createdAt = value; }
         public bool IsClosed { get => isClosed; set => isClosed = value; }
 
+        public List<object> GetIssuesWithCommentCountByTopic(int topicid)
+        {
+            return dbs.GetIssuesWithCommentCountByTopic(topicid);
+        }
+
+        public List<object> GetIssueWithComments(int issueId)
+        {
+            return dbs.GetIssueWithComments(issueId);
+        }
         public int Insert()
         {
             return dbs.InsertIssue(this);
