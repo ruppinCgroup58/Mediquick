@@ -5,7 +5,6 @@ ajaxCall("GET", topicAPI, "", topicGetSCB, topicGetECB);
 
 function topicGetSCB(topicList) {
     let cont = document.getElementById("container");
-    
     let str = "";
     for (var i = 0; i < topicList.length; i++) {
       str += `<div class="topic-forum" onclick="GoToForumTopicPage(${topicList[i].topicId +", '"+ topicList[i].topicName}')">${topicList[i].topicName}</div>`
