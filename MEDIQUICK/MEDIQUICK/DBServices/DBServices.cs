@@ -1,5 +1,6 @@
 ﻿using Google.Cloud.AIPlatform.V1;
 using MEDIQUICK.BL;
+using MEDIQUICK.Controllers;
 using System.Data;
 using System.Data.SqlClient;
 using static Google.Api.Gax.Grpc.Gcp.AffinityConfig.Types;
@@ -425,6 +426,44 @@ public class DBServices
             }
         }
     }
+
+    public int HandleQAnswer(int questionId, int userId, bool isCorrect)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = HandleQuestionAnswerWithStoredProcedure("sp_HandleQuestionAnswer", con, questionId, userId, isCorrect);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
     public int UpdateDifficultyLevel(int id, bool isCorrect)
     {
         SqlConnection con;
@@ -657,6 +696,26 @@ public class DBServices
 
         cmd.Parameters.AddWithValue("@questionId", questionId);
         cmd.Parameters.AddWithValue("@userId", userId);
+
+        return cmd;
+    }
+
+    private SqlCommand HandleQuestionAnswerWithStoredProcedure(String spName, SqlConnection con, int questionId, int userId,bool isCorrect)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@questionId", questionId);
+        cmd.Parameters.AddWithValue("@userId", userId);
+        cmd.Parameters.AddWithValue("@isCorrect", isCorrect);
 
         return cmd;
     }
@@ -1322,6 +1381,193 @@ public class DBServices
     //-----------Test class Functions-----------
     #region Test's Functions
 
+    public int CreateTest(int userId)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = CreateTestWithStoredProcedure("sp_Test_CreateTest", con, userId);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+                                                     // Read the output parameter value after executing the stored procedure
+            int testId = Convert.ToInt32(cmd.Parameters["@TestID"].Value);
+            return testId;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+    public Question Test_HandleQuestionAnswer(int userId, int testId, int questionId, bool isCorrect)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = Test_HandleQuestionAnswerWithStoredProcedure("sp_Test_HandleQuestionAnswer", con, userId, testId, questionId,isCorrect);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection); // execute the command
+            dataReader.Read();
+            Question q = new Question();
+
+            q.QuestionSerialNumber = Convert.ToInt32(dataReader["questionSerialNumber"]);
+            q.Difficulty = Convert.ToInt32(dataReader["difficulty"]);
+            q.Content = dataReader["content"].ToString();
+            q.CorrectAnswer = dataReader["correctAnswer"].ToString();
+            q.WrongAnswer1 = dataReader["wrongAnswer1"].ToString();
+            q.WrongAnswer2 = dataReader["wrongAnswer2"].ToString();
+            q.WrongAnswer3 = dataReader["wrongAnswer3"].ToString();
+            q.Explanation = dataReader["explanation"].ToString();
+            q.Topic = dataReader["topicId"].ToString();
+            return q;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+    public int EndTest(int testId)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = EndTestWithStoredProcedure("sp_Test_EndTest", con, testId);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+    private SqlCommand CreateTestWithStoredProcedure(String spName, SqlConnection con, int userId)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@UserID", userId);
+        // Add output parameter
+        SqlParameter outputParam = new SqlParameter("@TestID", SqlDbType.Int);
+        outputParam.Direction = ParameterDirection.Output;
+        cmd.Parameters.Add(outputParam);
+
+        return cmd;
+    }
+
+    private SqlCommand Test_HandleQuestionAnswerWithStoredProcedure(String spName, SqlConnection con, int userId,int testId, int questionId, bool isCorrect)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@UserID", userId);
+        cmd.Parameters.AddWithValue("@testId", testId);
+        cmd.Parameters.AddWithValue("@questionId", questionId);
+        cmd.Parameters.AddWithValue("@isCorrect", isCorrect);
+
+        return cmd;
+    }
+
+    private SqlCommand EndTestWithStoredProcedure(String spName, SqlConnection con, int testId)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@TestID", testId);
+
+        return cmd;
+    }
 
 
     #endregion
@@ -1329,6 +1575,115 @@ public class DBServices
 
     //-----------forumIssue class Functions-----------
     #region forumIssue's Functions
+
+    public List<object> GetIssuesWithCommentCountByTopic(int topicid)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        List<Object> objectList = new List<Object>();       //Ad-Hoc Objects
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = GetIssuesWithCommentCountWithStoredProcedure("sp_GetIssuesWithCommentCount", con, topicid);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            while (dataReader.Read())
+            {
+                objectList.Add(new
+                {
+                    issueId = Convert.ToInt32(dataReader["issueId"]),
+                    topicid = Convert.ToInt32(dataReader["topicid"]),
+                    title = dataReader["title"].ToString(),
+                    IssueContent = dataReader["IssueContent"].ToString(),
+                    CommentCount = Convert.ToInt32(dataReader["CommentCount"]),
+                    isClosed = bool.Parse(dataReader["isClosed"].ToString()),
+                    createdAt = dataReader.GetDateTime(dataReader.GetOrdinal("createdAt")) 
+                });
+            }
+            return objectList;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
+    public List<object> GetIssueWithComments(int issueId)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        List<Object> objectList = new List<Object>();       //Ad-Hoc Objects
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = GetIssueWithCommentsWithStoredProcedure("sp_GetIssueWithComments", con, issueId);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            while (dataReader.Read())
+            {
+                objectList.Add(new
+                {
+                    issueId = Convert.ToInt32(dataReader["issueId"]),
+                    topicid = Convert.ToInt32(dataReader["topicid"]),
+                    title = dataReader["title"].ToString(),
+                    IssueContent = dataReader["IssueContent"].ToString(),
+                    CommentCount = Convert.ToInt32(dataReader["CommentCount"]),
+                    commentId = Convert.ToInt32(dataReader["commentId"]),
+                    userId = Convert.ToInt32(dataReader["userId"]),
+                    CommentContent = dataReader["CommentContent"].ToString(),
+                    CommentCreatedAt = dataReader.GetDateTime(dataReader.GetOrdinal("CommentCreatedAt"))
+                });
+            }
+            return objectList;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
     public int InsertIssue(Issue issue)
     {
         SqlConnection con;
@@ -1441,6 +1796,43 @@ public class DBServices
         }
     }
 
+    private SqlCommand GetIssuesWithCommentCountWithStoredProcedure(String spName, SqlConnection con, int topicid)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@topicid", topicid);
+
+
+        return cmd;
+    }
+
+    private SqlCommand GetIssueWithCommentsWithStoredProcedure(String spName, SqlConnection con, int issueId)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@issueId", issueId);
+
+
+        return cmd;
+    }
 
     private SqlCommand CreateIssueInsertCommandWithStoredProcedure(String spName, SqlConnection con, Issue issue)
     {

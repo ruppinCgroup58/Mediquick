@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MEDIQUICK.BL;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,6 +27,33 @@ namespace MEDIQUICK.Controllers
         [HttpPost]
         public void Post([FromBody] string value)
         {
+        }
+
+        // POST api/<TestsController>
+        [HttpPost("userId/{userId}")]
+        public int CreateTest(int userId)
+        {
+            Test t = new Test();
+            return t.CreateTest( userId);
+
+        }
+
+        // POST api/<TestsController>
+        [HttpPost("userId/{userId}/testId/{testId}/questionId/{questionId}/isCorrect/{isCorrect}")]
+
+        public Question Test_HandleQuestionAnswer(int userId, int testId, int questionId,bool isCorrect)
+        {
+            Test t = new Test();
+            return t.Test_HandleQuestionAnswer(userId,testId,questionId,isCorrect);
+
+        }
+        // POST api/<TestsController>
+        [HttpPost("testId/{testId}")]
+        public int EndTest(int testId)
+        {
+            Test t = new Test();
+            return t.EndTest(testId);
+
         }
 
         // PUT api/<TestsController>/5

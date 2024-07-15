@@ -65,6 +65,12 @@
             return dbs.toggleFavouriteQ(questionId, userId);
 
         }
+        
+        public int HandleQuestionAnswer(int questionId, int userId, bool isCorrect)
+        {
+            return dbs.HandleQAnswer(questionId, userId, isCorrect);
+
+        }
 
         public void updateQuestionDiffLevel(int id, bool isCorrect)
         {

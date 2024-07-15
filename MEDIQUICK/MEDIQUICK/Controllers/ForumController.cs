@@ -23,6 +23,23 @@ namespace MEDIQUICK.Controllers
             return "value";
         }
 
+        // GET: api/<ForumController>
+        [HttpGet("topicid/{topicid}")]
+        public List<Object> GetIssuesWithCommentCountByTopic(int topicid)
+        {
+            Issue i = new Issue();
+            return i.GetIssuesWithCommentCountByTopic(topicid);
+        }
+
+        // GET: api/<ForumController>
+        [HttpGet("issueId/{issueId}")]
+        public List<Object> GetIssueWithComments(int issueId)
+        {
+            Issue i = new Issue();
+            return i.GetIssueWithComments(issueId);
+        }
+
+
         // POST api/<ForumController>
         [HttpPost("/InsertComment")]
         public int InsertComment([FromBody] Comment value)
