@@ -1,4 +1,5 @@
-﻿var apiUsers = 'https://localhost:7253/api/Users';
+﻿
+var apiUsers = 'https://localhost:7253/api/Users';
 var apiReadQuestion = 'https://localhost:7253/ReadQuestions';
 var geminiAPI = 'https://localhost:7253/Gemini';
 var apiQuestion = 'https://localhost:7253/api/Questions/';
