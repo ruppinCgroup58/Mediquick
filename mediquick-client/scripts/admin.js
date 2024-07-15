@@ -13,7 +13,7 @@ $(document).ready(function () {
     });
 });
 
-$("#addQuestionForm").submit(addQuestionToGemini)
+//$("#addQuestionForm").submit(addQuestionToGemini)
 
 //user
 
@@ -582,15 +582,37 @@ function addQuestionToGemini() {
      חשוב לי שהתשובות יוצגו בפורמט פשוט, ללא תוספות מיותרות כמו מספור.
      תדאג שכל ערך יהיה עטוף בגרשיים`;
 
+
         ajaxCall("POST", geminiAPI, JSON.stringify(orderToGemini), GeminiQuestionGetSCB, GeminiQuestionGetECB);
     return false;
 }
 function GeminiQuestionGetSCB(data) {
+    hideSpinner();
     alert("השאלות נוספו בהצלחה למאגר");
     document.getElementById("myModal").style.display = "none";
     ajaxCall("GET", apiReadQuestion, "", questionsTableGetSCB, questionsTableGetECB);
 
 }
 function GeminiQuestionGetECB(err) {
+    hideSpinner();
     alert(err.statusText);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const spinnerContainer = document.getElementById('spinner-container');
+    const sendButton = document.getElementById('send-orders-modal-btn');
+
+    function showSpinner() {
+        spinnerContainer.style.display = 'flex';
+    }
+
+    function hideSpinner() {
+        spinnerContainer.style.display = 'none';
+    }
+
+    sendButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        showSpinner();
+        addQuestionToGemini();
+    });
+});

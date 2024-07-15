@@ -42,6 +42,7 @@
 </head>
 
 <body dir="rtl">
+
     <header>
         <img src="./../images/logo1.png" class="logo" alt="">
     </header>
@@ -60,7 +61,6 @@
                 <input type="button" class="btn-admin btn btn-primary" style="display: none" value="הצג את כלל השאלות" id="renderQuestionTableAgain"
                        onclick="renderQuestionTableAgain()" />
             </div>
-
             <!--datatable-->
             <div class="container">
                 <form id="UsersForm" style="width:100%; visibility: collapse;">
@@ -206,6 +206,12 @@
             </div>
         </div>
     </main>
+    <!-- ספינר -->
+    <div id="spinner-container">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
 </body>
 
 </html>
