@@ -284,19 +284,19 @@ function HandleQuestionAnswer() {
   console.log(isCorrect);
   let qSerialNumber = shuffledQuestions[qId].questionSerialNumber;
   console.log(qSerialNumber)
-  let req = {
+  let practiceReq = {
     qId: qSerialNumber,
     userId: userConnected,
     isCorrect: isCorrect
   }
-  console.log(req)
-  //לשלוח בקשה עם המשתנים USERID, QUESTIONID, ISCORRECT
-  //לנתיב שנטלי תיצור
-  // ajaxCall(
-  //   "POST",
-  //   generatePracticeAPI,
-  //   JSON.stringify(practiceStringObject),
-  //   startPracticeSCB,
-  //   startPracticeECB
-  // );
+  console.log(practiceReq)
+  // לשלוח בקשה עם המשתנים USERID, QUESTIONID, ISCORRECT
+  // לנתיב שנטלי תיצור
+//   ajaxCall(
+//     "POST",
+//     generatePracticeAPI,
+//     JSON.stringify(practiceReq),
+//     startPracticeSCB,
+//     startPracticeECB
+//   );
 }
