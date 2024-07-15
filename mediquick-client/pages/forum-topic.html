@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,9 +9,9 @@
     <!-- ajax Calls -->
     <script src="./../scripts/ajaxCalls.js"></script>
     <!-- page script -->
-    <script src="./../scripts/main-page-script.js" defer></script>
+    <script src="./../scripts/forum-topic.js" defer></script>
     <!-- Styles -->
-    <link rel="stylesheet" href="./../styles/main-page-style.css">
+    <link rel="stylesheet" href="./../styles/forum-topic-style.css">
     <link rel="stylesheet" href="./../styles/navbar-style.css">
     <!-- Poppins font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,22 +24,20 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:wght@200;300;400;500;600&display=swap"
         rel="stylesheet">
-
-    <title>MEDIQUICK - עמוד ראשי</title>
+    <title>פורום בנושא</title>
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="./../images/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="./../images/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./../images/favicon/favicon-16x16.png">
     <link rel="manifest" href="./../images/favicon/site.webmanifest">
 </head>
-
 <body>
     <header>
         <img src="./../images/logo1.png" class="logo" alt="">
         <nav>
             <div class="nav-links">
                 <a href="./forum.html">
-                    <div>פורום</div>
+                    <div class="clicked">פורום</div>
                 </a>
                 <a href="./test.html">
                     <div>מבחן</div>
@@ -51,28 +48,14 @@
                 <a href="./personal-page.html">
                     <div><img src="./../images/icons/person.svg" alt=""></div>
                 </a>
-                <a href="#">
-                    <div class="clicked"><img src="./../images/icons/home-clicked.svg" alt=""></div>
+                <a href="./main-page.html">
+                    <div><img src="./../images/icons/home.svg" alt=""></div>
                 </a>
             </div>
         </nav>
     </header>
     <main>
-        <img src="./../images/main-page-image.svg">
-        <div class="container">
-            <h1>מאגר שאלות</h1>
-            <div class="add-question">
-                <a href="./question-insert.html">הוסף שאלה
-                    <img src="./../images/icons/plus-circle.svg" alt="">
-                </a>
-            </div>
-            <div id="cards-container" class="flex-cards">
-                
-                    
-                
-            </div>
-        </div>
+        <h1 id="main-header">פורום בנושא</h1>
     </main>
 </body>
-
 </html>
