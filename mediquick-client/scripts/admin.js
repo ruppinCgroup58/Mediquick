@@ -574,11 +574,13 @@ function addQuestionToGemini() {
     'WrongAnswer3'
     'Explanation'
 'topic'
-כאשר ה 'topic'  יכיל את: ${selectedTopic}
+כאשר ה 'topic'  יכיל את: ${selectedTopic} כמספר (INT)
         השאלות יתבססו על הטקסט הבא: ${$("#textInput").val()} 
      אני מעוניין בהסברים מקצועיים ללא הפניות לטקסט המקורי. ההסברים צריכים להיות ברורים,
      תמציתיים ומנומקים היטב. אשמח אם תסביר את התשובה הנכונה תוך שימוש במושגים רלוונטיים מתחום הידע.
-     אל תכלול גרשיים בטקסט שבתוך הJSON`;
+     אל תכלול גרשיים בטקסט שבתוך הJSON
+     חשוב לי שהתשובות יוצגו בפורמט פשוט, ללא תוספות מיותרות כמו מספור.
+     תדאג שכל ערך יהיה עטוף בגרשיים`;
 
         ajaxCall("POST", geminiAPI, JSON.stringify(orderToGemini), GeminiQuestionGetSCB, GeminiQuestionGetECB);
     return false;
