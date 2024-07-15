@@ -221,3 +221,7 @@ width:100%;
     color: #03a696;
     border: 1px solid #03a696;
 }
+
+#QuestionTable tbody tr {
+    height: 40px;
+}

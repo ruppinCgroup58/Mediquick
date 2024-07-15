@@ -308,7 +308,7 @@ function questionsTableGetSCB(questionsList) {
                              {
                                  data: null, // This column does not map to a property in the data
                                  render: function (data, type, row, meta) {
-                                     return '<button type="button" title="לחץ כאן על מנת לייבא את השאלות הדומות ביותר לשאלה זו" class="Check-similarity-level" onclick=CheckSimilarityLevel(this)>בדוק</button>';
+                                     return '<button type="button" title="לחץ כאן על מנת לייבא את השאלות הדומות ביותר לשאלה זו" class="Check-similarity-level" onclick=CheckSimilarityLevel(this)> בדוק דמיון</button>';
                                  }
                              },
                  ],
@@ -332,7 +332,20 @@ function questionsTableGetSCB(questionsList) {
                  }
     });
        
-       
+        tbl.rows().every(function (rowIdx, tableLoop, rowNode) {
+            var data = this.data();
+            if (data.value == 1) {
+                $(this.node()).css('border', '3px solid #03a696');
+            }
+            data.value = 0;
+
+        });
+
+
+        // Set fixed row height
+        $('#QuestionTable tbody').on('click', 'tr', function () {
+            $(this).toggleClass('expanded');
+        });
     }
     catch (err) {
         alert(err);
@@ -413,17 +426,19 @@ function getQuestionByTopicGetECB(data) {
 
 function geminiForSimilaritySCB(data) {
     let combinedQuestions = data.topQuestions;
+    data.questionToCheck.value = 1;
     combinedQuestions.unshift(data.questionToCheck);
     document.getElementById("renderQuestionTableAgain").style.display = "block";
     questionsTableGetSCB(combinedQuestions);
 }
 
 function renderQuestionTableAgain() {
+    document.getElementById("renderQuestionTableAgain").style.display = "none";
     getQuestisonsDataTable();
 }
 
 function geminiForSimilarityECB(err) {
-
+    console.log("בעיה בבדיקת שאלות דומות");
 }
 
 //edit question modal
