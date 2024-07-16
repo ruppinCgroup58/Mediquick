@@ -358,6 +358,7 @@ function questionsTableGetECB(err) {
 
 //Check-similarity-level
 function CheckSimilarityLevel(item) {
+    showSpinner();
     var idQuestionToCheck = item.parentElement.parentElement.children[0].innerHTML;
     topicQuestionToCheck = item.parentElement.parentElement.children[7].innerHTML;
     var apiQuestionByTopic = 'https://localhost:7253/api/Questions/qId/';
@@ -422,10 +423,12 @@ json{
 
 }
 function getQuestionByTopicGetECB(data) {
+    document.getElementById('spinner').style.display = 'none';
     console.log('ERROR');
 }
 
 function geminiForSimilaritySCB(data) {
+    document.getElementById('spinner').style.display = 'none';
     let combinedQuestions = data.topQuestions;
     data.questionToCheck.value = 1;
     combinedQuestions.unshift(data.questionToCheck);
@@ -588,32 +591,33 @@ function addQuestionToGemini() {
     return false;
 }
 function GeminiQuestionGetSCB(data) {
-    hideSpinner();
+    document.getElementById('spinner').style.display = 'none';
     alert("השאלות נוספו בהצלחה למאגר");
     document.getElementById("myModal").style.display = "none";
     ajaxCall("GET", apiReadQuestion, "", questionsTableGetSCB, questionsTableGetECB);
 
 }
 function GeminiQuestionGetECB(err) {
-    hideSpinner();
+
+    document.getElementById('spinner').style.display = 'none';
     alert(err.statusText);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const spinnerContainer = document.getElementById('spinner-container');
-    const sendButton = document.getElementById('send-orders-modal-btn');
 
-    function showSpinner() {
-        spinnerContainer.style.display = 'flex';
-    }
 
-    function hideSpinner() {
-        spinnerContainer.style.display = 'none';
-    }
-
-    sendButton.addEventListener('click', (event) => {
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('addQuestionForm');
+     
+    form.addEventListener('submit', function (event) {
         event.preventDefault();
         showSpinner();
+        // כאן תוסיף את הקריאה לפונקציה שמטפלת בשליחת הטופס
         addQuestionToGemini();
+
     });
+
 });
+function showSpinner() {
+    const spinner = document.getElementById('spinner');
+    spinner.style.display = 'flex';
+}
