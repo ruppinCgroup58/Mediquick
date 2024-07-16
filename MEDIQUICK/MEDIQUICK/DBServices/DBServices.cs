@@ -113,7 +113,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateGetQuestionsByTopicAndIdCommandWithStoredProcedure("sp_getQuestionByTopicAndId", con, topicId, userId);             // create the command
+        cmd = CreateGetQuestionsByTopicAndIdCommandWithStoredProcedure("sp_Question_getQuestionByTopicAndId", con, topicId, userId);             // create the command
 
         try
         {
@@ -309,7 +309,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateReadQuestionsCommandWithStoredProcedure("sp_ReadQuestions", con);             // create the command
+        cmd = CreateReadQuestionsCommandWithStoredProcedure("sp_Question_ReadQuestions", con);             // create the command
 
         try
         {
@@ -404,7 +404,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = toggleFavouriteQuestionCommandWithStoredProcedure("sp_toggleFavouriteQuestion", con, questionId, userId);             // create the command
+        cmd = toggleFavouriteQuestionCommandWithStoredProcedure("sp_Question_toggleFavouriteQuestion", con, questionId, userId);             // create the command
 
         try
         {
@@ -442,7 +442,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = HandleQuestionAnswerWithStoredProcedure("sp_HandleQuestionAnswer", con, questionId, userId, isCorrect);             // create the command
+        cmd = HandleQuestionAnswerWithStoredProcedure("sp_Question_HandleQuestionAnswer", con, questionId, userId, isCorrect);             // create the command
 
         try
         {
@@ -1196,7 +1196,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateCommandWithStoredProcedureWithoutParameters("sp_getTopics", con);             // create the command
+        cmd = CreateCommandWithStoredProcedureWithoutParameters("sp_Topic_getTopics", con);             // create the command
 
         try
         {
@@ -1313,7 +1313,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateGeneratePracticeCommandWithStoredProcedure("sp_GetFilteredQuestions", con, selectedTopics, selectedDiffLevels, userId);             // create the command
+        cmd = CreateGeneratePracticeCommandWithStoredProcedure("sp_Practice_GetFilteredQuestions", con, selectedTopics, selectedDiffLevels, userId);             // create the command
 
         try
         {
