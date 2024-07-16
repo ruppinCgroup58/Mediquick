@@ -169,7 +169,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateQuestionChangeDetailsCommandWithStoredProcedureWithParameters("sp_updateQuestionDetail", con, q);             // create the command
+        cmd = CreateQuestionChangeDetailsCommandWithStoredProcedureWithParameters("sp_Question_updateQuestionDetailr", con, q);             // create the command
 
         try
         {
@@ -479,7 +479,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateUpdateDLCommandWithStoredProcedure("sp_UpdateQuestioncounts", con, id, isCorrect);             // create the command
+        cmd = CreateUpdateDLCommandWithStoredProcedure("sp_Question_UpdateQuestioncounts", con, id, isCorrect);             // create the command
 
         try
         {
@@ -819,7 +819,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateUserInsertCommandWithStoredProcedure("sp_UpdateQuestioncounts", con, user);             // create the command
+        cmd = CreateUserInsertCommandWithStoredProcedure("sp_User_insertUser", con, user);             // create the command
 
         try
         {
@@ -894,7 +894,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateUserChangeDetailsCommandWithStoredProcedureWithParameters("sp_updateUserDetail", con, u);             // create the command
+        cmd = CreateUserChangeDetailsCommandWithStoredProcedureWithParameters("sp_User_updateUserDetail", con, u);             // create the command
 
         try
         {
