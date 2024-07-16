@@ -54,7 +54,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateGetQuestionsByTopicCommandWithStoredProcedure("sp_getQuestionByTopic", con, qId, topicName);             // create the command
+        cmd = CreateGetQuestionsByTopicCommandWithStoredProcedure("sp_Question_getQuestionByTopic", con, qId, topicName);             // create the command
 
         try
         {
@@ -205,7 +205,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateQuestionGetCommandWithStoredProcedure("sp_getQuestion", con, id);             // create the command
+        cmd = CreateQuestionGetCommandWithStoredProcedure("sp_Question_getQuestion", con, id);             // create the command
 
         try
         {
@@ -258,7 +258,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = GetFavouriteQuestionsUserCommandWithStoredProcedure("sp_getUserFavouriteQuestions", con, userId);             // create the command
+        cmd = GetFavouriteQuestionsUserCommandWithStoredProcedure("sp_Question_getUserFavouriteQuestions", con, userId);             // create the command
 
         try
         {
@@ -367,7 +367,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateQuestionInsertCommandWithStoredProcedure("sp_insertQuestion", con, question);             // create the command
+        cmd = CreateQuestionInsertCommandWithStoredProcedure("sp_Question_insertQuestion", con, question);             // create the command
 
         try
         {
@@ -517,7 +517,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateUpdateQuestionStatusCommandWithStoredProcedure("sp_changeQuestionStatus", con, id, newStatus);             // create the command
+        cmd = CreateUpdateQuestionStatusCommandWithStoredProcedure("sp_Question_changeQuestionStatus", con, id, newStatus);             // create the command
 
         try
         {
@@ -857,7 +857,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateUserChangeStatusCommandWithStoredProcedureWithParameters("sp_changeUserStatus", con, email, newStatus);             // create the command
+        cmd = CreateUserChangeStatusCommandWithStoredProcedureWithParameters("sp_user_changeUserStatus", con, email, newStatus);             // create the command
 
         try
         {
@@ -931,7 +931,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateUserChangeAdminStatusCommandWithStoredProcedureWithParameters("sp_changeUserAdminStatus", con, email, newAdminStatus);             // create the command
+        cmd = CreateUserChangeAdminStatusCommandWithStoredProcedureWithParameters("sp_user_changeUserAdminStatus", con, email, newAdminStatus);             // create the command
 
         try
         {
@@ -968,7 +968,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateUserLoginCommandWithStoredProcedureWithParameters("sp_loginUser", con, email, password);             // create the command
+        cmd = CreateUserLoginCommandWithStoredProcedureWithParameters("sp_user_LoginUser", con, email, password);             // create the command
 
         try
         {
@@ -1017,7 +1017,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateGetUserCommandWithStoredProcedureWithoutParameters("sp_getUsers", con);             // create the command
+        cmd = CreateGetUserCommandWithStoredProcedureWithoutParameters("sp_user_getUsers", con);             // create the command
 
         try
         {
@@ -1243,7 +1243,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateGetUPPCommandWithStoredProcedure("sp_getUserProgress", con, userID);             // create the command
+        cmd = CreateGetUPPCommandWithStoredProcedure("sp_user_getUserProgress", con, userID);             // create the command
 
         try
         {
