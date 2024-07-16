@@ -19,3 +19,18 @@ function issuesGetSCB(issuesList) {
 function issuesGetECB(err) {
     alert(err.statusText);
 }
+
+function ToggleOpenCloseIssue(item) {
+    console.log(item);
+    let issueDiv = item.parentElement.parentElement;
+    console.log(issueDiv);
+    if (issueDiv.classList.contains('close')) {
+        issueDiv.classList.remove('close');
+        issueDiv.classList.add('open');
+        item.src = './../images/icons/minus-circle-1.5thick.svg'
+    } else {
+        issueDiv.classList.remove('open');
+        issueDiv.classList.add('close');
+        item.src = './../images/icons/plus-circle.svg'
+    }
+}
