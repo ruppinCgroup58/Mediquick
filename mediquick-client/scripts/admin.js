@@ -360,7 +360,7 @@ function questionsTableGetECB(err) {
 function CheckSimilarityLevel(item) {
     showSpinner();
     var idQuestionToCheck = item.parentElement.parentElement.children[0].innerHTML;
-    topicQuestionToCheck = item.parentElement.parentElement.children[7].innerHTML;
+    var topicQuestionToCheck = item.parentElement.parentElement.children[7].innerHTML;
     var apiQuestionByTopic = 'https://localhost:7253/api/Questions/qId/';
     apiQuestionByTopic = apiQuestionByTopic + idQuestionToCheck + '/topicName/' + topicQuestionToCheck;
     stringStatus = item.parentElement.parentElement.children[9].firstElementChild.value;
@@ -433,6 +433,9 @@ function geminiForSimilaritySCB(data) {
     data.questionToCheck.value = 1;
     combinedQuestions.unshift(data.questionToCheck);
     document.getElementById("renderQuestionTableAgain").style.display = "block";
+    for (var i = 1; i < combinedQuestions.length; i++) {
+        combinedQuestions[i].topic = topicQuestionToCheck;
+    }
     questionsTableGetSCB(combinedQuestions);
 }
 
