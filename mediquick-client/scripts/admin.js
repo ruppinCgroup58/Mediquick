@@ -434,7 +434,7 @@ function geminiForSimilaritySCB(data) {
     combinedQuestions.unshift(data.questionToCheck);
     document.getElementById("renderQuestionTableAgain").style.display = "block";
     for (var i = 1; i < combinedQuestions.length; i++) {
-        combinedQuestions[i].topic = topicQuestionToCheck;
+        combinedQuestions[i].topic = combinedQuestions[0].topic;
     }
     questionsTableGetSCB(combinedQuestions);
 }
