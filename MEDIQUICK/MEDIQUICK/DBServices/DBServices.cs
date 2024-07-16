@@ -1592,7 +1592,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = GetIssuesWithCommentCountWithStoredProcedure("sp_GetIssuesWithCommentCount", con, topicid);             // create the command
+        cmd = GetIssuesWithCommentCountWithStoredProcedure("sp_Forum_GetIssuesWithCommentCount", con, topicid);             // create the command
 
         try
         {
@@ -1604,6 +1604,7 @@ public class DBServices
                     issueId = Convert.ToInt32(dataReader["issueId"]),
                     topicid = Convert.ToInt32(dataReader["topicid"]),
                     title = dataReader["title"].ToString(),
+                    UserFullName = dataReader["UserFullName"].ToString(),
                     IssueContent = dataReader["IssueContent"].ToString(),
                     CommentCount = Convert.ToInt32(dataReader["CommentCount"]),
                     isClosed = bool.Parse(dataReader["isClosed"].ToString()),
@@ -1645,7 +1646,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = GetIssueWithCommentsWithStoredProcedure("sp_GetIssueWithComments", con, issueId);             // create the command
+        cmd = GetIssueWithCommentsWithStoredProcedure("sp_Forum_GetIssueWithComments", con, issueId);             // create the command
 
         try
         {
@@ -1661,6 +1662,7 @@ public class DBServices
                     CommentCount = Convert.ToInt32(dataReader["CommentCount"]),
                     commentId = Convert.ToInt32(dataReader["commentId"]),
                     userId = Convert.ToInt32(dataReader["userId"]),
+                    UserFullName = dataReader["UserFullName"].ToString(),
                     CommentContent = dataReader["CommentContent"].ToString(),
                     CommentCreatedAt = dataReader.GetDateTime(dataReader.GetOrdinal("CommentCreatedAt"))
                 });
@@ -1699,7 +1701,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateIssueInsertCommandWithStoredProcedure("sp_AddIssue", con, issue);             // create the command
+        cmd = CreateIssueInsertCommandWithStoredProcedure("sp_Forum_AddIssue", con, issue);             // create the command
 
         try
         {
@@ -1737,7 +1739,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateIssueChangeDetailsCommandWithStoredProcedureWithParameters("sp_updateIssueDetail", con, issue);             // create the command
+        cmd = CreateIssueChangeDetailsCommandWithStoredProcedureWithParameters("sp_Forum_updateIssueDetail", con, issue);             // create the command
 
         try
         {
@@ -1774,7 +1776,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = toggleIssueStatusWithStoredProcedureWithParameters("sp_toggleIssueStatus", con, issue);             // create the command
+        cmd = toggleIssueStatusWithStoredProcedureWithParameters("sp_Forum_toggleIssueStatus", con, issue);             // create the command
 
         try
         {
@@ -1911,7 +1913,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateCommentInsertCommandWithStoredProcedure("sp_AddForumComment", con, comment);             // create the command
+        cmd = CreateCommentInsertCommandWithStoredProcedure("sp_Forum_AddForumComment", con, comment);             // create the command
 
         try
         {
@@ -1949,7 +1951,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateCommentChangeDetailsCommandWithStoredProcedureWithParameters("sp_updateCommentDetail", con, comment);             // create the command
+        cmd = CreateCommentChangeDetailsCommandWithStoredProcedureWithParameters("sp_Forum_updateCommentDetail", con, comment);             // create the command
 
         try
         {
@@ -1986,7 +1988,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = updateCommenInctiveWithStoredProcedureWithParameters("sp_setCommentInactive", con, comment); // create the command
+        cmd = updateCommenInctiveWithStoredProcedureWithParameters("sp_Forum_setCommentInactive", con, comment); // create the command
 
         try
         {
