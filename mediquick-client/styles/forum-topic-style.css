@@ -26,7 +26,8 @@ body {
 .issue {
   width: 80%;
   height: auto;
-  border: 1px solid black;
+  border: 1px solid #03a696;
+  border-radius: 5px;
   background-color: #f5f5f5;
   color: black;
   display: flex;
@@ -55,6 +56,7 @@ body {
 
 .title {
   padding: 5px 12px;
+  cursor: pointer;
 }
 
 .issue-content {
@@ -65,7 +67,7 @@ body {
 
 .issue.open .issue-content {
   max-height: 1000px; /* ערך גבוה מספיק שיתאים לתוכן */
-  padding: 10px;
+  padding: 15px 30px;
 }
 
 .issue.close .issue-content {
