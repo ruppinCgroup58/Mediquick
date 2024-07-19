@@ -80,12 +80,12 @@ namespace MEDIQUICK.Controllers
 
         // POST api/<QuestionsController>
         [HttpPost("questionId/{questionId}/userId/{userId}/isCorrect/{isCorrect}")]
-        public int HandleQuestionAnswer(int questionId, int userId ,bool isCorrect)
+        public int HandleQuestionAnswer(int questionId, int userId, bool isCorrect)
         {
             Question q = new Question();
             return q.HandleQuestionAnswer(questionId, userId, isCorrect);
-
         }
+
 
         // PUT api/<QuestionsController>/5
         [HttpPut("{isCorrect}")]

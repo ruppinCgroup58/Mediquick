@@ -84,7 +84,7 @@ namespace MEDIQUICK.Controllers
             return new Issue().toggleIssueStatus(issue);
         }
 
-        [HttpPatch("/updateCommenInctive")]
+        [HttpPatch("/updateCommenInactive")]
         public bool updateCommentInactive([FromBody] Comment comment)
         {
             return new Comment().updateCommentInactive(comment);
