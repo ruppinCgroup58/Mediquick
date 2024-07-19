@@ -10,7 +10,7 @@ function issueGetSCB(issue) {
   document.title = issue[0].title + " - MediQuick";
   let cont = document.getElementById("container");
   let str = "";
-  str += `<div class="goPrev" onclick="GoToPreviousPage(${issue[0].topicid})"><img src="./../images/icons/go-prev-right-arrow.svg" alt="">חזרה לפורום ${topicName}</div>`;
+  str += `<div class="goPrev" onclick="GoToPreviousPage(${issue[0].topicid})"><img src="./../images/icons/go-prev-right-arrow.svg" alt=""> חזרה לפורום ${topicName}</div>`;
   //let formattedIssueDateTime = formatDateTime(issue[0].createdAt);
   let formattedCommentDateTime = "";
   str += `<div class="issue">

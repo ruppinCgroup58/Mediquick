@@ -10,7 +10,7 @@ ajaxCall("GET", getIssuesAPI, "", issuesGetSCB, issuesGetECB);
 function issuesGetSCB(issuesList) {
     let cont = document.getElementById("container");
     let str = "";
-    str += `<div class="goPrev" onclick="GoToPreviousPage()"><img src="./../images/icons/go-prev-right-arrow.svg" alt="">חזרה לכל הפורומים</div>`;
+    str += `<div class="goPrev" onclick="GoToPreviousPage()"><img src="./../images/icons/go-prev-right-arrow.svg" alt=""> חזרה לכל הפורומים </div>`;
     for (var i = 0; i < issuesList.length; i++) {
         let issueClass = issuesList[i].isClosed ? 'issue close locked' : 'issue close unlocked';
         let formattedDateTime = formatDateTime(issuesList[i].createdAt)
