@@ -10,7 +10,8 @@ ajaxCall("GET", getIssuesAPI, "", issuesGetSCB, issuesGetECB);
 function issuesGetSCB(issuesList) {
     let cont = document.getElementById("container");
     let str = "";
-    str += `<div class="goPrev" onclick="GoToPreviousPage()"><img src="./../images/icons/go-prev-right-arrow.svg" alt=""> חזרה לכל הפורומים </div>`;
+    str += `<div class="go-prev" onclick="GoToPreviousPage()"><img src="./../images/icons/go-prev-right-arrow.svg" alt=""> חזרה לכל הפורומים </div>`;
+    str +=`<div class="add-issue" onclick="AddIssue()"><img src="./../images/icons/plus-circle.svg" alt=""> הוסף סוגיה</div>`;
     for (var i = 0; i < issuesList.length; i++) {
         let issueClass = issuesList[i].isClosed ? 'issue close locked' : 'issue close unlocked';
         let formattedDateTime = formatDateTime(issuesList[i].createdAt)
@@ -25,7 +26,7 @@ function issuesGetSCB(issuesList) {
                     <div class="num-of-comments">${issuesList[i].commentCount} תגובות</div>
                 </div>
                 <div class="expand">
-                    <img class="expand-icon" src="./../images/icons/plus-circle.svg" alt="הצג עוד" onclick="ToggleOpenCloseIssue(this)">
+                    <img class="expand-icon" title="הצג את תוכן הסוגיה" src="./../images/icons/plus-circle.svg" alt="הצג עוד" onclick="ToggleOpenCloseIssue(this)">
                 </div>
             </div>`
     }
@@ -42,10 +43,12 @@ function ToggleOpenCloseIssue(item) {
         issueDiv.classList.remove('close');
         issueDiv.classList.add('open');
         item.src = './../images/icons/minus-circle-1.5thick.svg'
+        item.title = "הסתר את תוכן הסוגיה"
     } else {
         issueDiv.classList.remove('open');
         issueDiv.classList.add('close');
         item.src = './../images/icons/plus-circle.svg'
+        item.title = "הצג את תוכן הסוגיה"
     }
 }
 
@@ -69,4 +72,8 @@ function formatDateTime(dateTime) {
 
 function GoToPreviousPage() {
     window.location.href = `forum.html`;
+}
+
+function AddIssue() {
+    //הוספת סוגיה
 }

@@ -97,8 +97,21 @@ main {
   width: 10%;
 }
 
-.goPrev {
+.go-prev {
   padding: 10px;;
   color: #03a696;
   cursor: pointer;
+}
+
+.add-issue {
+  color: #03a696;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: space-between;
+}
+
+.add-issue img {
+  width: 16px;
+  padding-left: 5px;
 }
