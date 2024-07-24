@@ -76,7 +76,7 @@ main {
 .num-of-comments {
     padding: 5px 10px;
     font-size: 12px;
-  }
+}
 
 .comment {
     width: 80%;
@@ -105,7 +105,21 @@ main {
 }
 
 .go-prev {
-    padding: 10px;;
+    padding: 10px;
+    ;
     color: #03a696;
     cursor: pointer;
+}
+
+.add-comment {
+    color: #03a696;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: space-between;
+}
+
+.add-comment img {
+    width: 16px;
+    padding-left: 5px;
 }

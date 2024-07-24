@@ -78,12 +78,20 @@ namespace MEDIQUICK.Controllers
                          
         }
 
+        //// POST api/<QuestionsController>
+        //[HttpPost("questionId/{questionId}/userId/{userId}/isCorrect/{isCorrect}")]
+        //public int HandleQuestionAnswer(int questionId, int userId, bool isCorrect)
+        //{
+        //    Question q = new Question();
+        //    return q.HandleQuestionAnswer(questionId, userId, isCorrect);
+        //}
+
         // POST api/<QuestionsController>
-        [HttpPost("questionId/{questionId}/userId/{userId}/isCorrect/{isCorrect}")]
-        public int HandleQuestionAnswer(int questionId, int userId, bool isCorrect)
+        [HttpPost("/HandleQuestionAnswer")]
+        public int HandleQuestionAnswer([FromBody] PracticeRequestData prd)
         {
             Question q = new Question();
-            return q.HandleQuestionAnswer(questionId, userId, isCorrect);
+            return q.HandleQuestionAnswer(prd.qId, prd.userId, prd.isCorrect);
         }
 
 

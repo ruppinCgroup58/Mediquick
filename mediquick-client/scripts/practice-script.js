@@ -1,10 +1,11 @@
 let topicAPI = "https://localhost:7253/api/Topics";
 let practiceAPI = "https://localhost:7253/";
-let generatePracticeAPI = practiceAPI += "GeneratePractice";
+let generatePracticeAPI = practiceAPI + "GeneratePractice";
+let handleQuestionAnswerAPI = practiceAPI += "HandleQuestionAnswer";
 let userConnected = sessionStorage.getItem("id");
-let questions = [];
-let explanations = [];
-let heartIcons = [];
+let questionsAsDivs = [];
+let explanationsAsDivs = [];
+let heartIconsPaths = [];
 let currentQuestionIndex = 0;
 let explShown = 0;
 var shuffledQuestions;
@@ -143,7 +144,7 @@ function shuffleAnswers(questionsList) {
 function startPracticeSCB(questionsList) {
   let counter = 1;
   shuffledQuestions = shuffleAnswers(questionsList);
-  questions = shuffledQuestions.map(
+  questionsAsDivs = shuffledQuestions.map(
     (question) => `<div id="${counter - 1}" class="question-wrapper">
                       <div class="question-content">
                           <b>${counter++}. ${question.content}</b>
@@ -185,8 +186,8 @@ function startPracticeSCB(questionsList) {
                   </div>`
   );
 
-  explanations = questionsList.map((question) => `${question.explanation}`);
-  heartIcons = questionsList.map((question) => `${question.isFavourite == 1 ? './../images/icons/full-heart.svg' : './../images/icons/empty-heart.svg'}`)
+  explanationsAsDivs = questionsList.map((question) => `${question.explanation}`);
+  heartIconsPaths = questionsList.map((question) => `${question.isFavourite == 1 ? './../images/icons/full-heart.svg' : './../images/icons/empty-heart.svg'}`)
 
   renderQuestion(currentQuestionIndex);
   handleArrowBtn();
@@ -209,6 +210,8 @@ function toggleFavourite(questionId) {
   toggleHeartIcon();
 }
 
+//This function is being called when the user clicks the heart icon,
+//to handle addind and removing the question from his favourites list.
 function toggleHeartIcon() {
   const heartIcon = $("#favourite-icon")[0];
   if (heartIcon.src.includes('empty')) {
@@ -216,7 +219,7 @@ function toggleHeartIcon() {
   } else {
     heartIcon.src = './../images/icons/empty-heart.svg';
   }
-  heartIcons[currentQuestionIndex] = heartIcon.src;
+  heartIconsPaths[currentQuestionIndex] = heartIcon.src;
 }
 
 function toggleFavouriteSCB(num) {
@@ -232,10 +235,10 @@ function toggleFavouriteECB(err) {
 function renderQuestion(index) {
   const questionContainer = document.getElementById("question-container");
   const explanationText = document.getElementById("expl");
-  questionContainer.innerHTML = questions[index];
-  explanationText.innerHTML = explanations[index];
+  questionContainer.innerHTML = questionsAsDivs[index];
+  explanationText.innerHTML = explanationsAsDivs[index];
   let heartIcon = $("#favourite-icon")[0];
-  heartIcon.src = heartIcons[index];
+  heartIcon.src = heartIconsPaths[index];
   applySelectedAnimation();
   AddELToExplBtn();
   if (explShown) {
@@ -252,7 +255,7 @@ function prevQuestion() {
 }
 
 function nextQuestion() {
-  if (currentQuestionIndex < questions.length - 1) {
+  if (currentQuestionIndex < questionsAsDivs.length - 1) {
     currentQuestionIndex++;
     renderQuestion(currentQuestionIndex);
   }
@@ -269,7 +272,7 @@ function handleArrowBtn() {
   }
 
   //check if it's the last question
-  if (currentQuestionIndex == questions.length - 1) {
+  if (currentQuestionIndex == questionsAsDivs.length - 1) {
     document.getElementById("nextQ").classList.add("disabled-btn");
   } else {
     // document.getElementById("prevQ").classList.remove("disabled-btn");
@@ -290,13 +293,24 @@ function HandleQuestionAnswer() {
     isCorrect: isCorrect
   }
   console.log(practiceReq)
-  // לשלוח בקשה עם המשתנים USERID, QUESTIONID, ISCORRECT
-  // לנתיב שנטלי תיצור
-//   ajaxCall(
-//     "POST",
-//     generatePracticeAPI,
-//     JSON.stringify(practiceReq),
-//     startPracticeSCB,
-//     startPracticeECB
-//   );
+  ajaxCall(
+    "POST",
+    handleQuestionAnswerAPI,
+    JSON.stringify(practiceReq),
+    handleQuestionAnswerSCB,
+    handleQuestionAnswerECB
+  );
+  if (isCorrect) {
+    //Correct answer chosen logic
+  } else {
+    //Wrong answer chosen logic
+  }
+}
+
+function handleQuestionAnswerSCB(num) {
+  console.log(num);
+}
+
+function handleQuestionAnswerECB(err) {
+  alert(err.statusText);
 }

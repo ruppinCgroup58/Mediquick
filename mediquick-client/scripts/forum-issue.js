@@ -11,6 +11,8 @@ function issueGetSCB(issue) {
   let cont = document.getElementById("container");
   let str = "";
   str += `<div class="go-prev" onclick="GoToPreviousPage(${issue[0].topicid})"><img src="./../images/icons/go-prev-right-arrow.svg" alt=""> חזרה לפורום ${topicName}</div>`;
+  str +=`<div class="add-comment" onclick="AddComment()"><img src="./../images/icons/plus-circle.svg" alt=""> הוסף תגובה</div>`;
+
   //let formattedIssueDateTime = formatDateTime(issue[0].createdAt);
   let formattedCommentDateTime = "";
   str += `<div class="issue">
@@ -80,4 +82,8 @@ function formatDateTime(dateTime) {
 
 function GoToPreviousPage(topicId) {
   window.location.href = `forum-topic.html?topicId=${topicId}&topicName=${topicName}`;
+}
+
+function AddComment() {
+  //הוספת תגובה
 }
