@@ -156,3 +156,19 @@ h3 {
     border-radius: 10px;
     cursor: pointer;
 }
+
+.correct-answer-selected {
+    background-color: #11ca80e4;
+    border-radius: 15px;
+    padding: 0px 8px;
+    opacity: 0.9;
+    transition: 0.2s ease;
+}
+
+.wrong-answer-selected {
+    background-color: #d74d4dda;
+    border-radius: 15px;
+    padding: 0px 8px;
+    opacity: 0.9;
+    transition: 0.2s ease;
+}
