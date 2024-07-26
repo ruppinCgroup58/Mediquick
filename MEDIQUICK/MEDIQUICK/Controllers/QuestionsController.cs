@@ -13,7 +13,7 @@ namespace MEDIQUICK.Controllers
         [HttpPost("/Gemini")]
         public Task<string> Post([FromBody] string content)
         {
-            Question question = new Question(); 
+            Question question = new Question();
             return question.genQ(content);
         }
 
@@ -42,10 +42,10 @@ namespace MEDIQUICK.Controllers
 
         // GET: api/<QuestionsController>
         [HttpGet("qId/{qId}/topicName/{topicName}")]
-        public List<Object> GetQuestionsByTopic(int qId ,string topicName)
+        public List<Object> GetQuestionsByTopic(int qId, string topicName)
         {
             Question q = new Question();
-            return q.GetQuestionsByTopic(qId,topicName);
+            return q.GetQuestionsByTopic(qId, topicName);
         }
         // GET: api/<QuestionsController>
         [HttpGet("userId/{userId}")]
@@ -74,8 +74,8 @@ namespace MEDIQUICK.Controllers
         public int toggleFavouriteQuestion(int questionId, int userId)
         {
             Question q = new Question();
-            return q.toggleFavouriteQuestion(questionId,userId);
-                         
+            return q.toggleFavouriteQuestion(questionId, userId);
+
         }
 
         //// POST api/<QuestionsController>
@@ -97,7 +97,7 @@ namespace MEDIQUICK.Controllers
 
         // PUT api/<QuestionsController>/5
         [HttpPut("{isCorrect}")]
-        public void Put(bool isCorrect,[FromBody] int id)
+        public void Put(bool isCorrect, [FromBody] int id)
         {
             Question q = new Question();
             q.updateQuestionDiffLevel(id, isCorrect);
@@ -107,7 +107,7 @@ namespace MEDIQUICK.Controllers
         public int Put(int id, [FromBody] int newStatus)
         {
             Question q = new Question();
-           return q.changeQuestionStatus(id, newStatus);
+            return q.changeQuestionStatus(id, newStatus);
         }
 
         [HttpPatch("/updateQuestionDetails")]

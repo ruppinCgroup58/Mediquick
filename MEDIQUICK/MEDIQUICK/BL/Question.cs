@@ -22,6 +22,7 @@
         {
 
         }
+
         public Question(int questionSerialNumber, int difficulty, string content, string correctAnswer, 
             string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string explanation, int status, 
             string creator, int totalAnswers, int totalCorrectAnswers, string topic)
@@ -65,7 +66,6 @@
             return dbs.toggleFavouriteQ(questionId, userId);
 
         }
-        
         public int HandleQuestionAnswer(int questionId, int userId, bool isCorrect)
         {
             return dbs.HandleQAnswer(questionId, userId, isCorrect);
@@ -94,7 +94,7 @@
         public Task<string> genQ(string content)
         {
             Gemini gemini = new Gemini();
-            Task<string> testString = gemini.GenerateContent(content);          
+            Task<string> testString = gemini.GenerateContent(content); 
             return testString;
         }
         public Task<string> GeminiForSimilarity(string content)
