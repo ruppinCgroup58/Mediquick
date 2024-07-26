@@ -1,4 +1,4 @@
-let forumAPI = "https://localhost:7253/api/Forum";
+let forumAPI = localHostAPI + "api/Forum";
 const params = new URLSearchParams(window.location.search);
 const issueId = params.get("issueId");
 const topicName = params.get("topicName");

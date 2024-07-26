@@ -1,4 +1,4 @@
-let topicApi = "https://localhost:7253/api/Topics";
+let topicApi = localHostAPI + "api/Topics";
 let userConnected = sessionStorage.getItem("id");
 topicApi += "/UserID/" + userConnected;
 ajaxCall("GET", topicApi, "", getUserProgressSCB, getUserProgressECB);

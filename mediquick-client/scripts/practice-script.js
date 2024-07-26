@@ -1,5 +1,5 @@
-let topicAPI = "https://localhost:7253/api/Topics";
-let practiceAPI = "https://localhost:7253/";
+let topicAPI = localHostAPI + "api/Topics";
+let practiceAPI = localHostAPI + "";
 let generatePracticeAPI = practiceAPI + "GeneratePractice";
 let handleQuestionAnswerAPI = (practiceAPI += "HandleQuestionAnswer");
 let userConnected = sessionStorage.getItem("id");
@@ -217,7 +217,7 @@ function startPracticeECB(err) {
 }
 
 function toggleFavourite(questionId) {
-  let toggleFavouritesAPI = `https://localhost:7253/api/Questions/questionId/${questionId}/userId/${userConnected}`;
+  let toggleFavouritesAPI = localHostAPI + `api/Questions/questionId/${questionId}/userId/${userConnected}`;
   ajaxCall(
     "POST",
     toggleFavouritesAPI,
