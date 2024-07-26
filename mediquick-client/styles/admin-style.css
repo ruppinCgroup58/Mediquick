@@ -273,3 +273,20 @@ width:100%;
     top: 258px;
     left:450px;
 }
+
+
+#QuestionTable td {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+    #QuestionTable td.details-control {
+        background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
+        cursor: pointer;
+    }
+
+#QuestionTable tr.shown td.details-control {
+    background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
+}

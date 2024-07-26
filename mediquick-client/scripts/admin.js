@@ -257,101 +257,146 @@ function questionsTableGetSCB(questionsList) {
     questins = questionsList; // keep the cars array in a global variable;
     try {
         $('#QuestionTable').DataTable().destroy();
-             tbl = $('#QuestionTable').DataTable({
-                        data: questionsList,
-                        pageLength: 10,
-                         columns: [
-                             {
-                                 data: "questionSerialNumber"
-                             },
-                            { data: "content" },
-                            { data: "correctAnswer" },
-                            { data: "wrongAnswer1" },
-                            { data: "wrongAnswer2" },
-                            { data: "wrongAnswer3" },
-                            { data: "explanation" },
-                            { data: "topic"},
-                            { data: "difficulty" },
-                            {
-                                data: "status",
-                                render: function (data, type, row, meta) {
-                                    if (data == 1)
-                                        return `<select class="myList" onchange="changeQuestionStatus(this.parentElement.parentElement)">
-                                                    <option value="מאושר" selected>מאושר</option>
-                                                    <option value="ממתין">ממתין</option>
-                                                    <option value="נדחה">נדחה</option>                                                    
-                                                </select>`;
-                                    else if(data == 0) {
-                                        return `<select class="myList" onchange="changeQuestionStatus(this.parentElement.parentElement)">
-                                                    <option value="מאושר">מאושר</option>
-                                                    <option value="ממתין" selected>ממתין</option>
-                                                    <option value="נדחה">נדחה</option>
-                                                </select>`;
-
-                                    } else {
-                                        return `<select class="myList" onchange="changeQuestionStatus(this.parentElement.parentElement)">
-                                                    <option value="מאושר">מאושר</option>
-                                                    <option value="ממתין">ממתין</option>
-                                                    <option value="נדחה" selected>נדחה</option>
-                                                </select>`;
-                                    }
-                                }
-                            },
-                            { data: "creator" },
-                            { data: "totalAnswers" },
-                            { data: "totalCorrectAnswers" },
-                            {
-                                data: null, // This column does not map to a property in the data
-                                render: function (data, type, row, meta) {
-                                    return '<button type="button" title="לחץ כאן על מנת לערוך שאלה זו" class="edit-user-row" onclick=editQuestionRow(this)>ערוך</button>';
-                                }
-                             },
-                             {
-                                 data: null, // This column does not map to a property in the data
-                                 render: function (data, type, row, meta) {
-                                     return '<button type="button" title="לחץ כאן על מנת לייבא את השאלות הדומות ביותר לשאלה זו" class="Check-similarity-level" onclick=CheckSimilarityLevel(this)> בדוק דמיון</button>';
-                                 }
-                             },
-                 ],
-                 language: {
-                     processing: "מעבד...",
-                     search: "חפש:",
-                     lengthMenu: "הצג _MENU_ פריטים",
-                     info: "מציג _START_ עד _END_ מתוך _TOTAL_ פריטים",
-                     infoEmpty: "מציג 0 עד 0 מתוך 0 פריטים",
-                     infoFiltered: "(מסונן מתוך _MAX_ פריטים)",
-                     infoPostFix: "",
-                     loadingRecords: "טוען...",
-                     zeroRecords: "לא נמצאו רשומות תואמות",
-                     emptyTable: "אין נתונים זמינים בטבלה",
-                     paginate: {
-                         first: "ראשון",
-                         previous: "קודם",
-                         next: "הבא",
-                         last: "אחרון"
-                     }
-                 }
-    });
-       
-        tbl.rows().every(function (rowIdx, tableLoop, rowNode) {
-            var data = this.data();
-            if (data.value == 1) {
-                $(this.node()).css('border', '3px solid #03a696');
+        tbl = $('#QuestionTable').DataTable({
+            data: questionsList,
+            pageLength: 10,
+            columns: [
+                {
+                    className: 'details-control',
+                    orderable: false,
+                    data: null,
+                    defaultContent: ''
+                },
+                { data: "questionSerialNumber" },
+                {
+                    data: "content",
+                    render: function (data, type, row) {
+                        if (type === 'display' && data.length > 50) {
+                            return data.substr(0, 50) + '...';
+                        }
+                        return data;
+                    }
+                },
+                { data: "correctAnswer" },
+                { data: "wrongAnswer1" },
+                { data: "wrongAnswer2" },
+                { data: "wrongAnswer3" },
+                { data: "explanation" },
+                { data: "topic" },
+                { data: "difficulty" },
+                {
+                    data: "status",
+                    render: function (data, type, row, meta) {
+                        if (data == 1)
+                            return `<select class="myList" onchange="changeQuestionStatus(this.parentElement.parentElement)">
+                                        <option value="מאושר" selected>מאושר</option>
+                                        <option value="ממתין">ממתין</option>
+                                        <option value="נדחה">נדחה</option>                                                    
+                                    </select>`;
+                        else if (data == 0) {
+                            return `<select class="myList" onchange="changeQuestionStatus(this.parentElement.parentElement)">
+                                        <option value="מאושר">מאושר</option>
+                                        <option value="ממתין" selected>ממתין</option>
+                                        <option value="נדחה">נדחה</option>
+                                    </select>`;
+                        } else {
+                            return `<select class="myList" onchange="changeQuestionStatus(this.parentElement.parentElement)">
+                                        <option value="מאושר">מאושר</option>
+                                        <option value="ממתין">ממתין</option>
+                                        <option value="נדחה" selected>נדחה</option>
+                                    </select>`;
+                        }
+                    }
+                },
+                { data: "creator" },
+                { data: "totalAnswers" },
+                { data: "totalCorrectAnswers" },
+                {
+                    data: null, // This column does not map to a property in the data
+                    render: function (data, type, row, meta) {
+                        return '<button type="button" title="לחץ כאן על מנת לערוך שאלה זו" class="edit-user-row" onclick=editQuestionRow(this)>ערוך</button>';
+                    }
+                },
+                {
+                    data: null, // This column does not map to a property in the data
+                    render: function (data, type, row, meta) {
+                        return '<button type="button" title="לחץ כאן על מנת לייבא את השאלות הדומות ביותר לשאלה זו" class="Check-similarity-level" onclick=CheckSimilarityLevel(this)> בדוק דמיון</button>';
+                    }
+                },
+            ],
+            language: {
+                processing: "מעבד...",
+                search: "חפש:",
+                lengthMenu: "הצג _MENU_ פריטים",
+                info: "מציג _START_ עד _END_ מתוך _TOTAL_ פריטים",
+                infoEmpty: "מציג 0 עד 0 מתוך 0 פריטים",
+                infoFiltered: "(מסונן מתוך _MAX_ פריטים)",
+                infoPostFix: "",
+                loadingRecords: "טוען...",
+                zeroRecords: "לא נמצאו רשומות תואמות",
+                emptyTable: "אין נתונים זמינים בטבלה",
+                paginate: {
+                    first: "ראשון",
+                    previous: "קודם",
+                    next: "הבא",
+                    last: "אחרון"
+                }
             }
-            data.value = 0;
-
         });
 
+        // הוספת אירוע לחיצה על כפתור הרחבה
+        $('#QuestionTable tbody').on('click', 'td.details-control', function () {
+            var tr = $(this).closest('tr');
+            var row = tbl.row(tr);
 
-        // Set fixed row height
-        $('#QuestionTable tbody').on('click', 'tr', function () {
-            $(this).toggleClass('expanded');
+            if (row.child.isShown()) {
+                row.child.hide();
+                tr.removeClass('shown');
+                // להחזיר את התוכן המקורי
+                tr.find('td').each(function (index) {
+                    if (index > 0) { // לא כולל כפתור ההרחבה
+                        var originalData = $(this).attr('data-original');
+                        if (originalData) {
+                            $(this).text(originalData);
+                        }
+                    }
+                });
+            } else {
+                row.child.show();
+                tr.addClass('shown');
+                // הצגת התוכן המלא
+                tr.find('td').each(function (index) {
+                    if (index > 0) { // לא כולל כפתור ההרחבה
+                        var data = row.data();
+                        var fullText = '';
+                        switch (index) {
+                            case 1: fullText = data.questionSerialNumber; break;
+                            case 2: fullText = data.content; break;
+                            case 3: fullText = data.correctAnswer; break;
+                            case 4: fullText = data.wrongAnswer1; break;
+                            case 5: fullText = data.wrongAnswer2; break;
+                            case 6: fullText = data.wrongAnswer3; break;
+                            case 7: fullText = data.explanation; break;
+                            case 8: fullText = data.topic; break;
+                            case 9: fullText = data.difficulty; break;
+                            case 10: fullText = data.status; break;
+                            case 11: fullText = data.creator; break;
+                            case 12: fullText = data.totalAnswers; break;
+                            case 13: fullText = data.totalCorrectAnswers; break;
+                        }
+                        $(this).attr('data-original', $(this).text());
+                        $(this).text(fullText);
+                    }
+                });
+            }
         });
-    }
-    catch (err) {
+
+    } catch (err) {
         alert(err);
     }
 }
+
+
 function questionsTableGetECB(err) {
     alert("Error: " + err);
 }
