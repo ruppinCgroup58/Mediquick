@@ -250,34 +250,22 @@ function updateUserPostECB(err){
 function getQuestisonsDataTable() {
     ajaxCall("GET", apiReadQuestion, "", questionsTableGetSCB, questionsTableGetECB);
 }
+//////
 function questionsTableGetSCB(questionsList) {
     $("#QuestionForm").css("visibility", "visible");
     $("#UsersForm").css("visibility", "collapse");
     $("#manageUsersBtn").prop("disabled", false);
     $("#manageQuestionsBtn").prop("disabled", true);
-    questins = questionsList; // keep the cars array in a global variable;
+    questins = questionsList; // keep the questions array in a global variable;
+
     try {
         $('#QuestionTable').DataTable().destroy();
         tbl = $('#QuestionTable').DataTable({
             data: questionsList,
             pageLength: 10,
             columns: [
-                {
-                    className: 'details-control',
-                    orderable: false,
-                    data: null,
-                    defaultContent: ''
-                },
                 { data: "questionSerialNumber" },
-                {
-                    data: "content",
-                    render: function (data, type, row) {
-                        if (type === 'display' && data.length > 50) {
-                            return data.substr(0, 50) + '...';
-                        }
-                        return data;
-                    }
-                },
+                { data: "content" },
                 { data: "correctAnswer" },
                 { data: "wrongAnswer1" },
                 { data: "wrongAnswer2" },
@@ -313,13 +301,13 @@ function questionsTableGetSCB(questionsList) {
                 { data: "totalAnswers" },
                 { data: "totalCorrectAnswers" },
                 {
-                    data: null, // This column does not map to a property in the data
+                    data: null,
                     render: function (data, type, row, meta) {
                         return '<button type="button" title="לחץ כאן על מנת לערוך שאלה זו" class="edit-user-row" onclick=editQuestionRow(this)>ערוך</button>';
                     }
                 },
                 {
-                    data: null, // This column does not map to a property in the data
+                    data: null,
                     render: function (data, type, row, meta) {
                         return '<button type="button" title="לחץ כאן על מנת לייבא את השאלות הדומות ביותר לשאלה זו" class="Check-similarity-level" onclick=CheckSimilarityLevel(this)> בדוק דמיון</button>';
                     }
@@ -332,7 +320,6 @@ function questionsTableGetSCB(questionsList) {
                 info: "מציג _START_ עד _END_ מתוך _TOTAL_ פריטים",
                 infoEmpty: "מציג 0 עד 0 מתוך 0 פריטים",
                 infoFiltered: "(מסונן מתוך _MAX_ פריטים)",
-                infoPostFix: "",
                 loadingRecords: "טוען...",
                 zeroRecords: "לא נמצאו רשומות תואמות",
                 emptyTable: "אין נתונים זמינים בטבלה",
@@ -345,59 +332,12 @@ function questionsTableGetSCB(questionsList) {
             }
         });
 
-        // הוספת אירוע לחיצה על כפתור הרחבה
-        $('#QuestionTable tbody').on('click', 'td.details-control', function () {
-            var tr = $(this).closest('tr');
-            var row = tbl.row(tr);
-
-            if (row.child.isShown()) {
-                row.child.hide();
-                tr.removeClass('shown');
-                // להחזיר את התוכן המקורי
-                tr.find('td').each(function (index) {
-                    if (index > 0) { // לא כולל כפתור ההרחבה
-                        var originalData = $(this).attr('data-original');
-                        if (originalData) {
-                            $(this).text(originalData);
-                        }
-                    }
-                });
-            } else {
-                row.child.show();
-                tr.addClass('shown');
-                // הצגת התוכן המלא
-                tr.find('td').each(function (index) {
-                    if (index > 0) { // לא כולל כפתור ההרחבה
-                        var data = row.data();
-                        var fullText = '';
-                        switch (index) {
-                            case 1: fullText = data.questionSerialNumber; break;
-                            case 2: fullText = data.content; break;
-                            case 3: fullText = data.correctAnswer; break;
-                            case 4: fullText = data.wrongAnswer1; break;
-                            case 5: fullText = data.wrongAnswer2; break;
-                            case 6: fullText = data.wrongAnswer3; break;
-                            case 7: fullText = data.explanation; break;
-                            case 8: fullText = data.topic; break;
-                            case 9: fullText = data.difficulty; break;
-                            case 10: fullText = data.status; break;
-                            case 11: fullText = data.creator; break;
-                            case 12: fullText = data.totalAnswers; break;
-                            case 13: fullText = data.totalCorrectAnswers; break;
-                        }
-                        $(this).attr('data-original', $(this).text());
-                        $(this).text(fullText);
-                    }
-                });
-            }
-        });
 
     } catch (err) {
         alert(err);
     }
 }
-
-
+/////
 function questionsTableGetECB(err) {
     alert("Error: " + err);
 }
@@ -421,18 +361,18 @@ function CheckSimilarityLevel(item) {
     }
     QuestionToCheck= {
         questionSerialNumber: idQuestionToCheck,
-        content: item.parentElement.parentElement.children[2].innerHTML,
-        correctAnswer: item.parentElement.parentElement.children[3].innerHTML,
-        wrongAnswer1: item.parentElement.parentElement.children[4].innerHTML,
-        wrongAnswer2: item.parentElement.parentElement.children[5].innerHTML,
-        wrongAnswer3: item.parentElement.parentElement.children[6].innerHTML,
-        explanation: item.parentElement.parentElement.children[7].innerHTML,      
-        topic: item.parentElement.parentElement.children[8].innerHTML,     
-        difficulty: item.parentElement.parentElement.children[9].innerHTML,     
+        content: item.parentElement.parentElement.children[1].innerHTML,
+        correctAnswer: item.parentElement.parentElement.children[2].innerHTML,
+        wrongAnswer1: item.parentElement.parentElement.children[3].innerHTML,
+        wrongAnswer2: item.parentElement.parentElement.children[4].innerHTML,
+        wrongAnswer3: item.parentElement.parentElement.children[5].innerHTML,
+        explanation: item.parentElement.parentElement.children[6].innerHTML,      
+        topic: item.parentElement.parentElement.children[7].innerHTML,     
+        difficulty: item.parentElement.parentElement.children[8].innerHTML,     
         status: intStatus,
-        creator: item.parentElement.parentElement.children[11].innerHTML,     
-        totalAnswers: item.parentElement.parentElement.children[12].innerHTML,     
-        totalCorrectAnswers: item.parentElement.parentElement.children[13].innerHTML
+        creator: item.parentElement.parentElement.children[10].innerHTML,     
+        totalAnswers: item.parentElement.parentElement.children[11].innerHTML,     
+        totalCorrectAnswers: item.parentElement.parentElement.children[12].innerHTML
     }
     stringQuestionToCheck = JSON.stringify(QuestionToCheck);
     ajaxCall("GET", apiQuestionByTopic, '', function (data) {
