@@ -19,6 +19,7 @@ $(document).ready(function () {
 //user
 
 function getUsersDataTable() {
+    document.getElementById("renderQuestionTableAgain").style.display = "none";
     ajaxCall("GET", apiUsers, "", usersTableGetSCB, usersTableGetECB);
     return false;
 }
@@ -404,11 +405,11 @@ function questionsTableGetECB(err) {
 //Check-similarity-level
 function CheckSimilarityLevel(item) {
     showSpinner();
-    var idQuestionToCheck = item.parentElement.parentElement.children[0].innerHTML;
-    var topicQuestionToCheck = item.parentElement.parentElement.children[7].innerHTML;
+    var idQuestionToCheck = item.parentElement.parentElement.children[1].innerHTML;
+    var topicQuestionToCheck = item.parentElement.parentElement.children[8].innerHTML;
     var apiQuestionByTopic = 'https://localhost:7253/api/Questions/qId/';
     apiQuestionByTopic = apiQuestionByTopic + idQuestionToCheck + '/topicName/' + topicQuestionToCheck;
-    stringStatus = item.parentElement.parentElement.children[9].firstElementChild.value;
+    stringStatus = item.parentElement.parentElement.children[10].firstElementChild.value;
     if (stringStatus == 'מאושר') {
         intStatus = 1;
     }
@@ -420,18 +421,18 @@ function CheckSimilarityLevel(item) {
     }
     QuestionToCheck= {
         questionSerialNumber: idQuestionToCheck,
-        content: item.parentElement.parentElement.children[1].innerHTML,
-        correctAnswer: item.parentElement.parentElement.children[2].innerHTML,
-        wrongAnswer1: item.parentElement.parentElement.children[3].innerHTML,
-        wrongAnswer2: item.parentElement.parentElement.children[4].innerHTML,
-        wrongAnswer3: item.parentElement.parentElement.children[5].innerHTML,
-        explanation: item.parentElement.parentElement.children[6].innerHTML,      
-        topic: item.parentElement.parentElement.children[7].innerHTML,     
-        difficulty: item.parentElement.parentElement.children[8].innerHTML,     
+        content: item.parentElement.parentElement.children[2].innerHTML,
+        correctAnswer: item.parentElement.parentElement.children[3].innerHTML,
+        wrongAnswer1: item.parentElement.parentElement.children[4].innerHTML,
+        wrongAnswer2: item.parentElement.parentElement.children[5].innerHTML,
+        wrongAnswer3: item.parentElement.parentElement.children[6].innerHTML,
+        explanation: item.parentElement.parentElement.children[7].innerHTML,      
+        topic: item.parentElement.parentElement.children[8].innerHTML,     
+        difficulty: item.parentElement.parentElement.children[9].innerHTML,     
         status: intStatus,
-        creator: item.parentElement.parentElement.children[10].innerHTML,     
-        totalAnswers: item.parentElement.parentElement.children[11].innerHTML,     
-        totalCorrectAnswers: item.parentElement.parentElement.children[12].innerHTML
+        creator: item.parentElement.parentElement.children[11].innerHTML,     
+        totalAnswers: item.parentElement.parentElement.children[12].innerHTML,     
+        totalCorrectAnswers: item.parentElement.parentElement.children[13].innerHTML
     }
     stringQuestionToCheck = JSON.stringify(QuestionToCheck);
     ajaxCall("GET", apiQuestionByTopic, '', function (data) {

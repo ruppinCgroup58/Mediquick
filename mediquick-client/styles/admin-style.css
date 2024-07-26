@@ -260,7 +260,8 @@ width:100%;
     z-index: 1000; /* ערך נמוך יותר מהספינר */
 }
 
- #renderQuestionTableAgain {
+#renderQuestionTableAgain {
+    display: none;
     min-width: 150px;
     width: 150px;
     padding: 0px;
@@ -269,9 +270,10 @@ width:100%;
     background-color: #ffffff;
     color: #03a696;
     border: 1px solid #03a696;
-    position:absolute;
+    position: absolute;
     top: 258px;
-    left:450px;
+    left: 450px;
+    z-index: 10;
 }
 
 
