@@ -1,4 +1,4 @@
-let questionsAPI = "https://localhost:7253/api/Questions";
+let questionsAPI = localHostAPI + "api/Questions";
 let userConnected = sessionStorage.getItem("id");
 questionsAPI += `/userId/${userConnected}`;
 ajaxCall(
@@ -110,7 +110,7 @@ function OpenCloseEL() {
 }
 
 function toggleFavourite(questionId) {
-  let toggleFavouritesAPI = `https://localhost:7253/api/Questions/questionId/${questionId}/userId/${userConnected}`;
+  let toggleFavouritesAPI = localHostAPI + `api/Questions/questionId/${questionId}/userId/${userConnected}`;
   ajaxCall(
     "POST",
     toggleFavouritesAPI,

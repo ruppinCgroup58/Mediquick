@@ -1,5 +1,5 @@
-let questionsAPI = "https://localhost:7253/api/Questions";
-let topicAPI = "https://localhost:7253/api/Topics";
+let questionsAPI = localHostAPI + "api/Questions";
+let topicAPI = localHostAPI + "api/Topics";
 ajaxCall("GET", topicAPI, "", topicGetSCB, topicGetECB);
 $("#qiForm").submit(confirmQuestionSubmit);
 

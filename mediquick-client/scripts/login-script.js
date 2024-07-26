@@ -1,5 +1,5 @@
 //let usersAPI = "https://proj.ruppin.ac.il/cgroup58/test2/tar1/api/Users"
-let usersAPI = "https://localhost:7253/api/Users"
+let usersAPI = localHostAPI + "api/Users"
 
 $("#sign-up-form").submit(suFormSubmit)
 $("#login-form").submit(loginFormSubmit)
@@ -23,6 +23,7 @@ function suFormSubmit() {
 
 function loginFormSubmit() {
     email = $("#emailText").val();
+    email = encodeURIComponent(email);
     password = $("#passwordText").val();
 
 

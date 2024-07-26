@@ -1,4 +1,4 @@
-let GetQuestionsByTopicAPI = "https://localhost:7253/api/Questions/topicId/";
+let GetQuestionsByTopicAPI = localHostAPI + "api/Questions/topicId/";
 const params = new URLSearchParams(window.location.search);
 const topicId = params.get("topicId");
 const topicName = params.get("topicName");
@@ -130,7 +130,7 @@ function getQuestionsByTopicECB(err) {
 }
 
 function toggleFavourite(questionId) {
-  let toggleFavouritesAPI = `https://localhost:7253/api/Questions/questionId/${questionId}/userId/${userConnected}`;
+  let toggleFavouritesAPI = localHostAPI + `api/Questions/questionId/${questionId}/userId/${userConnected}`;
   ajaxCall(
     "POST",
     toggleFavouritesAPI,
