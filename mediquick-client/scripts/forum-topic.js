@@ -2,6 +2,7 @@ let forumAPI = localHostAPI + "api/Forum";
 const params = new URLSearchParams(window.location.search);
 const topicId = params.get("topicId");
 const topicName = params.get("topicName");
+let userConnected = sessionStorage.getItem("id");
 document.title += " " + topicName;
 document.getElementById("main-header").innerHTML += " " + topicName;
 let getIssuesAPI = forumAPI + "/topicid/" + topicId;
@@ -19,8 +20,27 @@ function issuesGetSCB(issuesList) {
                 <div class="issue-headers">
                     <div class="create-details">
                         <div class="date-time">${formattedDateTime.date} ${formattedDateTime.time}</div>
-                        <div class="creator">${issuesList[i].userFullName}</div>
-                    </div>
+                        <div class="creator">${issuesList[i].userFullName}</div>`
+                        //if userid = userid
+                        if (issuesList[0].userId == userConnected) {
+                            if (issuesList[i].isClosed) {
+                                //סוגיה נעולה, הקש לפתיחה
+                                str += `<div class="lock-issue-toggle" title="הסוגיה נעולה, לחץ להסרת הנעילה" onclick="ToggleOpenLockIssue(${issuesList[i].issueId})"><img src="./../images/icons/lock-on.svg" alt="סוגיה נעולה" srcset=""></div>`
+                            } else {
+                                //סוגיה פתוחה, הקש לנעילה
+                                str += `<div class="lock-issue-toggle" title="הסוגיה פתוחה, לחץ לנעילה" onclick="ToggleOpenLockIssue(${issuesList[i].issueId})"><img src="./../images/icons/lock-off.svg" alt="סוגיה פתוחה" srcset=""></div>`
+
+                            }
+                        } else {
+                            if (issuesList[i].isClosed) {
+                                //סוגיה נעולה
+                            } else {
+                                //סוגיה פתוחה
+                            }
+                        }
+
+                        
+                    str += `</div>
                     <div class="title" onclick="GoToIssuePage(${issuesList[i].issueId})"><h4>${issuesList[i].title}</h4></div>
                     <div class="issue-content">${issuesList[i].issueContent}</div>
                     <div class="num-of-comments">${issuesList[i].commentCount} תגובות</div>
@@ -76,4 +96,16 @@ function GoToPreviousPage() {
 
 function AddIssue() {
     //הוספת סוגיה
+}
+
+function ToggleOpenLockIssue(issueId) {
+    let issueToggleStatusAPI = localHostAPI +"toggleIssueStatus";
+    //ajaxCall("PATCH", issueToggleStatusAPI, issueId, issuesGetSCB, issuesGetECB);   
+}
+
+function ToggleIssueStatusSCB() {
+
+}
+function ToggleIssueStatusECB(err) {
+    alert(err.statusText)
 }

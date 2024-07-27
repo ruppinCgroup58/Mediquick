@@ -115,3 +115,8 @@ main {
   width: 16px;
   padding-left: 5px;
 }
+
+.lock-issue-toggle img {
+  width: 16px;
+  padding: 5px;
+}

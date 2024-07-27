@@ -1,0 +1,144 @@
+main {
+    direction: rtl;
+    height: calc(100vh - 50px);
+}
+
+.container {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.question {
+    flex-grow: 4;
+    padding: 20px;
+    /* max-width: fit-content; */
+    flex-basis: 75%;
+    display: flex;
+    justify-content: center;
+}
+
+li {
+    list-style: none;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px
+}
+
+.buttons img {
+    width: 30px;
+}
+
+
+.option {
+    width: fit-content;
+    cursor: pointer;
+}
+
+.selected-option {
+    background-color: #03a69645;
+    border-radius: 15px;
+    padding: 0px 8px;
+    opacity: 0.9;
+    transition: 0.2s ease;
+}
+
+.primary-btn {
+    width: 150px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background-color: #03a696;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.secondary-btn {
+    background-color: #ffffff;
+    color: #03a696;
+    border: 1px solid #03a696;
+    width: 150px;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.red-btn {
+    background-color: #d74d4d;
+    color: white;
+    border: 1px solid #03a696;
+    width: 150px;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.correct-answer-selected {
+    background-color: #11ca80e4;
+    border-radius: 15px;
+    padding: 0px 8px;
+    opacity: 0.9;
+    transition: 0.2s ease;
+}
+
+.wrong-answer-selected {
+    background-color: #d74d4dda;
+    border-radius: 15px;
+    padding: 0px 8px;
+    opacity: 0.9;
+    transition: 0.2s ease;
+}
+
+.grid-list {
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    flex-grow: 2;
+    max-width: 150px;
+    padding: 20px;
+    flex-basis: 55%;
+}
+
+.grid-item {
+    width: 50px;
+    height: 24px;
+    font-size: 12px;
+    border: 1px solid #03a696;
+    display: flex;
+    justify-content: center;
+}
+
+.countdown {
+    font-size: 20px;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.6);
+    border: 1px solid #03a696;
+    border-radius: 10px;
+    max-width: 150px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #03a69625;
+    flex-basis: 100%;
+    order: 3;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    padding: 20px
+}
+
+.q-answered {
+    background-color: #03a69625;
+}
+
+.q-current {
+    background-color: #03a696aa;
+}
