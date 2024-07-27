@@ -1,28 +1,54 @@
-﻿using MEDIQUICK.BL;
-using Google.Api.Gax.Grpc;
+﻿using Google.Apis.Auth.OAuth2;
 using Google.Cloud.AIPlatform.V1;
-using System.Text;
+using Grpc.Auth;
+using Grpc.Core;
+using MEDIQUICK.BL;
 using Newtonsoft.Json;
-using System.Text.RegularExpressions;
-using System.Net;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Threading.Tasks;
 
 public class Gemini
 {
     DBServices dbs = new DBServices();
 
+    private PredictionServiceClient CreatePredictionServiceClient()
+    {
+        // תוכן קובץ האישורים כמשתנה מחרוזת
+        string jsonContent = @"
+        {
+          ""account"": """",
+          ""client_id"": ""764086051850-6qr4p6gpi6hn506pt8ejuq83di341hur.apps.googleusercontent.com"",
+          ""client_secret"": ""d-FL95Q19q7MQmFpd7hHD0Ty"",
+          ""quota_project_id"": ""crested-plexus-422813-c6"",
+          ""refresh_token"": ""1//03tvgkvadj_55CgYIARAAGAMSNwF-L9IrK98sPRwEwtI2iuvZcfNTzjamee1VgAUpvrdwmMQ1arjIiStQDBpw0CCqglk755myCmc"",
+          ""type"": ""authorized_user"",
+          ""universe_domain"": ""googleapis.com""
+        }";
+
+        // טעינת האישורים מתוך המחרוזת
+        GoogleCredential credential = GoogleCredential.FromJson(jsonContent)
+            .CreateScoped("https://www.googleapis.com/auth/cloud-platform");
+
+        // יצירת לקוח PredictionServiceClient עם האישורים
+        var predictionServiceClientBuilder = new PredictionServiceClientBuilder
+        {
+            ChannelCredentials = credential.ToChannelCredentials(),
+            Endpoint = "me-west1-aiplatform.googleapis.com"
+        };
+
+        return predictionServiceClientBuilder.Build();
+    }
+
     public async Task<string> GenerateContent(string promptToGemini)
     {
         string projectId = "crested-plexus-422813-c6";  //modified
         string location = "me-west1";                   //modified
-        string publisher = "google";                      
+        string publisher = "google";
         string model = "gemini-1.5-pro-preview-0409";   //modified
 
         // Create client
-        var predictionServiceClient = new PredictionServiceClientBuilder
-        {
-            Endpoint = $"{location}-aiplatform.googleapis.com"
-        }.Build();
+        var predictionServiceClient = CreatePredictionServiceClient();
 
         // Initialize content request
         var generateContentRequest = new GenerateContentRequest
@@ -50,12 +76,11 @@ public class Gemini
 
         try
         {
-            //Getting the response from google API asynchronously
+            // Getting the response from Google API asynchronously
             GenerateContentResponse response = await predictionServiceClient.GenerateContentAsync(generateContentRequest);
             string responseText = response.Candidates[0].Content.Parts[0].Text;
             string new_content = responseText.Replace("json", "");
             string last_content = new_content.Replace("```", "");
-
 
             // ניתוח JSON ל-JToken
             JToken json_data = JsonConvert.DeserializeObject<JToken>(last_content);
@@ -102,10 +127,7 @@ public class Gemini
         string model = "gemini-1.5-pro-preview-0409";   //modified
 
         // Create client
-        var predictionServiceClient = new PredictionServiceClientBuilder
-        {
-            Endpoint = $"{location}-aiplatform.googleapis.com"
-        }.Build();
+        var predictionServiceClient = CreatePredictionServiceClient();
 
         // Initialize content request
         var generateContentRequest = new GenerateContentRequest
@@ -133,7 +155,7 @@ public class Gemini
 
         try
         {
-            //Getting the response from google API asynchronously
+            // Getting the response from Google API asynchronously
             GenerateContentResponse response = await predictionServiceClient.GenerateContentAsync(generateContentRequest);
             string responseText = response.Candidates[0].Content.Parts[0].Text;
             string new_content = responseText.Replace("json", "");
@@ -147,7 +169,3 @@ public class Gemini
         }
     }
 }
-
-
-
-

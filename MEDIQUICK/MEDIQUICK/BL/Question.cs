@@ -82,7 +82,7 @@
         {
             return dbs.GetQuestion(id);
         }
-        public List<Question>GetFavouriteQuestionsByUser(int userId)
+        public List<Question> GetFavouriteQuestionsByUser(int userId)
         {
             return dbs.GetFavouriteQuestionsUser(userId);
         }
@@ -108,9 +108,9 @@
             return dbs.GetQuestionsByTopicAndId(topicId, userId);
         }
 
-        public List<Object> GetQuestionsByTopic(int qId,string topicName)
+        public List<Object> GetQuestionsByTopic(int qId, string topicName)
         {
-            return dbs.GetQuestionsByTopic(qId,topicName);
+            return dbs.GetQuestionsByTopic(qId, topicName);
         }
         public int changeQuestionStatus(int id, int newStatus)
         {

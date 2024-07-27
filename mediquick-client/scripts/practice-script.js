@@ -300,7 +300,7 @@ function handleArrowBtn() {
 
 function HandleQuestionAnswer(event) {
   let qId = document.getElementById("question-container").firstChild.id;
-  //let answerChosenIndex1 = document.getElementsByClassName('selected-option')[0].dataset.number;
+
   if (!shuffledQuestions[qId].hasQuestionBeenAnswered) {
     let chosenAnswerIndex = event.target.dataset.number;
     let chosenAnswerElement = document.querySelector(
@@ -334,15 +334,34 @@ function HandleQuestionAnswer(event) {
       handleQuestionAnswerECB
     );
     shuffledQuestions[qId].hasQuestionBeenAnswered = true;
+
+    // עדכון ה-HTML במערך questionsAsDivs
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(questionsAsDivs[qId], 'text/html');
+
+    // Select the chosen answer element and correct answer element within the parsed document
+    let docChosenAnswerElement = doc.querySelector(
+      `[data-number="${chosenAnswerIndex}"]`
+    );
+    let docCorrectAnswerElement = doc.querySelector(
+      `[data-number="${correctAnswerIndex}"]`
+    );
+
     if (isCorrect) {
-      //Correct answer chosen logic
+      // Correct answer chosen logic
+      docChosenAnswerElement.classList.add("correct-answer-selected");
       chosenAnswerElement.classList.add("correct-answer-selected");
     } else {
-      //Wrong answer chosen logic
+      // Wrong answer chosen logic
+      docChosenAnswerElement.classList.add("wrong-answer-selected");
       chosenAnswerElement.classList.add("wrong-answer-selected");
     }
+
+    // Serialize the DOM back to a string
+    questionsAsDivs[qId] = new XMLSerializer().serializeToString(doc.body.firstChild);
   }
 }
+
 
 function handleQuestionAnswerSCB(num) {
   console.log(num);
