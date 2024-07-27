@@ -1,4 +1,5 @@
-﻿*{
+﻿
+* {
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -15,9 +16,11 @@
 #usersTable_filter > label > input {
     margin-left: 5px;
 }
+
 #QuestionTable > label > input {
     margin-left: 5px;
 }
+
 .container {
     padding-top: 40px;
 }
@@ -36,10 +39,10 @@
     width: 100%;
 }
 
-.control > input, .control > label, .control > select {
-    margin: 15px;
-    width: 130px;
-}
+    .control > input, .control > label, .control > select {
+        margin: 15px;
+        width: 130px;
+    }
 
 
 .btn-admin {
@@ -54,7 +57,7 @@
 
 table.dataTable thead {
     background-color: #0b4848bf;
-    color:white;
+    color: white;
 }
 
 .modal-content {
@@ -70,8 +73,8 @@ table.dataTable thead {
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
-#addQuestionForm div{
-    margin:20px;
+#addQuestionForm div {
+    margin: 20px;
 }
 
 .input-box input, #topicSelectToGemini {
@@ -91,9 +94,9 @@ table.dataTable thead {
     color: #ffffff;
 }
 
-*[dir=rtl] table.dataTable th.dt-type-numeric, 
-*[dir=rtl] table.dataTable th.dt-type-date, 
-*[dir=rtl] table.dataTable td.dt-type-numeric, 
+*[dir=rtl] table.dataTable th.dt-type-numeric,
+*[dir=rtl] table.dataTable th.dt-type-date,
+*[dir=rtl] table.dataTable td.dt-type-numeric,
 *[dir=rtl] table.dataTable td.dt-type-date {
     direction: rtl;
     text-align: right !important;
@@ -110,13 +113,13 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
     right: 80%;
 }
 
-.clear-form-logo{
+.clear-form-logo {
     left: 15px;
     position: absolute;
 }
 
-#send-orders-modal-btn{
-    position: absolute;  
+#send-orders-modal-btn {
+    position: absolute;
     top: 280px;
     right: 40px;
 }
@@ -124,7 +127,7 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
 .btn-admin {
     min-width: 250px; /* או כל ערך אחר שמתאים */
     max-width: 100%;
-    margin:10px;
+    margin: 10px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -135,8 +138,8 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
     margin-bottom: 20px; /* Adjust as needed */
 }
 
-/* Ensure the input fields take full width and have padding */
-    #EditUserModal .input-box input, #EditQuestionModal .input-box input , #topicSelect{
+    /* Ensure the input fields take full width and have padding */
+    #EditUserModal .input-box input, #EditQuestionModal .input-box input, #topicSelect {
         width: 100%;
         padding: 10px; /* Adjust as needed */
         box-sizing: border-box;
@@ -159,9 +162,9 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
     position: relative;
 }
 
-.password-box input {
-    padding-right: 40px; /* Make space for the eye icon */
-}
+    .password-box input {
+        padding-right: 40px; /* Make space for the eye icon */
+    }
 
 .eye_img {
     position: absolute;
@@ -186,7 +189,7 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
     margin-bottom: 20px; /* Adjust as needed */
 }
 
-#geminiModal{
+#geminiModal {
     width: 650px;
     height: 340px;
     align-items: center;
@@ -199,16 +202,16 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
-#questionEditModal{
+#questionEditModal {
     height: 660px;
 }
 
-.form-control{
-    height:45px;
+.form-control {
+    height: 45px;
 }
 
-.edit-user-row{
-width:100%;
+.edit-user-row {
+    width: 100%;
 }
 
 
@@ -261,7 +264,6 @@ width:100%;
 }
 
 #renderQuestionTableAgain {
-    display: none;
     min-width: 150px;
     width: 150px;
     padding: 0px;
@@ -273,22 +275,6 @@ width:100%;
     position: absolute;
     top: 258px;
     left: 450px;
+    display: none;
     z-index: 10;
-}
-
-
-#QuestionTable td {
-    max-width: 200px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-    #QuestionTable td.details-control {
-        background: url('https://datatables.net/examples/resources/details_open.png') no-repeat center center;
-        cursor: pointer;
-    }
-
-#QuestionTable tr.shown td.details-control {
-    background: url('https://datatables.net/examples/resources/details_close.png') no-repeat center center;
 }

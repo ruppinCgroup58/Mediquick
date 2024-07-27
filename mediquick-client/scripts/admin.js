@@ -251,6 +251,7 @@ function getQuestisonsDataTable() {
     ajaxCall("GET", apiReadQuestion, "", questionsTableGetSCB, questionsTableGetECB);
 }
 //////
+var disableOrdering = false;
 function questionsTableGetSCB(questionsList) {
     $("#QuestionForm").css("visibility", "visible");
     $("#UsersForm").css("visibility", "collapse");
@@ -263,6 +264,7 @@ function questionsTableGetSCB(questionsList) {
         tbl = $('#QuestionTable').DataTable({
             data: questionsList,
             pageLength: 10,
+            ordering: !disableOrdering, // Disable ordering if disableOrdering is true
             columns: [
                 { data: "questionSerialNumber" },
                 { data: "content" },
@@ -354,11 +356,11 @@ function questionsTableGetECB(err) {
 //Check-similarity-level
 function CheckSimilarityLevel(item) {
     showSpinner();
-    var idQuestionToCheck = item.parentElement.parentElement.children[1].innerHTML;
-    var topicQuestionToCheck = item.parentElement.parentElement.children[8].innerHTML;
+    var idQuestionToCheck = item.parentElement.parentElement.children[0].innerHTML;
+    var topicQuestionToCheck = item.parentElement.parentElement.children[7].innerHTML;
     var apiQuestionByTopic = localHostAPI + 'api/Questions/qId/';
     apiQuestionByTopic = apiQuestionByTopic + idQuestionToCheck + '/topicName/' + topicQuestionToCheck;
-    stringStatus = item.parentElement.parentElement.children[10].firstElementChild.value;
+    stringStatus = item.parentElement.parentElement.children[9].firstElementChild.value;
     if (stringStatus == 'מאושר') {
         intStatus = 1;
     }
@@ -431,7 +433,11 @@ function geminiForSimilaritySCB(data) {
     for (var i = 1; i < combinedQuestions.length; i++) {
         combinedQuestions[i].topic = combinedQuestions[0].topic;
     }
+    //questionsTableGetSCB(combinedQuestions);
+    //questionsTableGetSCB(combinedQuestions, true); // Send true to disable ordering
+    disableOrdering = true; // Disable ordering for this specific case
     questionsTableGetSCB(combinedQuestions);
+    disableOrdering = false; // Reset the ordering to default after rendering
 }
 
 function renderQuestionTableAgain() {
