@@ -1603,6 +1603,7 @@ public class DBServices
                 {
                     issueId = Convert.ToInt32(dataReader["issueId"]),
                     topicid = Convert.ToInt32(dataReader["topicid"]),
+                    userId = Convert.ToInt32(dataReader["userId"]),
                     title = dataReader["title"].ToString(),
                     UserFullName = dataReader["UserFullName"].ToString(),
                     IssueContent = dataReader["IssueContent"].ToString(),
