@@ -1,11 +1,11 @@
 ﻿
-var apiUsers = 'https://localhost:7253/api/Users';
-var apiReadQuestion = 'https://localhost:7253/ReadQuestions';
-var geminiAPI = 'https://localhost:7253/Gemini';
-var apiQuestion = 'https://localhost:7253/api/Questions/';
-var apiUpdateUserDetails = 'https://localhost:7253/updateUserDetails';
-var apiUpdateQuestionDetails = 'https://localhost:7253/updateQuestionDetails';
-var topicApi = 'https://localhost:7253/api/Topics';
+var apiUsers = localHostAPI + 'api/Users';
+var apiReadQuestion = localHostAPI + 'ReadQuestions';
+var geminiAPI = localHostAPI + 'Gemini';
+var apiQuestion = localHostAPI + 'api/Questions/';
+var apiUpdateUserDetails = localHostAPI + 'updateUserDetails';
+var apiUpdateQuestionDetails = localHostAPI + 'updateQuestionDetails';
+var topicApi = localHostAPI + 'api/Topics';
 
 $(document).ready(function () {
     $('.toggle-row-btn').click(function () {
@@ -356,7 +356,7 @@ function CheckSimilarityLevel(item) {
     showSpinner();
     var idQuestionToCheck = item.parentElement.parentElement.children[1].innerHTML;
     var topicQuestionToCheck = item.parentElement.parentElement.children[8].innerHTML;
-    var apiQuestionByTopic = 'https://localhost:7253/api/Questions/qId/';
+    var apiQuestionByTopic = localHostAPI + 'api/Questions/qId/';
     apiQuestionByTopic = apiQuestionByTopic + idQuestionToCheck + '/topicName/' + topicQuestionToCheck;
     stringStatus = item.parentElement.parentElement.children[10].firstElementChild.value;
     if (stringStatus == 'מאושר') {
@@ -413,7 +413,7 @@ json{
   ]
 }`;
 
-    var geminiForSimilarity = 'https://localhost:7253/GeminiForSimilarity'; 
+    var geminiForSimilarity = localHostAPI + 'GeminiForSimilarity'; 
     ajaxCall("POST", geminiForSimilarity, JSON.stringify(textToGemini), geminiForSimilaritySCB, geminiForSimilarityECB);
 
 }
@@ -584,8 +584,9 @@ function addQuestionToGemini() {
      חשוב לי שהתשובות יוצגו בפורמט פשוט, ללא תוספות מיותרות כמו מספור.
      תדאג שכל ערך יהיה עטוף בגרשיים`;
 
-
-        ajaxCall("POST", geminiAPI, JSON.stringify(orderToGemini), GeminiQuestionGetSCB, GeminiQuestionGetECB);
+     let gptAPI = "https://localhost:7254/Gemini";
+    ajaxCall("POST", geminiAPI, JSON.stringify(orderToGemini), GeminiQuestionGetSCB, GeminiQuestionGetECB);
+    //ajaxCall("POST", gptAPI, JSON.stringify(orderToGemini), GeminiQuestionGetSCB, GeminiQuestionGetECB);
     return false;
 }
 function GeminiQuestionGetSCB(data) {

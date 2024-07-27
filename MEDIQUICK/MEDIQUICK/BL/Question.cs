@@ -23,8 +23,8 @@
 
         }
 
-        public Question(int questionSerialNumber, int difficulty, string content, string correctAnswer, 
-            string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string explanation, int status, 
+        public Question(int questionSerialNumber, int difficulty, string content, string correctAnswer,
+            string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string explanation, int status,
             string creator, int totalAnswers, int totalCorrectAnswers, string topic)
         {
             QuestionSerialNumber = questionSerialNumber;
@@ -82,7 +82,7 @@
         {
             return dbs.GetQuestion(id);
         }
-        public List<Question>GetFavouriteQuestionsByUser(int userId)
+        public List<Question> GetFavouriteQuestionsByUser(int userId)
         {
             return dbs.GetFavouriteQuestionsUser(userId);
         }
@@ -94,7 +94,7 @@
         public Task<string> genQ(string content)
         {
             Gemini gemini = new Gemini();
-            Task<string> testString = gemini.GenerateContent(content); 
+            Task<string> testString = gemini.GenerateContent(content);
             return testString;
         }
         public Task<string> GeminiForSimilarity(string content)
@@ -108,9 +108,9 @@
             return dbs.GetQuestionsByTopicAndId(topicId, userId);
         }
 
-        public List<Object> GetQuestionsByTopic(int qId,string topicName)
+        public List<Object> GetQuestionsByTopic(int qId, string topicName)
         {
-            return dbs.GetQuestionsByTopic(qId,topicName);
+            return dbs.GetQuestionsByTopic(qId, topicName);
         }
         public int changeQuestionStatus(int id, int newStatus)
         {
