@@ -79,9 +79,9 @@ namespace MEDIQUICK.Controllers
 
 
         [HttpPatch("/toggleIssueStatus")]
-        public bool toggleIssueStatus([FromBody] Issue issue)
+        public bool toggleIssueStatus([FromBody] int issueid)
         {
-            return new Issue().toggleIssueStatus(issue);
+            return new Issue().toggleIssueStatus(issueid);
         }
 
         [HttpPatch("/updateCommenInactive")]

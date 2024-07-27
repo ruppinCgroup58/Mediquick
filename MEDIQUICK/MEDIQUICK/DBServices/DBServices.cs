@@ -1762,7 +1762,7 @@ public class DBServices
         }
     }
 
-    public bool toggleIssueStatus(Issue issue)
+    public bool toggleIssueStatus(int issueid)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -1777,7 +1777,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = toggleIssueStatusWithStoredProcedureWithParameters("sp_Forum_toggleIssueStatus", con, issue);             // create the command
+        cmd = toggleIssueStatusWithStoredProcedureWithParameters("sp_Forum_toggleIssueStatus", con, issueid);             // create the command
 
         try
         {
@@ -1878,7 +1878,7 @@ public class DBServices
         return cmd;
     }
 
-    private SqlCommand toggleIssueStatusWithStoredProcedureWithParameters(String spName, SqlConnection con, Issue issue)
+    private SqlCommand toggleIssueStatusWithStoredProcedureWithParameters(String spName, SqlConnection con, int issueid)
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
@@ -1891,7 +1891,7 @@ public class DBServices
 
         cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
 
-        cmd.Parameters.AddWithValue("@issueId", issue.IssueId);
+        cmd.Parameters.AddWithValue("@issueId", issueid);
         return cmd;
     }
 
