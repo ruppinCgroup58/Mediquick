@@ -332,6 +332,15 @@ function questionsTableGetSCB(questionsList) {
             }
         });
 
+        tbl.rows().every(function (rowIdx, tableLoop, rowNode) {
+            var data = this.data();
+            if (data.value == 1) {
+                $(this.node()).css('border', '3px solid #03a696');
+            }
+            data.value = 0;
+
+        });
+
 
     } catch (err) {
         alert(err);
