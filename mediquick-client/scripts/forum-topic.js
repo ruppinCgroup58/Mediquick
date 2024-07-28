@@ -16,26 +16,31 @@ function issuesGetSCB(issuesList) {
     for (var i = 0; i < issuesList.length; i++) {
         let issueClass = issuesList[i].isClosed ? 'issue close locked' : 'issue close unlocked';
         let formattedDateTime = formatDateTime(issuesList[i].createdAt)
-      str += `<div class="${issueClass}">
+      str += `<div id="issue-${issuesList[i].issueId}" class="${issueClass}" data-userId="${issuesList[i].userId}">
                 <div class="issue-headers">
                     <div class="create-details">
                         <div class="date-time">${formattedDateTime.date} ${formattedDateTime.time}</div>
                         <div class="creator">${issuesList[i].userFullName}</div>`
                         //if userid = userid
-                        if (issuesList[0].userId == userConnected) {
+                        if (issuesList[i].userId == userConnected) {
                             if (issuesList[i].isClosed) {
                                 //סוגיה נעולה, הקש לפתיחה
-                                str += `<div class="lock-issue-toggle" title="הסוגיה נעולה, לחץ להסרת הנעילה" onclick="ToggleOpenLockIssue(${issuesList[i].issueId})"><img src="./../images/icons/lock-on.svg" alt="סוגיה נעולה" srcset=""></div>`
+                                str += `<div class="lock-issue-toggle" onclick="ToggleOpenLockIssue(${issuesList[i].issueId})"><img title="הסוגיה נעולה, לחץ להסרת הנעילה" src="./../images/icons/lock-on.svg" alt="סוגיה נעולה" srcset=""></div>`
+
                             } else {
                                 //סוגיה פתוחה, הקש לנעילה
-                                str += `<div class="lock-issue-toggle" title="הסוגיה פתוחה, לחץ לנעילה" onclick="ToggleOpenLockIssue(${issuesList[i].issueId})"><img src="./../images/icons/lock-off.svg" alt="סוגיה פתוחה" srcset=""></div>`
+                                str += `<div class="lock-issue-toggle" onclick="ToggleOpenLockIssue(${issuesList[i].issueId})"><img title="הסוגיה פתוחה, לחץ לנעילה" src="./../images/icons/lock-off.svg" alt="סוגיה פתוחה" srcset=""></div>`
 
                             }
                         } else {
                             if (issuesList[i].isClosed) {
                                 //סוגיה נעולה
+                                str += `<div class="lock-issue-toggle" onclick="ToggleOpenLockIssue(${issuesList[i].issueId})"><img title="הסוגיה נעולה" src="./../images/icons/lock-on.svg" alt="סוגיה נעולה" srcset=""></div>`
+
                             } else {
                                 //סוגיה פתוחה
+                                str += `<div class="lock-issue-toggle" onclick="ToggleOpenLockIssue(${issuesList[i].issueId})"><img title="הסוגיה פתוחה" src="./../images/icons/lock-off.svg" alt="סוגיה פתוחה" srcset=""></div>`
+
                             }
                         }
 
@@ -100,12 +105,30 @@ function AddIssue() {
 
 function ToggleOpenLockIssue(issueId) {
     let issueToggleStatusAPI = localHostAPI +"toggleIssueStatus";
-    //ajaxCall("PATCH", issueToggleStatusAPI, issueId, issuesGetSCB, issuesGetECB);   
+    const issueDivCreator = document.getElementById(`issue-${issueId}`).dataset.userid;
+
+    if (issueDivCreator == userConnected) {
+        
+        ajaxCall("PATCH", issueToggleStatusAPI,JSON.stringify(issueId), ToggleIssueStatusSCB, ToggleIssueStatusECB);   
+    }
 }
 
-function ToggleIssueStatusSCB() {
-
+function ToggleIssueStatusSCB(obj) {
+    const issueDiv = document.getElementById(`issue-${obj.issueId}`)
+    const lockIcon = document.querySelector(`#issue-${obj.issueId} img`);
+    if (obj.isClosed) {
+        issueDiv.classList.remove("unlocked")
+        issueDiv.classList.add("locked")
+        lockIcon.src = `./../images/icons/lock-on.svg`
+        lockIcon.title = `הסוגיה נעולה, לחץ להסרת הנעילה`
+    } else {
+        issueDiv.classList.remove("locked")
+        issueDiv.classList.add("unlocked")
+        lockIcon.src = `./../images/icons/lock-off.svg`
+        lockIcon.title = `הסוגיה פתוחה, לחץ לנעילה`
+    }
 }
+
 function ToggleIssueStatusECB(err) {
     alert(err.statusText)
 }
