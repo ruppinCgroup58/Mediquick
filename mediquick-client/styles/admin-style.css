@@ -278,3 +278,79 @@ table.dataTable thead > tr > td.dt-ordering-desc span.dt-column-order {
     display: none;
     z-index: 10;
 }
+/**/
+#QuestionForm {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+#QuestionTable {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: separate;
+    border-spacing: 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+    #QuestionTable thead {
+        background-color: #0b4848;
+        color: white;
+    }
+
+    #QuestionTable th {
+        padding: 12px 15px;
+        text-align: right;
+        border-bottom: 1px solid #ddd;
+        vertical-align: middle; /* This centers the text vertically in the header cells */
+    }
+
+    #QuestionTable td {
+        padding: 12px 15px;
+        text-align: right;
+        border-bottom: 1px solid #ddd;
+        vertical-align: top; /* This aligns content to the top in regular cells */
+    }
+
+    #QuestionTable tbody tr:nth-child(even) {
+        background-color: #f8f8f8;
+    }
+
+    #QuestionTable tbody tr:hover {
+        background-color: #e6e6e6;
+        transition: background-color 0.3s ease;
+    }
+
+    #QuestionTable .btn {
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        transition: all 0.3s ease;
+    }
+
+    #QuestionTable .btn-primary {
+        background-color: #03a696;
+        border-color: #03a696;
+    }
+
+        #QuestionTable .btn-primary:hover {
+            background-color: #028e80;
+            border-color: #028e80;
+        }
+
+@media screen and (max-width: 1024px) {
+    #QuestionTable {
+        font-size: 12px;
+    }
+
+        #QuestionTable th, #QuestionTable td {
+            padding: 8px 10px;
+        }
+}
