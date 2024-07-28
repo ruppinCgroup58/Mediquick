@@ -1762,10 +1762,12 @@ public class DBServices
         }
     }
 
-    public bool toggleIssueStatus(int issueid)
+    public Object toggleIssueStatus(int issueid)
     {
         SqlConnection con;
         SqlCommand cmd;
+
+        Object o = new Object();
 
         try
         {
@@ -1781,9 +1783,21 @@ public class DBServices
 
         try
         {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-            if (numEffected > 0) { return true; } else { return false; }
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            dataReader.Read();
+           
+                var result = new
+                {
+                    issueId = Convert.ToInt32(dataReader["issueId"]),
+                    isClosed = Convert.ToBoolean(dataReader["isClosed"])
+                };
+
+                return result;
+            
         }
+
+
         catch (Exception ex)
         {
             throw (ex);

@@ -56,7 +56,7 @@ namespace MEDIQUICK.BL
             return dbs.updateIssueDetail(issue);
         }
 
-        public bool toggleIssueStatus(int issueid)
+        public Object toggleIssueStatus(int issueid)
         {
             return dbs.toggleIssueStatus(issueid);
         }
