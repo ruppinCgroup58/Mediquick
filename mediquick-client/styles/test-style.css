@@ -142,3 +142,7 @@ li {
 .q-current {
     background-color: #03a696aa;
 }
+
+.instructions {
+    max-width: 70%
+}

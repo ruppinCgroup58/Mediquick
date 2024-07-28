@@ -12,12 +12,11 @@ function issueGetSCB(issue) {
   let cont = document.getElementById("container");
   let str = "";
   str += `<div class="go-prev" onclick="GoToPreviousPage(${issue[0].topicid})"><img src="./../images/icons/go-prev-right-arrow.svg" alt=""> חזרה לפורום ${topicName}</div>`;
-  if (issue[0]) {
-    
+  if (issue[0].isClosed) {
+    str += `<div class="cant-comment" onclick="">הסוגיה נעולה, לא ניתן להגיב</div>`;
   } else {
-    
+    str +=`<div class="add-comment" onclick="AddComment()"><img src="./../images/icons/plus-circle.svg" alt=""> הוסף תגובה</div>`;
   }
-  str +=`<div class="add-comment" onclick="AddComment()"><img src="./../images/icons/plus-circle.svg" alt=""> הוסף תגובה</div>`;
 
   //let formattedIssueDateTime = formatDateTime(issue[0].createdAt);
   let formattedIssueDateDite = "";

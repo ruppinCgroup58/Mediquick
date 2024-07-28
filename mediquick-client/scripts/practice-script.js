@@ -355,6 +355,8 @@ function HandleQuestionAnswer(event) {
       // Wrong answer chosen logic
       docChosenAnswerElement.classList.add("wrong-answer-selected");
       chosenAnswerElement.classList.add("wrong-answer-selected");
+      docCorrectAnswerElement.classList.add("correct-answer-selected");
+      correctAnswerElement.classList.add("correct-answer-selected");
     }
 
     // Serialize the DOM back to a string
