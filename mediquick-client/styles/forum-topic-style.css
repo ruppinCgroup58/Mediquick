@@ -85,6 +85,10 @@ main {
   padding: 0;
 }
 
+.issue img {
+  cursor: pointer;
+}
+
 .num-of-comments {
   padding: 5px 10px;
   font-size: 12px;

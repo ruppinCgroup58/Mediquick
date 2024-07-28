@@ -393,7 +393,7 @@ function CheckSimilarityLevel(item) {
 
 function getQuestionByTopicGetSCB(stringQuestionToCheck,data) {
     listOfQuestions = JSON.stringify(data);
-    textToGemini = `תספק לי רמת דמיון סמנטי בין ${stringQuestionToCheck} ל-${listOfQuestions}. תן לי את התשובה בדירוג רמת דמיון באחוזים. החזר את שלוש השאלות עם הדירוג הכי גבוה, אך לא לכלול את השאלה הנבדקת עצמה בתוצאות. התשובה תהיה במבנה הבא:
+    textToGemini = `תספק לי רמת דמיון סמנטי בין ${stringQuestionToCheck} ל-${listOfQuestions} - תבדוק את רמת הדמיון לפי תוכן השאלה (CONTENT). תן לי את התשובה בדירוג רמת דמיון באחוזים מהגבוה לנמוך. החזר את חמש השאלות עם הדירוג הכי גבוה, אך לא לכלול את השאלה הנבדקת עצמה בתוצאות. התשובה תהיה במבנה הבא:
 
 json{
   "questionToCheck": {
