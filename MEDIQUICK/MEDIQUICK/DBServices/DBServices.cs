@@ -1664,8 +1664,10 @@ public class DBServices
                     commentId = Convert.ToInt32(dataReader["commentId"]),
                     userId = Convert.ToInt32(dataReader["userId"]),
                     UserFullName = dataReader["UserFullName"].ToString(),
+                    IssueUserFullName = dataReader["IssueUserFullName"].ToString(),
                     CommentContent = dataReader["CommentContent"].ToString(),
-                    CommentCreatedAt = dataReader.GetDateTime(dataReader.GetOrdinal("CommentCreatedAt"))
+                    CommentCreatedAt = dataReader.GetDateTime(dataReader.GetOrdinal("CommentCreatedAt")),
+                    IssueCreatedAt = dataReader.GetDateTime(dataReader.GetOrdinal("IssueCreatedAt"))
                 });
             }
             return objectList;
