@@ -2,6 +2,7 @@ let forumAPI = localHostAPI + "api/Forum";
 const params = new URLSearchParams(window.location.search);
 const issueId = params.get("issueId");
 const topicName = params.get("topicName");
+let userConnected = sessionStorage.getItem("id");
 
 let getIssueAPI = (forumAPI += "/issueId/" + issueId); //get issue api
 ajaxCall("GET", getIssueAPI, "", issueGetSCB, issueGetECB);
@@ -11,16 +12,25 @@ function issueGetSCB(issue) {
   let cont = document.getElementById("container");
   let str = "";
   str += `<div class="go-prev" onclick="GoToPreviousPage(${issue[0].topicid})"><img src="./../images/icons/go-prev-right-arrow.svg" alt=""> חזרה לפורום ${topicName}</div>`;
-  str +=`<div class="add-comment" onclick="AddComment()"><img src="./../images/icons/plus-circle.svg" alt=""> הוסף תגובה</div>`;
+  if (issue[0].isClosed) {
+    str += `<div class="cant-comment" onclick="">הסוגיה נעולה, לא ניתן להגיב</div>`;
+  } else {
+    str +=`<div class="add-comment" onclick="AddComment()"><img src="./../images/icons/plus-circle.svg" alt=""> הוסף תגובה</div>`;
+  }
 
   //let formattedIssueDateTime = formatDateTime(issue[0].createdAt);
+  let formattedIssueDateDite = "";
   let formattedCommentDateTime = "";
   str += `<div class="issue">
                 <div class="issue-headers">
                     <div class="create-details">
-                        <div class="date-time">07/04/2024 17:36</div>
-                        <div class="creator">נטלי נחשונוב</div>
-                    </div>
+                        <div class="date-time">${formatDateTime(issue[0].issueCreatedAt).date + " " + formatDateTime(issue[0].issueCreatedAt).time}</div>
+                        <div class="creator">${issue[0].issueUserFullName}</div>`
+                        if (issue[0].issueCreatorId == userConnected) {
+                          str += `<div class="edit-comment"><img title="ערוך סוגיה" src="./../images/icons/edit-pencil.svg" alt="עריכה"></div>`
+                          
+                        }
+                    str += `</div>
                     <div class="title"><h4>${issue[0].title}</h4></div>
                     <div class="issue-content">${issue[0].issueContent}</div>
                     <div class="num-of-comments">${issue[0].commentCount} תגובות</div>
@@ -38,8 +48,12 @@ function issueGetSCB(issue) {
                     <div class="date-time">${formattedCommentDateTime.date} ${
         formattedCommentDateTime.time
       }</div>
-                    <div class="creator">${issue[i].userFullName}</div>
-                </div>
+                    <div class="creator">${issue[i].userFullName}</div>`
+                    if (issue[i].commentCreatorId == userConnected) {
+                      str += `<div class="edit-comment"><img title="ערוך תגובה" src="./../images/icons/edit-pencil.svg" alt="עריכה"></div>`
+                      str += `<div class="edit-comment"><img title="מחק תגובה" src="./../images/icons/clear-form-24.svg" alt="מחיקה"></div>`
+                    }
+                str += `</div>
                 <div class="comment-content">
                     ${issue[i].commentContent}
                 </div>

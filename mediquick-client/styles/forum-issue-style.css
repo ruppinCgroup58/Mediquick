@@ -43,6 +43,7 @@ main {
     color: rgba(0, 0, 0, 0.6);
     font-size: 12px;
     display: flex;
+    align-items: center;
 }
 
 
@@ -76,6 +77,7 @@ main {
 .num-of-comments {
     padding: 5px 10px;
     font-size: 12px;
+    text-decoration: underline;
 }
 
 .comment {
@@ -111,15 +113,28 @@ main {
     cursor: pointer;
 }
 
-.add-comment {
+.add-comment, .cant-comment {
     color: #03a696;
     display: flex;
     align-items: center;
-    cursor: pointer;
     justify-content: space-between;
+}
+
+.add-comment {
+    cursor: pointer;
+}
+
+.cant-comment {
+    font-weight: bold;
 }
 
 .add-comment img {
     width: 16px;
     padding-left: 5px;
+}
+
+.edit-comment img {
+    width: 16px;
+    padding: 3px;
+    cursor: pointer;
 }
