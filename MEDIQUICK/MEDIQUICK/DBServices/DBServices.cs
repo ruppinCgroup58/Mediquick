@@ -1668,8 +1668,10 @@ public class DBServices
                     CommentContent = dataReader["CommentContent"].ToString(),
                     CommentCreatedAt = dataReader.GetDateTime(dataReader.GetOrdinal("CommentCreatedAt")),
                     IssueCreatorId = Convert.ToInt32(dataReader["IssueCreatorId"]),
-                    IssueCreatedAt = dataReader.GetDateTime(dataReader.GetOrdinal("IssueCreatedAt"))
-                    
+                    IssueCreatedAt = dataReader.GetDateTime(dataReader.GetOrdinal("IssueCreatedAt")),
+                    isClosed = Convert.ToBoolean(dataReader["isClosed"])
+
+
                 });
             }
             return objectList;
