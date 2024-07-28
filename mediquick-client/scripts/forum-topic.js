@@ -55,7 +55,7 @@ function issuesGetSCB(issuesList) {
                 </div>
             </div>`
     }
-    cont.innerHTML += str;
+    cont.innerHTML = str;
     console.log(issuesList)
 }
 function issuesGetECB(err) {
@@ -101,8 +101,47 @@ function GoToPreviousPage() {
 
 function AddIssue() {
     //הוספת סוגיה
-}
+    const modal = document.getElementById("AddIssueModal");
+    const closeModalSpan = document.querySelector(".closeIssue");
+    modal.style.display = "flex";
 
+    // סגירת המודאל בעת לחיצה על ה-x
+    closeModalSpan.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    // סגירת המודאל בעת לחיצה מחוץ למודאל
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+} 
+
+$("#AddIssueModal").submit(function (event) {
+    newIssue = {
+        topicId:topicId,
+        userId:userConnected,
+        title: $("#issueTitle").val(),
+        content: $("#issueContent").val()
+    }
+    apiInsertIssue = localHostAPI + "InsertIssue";
+    ajaxCall("Post", apiInsertIssue, JSON.stringify(newIssue), InsertIssuePostSCB, InsertIssuePostECB);
+    return false;
+});
+    
+function InsertIssuePostSCB(data) {
+    alert("הסוגיה נוספה בהצלחה!");
+    document.getElementById("AddIssueModal").style.display = "none";
+    ajaxCall("GET", getIssuesAPI, "", issuesGetSCB, issuesGetECB);
+
+}
+function InsertIssuePostECB(err) {
+    console.log("הכנסת סוגיה נכשלה");
+}
+function resetFormIssue() {
+    $("#AddIssueForm")[0].reset();
+}
 function ToggleOpenLockIssue(issueId) {
     let issueToggleStatusAPI = localHostAPI +"toggleIssueStatus";
     const issueDivCreator = document.getElementById(`issue-${issueId}`).dataset.userid;
