@@ -31,7 +31,7 @@ namespace MEDIQUICK.Controllers
 
         // POST api/<TestsController>
         [HttpPost("userId/{userId}")]
-        public int CreateTest(int userId)
+        public Object CreateTest(int userId)
         {
             Test t = new Test();
             return t.CreateTest( userId);
