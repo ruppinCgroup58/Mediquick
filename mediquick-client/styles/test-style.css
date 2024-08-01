@@ -144,5 +144,28 @@ li {
 }
 
 .instructions {
-    max-width: 70%
+    max-width: 70%;
+    padding: 14px;
+}
+
+.pre-test {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.5s ease, max-height 0.5s ease;
+    max-height: 1000px; /* נדרש להציג את הגובה המלא בהתחלה */
+    overflow: hidden;
+}
+
+.test-content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease, max-height 0.5s ease;
+    max-height: 0; /* נדרש להסתיר את התוכן בהתחלה */
+    overflow: hidden;
 }

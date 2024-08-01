@@ -59,77 +59,97 @@
     </header>
     <main>
         <div class="container">
-            <div class="instructions">ברוכים הבאים...</div>
-            <input type="button" value="התחל מבחן" class="primary-btn" onclick="startTest()">
-            <div class="grid-list">
-                <div class="grid-item q1 q-answered">1</div>
-                <div class="grid-item q2 q-answered">2</div>
-                <div class="grid-item q3 q-answered">3</div>
-                <div class="grid-item q4 q-answered">4</div>
-                <div class="grid-item q5 q-answered">5</div>
-                <div class="grid-item q6 q-answered">6</div>
-                <div class="grid-item q7 q-answered">7</div>
-                <div class="grid-item q8 q-answered">8</div>
-                <div class="grid-item q9 q-answered">9</div>
-                <div class="grid-item q10 q-answered">10</div>
-                <div class="grid-item q11 q-answered">11</div>
-                <div class="grid-item q12 q-answered">12</div>
-                <div class="grid-item q13 q-answered">13</div>
-                <div class="grid-item q14 q-answered">14</div>
-                <div class="grid-item q15 q-answered">15</div>
-                <div class="grid-item q16 q-current">16</div>
-                <div class="grid-item q17 ">17</div>
-                <div class="grid-item q18">18</div>
-                <div class="grid-item q19">19</div>
-                <div class="grid-item q20">20</div>
-                <div class="grid-item q21">21</div>
-                <div class="grid-item q22">22</div>
-                <div class="grid-item q23">23</div>
-                <div class="grid-item q24">24</div>
-                <div class="grid-item q25">25</div>
-                <div class="grid-item q26">26</div>
-                <div class="grid-item q27">27</div>
-                <div class="grid-item q28">28</div>
-                <div class="grid-item q29">29</div>
-                <div class="grid-item q30">30</div>
+            <div class="pre-test">
+                <div class="instructions">ברוכים הבאים למודול המבחן!
+                    המבחן נבנה בצורה דינאמית על פי רמת ההצלחה בכל נושא ונושא.
+                    המבחן בנוי מ30 שאלות השייכות ל5 נושאים שנבחרים באופן אקראי.
+                    רמת הקושי של כל שאלה שכל נושא תלויה בשאלה הקודמת באותו נושא, לדוגמה:
+                    אם צדקת בשאלה בנושא שיקום מוחי, רמת הקושי של השאלה הבאה תהיה זהה או גבוהה יותר
+                    אם טעית, רמת הקושי של השאלה הבאה תהיה זהה או נמוכה יותר.
+                    מענה על שאלה בנושא מסוים לא תשפיע על רמת הקושי בשאלות בשאר הנושאים.
+                    לאחר מענה על שאלה, לא ניתן לחזור אחורה.
+                    שים לב! משך הזמן המוקצה למבחן הוא שעה וחצי!
+                    ניתן לסיים את המבחן בכל עת על ידי לחיצה על כפתור סיום מבחן.
+                    סיום המבחן יקרה לאחר אחד מהתרחישים הבאים:
+                    ענית על כל 30 השאלות
+                    לחצת על כפתור סיום מבחן
+                    נגמר הזמן
+                    לאחר מכן, יוצג סיכום המבחן, המכיל ניתוחים סטטיסטיים על ביצועיך
+                
+                    בהצלחה!</div>
+                <input type="button" value="התחל מבחן" class="primary-btn" onclick="startTest()">
             </div>
-            <div id="question-container" class="question">
-                <div class="question-wrapper">
-                    <div class="question-content">
-                        <b>16. מהו אחד התפקידים החשובים של עובדי נדבך הגבול בארגון שירות?</b>
-                    </div>
-                    <div class="options">
-                        <ul>
-                            <li>
-                                <div class="option-1">
-                                    <p class="option">א. שומרי שער המידע - הם מקור מידע חשוב לגבי גישות של לקוחות
-                                        ואסטרטגיות של מתחרים</p>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="option-2">
-                                    <p class="option">ב. אחראים על ניהול התורים והקצאת המשאבים</p>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="option-3">
-                                    <p class="option">ג. אחראים על פיתוח מוצרים ושירותים חדשים</p>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="option-4">
-                                    <p class="option">ד. אחראים על ניהול תקציב השירות</p>
-                                </div>
-                            </li>
-                        </ul>
-                        <br>
+            <div class="test-content">
+                <!-- <div class="grid-list">
+                    <div data-number="1" class="grid-item q1 q-answered">1</div>
+                    <div data-number="2" class="grid-item q2 q-answered">2</div>
+                    <div data-number="3" class="grid-item q3 q-answered">3</div>
+                    <div data-number="4" class="grid-item q4 q-answered">4</div>
+                    <div data-number="5" class="grid-item q5 q-answered">5</div>
+                    <div data-number="6" class="grid-item q6 q-answered">6</div>
+                    <div data-number="7" class="grid-item q7 q-answered">7</div>
+                    <div data-number="8" class="grid-item q8 q-answered">8</div>
+                    <div data-number="9" class="grid-item q9 q-answered">9</div>
+                    <div data-number="10" class="grid-item q10 q-answered">10</div>
+                    <div data-number="11" class="grid-item q11 q-answered">11</div>
+                    <div data-number="12" class="grid-item q12 q-answered">12</div>
+                    <div data-number="13" class="grid-item q13 q-answered">13</div>
+                    <div data-number="14" class="grid-item q14 q-answered">14</div>
+                    <div data-number="15" class="grid-item q15 q-answered">15</div>
+                    <div data-number="16" class="grid-item q16 q-current">16</div>
+                    <div data-number="17" class="grid-item q17 ">17</div>
+                    <div data-number="18" class="grid-item q18">18</div>
+                    <div data-number="19" class="grid-item q19">19</div>
+                    <div data-number="20" class="grid-item q20">20</div>
+                    <div data-number="21" class="grid-item q21">21</div>
+                    <div data-number="22" class="grid-item q22">22</div>
+                    <div data-number="23" class="grid-item q23">23</div>
+                    <div data-number="24" class="grid-item q24">24</div>
+                    <div data-number="25" class="grid-item q25">25</div>
+                    <div data-number="26" class="grid-item q26">26</div>
+                    <div data-number="27" class="grid-item q27">27</div>
+                    <div data-number="28" class="grid-item q28">28</div>
+                    <div data-number="29" class="grid-item q29">29</div>
+                    <div data-number="30" class="grid-item q30">30</div>
+                </div> -->
+                <div id="question-container" class="question">
+                    <div class="question-wrapper">
+                        <div class="question-content">
+                            <b>16. מהו אחד התפקידים החשובים של עובדי נדבך הגבול בארגון שירות?</b>
+                        </div>
+                        <div class="options">
+                            <ul>
+                                <li>
+                                    <div class="option-1">
+                                        <p class="option">א. שומרי שער המידע - הם מקור מידע חשוב לגבי גישות של לקוחות
+                                            ואסטרטגיות של מתחרים</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="option-2">
+                                        <p class="option">ב. אחראים על ניהול התורים והקצאת המשאבים</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="option-3">
+                                        <p class="option">ג. אחראים על פיתוח מוצרים ושירותים חדשים</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="option-4">
+                                        <p class="option">ד. אחראים על ניהול תקציב השירות</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <br>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="buttons">
-                <div id="countdown" class="countdown"></div>
-                <input type="button" value="עבור לשאלה הבאה" class="primary-btn">
-                <input type="button" value="סיום מבחן" class="red-btn">
+                <div class="buttons">
+                    <div id="countdown" class="countdown"></div>
+                    <input type="button" value="עבור לשאלה הבאה" class="primary-btn">
+                    <input type="button" value="סיום מבחן" class="red-btn">
+                </div>
             </div>
         </div>
     </main>
