@@ -2072,7 +2072,7 @@ public class DBServices
         cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
 
         cmd.Parameters.AddWithValue("@issueId", comment.IssueId);
-        cmd.Parameters.AddWithValue(" @userId", comment.UserId);
+        cmd.Parameters.AddWithValue("@userId", comment.UserId);
         cmd.Parameters.AddWithValue("@content ", comment.Content);
 
         return cmd;

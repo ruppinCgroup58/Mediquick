@@ -27,7 +27,7 @@ function issueGetSCB(issue) {
                         <div class="date-time">${formatDateTime(issue[0].issueCreatedAt).date + " " + formatDateTime(issue[0].issueCreatedAt).time}</div>
                         <div class="creator">${issue[0].issueUserFullName}</div>`
                         if (issue[0].issueCreatorId == userConnected) {
-                          str += `<div class="edit-comment"><img title="ערוך סוגיה" src="./../images/icons/edit-pencil.svg" alt="עריכה"></div>`
+                          str += `<div class="edit-comment"><img title="ערוך סוגיה" src="./../images/icons/edit-pencil.svg" onclick="editIssue()" alt="עריכה"></div>`
                           
                         }
                     str += `</div>
@@ -39,7 +39,7 @@ function issueGetSCB(issue) {
             `;
   //render the issue, for loop for the comments
   if (issue[0].commentCount > 0) {
-    str += `<h3>תגובות</h3>`;
+      str += `<h3>תגובות</h3>`;
     for (let i = 0; i < issue.length; i++) {
       formattedCommentDateTime = formatDateTime(issue[i].commentCreatedAt);
       str += `<div class="comment">
@@ -50,8 +50,8 @@ function issueGetSCB(issue) {
       }</div>
                     <div class="creator">${issue[i].userFullName}</div>`
                     if (issue[i].commentCreatorId == userConnected) {
-                      str += `<div class="edit-comment"><img title="ערוך תגובה" src="./../images/icons/edit-pencil.svg" alt="עריכה"></div>`
-                      str += `<div class="edit-comment"><img title="מחק תגובה" src="./../images/icons/clear-form-24.svg" alt="מחיקה"></div>`
+                      str += `<div class="edit-comment" onclick="editComment()"><img title="ערוך תגובה" src="./../images/icons/edit-pencil.svg" alt="עריכה"></div>`
+                        str += `<div class="edit-comment" onclick="deleteComment()"><img title="מחק תגובה" src="./../images/icons/clear-form-24.svg" alt="מחיקה"></div>`
                     }
                 str += `</div>
                 <div class="comment-content">
@@ -60,7 +60,7 @@ function issueGetSCB(issue) {
             </div>`;
     }
   }
-  cont.innerHTML += str;
+  cont.innerHTML = str;
   /*<div class="issue close">
                 <div class="issue-headers">
                     <div class="create-details">
@@ -99,5 +99,94 @@ function GoToPreviousPage(topicId) {
 }
 
 function AddComment() {
-  //הוספת תגובה
+    //הוספת תגובה
+    const modalCommentIssue = document.getElementById("addCommentModal");
+    const closeCommentModalSpan = document.querySelector(".closeComment");
+    modalCommentIssue.style.display = "flex";
+    
+    // סגירת המודאל בעת לחיצה על ה-x
+    closeCommentModalSpan.onclick = function () {
+        modalCommentIssue.style.display = "none";
+    };
+
+    // סגירת המודאל בעת לחיצה מחוץ למודאל
+    window.onclick = function (event) {
+        if (event.target == modalCommentIssue) {
+            modalCommentIssue.style.display = "none";
+        }
+    };
+}
+function resetFormAddComment() {
+    $("#editIssueForm")[0].reset();
+}
+
+$("#addCommentForm").submit(function (event) {
+    //event.preventDefault();
+    newComment = {
+        userId: userConnected,
+        issueId: issueId,
+        content: $("#commentContent").val()
+    }
+    apiAddComment = localHostAPI + "InsertComment";
+    ajaxCall("Post", apiAddComment, JSON.stringify(newComment), AddCommentPostSCB, AddCommentPostECB);
+    return false;
+});
+
+function AddCommentPostSCB(data) {
+    alert("התגובה נוספה בהצלחה");
+    document.getElementById("addCommentModal").style.display = "none";
+    ajaxCall("GET", getIssueAPI, "", issueGetSCB, issueGetECB);
+
+}
+
+function AddCommentPostECB(err) {
+    console.log("הוספת תגובה נכשלה");
+}
+
+function editIssue(){
+    //הוספת סוגיה
+    const modalEditIssue = document.getElementById("editIssueModal");
+    const closeEditModalSpan = document.querySelector(".closeIssue");
+    modalEditIssue.style.display = "flex";
+    document.querySelector("#issueTitle").placeholder = document.querySelector(".title").textContent;
+    document.querySelector("#issueContent").placeholder = document.querySelector(".issue-content").textContent;
+
+
+    // סגירת המודאל בעת לחיצה על ה-x
+    closeEditModalSpan.onclick = function () {
+        modalEditIssue.style.display = "none";
+    };
+
+    // סגירת המודאל בעת לחיצה מחוץ למודאל
+    window.onclick = function (event) {
+        if (event.target == modalEditIssue) {
+            modalEditIssue.style.display = "none";
+        }
+    };
+}
+$("#editIssueForm").submit(function (event) {
+    //event.preventDefault();
+    editedIssue = {
+        userId: userConnected,
+        issueId: issueId,
+        title: $("#issueTitle").val(),
+        content: $("#issueContent").val()
+    }
+    apiEditIssue = localHostAPI + "updateIssueDetails";
+    ajaxCall("PATCH", apiEditIssue, JSON.stringify(editedIssue), EditIssuePostSCB, EditIssuePostECB);
+    return false;
+});
+
+function EditIssuePostSCB(data) {
+    alert("הסוגיה עודכנה בהצלחה!");
+    document.getElementById("editIssueModal").style.display = "none";
+    ajaxCall("GET", getIssueAPI, "", issueGetSCB, issueGetECB);
+
+}
+
+function EditIssuePostECB(err) {
+    console.log("עדכון סוגיה נכשלה");
+}
+function resetFormIssue() {
+    $("#editIssueForm")[0].reset();
 }
