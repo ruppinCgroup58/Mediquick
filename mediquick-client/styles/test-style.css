@@ -11,6 +11,10 @@ main {
     justify-content: center;
 }
 
+.question-wrapper {
+    padding-right: 8dvw;
+}
+
 .question {
     flex-grow: 4;
     padding: 20px;
@@ -22,6 +26,14 @@ main {
 
 li {
     list-style: none;
+}
+
+.selected-option {
+    background-color: #03a69645;
+    border-radius: 15px;
+    padding: 0px 8px;
+    opacity: 0.9;
+    transition: 0.2s ease;
 }
 
 .buttons {
