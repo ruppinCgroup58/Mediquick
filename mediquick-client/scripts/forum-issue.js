@@ -44,14 +44,14 @@ function issueGetSCB(issue) {
       formattedCommentDateTime = formatDateTime(issue[i].commentCreatedAt);
       str += `<div class="comment">
                 <div class="create-details">
-                    <div class="comment-id">#${i + 1}</div>
+                    <div data-number=${issue[i].commentId} class="comment-id">#${i + 1}</div>
                     <div class="date-time">${formattedCommentDateTime.date} ${
         formattedCommentDateTime.time
       }</div>
                     <div class="creator">${issue[i].userFullName}</div>`
                     if (issue[i].commentCreatorId == userConnected) {
-                      str += `<div class="edit-comment" onclick="editComment()"><img title="ערוך תגובה" src="./../images/icons/edit-pencil.svg" alt="עריכה"></div>`
-                        str += `<div class="edit-comment" onclick="deleteComment()"><img title="מחק תגובה" src="./../images/icons/clear-form-24.svg" alt="מחיקה"></div>`
+                        str += `<div class="edit-comment" onclick="editComment(${issue[i].commentId})"><img title="ערוך תגובה" src="./../images/icons/edit-pencil.svg" alt="עריכה"></div>`
+                        str += `<div class="edit-comment" onclick="deleteComment(${issue[i].commentId})"><img title="מחק תגובה" src="./../images/icons/clear-form-24.svg" alt="מחיקה"></div>`
                     }
                 str += `</div>
                 <div class="comment-content">
@@ -98,6 +98,70 @@ function GoToPreviousPage(topicId) {
   window.location.href = `forum-topic.html?topicId=${topicId}&topicName=${topicName}`;
 }
 
+function deleteComment(commemntId) {
+    deleteComment = {
+        commentId: commemntId,
+        issueId: issueId
+    }
+    apiDeleteComment = localHostAPI + "updateCommenInactive";
+    ajaxCall("PATCH", apiDeleteComment, JSON.stringify(deleteComment), deleteCommentPostSCB, deleteCommentPostECB);
+    return false;
+}
+function deleteCommentPostSCB(data) {
+    alert("התגובה נמחקה בהצלחה");
+    ajaxCall("GET", getIssueAPI, "", issueGetSCB, issueGetECB);
+}
+function deleteCommentPostECB(err) {
+    console.log("המחיקת תגובה נכשל");
+}
+
+function editComment(commemntId) {
+    //עדכון תגובה
+    const modalEditCommentIssue = document.getElementById("editCommentModal");
+    const closeEditCommentModalSpan = document.querySelector(".closeEditComment");
+    modalEditCommentIssue.style.display = "flex";
+    document.getElementById("hiddenCommentId").value = commemntId;
+    // סגירת המודאל בעת לחיצה על ה-x
+    closeEditCommentModalSpan.onclick = function () {
+        modalEditCommentIssue.style.display = "none";
+    };
+
+    // סגירת המודאל בעת לחיצה מחוץ למודאל
+    window.onclick = function (event) {
+        if (event.target == modalEditCommentIssue) {
+            modalEditCommentIssue.style.display = "none";
+        }
+    };
+}
+
+function resetFormEditComment() {
+    $("#editCommentForm")[0].reset();
+}
+
+$("#editCommentModal").submit(function (event) {
+    //event.preventDefault();
+    editedComment = {
+        commentId: $("#hiddenCommentId").val(),
+        userId: userConnected,
+        issueId: issueId,
+        content: $("#editCommentContent").val()
+    }
+    apiEditComment = localHostAPI + "updateCommentDetails";
+    ajaxCall("Patch", apiEditComment, JSON.stringify(editedComment), editCommentPostSCB, editCommentPostECB);
+    return false;
+});
+
+function editCommentPostSCB(data) {
+    alert("התגובה עודכנה בהצלחה");
+    document.getElementById("editCommentModal").style.display = "none";
+    ajaxCall("GET", getIssueAPI, "", issueGetSCB, issueGetECB);
+
+}
+
+function editCommentPostECB(err) {
+    console.log("עדכון תגובה נכשל");
+}
+
 function AddComment() {
     //הוספת תגובה
     const modalCommentIssue = document.getElementById("addCommentModal");
@@ -117,7 +181,7 @@ function AddComment() {
     };
 }
 function resetFormAddComment() {
-    $("#editIssueForm")[0].reset();
+    $("#addCommentForm")[0].reset();
 }
 
 $("#addCommentForm").submit(function (event) {
