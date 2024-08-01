@@ -57,7 +57,7 @@
     </header>
     <main>
         <div id="container" class="container">
-<!--             
+            <!--
             <div class="issue">
                 <div class="issue-headers">
                     <div class="create-details">
@@ -82,6 +82,45 @@
                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem vero optio provident hic ut, aperiam asperiores magni? Tenetur dolorem inventore commodi dignissimos facere necessitatibus unde accusamus sunt in distinctio! Sed?
                 </div>
             </div> -->
+        </div>
+        <!--edit Issue modal-->
+        <div id="editIssueModal" class="modal">
+            <div class="modal-content" id="AddIssueModal">
+                <span class="closeIssue">&times;</span>
+                <div class="clear-form suForm">
+                    <img src="./../images/icons/clear-form-24.svg" alt="" class="clear-form-logo"
+                         title="Delete details" onclick="resetFormIssue()">
+                </div>
+                <form action="" id="editIssueForm" class="AIForm">
+                    <div class="input-box">
+                        <label>כותרת הסוגיה:</label>
+                        <input class="hebrew form-control" type="text" id="issueTitle" placeholder="כותרת הסוגיה">
+                    </div>
+                    <div class="input-box">
+                        <label>תוכן הסוגיה:</label>
+                        <input class="hebrew form-control" type="text" id="issueContent" placeholder="תוכן הסוגיה">
+                    </div>
+                    <input type="submit" value="שלח" class="primary-btn btn btn-primary" id="edit-issue-modal-btn">
+                </form>
+            </div>
+        </div>
+        
+        <!--add comment modal-->
+        <div id="addCommentModal" class="modal">
+            <div class="modal-content" id="addCommentModal">
+                <span class="closeComment">&times;</span>
+                <div class="clear-form suForm">
+                    <img src="./../images/icons/clear-form-24.svg" alt="" class="clear-form-logo"
+                         title="Delete details" onclick="resetFormAddComment()">
+                </div>
+                <form action="" id="addCommentForm" class="AIForm">
+                    <div class="input-box">
+                        <label>תוכן התגובה:</label>
+                        <input class="hebrew form-control" type="text" id="commentContent" placeholder="תוכן התגובה">
+                    </div>                  
+                    <input type="submit" value="שלח" class="primary-btn btn btn-primary" id="add-comment-modal-btn">
+                </form>
+            </div>
         </div>
     </main>
 </body>
