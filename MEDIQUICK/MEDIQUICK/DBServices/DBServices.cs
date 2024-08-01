@@ -1381,7 +1381,7 @@ public class DBServices
     //-----------Test class Functions-----------
     #region Test's Functions
 
-    public int CreateTest(int userId)
+    public Object CreateTest(int userId)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -1400,11 +1400,28 @@ public class DBServices
 
         try
         {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-                                                     // Read the output parameter value after executing the stored procedure
-            int testId = Convert.ToInt32(cmd.Parameters["@TestID"].Value);
-            return testId;
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            dataReader.Read();
+
+            var result2 = new
+            {
+            TestID = dataReader["TestID"].ToString(),
+            QuestionSerialNumber = Convert.ToInt32(dataReader["QuestionID"]),
+            topicId = dataReader["topicId"].ToString(),
+            Content = dataReader["content"].ToString(),
+            CorrectAnswer = dataReader["correctAnswer"].ToString(),
+            WrongAnswer1 = dataReader["wrongAnswer1"].ToString(),
+            WrongAnswer2 = dataReader["wrongAnswer2"].ToString(),
+            WrongAnswer3 = dataReader["wrongAnswer3"].ToString(),
+            Difficulty = Convert.ToInt32(dataReader["difficulty"])
+            };
+
+            //int FirstQuestionID = Convert.ToInt32(cmd.Parameters["@FirstQuestionID"].Value);
+            //int FirstDifficulty = Convert.ToInt32(cmd.Parameters["@FirstDifficulty "].Value);
+            return result2;
         }
+
         catch (Exception ex)
         {
             // write to log
@@ -1522,10 +1539,20 @@ public class DBServices
         cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
 
         cmd.Parameters.AddWithValue("@UserID", userId);
+
+
+
+
         // Add output parameter
         SqlParameter outputParam = new SqlParameter("@TestID", SqlDbType.Int);
+        SqlParameter FirstQuestionID = new SqlParameter("@FirstQuestionID", SqlDbType.Int);
+        SqlParameter FirstDifficulty = new SqlParameter("@FirstDifficulty", SqlDbType.Int);
         outputParam.Direction = ParameterDirection.Output;
+        FirstQuestionID.Direction = ParameterDirection.Output;
+        FirstDifficulty.Direction = ParameterDirection.Output;
         cmd.Parameters.Add(outputParam);
+        cmd.Parameters.Add(FirstQuestionID);
+        cmd.Parameters.Add(FirstDifficulty);
 
         return cmd;
     }

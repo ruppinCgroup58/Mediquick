@@ -26,7 +26,7 @@ namespace MEDIQUICK.BL
         public List<Question> QuestionsList { get => questionsList; set => questionsList = value; }
         public string Testid { get => testId; set => testId = value; }
 
-        public int CreateTest(int userId)
+        public Object CreateTest(int userId)
         {
             return dbs.CreateTest(userId);
             
