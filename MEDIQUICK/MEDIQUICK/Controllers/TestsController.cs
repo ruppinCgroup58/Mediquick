@@ -38,15 +38,24 @@ namespace MEDIQUICK.Controllers
 
         }
 
-        // POST api/<TestsController>
-        [HttpPost("userId/{userId}/testId/{testId}/questionId/{questionId}/isCorrect/{isCorrect}")]
+        //// POST api/<TestsController>
+        //[HttpPost("userId/{userId}/testId/{testId}/questionId/{questionId}/isCorrect/{isCorrect}")]
 
-        public Question Test_HandleQuestionAnswer(int userId, int testId, int questionId,bool isCorrect)
+        //public Question Test_HandleQuestionAnswer(int userId, int testId, int questionId,bool isCorrect)
+        //{
+        //    Test t = new Test();
+        //    return t.Test_HandleQuestionAnswer(userId,testId,questionId,isCorrect);
+        //}
+
+        // POST api/<TestsController>
+        [HttpPost("/HandleTestQuestionAnswer")]
+
+        public Question Test_HandleQuestionAnswer(TestRequestData trd)
         {
             Test t = new Test();
-            return t.Test_HandleQuestionAnswer(userId,testId,questionId,isCorrect);
-
+            return t.Test_HandleQuestionAnswer(trd.userId, trd.testId, trd.questionId, trd.isCorrect);
         }
+
         // POST api/<TestsController>
         [HttpPost("testId/{testId}")]
         public int EndTest(int testId)

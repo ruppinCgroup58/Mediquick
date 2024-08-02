@@ -1,6 +1,9 @@
 let testAPI = localHostAPI + "api/Tests";
 let userConnected = sessionStorage.getItem("id");
 let testId;
+var chosenAnswerIndex = -1;
+let questionsCounter = 1;
+let shuffledQuestion;
 
 function startTest() {
   let startTestAPI = testAPI + "/userId/" + userConnected;
@@ -24,8 +27,8 @@ function startTest() {
 }
 
 function startTestSCB(testQuestionObject) {
-  testId = testQuestionObject.testId; //אובייקט שחוזר מהשרת ומכיל testId ושאר פרטי השאלה
-  let testContentDiv = document.querySelector(".test-content");
+  testID = testQuestionObject.testID; //אובייקט שחוזר מהשרת ומכיל testId ושאר פרטי השאלה
+//   let testContentDiv = document.querySelector(".test-content");
   let str = "";
   let i = 1;
   str += `<div class="grid-list">`;
@@ -33,10 +36,12 @@ function startTestSCB(testQuestionObject) {
     str += `<div data-number="${i}" class="grid-item">${i}</div>`;
     i++;
   }
-  str += `</div>`;
+  str += `</div>
+            <div id="0" class="question-wrapper"></div>`;
   console.log(str);
-  str += renderSingleQuestion(testQuestionObject);
-  testContentDiv.innerHTML = AddStringToStart(str, testContentDiv.innerHTML);
+  document.querySelector(".upDiv").innerHTML += AddStringToStart(str, document.querySelector(".upDiv").innerHTML);
+  document.querySelector(".question-wrapper").innerHTML += renderSingleQuestion(testQuestionObject);
+  //testContentDiv.innerHTML = AddStringToStart(str, testContentDiv.innerHTML);
   HandleSelectedAnswer();
 }
 
@@ -75,14 +80,16 @@ startCountdown(testTimeLimit, display);
 function AddStringToStart(textToAdd, currentString) {
   return textToAdd + currentString;
 }
-
+//Get a question object as input, shuffles the answers and returns it as a string, ready to render
 function renderSingleQuestion(question) {
-  const shuffledQuestion = shuffleSingleQuestionAnswers(question);
-  let counter = 1;
+  shuffledQuestion = shuffleSingleQuestionAnswers(question);
+  document.querySelector('.question-wrapper').dataset.number = questionsCounter;
+  document.querySelector('.question-wrapper').id = shuffledQuestion.questionSerialNumber;
+  /*<div id="q-${counter}" class="question-wrapper">*/
   str = "";
-  str += `<div id="${counter - 1}" class="question-wrapper">
+  str += `
             <div class="question-content">
-                <b>${counter++}. ${shuffledQuestion.content}</b>
+                <b>${questionsCounter++}. ${shuffledQuestion.content}</b>
             </div>
             <div class="options">
                 <ul>
@@ -121,9 +128,9 @@ function renderSingleQuestion(question) {
                         </div>
                     </li>
                 </ul>
-            </div>
-        </div>`;
-        return str;
+            </div>`;
+            return str;
+            //</div>`;
 }
 
 function shuffleSingleQuestionAnswers(question) {
@@ -159,13 +166,41 @@ options.forEach(option => {
 
         // הוספת המחלקה selected לאלמנט שנלחץ
         this.classList.add('selected-option');
+        chosenAnswerIndex = this.dataset.number;
     });
 });
 }
 
-function NextQuestion() {
+function GoToNextQuestion() {
+    let chosenAnswerIndex = document.querySelector('.selected-option').dataset.number;
+    let testReq = {
+        userId: userConnected,
+        testId: testID,
+        questionId: document.querySelector('.question-wrapper').id,
+        isCorrect: shuffledQuestion.shuffledAnswers[chosenAnswerIndex].isCorrect
+    }
+    let testNextQuestionAPI = localHostAPI + "HandleTestQuestionAnswer";
+    ajaxCall("POST", testNextQuestionAPI, JSON.stringify(testReq), GoToNextQuestionSCB, GoToNextQuestionECB)
+
+    //graphics grid
+    let currentQuestionIndex = document.querySelector('.question-wrapper').dataset.number;
+    document.querySelector(`[data-number="${currentQuestionIndex}"]`).classList.add("q-answered")
+
+    chosenAnswerIndex = -1;
+}
+
+function GoToNextQuestionSCB(data) {
+    console.log(data);
+    document.querySelector(".question-wrapper").innerHTML = renderSingleQuestion(data);
+    
+    HandleSelectedAnswer();
 
 }
+
+function GoToNextQuestionECB(err) {
+    alert(err.statusText);
+}
+
 
 function EndTest() {
 

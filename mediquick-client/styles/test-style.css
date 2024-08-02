@@ -120,8 +120,11 @@ li {
     height: 24px;
     font-size: 12px;
     border: 1px solid #03a696;
+    border-radius:1px;
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: 1px;
 }
 
 .countdown {
@@ -180,4 +183,10 @@ li {
     transition: opacity 0.5s ease, max-height 0.5s ease;
     max-height: 0; /* נדרש להסתיר את התוכן בהתחלה */
     overflow: hidden;
+}
+
+.upDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
