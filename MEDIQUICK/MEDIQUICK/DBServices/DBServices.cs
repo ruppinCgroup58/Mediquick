@@ -1636,7 +1636,7 @@ public class DBServices
                     IssueContent = dataReader["IssueContent"].ToString(),
                     CommentCount = Convert.ToInt32(dataReader["CommentCount"]),
                     isClosed = bool.Parse(dataReader["isClosed"].ToString()),
-                    createdAt = dataReader.GetDateTime(dataReader.GetOrdinal("createdAt")) 
+                    createdAt = dataReader.GetDateTime(dataReader.GetOrdinal("createdAt"))
                 });
             }
             return objectList;
@@ -1696,7 +1696,8 @@ public class DBServices
                     CommentCreatedAt = dataReader.GetDateTime(dataReader.GetOrdinal("CommentCreatedAt")),
                     IssueCreatorId = Convert.ToInt32(dataReader["IssueCreatorId"]),
                     IssueCreatedAt = dataReader.GetDateTime(dataReader.GetOrdinal("IssueCreatedAt")),
-                    isClosed = Convert.ToBoolean(dataReader["isClosed"])
+                    isClosed = Convert.ToBoolean(dataReader["isClosed"]),
+                    isCommentActive = Convert.ToBoolean(dataReader["IsCommentActive"])
 
 
                 });

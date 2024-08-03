@@ -41,24 +41,27 @@ function issueGetSCB(issue) {
   if (issue[0].commentCount > 0) {
       str += `<h3>תגובות</h3>`;
     for (let i = 0; i < issue.length; i++) {
-      formattedCommentDateTime = formatDateTime(issue[i].commentCreatedAt);
-      str += `<div class="comment">
-                <div class="create-details">
-                    <div data-number=${issue[i].commentId} class="comment-id">#${i + 1}</div>
-                    <div class="date-time">${formattedCommentDateTime.date} ${
-        formattedCommentDateTime.time
-      }</div>
-                    <div class="creator">${issue[i].userFullName}</div>`
-                    if (issue[i].commentCreatorId == userConnected) {
-                        str += `<div class="edit-comment" onclick="editComment(${issue[i].commentId})"><img title="ערוך תגובה" src="./../images/icons/edit-pencil.svg" alt="עריכה"></div>`
-                        str += `<div class="edit-comment" onclick="deleteComment(${issue[i].commentId})"><img title="מחק תגובה" src="./../images/icons/clear-form-24.svg" alt="מחיקה"></div>`
-                    }
-                str += `</div>
-                <div class="comment-content">
-                    ${issue[i].commentContent}
-                </div>
-            </div>`;
-    }
+      if (issue[i].isCommentActive) {
+        
+          formattedCommentDateTime = formatDateTime(issue[i].commentCreatedAt);
+        str += `<div class="comment">
+                  <div class="create-details">
+                      <div data-number=${issue[i].commentId} class="comment-id">#${i + 1}</div>
+                      <div class="date-time">${formattedCommentDateTime.date} ${
+          formattedCommentDateTime.time
+        }</div>
+                      <div class="creator">${issue[i].userFullName}</div>`
+                      if (issue[i].commentCreatorId == userConnected) {
+                          str += `<div class="edit-comment" onclick="editComment(${issue[i].commentId})"><img title="ערוך תגובה" src="./../images/icons/edit-pencil.svg" alt="עריכה"></div>`
+                          str += `<div class="edit-comment" onclick="deleteComment(${issue[i].commentId})"><img title="מחק תגובה" src="./../images/icons/clear-form-24.svg" alt="מחיקה"></div>`
+                      }
+                  str += `</div>
+                  <div class="comment-content">
+                      ${issue[i].commentContent}
+                  </div>
+              </div>`;
+      }
+      }
   }
   cont.innerHTML = str;
   /*<div class="issue close">
