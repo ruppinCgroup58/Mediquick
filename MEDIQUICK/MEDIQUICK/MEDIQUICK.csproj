@@ -23,6 +23,7 @@
     <PackageReference Include="Google.Cloud.Iam.Credentials.V1" Version="2.4.0" />
     <PackageReference Include="Grpc.Auth" Version="2.64.0" />
     <PackageReference Include="Grpc.Core" Version="2.46.6" />
+    <PackageReference Include="MailKit" Version="4.7.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />

@@ -102,12 +102,13 @@ function GoToPreviousPage(topicId) {
 }
 
 function deleteComment(commemntId) {
-    deleteComment = {
+    CommentToDelete = {
         commentId: commemntId,
-        issueId: issueId
+        issueId: issueId,
+        content: ""
     }
-    apiDeleteComment = localHostAPI + "updateCommenInactive";
-    ajaxCall("PATCH", apiDeleteComment, JSON.stringify(deleteComment), deleteCommentPostSCB, deleteCommentPostECB);
+    apiDeleteComment = localHostAPI + "updateCommentInactive";
+    ajaxCall("PATCH", apiDeleteComment, JSON.stringify(CommentToDelete), deleteCommentPostSCB, deleteCommentPostECB);
     return false;
 }
 function deleteCommentPostSCB(data) {
