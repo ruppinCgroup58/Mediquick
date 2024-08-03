@@ -40,7 +40,7 @@ function issueGetSCB(issue) {
   //render the issue, for loop for the comments
   if (issue[0].commentCount > 0) {
       str += `<h3>תגובות</h3>`;
-    for (let i = 0; i < issue.length; i++) {
+      for (let i = 0; i < issue.length; i++) {
       formattedCommentDateTime = formatDateTime(issue[i].commentCreatedAt);
       str += `<div class="comment">
                 <div class="create-details">
@@ -99,12 +99,13 @@ function GoToPreviousPage(topicId) {
 }
 
 function deleteComment(commemntId) {
-    deleteComment = {
+    CommentToDelete = {
         commentId: commemntId,
-        issueId: issueId
+        issueId: issueId,
+        content: ""
     }
-    apiDeleteComment = localHostAPI + "updateCommenInactive";
-    ajaxCall("PATCH", apiDeleteComment, JSON.stringify(deleteComment), deleteCommentPostSCB, deleteCommentPostECB);
+    apiDeleteComment = localHostAPI + "updateCommentInactive";
+    ajaxCall("PATCH", apiDeleteComment, JSON.stringify(CommentToDelete), deleteCommentPostSCB, deleteCommentPostECB);
     return false;
 }
 function deleteCommentPostSCB(data) {

@@ -84,10 +84,10 @@ namespace MEDIQUICK.Controllers
             return new Issue().toggleIssueStatus(issueid);
         }
 
-        [HttpPatch("/updateCommenInactive")]
-        public bool updateCommentInactive([FromBody] Comment comment)
+        [HttpPatch("/updateCommentInactive")]
+        public bool updateCommentInactive([FromBody] Comment c)
         {
-            return new Comment().updateCommentInactive(comment);
+            return new Comment().updateCommentInactive(c);
         }
 
         // DELETE api/<ForumController>/5

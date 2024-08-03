@@ -2021,7 +2021,7 @@ public class DBServices
         }
     }
 
-    public bool updateCommentInactive(Comment comment)
+    public bool updateCommentInactive(Comment c)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -2036,7 +2036,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = updateCommenInctiveWithStoredProcedureWithParameters("sp_Forum_setCommentInactive", con, comment); // create the command
+        cmd = updateCommenInctiveWithStoredProcedureWithParameters("sp_Forum_setCommentInactive", con, c); // create the command
 
         try
         {
@@ -2096,7 +2096,7 @@ public class DBServices
         return cmd;
     }
 
-    private SqlCommand updateCommenInctiveWithStoredProcedureWithParameters(String spName, SqlConnection con, Comment comment)
+    private SqlCommand updateCommenInctiveWithStoredProcedureWithParameters(String spName, SqlConnection con,Comment c)
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
@@ -2109,8 +2109,8 @@ public class DBServices
 
         cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
 
-        cmd.Parameters.AddWithValue("@issueId", comment.IssueId);
-        cmd.Parameters.AddWithValue("@commentId", comment.CommentId);
+        cmd.Parameters.AddWithValue("@issueId", c.IssueId);
+        cmd.Parameters.AddWithValue("@commentId", c.CommentId);
         return cmd;
 
 
