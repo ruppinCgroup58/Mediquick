@@ -100,14 +100,21 @@ function suPostECB(err) {
 
 function loginPostSCB(user) {
     executeLogIn(user);
+    // Clear previous error messages
+    $("#emailError").text("");
+    $("#passwordError").text("");
+
 }
 
 function loginPostECB(err) {
-    if (err.responseText.includes("User Not Found")) {
-        alert ("Wrong email or password, please try again");
-        $("#emailText").focus();
-    }
-}
+    //if (err.responseText.includes("User Not Found")) {
+    //    alert ("Wrong email or password, please try again");
+    //    $("#emailText").focus();
+    //}
+    // Clear previous error messages
+    // Clear previous error messages
+    document.getElementById("passwordError").style.display = "block";
+} 
 
 function resetForm() {
     $("#sign-up-form")[0].reset();
