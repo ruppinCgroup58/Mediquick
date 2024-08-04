@@ -257,3 +257,10 @@ body {
     height: 90dvh;
   }
 }
+#passwordError {
+    color: red;
+    font-size: 15px;
+    margin: 5px;
+    direction: rtl;
+    text-align: right;
+}

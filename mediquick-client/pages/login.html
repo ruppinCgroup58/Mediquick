@@ -39,14 +39,21 @@
         <div class="card login-card">
             <div class="logo-image"><img src="./../images/logo1.png" alt="" class="logo"></div>
             <form action="" id="login-form">
-                <div class="input-box email" id="email-textbox"><input type="text" id="emailText"
-                        placeholder="example@email.com" required>
+                <div class="input-box email" id="email-textbox">
+                    <input type="text" id="emailText"
+                           placeholder="example@email.com" required>
                     <img src="./../images/icons/mail.svg" alt="">
                 </div>
-                <div class="input-box password" id="password-textbox"><input type="password" id="passwordText" class="password"
-                        placeholder="password..." required>
+                <div class="input-box password" id="password-textbox">
+                    <input type="password" id="passwordText" class="password"
+                           placeholder="password..." required>
                     <img src="./../images/icons/eye-open.svg" id="password-eye-icon" onclick="togglePassword(this)">
                     <img src="./../images/icons/password.svg" alt="">
+                </div>
+                <div id="passwordError" style="display:none">
+                    <span>אחד או יותר מהפרטים המזהים שהקלדת שגוי.</span>
+                    <br />
+                    <span>נסה שוב!</span>
                 </div>
                 <a href="#">?שכחת סיסמא</a>
                 <input type="submit" value="התחברות" class="primary-btn" id="log-in-btn">
