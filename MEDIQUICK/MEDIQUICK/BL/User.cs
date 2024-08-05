@@ -1,6 +1,8 @@
-﻿namespace MEDIQUICK.BL
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace MEDIQUICK.BL
 {
-    public class User
+    public class User : IdentityUser
     {
         int userID;
         string firstName;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using YourNamespace.Models;
+using MEDIQUICK.Models;
 
-namespace YourNamespace.Data
+namespace MEDIQUICK.Data
 {
     public class ApplicationDbContext : DbContext
     {
