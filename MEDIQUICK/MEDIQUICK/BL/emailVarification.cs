@@ -1,165 +1,175 @@
-﻿// EmailVerificationService.cs
+﻿// התקנת ספריית SendGrid באמצעות NuGet
+// Install-Package SendGrid
+
 using System;
 using System.Collections.Generic;
-using System.Net.Mail;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Google.Cloud.AIPlatform.V1;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SendGrid;
 using SendGrid.Helpers.Mail;
+using YourNamespace.Data;
+using YourNamespace.Models;
+using YourNamespace.ViewModels;
 
-public class EmailVerificationService
+public class AccountController : Controller
 {
+    private readonly UserManager<ApplicationUser> _userManager;
     private readonly ApplicationDbContext _context;
-    private readonly ISendGridClient _sendGridClient;
-    private readonly IConfiguration _configuration;
+    private const string SendGridApiKey = "YOUR_SENDGRID_API_KEY";
 
-    public EmailVerificationService(ApplicationDbContext context, ISendGridClient sendGridClient, IConfiguration configuration)
+    public AccountController(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
     {
+        _userManager = userManager;
         _context = context;
-        _sendGridClient = sendGridClient;
-        _configuration = configuration;
     }
 
-    public async Task<bool> SendVerificationEmailAsync(string email)
+    public IActionResult Register()
     {
-        var token = GenerateVerificationToken();
-        var verificationRecord = new EmailVerification
-        {
-            Email = email,
-            Token = token,
-            CreatedAt = DateTime.UtcNow,
-            ExpiresAt = DateTime.UtcNow.AddHours(24)
-        };
-
-        _context.EmailVerifications.Add(verificationRecord);
-        await _context.SaveChangesAsync();
-
-        var msg = new SendGridMessage()
-        {
-            From = new EmailAddress(_configuration["SendGrid:FromEmail"], "Your App Name"),
-            Subject = "אימות כתובת אימייל",
-            PlainTextContent = $"לחץ על הקישור הבא כדי לאמת את כתובת האימייל שלך: {_configuration["App:Url"]}/verify?token={token}"
-        };
-        msg.AddTo(new EmailAddress(email));
-
-        var response = await _sendGridClient.SendEmailAsync(msg);
-        return response.IsSuccessStatusCode;
+        return View();
     }
 
-    public async Task<bool> VerifyEmailAsync(string token)
+    [HttpPost]
+    public async Task<IActionResult> Register(UserRegisterViewModel model)
     {
-        var verification = await _context.EmailVerifications
-            .FirstOrDefaultAsync(v => v.Token == token && v.ExpiresAt > DateTime.UtcNow);
-
-        if (verification == null)
-            return false;
-
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == verification.Email);
-        if (user != null)
+        if (ModelState.IsValid)
         {
-            user.EmailConfirmed = true;
-            _context.EmailVerifications.Remove(verification);
-            await _context.SaveChangesAsync();
-            return true;
+            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (result.Succeeded)
+            {
+                var code = new Random().Next(100000, 999999).ToString();
+                await SendVerificationEmailAsync(model.Email, code);
+
+                _context.VerificationCodes.Add(new VerificationCode { Email = model.Email, Code = code });
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("VerifyEmail", new { email = model.Email });
+            }
+            AddErrors(result);
         }
 
-        return false;
+        return View(model);
     }
 
-    private string GenerateVerificationToken() => Guid.NewGuid().ToString();
+    public IActionResult VerifyEmail(string email)
+    {
+        return View(new VerifyEmailViewModel { Email = email });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> VerifyEmail(VerifyEmailViewModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            var verificationCode = await _context.VerificationCodes
+                .FirstOrDefaultAsync(vc => vc.Email == model.Email && vc.Code == model.Code);
+
+            if (verificationCode != null)
+            {
+                _context.VerificationCodes.Remove(verificationCode);
+                await _context.SaveChangesAsync();
+
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user != null)
+                {
+                    user.EmailConfirmed = true;
+                    await _userManager.UpdateAsync(user);
+                }
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            ModelState.AddModelError(string.Empty, "Invalid verification code.");
+        }
+
+        return View(model);
+    }
+
+    private async Task SendVerificationEmailAsync(string email, string code)
+    {
+        var client = new SendGridClient(SendGridApiKey);
+        var from = new EmailAddress("your-email@example.com", "Your Name");
+        var subject = "Email Verification Code";
+        var to = new EmailAddress(email);
+        var plainTextContent = $"Your verification code is {code}";
+        var htmlContent = $"<strong>Your verification code is {code}</strong>";
+        var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+        var response = await client.SendEmailAsync(msg);
+    }
+
+    private void AddErrors(IdentityResult result)
+    {
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+    }
 }
 
-// ApplicationDbContext.cs
-using Microsoft.EntityFrameworkCore;
+// מודל VerifyEmailViewModel
+namespace YourNamespace.ViewModels
+{
+    public class VerifyEmailViewModel
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
 
+        [Required]
+        public string Code { get; set; }
+    }
+}
+
+// תצוגה VerifyEmail
+@model YourNamespace.ViewModels.VerifyEmailViewModel
+
+<h2> Verify Email</h2>
+
+<form asp-action="VerifyEmail">
+    <div class= "form-group" >
+        < label asp -for= "Email" ></ label >
+        < input asp -for= "Email" class= "form-control" readonly />
+    </ div >
+    < div class= "form-group" >
+        < label asp -for= "Code" ></ label >
+        < input asp -for= "Code" class= "form-control" />
+    </ div >
+    < button type = "submit" class= "btn btn-primary" > Verify </ button >
+</ form >
+
+// מודל UserRegisterViewModel
+namespace YourNamespace.ViewModels
+{
+    public class UserRegisterViewModel
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+    }
+}
+
+// מחלקת VerificationCode
+namespace YourNamespace.Models
+{
+    public class VerificationCode
+    {
+        public int Id { get; set; }
+        public string Email { get; set; }
+        public string Code { get; set; }
+    }
+}
+
+// הוספת DbSet ל-ApplicationDbContext
 public class ApplicationDbContext : DbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-    : base(options)
-    {
-    }
-
-    public DbSet<User> Users { get; set; }
-    public DbSet<EmailVerification> EmailVerifications { get; set; }
-}
-
-// EmailVerification.cs
-public class EmailVerification
-{
-    public int Id { get; set; }
-    public string Email { get; set; }
-    public string Token { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime ExpiresAt { get; set; }
-}
-
-// User.cs
-public class User
-{
-    public int Id { get; set; }
-    public string Email { get; set; }
-    public bool EmailConfirmed { get; set; }
-    // Add other user properties as needed
-}
-
-// Startup.cs (partial)
-public void ConfigureServices(IServiceCollection services)
-{
-    services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-    services.AddSingleton<ISendGridClient>(new SendGridClient(Configuration["SendGrid:ApiKey"]));
-    services.AddScoped<EmailVerificationService>();
-
-    // ... other service configurations
-}
-
-// EmailVerificationController.cs
-[ApiController]
-[Route("[controller]")]
-public class EmailVerificationController : ControllerBase
-{
-    private readonly EmailVerificationService _verificationService;
-
-    public EmailVerificationController(EmailVerificationService verificationService)
-    {
-        _verificationService = verificationService;
-    }
-
-    [HttpPost("send")]
-    public async Task<IActionResult> SendVerificationEmail([FromBody] string email)
-    {
-        if (!IsValidEmail(email))
-            return BadRequest("Invalid email address");
-
-        var result = await _verificationService.SendVerificationEmailAsync(email);
-        if (result)
-            return Ok("Verification email sent successfully");
-        else
-            return StatusCode(500, "Failed to send verification email");
-    }
-
-    [HttpGet("verify")]
-    public async Task<IActionResult> VerifyEmail([FromQuery] string token)
-    {
-        var result = await _verificationService.VerifyEmailAsync(token);
-        if (result)
-            return Ok("Email verified successfully");
-        else
-            return BadRequest("Invalid or expired verification token");
-    }
-
-    private bool IsValidEmail(string email)
-    {
-        try
-        {
-            var addr = new System.Net.Mail.MailAddress(email);
-            return addr.Address == email;
-        }
-        catch
-        {
-            return false;
-        }
-    }
+    public DbSet<VerificationCode> VerificationCodes { get; set; }
 }
