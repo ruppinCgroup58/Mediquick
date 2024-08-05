@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using YourNamespace.Data;
+using YourNamespace.;
 using YourNamespace.Models;
 using YourNamespace.ViewModels;
 

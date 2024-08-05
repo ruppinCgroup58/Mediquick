@@ -588,7 +588,8 @@ function addQuestionToGemini() {
      תמציתיים ומנומקים היטב. אשמח אם תסביר את התשובה הנכונה תוך שימוש במושגים רלוונטיים מתחום הידע.
      אל תכלול גרשיים בטקסט שבתוך הJSON
      חשוב לי שהתשובות יוצגו בפורמט פשוט, ללא תוספות מיותרות כמו מספור.
-     תדאג שכל ערך יהיה עטוף בגרשיים`;
+     תדאג שכל ערך יהיה עטוף בגרשיים,
+     תדאג שהתשובה הנכונה לא תהיה בהכרח הכי ארוכה - שלא יהיה קשר בין אורך השאלה לבין הנכונות שלה`;
 
      let gptAPI = "https://localhost:7254/Gemini";
     ajaxCall("POST", geminiAPI, JSON.stringify(orderToGemini), GeminiQuestionGetSCB, GeminiQuestionGetECB);
