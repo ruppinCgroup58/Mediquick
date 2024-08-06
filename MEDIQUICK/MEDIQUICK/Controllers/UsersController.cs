@@ -84,5 +84,21 @@ namespace MEDIQUICK.Controllers
 
             return Ok(stats);
         }
+
+
+        [HttpGet("UserAverageAndGradesPerMonth/{userID}")]
+        public Object GetUserAverageAndGradesPerMonth(int userID)
+        {
+            User u = new User();
+            return u.GetUserAverageAndGradesPerMonth(userID);
+
+        }
+
+
+        [HttpGet("AllTestAverageAndGrades/{userID}")]
+        public Object AllTestAverageAndGrades(int userID)
+        {
+            return new User().AllTestAverageAndGrades(userID);
+        }
     }
 }
