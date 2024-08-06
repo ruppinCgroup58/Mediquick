@@ -62,6 +62,11 @@ namespace MEDIQUICK.BL
         {
             return dbs.updateUserDetail(u);
         }
+
+        public List<Object> GetUserTopicStats(int userID)
+        {
+            return dbs.GetNumQuestionsAndPercenSuccessPerTopicPerUser(userID);
+        }
     }
 
 

@@ -144,3 +144,134 @@ function calculateMargin() {
 
   return questionDivHieght - contentDivHeight - optionsDivHeight - expDivHeight;
 }
+
+//statistics
+$(document).ready(function () {
+    loadUserTopicStats(userConnected); // Change the test ID if needed
+});
+
+function loadUserTopicStats(userID) {
+    $.ajax({
+        url: localHostAPI + `api/Users/UserTopicStats/${userID}`,
+        method: 'GET',
+        success: function (data) {
+            displayCharts(data);
+        },
+        error: function (error) {
+            console.error(error);
+            alert("Failed to load stats. Please check the User ID and try again.");
+        }
+    });
+}
+function displayCharts(data) {
+    const topicNames = data.map(item => item.topicName);
+    const totalQuestions = data.map(item => item.totalQuestions);
+    const correctAnswers = data.map(item => item.correctAnswers);
+    const percentageCorrect = data.map(item => item.percentageCorrect);
+
+    const ctx1 = document.getElementById('questionsChart').getContext('2d');
+    const ctx2 = document.getElementById('correctAnswersChart').getContext('2d');
+    const ctx3 = document.getElementById('percentageCorrectChart').getContext('2d');
+
+    new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: topicNames,
+            datasets: [{
+                label: 'Total Questions',
+                data: totalQuestions,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'כמות שאלות שנענו מכל נושא'
+                }
+            }
+        }
+    });
+
+    new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: topicNames,
+            datasets: [{
+                label: 'Correct Answers',
+                data: correctAnswers,
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderColor: 'rgba(153, 102, 255, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'מספר התשובות הנכונות לפי נושא'
+                }
+            }
+        }
+    });
+
+    new Chart(ctx3, {
+        type: 'polarArea',
+        data: {
+            labels: topicNames,
+            datasets: [{
+                label: 'Percentage Correct',
+                data: percentageCorrect,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false // הסתרת המקרא
+                },
+                title: {
+                    display: true,
+                    text: 'אחוז התשובות הנכונות לפי נושא'
+                }
+            }
+        }
+    });
+}

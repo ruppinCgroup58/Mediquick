@@ -1,6 +1,7 @@
 ﻿using Google.Cloud.AIPlatform.V1;
 using MEDIQUICK.BL;
 using MEDIQUICK.Controllers;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Data.SqlClient;
 using static Google.Api.Gax.Grpc.Gcp.AffinityConfig.Types;
@@ -2116,7 +2117,61 @@ public class DBServices
 
 
        
-    } 
+    }
+    #endregion
+
+    //--------------Test statistics region---------------
+    #region Test statistics Functions
+ // הוספת פונקציה להוספת UserTopicStats לפרוצדורה
+    public List<Object> GetNumQuestionsAndPercenSuccessPerTopicPerUser(int userID)
+    {
+        SqlConnection con = connect("myProjDB");
+        SqlCommand cmd = CreateGetNumQuestionsAndPercenSuccessPerTopicPerUserCommandWithStoredProcedureWithoutParameters("sp_Stat_User_NumQuestionsAndPercenSuccessPerTopic", con);
+        cmd.Parameters.AddWithValue("@UserID", userID);
+        
+        List<Object> userTopicStats = new List<object>();
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            while (dataReader.Read())
+            {
+                var stat = new 
+                {
+                    TopicID = Convert.ToInt32(dataReader["TopicID"]),
+                    TopicName = dataReader["TopicName"].ToString(),
+                    TotalQuestions = Convert.ToInt32(dataReader["TotalQuestions"]),
+                    CorrectAnswers = Convert.ToInt32(dataReader["CorrectAnswers"]),
+                    PercentageCorrect = Convert.ToDouble(dataReader["PercentageCorrect"])
+                };
+                userTopicStats.Add(stat);
+            }
+        }
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+        return userTopicStats;
+    }
+
+    private SqlCommand CreateGetNumQuestionsAndPercenSuccessPerTopicPerUserCommandWithStoredProcedureWithoutParameters(String spName, SqlConnection con)
+    {
+        SqlCommand cmd = new SqlCommand
+        {
+            Connection = con,
+            CommandText = spName,
+            CommandTimeout = 10,
+            CommandType = System.Data.CommandType.StoredProcedure
+        };
+        return cmd;
+    }
+
     #endregion
 }
 
