@@ -173,6 +173,7 @@ options.forEach(option => {
 
 function GoToNextQuestion() {
     let chosenAnswerIndex = document.querySelector('.selected-option').dataset.number;
+
     let testReq = {
         userId: userConnected,
         testId: testID,
@@ -187,6 +188,9 @@ function GoToNextQuestion() {
     document.querySelector(`[data-number="${currentQuestionIndex}"]`).classList.add("q-answered")
 
     chosenAnswerIndex = -1;
+    if (currentQuestionIndex == 30) {
+      EndTest()
+    }
 }
 
 function GoToNextQuestionSCB(data) {
@@ -203,5 +207,14 @@ function GoToNextQuestionECB(err) {
 
 
 function EndTest() {
+  let endTestAPI = localHostAPI += "testId/" + testId;
+  ajaxCall("POST", endTestAPI, userConnected, endTestSCB, endTestECB);
+}
 
+function endTestSCB() {
+  //render after test stats
+}
+
+function endTestECB(err) {
+  alert(err.statusText)
 }

@@ -74,7 +74,7 @@ function AddELToExplBtn() {
 function toggleExpl() {
   const explDiv = document.getElementsByClassName("expl-content")[0];
   if (getComputedStyle(explDiv).height == "0px") {
-    explDiv.style.height = "100px";
+    explDiv.style.height = "100%";
     explDiv.style.opacity = "1";
     explShown = 1;
     $("#expl-btn")[0].innerHTML = "הסתר הסבר";
@@ -98,6 +98,7 @@ function applySelectedAnimation() {
 
 function topicGetSCB(topicList) {
   let str = "";
+  str += `<h3>נושא</h3>`;
   for (var i = 0; i < topicList.length; i++) {
     str += `<li class="topic-item">
                 <input type="checkbox" id="topic-${topicList[i].topicId}" value="${topicList[i].topicId}">
@@ -137,63 +138,61 @@ function shuffleAnswers(questionsList) {
 
 function startPracticeSCB(questionsList) {
   let counter = 1;
+  let qId;
   shuffledQuestions = shuffleAnswers(questionsList);
 
   shuffledQuestions.forEach((question) => {
     question.hasQuestionBeenAnswered = false; // ניתן לשנות לערך התחלה אחר במידת הצורך
   });
 
-  questionsAsDivs = shuffledQuestions.map(
-    (question) => `<div id="${counter - 1}" class="question-wrapper">
-                      <div class="question-content">
-                          <b>${counter++}. ${question.content}</b>
-                      </div>
-                      <div class="options">
-                          <ul>
-                              <li>
-                                  <div class="option-1">
-                                      <p data-number="0" class="option">א. ${
-                                        question.shuffledAnswers[0].content
-                                      }</p>
-                                  </div>
-                              </li>
-                          </ul>
-                          <ul>
-                              <li>
-                                  <div class="option-2">
-                                      <p data-number="1" class="option">ב. ${
-                                        question.shuffledAnswers[1].content
-                                      }</p>
-                                  </div>
-                              </li>
-                          </ul>
-                          <ul>
-                              <li>
-                                  <div class="option-3">
-                                      <p data-number="2" class="option">ג. ${
-                                        question.shuffledAnswers[2].content
-                                      }</p>
-                                  </div>
-                              </li>
-                          </ul>
-                          <ul>
-                              <li>
-                                  <div class="option-4">
-                                      <p data-number="3" class="option">ד. ${
-                                        question.shuffledAnswers[3].content
-                                      }</p>
-                                  </div>
-                              </li>
-                          </ul>
-                      </div>
-                      <button id="favourites-btn" class="secondary-btn" onclick="toggleFavourite(${
-                        question.questionSerialNumber
-                      })">
-                    <span>הוסף למועדפים</span>
-                    <img id="favourite-icon" src="" alt="">
-                </button>
-                  </div>`
-  );
+  questionsAsDivs = shuffledQuestions.map((question) => {
+    // שמירת questionSerialNumber במשתנה הגלובלי
+    qId = question.questionSerialNumber;
+
+    return `<div id="${counter - 1}" class="question-wrapper">
+              <div class="question-content">
+                  <b>${counter++}. ${question.content}</b>
+              </div>
+              <div class="options">
+                  <ul>
+                      <li>
+                          <div class="option-1">
+                              <p data-number="0" class="option">א. ${
+                                question.shuffledAnswers[0].content
+                              }</p>
+                          </div>
+                      </li>
+                  </ul>
+                  <ul>
+                      <li>
+                          <div class="option-2">
+                              <p data-number="1" class="option">ב. ${
+                                question.shuffledAnswers[1].content
+                              }</p>
+                          </div>
+                      </li>
+                  </ul>
+                  <ul>
+                      <li>
+                          <div class="option-3">
+                              <p data-number="2" class="option">ג. ${
+                                question.shuffledAnswers[2].content
+                              }</p>
+                          </div>
+                      </li>
+                  </ul>
+                  <ul>
+                      <li>
+                          <div class="option-4">
+                              <p data-number="3" class="option">ד. ${
+                                question.shuffledAnswers[3].content
+                              }</p>
+                          </div>
+                      </li>
+                  </ul>
+              </div>
+          </div>`;
+  });
 
   explanationsAsDivs = questionsList.map(
     (question) => `${question.explanation}`
@@ -206,7 +205,21 @@ function startPracticeSCB(questionsList) {
           : "./../images/icons/empty-heart.svg"
       }`
   );
+  document.querySelector(
+    ".expl-and-arrows"
+  ).innerHTML = `<button id="expl-btn" class="secondary-btn">הצג הסבר</button>
+                    <div class="arrows">
+                        <img id="prevQ" class="disabled-btn" src="./../images/icons/arrow-right.svg" alt=""
+                            onclick="prevQuestion()">
+                        <img id="nextQ" src="./../images/icons/arrow-left.svg" alt="" onclick="nextQuestion()">
+                    </div>
+                <button id="favourites-btn" class="secondary-btn" onclick="toggleFavourite(${qId})">
+                    <span>הוסף למועדפים</span>
+                    <img id="favourite-icon" src="" alt="">
+                </button>`;
 
+  document.getElementById("expl-btn").style.display = "flex";
+  document.querySelector(".arrows").style.display = "flex";
   renderQuestion(currentQuestionIndex);
   handleArrowBtn();
   //applySelectedAnimation();
@@ -217,7 +230,9 @@ function startPracticeECB(err) {
 }
 
 function toggleFavourite(questionId) {
-  let toggleFavouritesAPI = localHostAPI + `api/Questions/questionId/${questionId}/userId/${userConnected}`;
+  let toggleFavouritesAPI =
+    localHostAPI +
+    `api/Questions/questionId/${questionId}/userId/${userConnected}`;
   ajaxCall(
     "POST",
     toggleFavouritesAPI,
@@ -337,7 +352,7 @@ function HandleQuestionAnswer(event) {
 
     // עדכון ה-HTML במערך questionsAsDivs
     const parser = new DOMParser();
-    const doc = parser.parseFromString(questionsAsDivs[qId], 'text/html');
+    const doc = parser.parseFromString(questionsAsDivs[qId], "text/html");
 
     // Select the chosen answer element and correct answer element within the parsed document
     let docChosenAnswerElement = doc.querySelector(
@@ -360,10 +375,11 @@ function HandleQuestionAnswer(event) {
     }
 
     // Serialize the DOM back to a string
-    questionsAsDivs[qId] = new XMLSerializer().serializeToString(doc.body.firstChild);
+    questionsAsDivs[qId] = new XMLSerializer().serializeToString(
+      doc.body.firstChild
+    );
   }
 }
-
 
 function handleQuestionAnswerSCB(num) {
   console.log(num);

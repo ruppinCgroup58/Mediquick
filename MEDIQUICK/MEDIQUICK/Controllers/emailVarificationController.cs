@@ -47,8 +47,8 @@ namespace MEDIQUICK.Controllers
                     var code = new Random().Next(100000, 999999).ToString();
                     await SendVerificationEmailAsync(model.Email, code);
 
-                    _context.VerificationCodes.Add(new VerificationCode { Email = model.Email, Code = code });
-                    await _context.SaveChangesAsync();
+                    //_context.VerificationCodes.Add(new VerificationCode { Email = model.Email, Code = code });
+                    //await _context.SaveChangesAsync();
 
                     return RedirectToAction("VerifyEmail", new { email = model.Email });
                 }
