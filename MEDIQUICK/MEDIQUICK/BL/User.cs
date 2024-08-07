@@ -68,7 +68,7 @@ namespace MEDIQUICK.BL
             return dbs.GetNumQuestionsAndPercenSuccessPerTopicPerUser(userID);
         }
 
-        public Object GetUserAverageAndGradesPerMonth(int userID)
+        public List<Object> GetUserAverageAndGradesPerMonth(int userID)
         {
             return dbs.GetUserAverageAndGradesPerMonth(userID);
         }

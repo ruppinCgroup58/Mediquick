@@ -87,7 +87,7 @@ namespace MEDIQUICK.Controllers
 
 
         [HttpGet("UserAverageAndGradesPerMonth/{userID}")]
-        public Object GetUserAverageAndGradesPerMonth(int userID)
+        public List<Object> GetUserAverageAndGradesPerMonth(int userID)
         {
             User u = new User();
             return u.GetUserAverageAndGradesPerMonth(userID);

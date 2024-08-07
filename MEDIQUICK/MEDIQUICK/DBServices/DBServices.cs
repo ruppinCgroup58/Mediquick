@@ -1054,7 +1054,7 @@ public class DBServices
         }
 
     }
-    public Object GetUserAverageAndGradesPerMonth(int userID)
+    public List<Object> GetUserAverageAndGradesPerMonth(int userID)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -1077,18 +1077,20 @@ public class DBServices
         {
             SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
 
-            dataReader.Read();
+            List<Object> ObjectList = new List<Object>();
 
-            var result2 = new
+            while (dataReader.Read())
             {
-                TestYear = Convert.ToInt32(dataReader["TestYear"]),
-                TestMonth = Convert.ToInt32(dataReader["TestMonth"]),
-                AverageGrade = Math.Round(Convert.ToDouble(dataReader["AverageGrade"]), 2),
-            TotalTestsCompleted = Convert.ToInt32(dataReader["TotalTestsCompleted"])
-            };
+                ObjectList.Add(new
+                {
+                    TestYear = Convert.ToInt32(dataReader["TestYear"]),
+                    TestMonth = Convert.ToInt32(dataReader["TestMonth"]),
+                    AverageGrade = Math.Round(Convert.ToDouble(dataReader["AverageGrade"]), 2),
+                    TotalTestsCompleted = Convert.ToInt32(dataReader["TotalTestsCompleted"])
+                });
+            }
 
-            return result2;
-
+            return ObjectList;
         }
 
 
