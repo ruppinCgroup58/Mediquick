@@ -147,7 +147,8 @@ function calculateMargin() {
 
 //statistics
 $(document).ready(function () {
-    loadUserTopicStats(userConnected); // Change the test ID if needed
+    loadUserTopicStats(userConnected); 
+    loadAllTestAverageAndGrades(userConnected);
 });
 
 function loadUserTopicStats(userID) {
@@ -275,3 +276,22 @@ function displayCharts(data) {
         }
     });
 }
+
+function loadAllTestAverageAndGrades(userID) {
+    $.ajax({
+        url: localHostAPI + `api/Users/AllTestAverageAndGrades/${userID}`,
+        method: 'GET',
+        success: function (data) {
+            AllTestAverageAndGradesSCB(data);
+        },
+        error: function (error) {
+            console.error(error);
+            alert("BLAT.");
+        }
+    });
+}
+
+function AllTestAverageAndGradesSCB(data) {
+    document.getElementById("countOfTest").innerHTML = data.numberOfTests;
+    document.getElementById("avgOfTestGrades").innerHTML = data.averageGrade;
+} 
