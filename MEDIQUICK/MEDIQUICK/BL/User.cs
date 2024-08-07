@@ -48,7 +48,7 @@ namespace MEDIQUICK.BL
             return dbs.ReadUsers();
         }
 
-        
+
         public bool ChangeUsersStatus(string email, bool newStatus)
         {
             return dbs.ChangeUsersStatus(email, newStatus);
@@ -62,7 +62,22 @@ namespace MEDIQUICK.BL
         {
             return dbs.updateUserDetail(u);
         }
+
+        public List<Object> GetUserTopicStats(int userID)
+        {
+            return dbs.GetNumQuestionsAndPercenSuccessPerTopicPerUser(userID);
+        }
+
+        public Object GetUserAverageAndGradesPerMonth(int userID)
+        {
+            return dbs.GetUserAverageAndGradesPerMonth(userID);
+        }
+
+        public Object AllTestAverageAndGrades(int userID)
+        {
+            return dbs.AllTestAverageAndGrades(userID);
+        }
+
+
     }
-
-
 }

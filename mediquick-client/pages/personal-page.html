@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- jQuery library -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- ajax Calls -->
     <script src="./../scripts/ajaxCalls.js"></script>
     <!-- Page script -->
@@ -19,13 +21,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap"
-        rel="stylesheet">
+          rel="stylesheet">
     <!-- Open-Sans font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:wght@200;300;400;500;600&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:wght@200;300;400;500;600&display=swap"
+          rel="stylesheet">
     <title>אזור אישי</title>
     <!-- Favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="./../images/favicon/apple-touch-icon.png">
@@ -72,7 +73,17 @@
         <div id="questions-container" class="container">
             <h2>שאלות מועדפות</h2>
         </div>
-    </main>
+        <div id="charts">
+            <div class="chart-container">
+                <canvas id="questionsChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="correctAnswersChart"></canvas>
+            </div>
+            <div class="chart-container small-chart">
+                <canvas id="percentageCorrectChart"></canvas>
+            </div>
+</main>
 </body>
 
 </html>

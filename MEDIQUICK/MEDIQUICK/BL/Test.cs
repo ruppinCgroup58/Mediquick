@@ -43,6 +43,9 @@ namespace MEDIQUICK.BL
             return dbs.EndTest(testId);
             
         }
-
+        public Object CalculateAndUpdateScoreAndGetDuration(int testId)
+        {
+            return dbs.CalculateAndUpdateScoreAndGetDuration(testId);
+        }
     }
 }

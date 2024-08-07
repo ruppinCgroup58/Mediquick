@@ -71,5 +71,34 @@ namespace MEDIQUICK.Controllers
         public void Delete(int id)
         {
         }
+
+        [HttpGet("UserTopicStats/{userID}")]
+        public IActionResult GetUserTopicStats(int userID)
+        {
+            List<Object> stats = new User().GetUserTopicStats(userID);
+
+            if (stats == null || stats.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(stats);
+        }
+
+
+        [HttpGet("UserAverageAndGradesPerMonth/{userID}")]
+        public Object GetUserAverageAndGradesPerMonth(int userID)
+        {
+            User u = new User();
+            return u.GetUserAverageAndGradesPerMonth(userID);
+
+        }
+
+
+        [HttpGet("AllTestAverageAndGrades/{userID}")]
+        public Object AllTestAverageAndGrades(int userID)
+        {
+            return new User().AllTestAverageAndGrades(userID);
+        }
     }
 }

@@ -90,3 +90,19 @@ h2 {
     /* height: auto; */
     opacity: 1;
 }
+
+#charts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.chart-container {
+    width: 45%;
+    margin: 20px;
+}
+
+.small-chart {
+    width: 25%; /* קביעת רוחב קטן יותר לגרף הקוטבי */
+    height: 25%; /* קביעת גובה קטן יותר לגרף הקוטבי */
+}
