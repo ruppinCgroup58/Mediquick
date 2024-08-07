@@ -149,6 +149,7 @@ function calculateMargin() {
 $(document).ready(function () {
     loadUserTopicStats(userConnected); 
     loadAllTestAverageAndGrades(userConnected);
+    loadUserAverageAndGradesPerMonth(userConnected);
 });
 
 function loadUserTopicStats(userID) {
@@ -295,3 +296,35 @@ function AllTestAverageAndGradesSCB(data) {
     document.getElementById("countOfTest").innerHTML = data.numberOfTests;
     document.getElementById("avgOfTestGrades").innerHTML = data.averageGrade;
 } 
+
+function loadUserAverageAndGradesPerMonth(userID) {
+  $.ajax({
+      url: localHostAPI + `api/Users/UserAverageAndGradesPerMonth/${userID}`,
+        method: 'GET',
+        success: function (data) {
+            displayTestStatsPerMonth(data);
+        },
+        error: function (error) {
+            console.error(error);
+            alert("Failed to load stats. Please check the User ID and try again.");
+        }
+    });
+}
+
+
+function displayTestStatsPerMonth(data) {
+    const container = document.getElementById('timeline-container');
+    data.forEach(item => {
+        const timelineItem = document.createElement('div');
+        timelineItem.classList.add('timeline-item');
+        timelineItem.innerHTML = `
+                    <div class="timeline-item-content">
+                        <span class="tag" style="background-color: #2196F3;">${item.testYear}-${item.testMonth}</span>
+                        <p>סה"כ מבחנים: ${item.totalTestsCompleted}</p>
+                        <p>ממוצע ציונים: ${item.averageGrade.toFixed(2)}</p>
+                        <span class="circle"></span>
+                    </div>
+                `;
+        container.appendChild(timelineItem);
+    });
+}

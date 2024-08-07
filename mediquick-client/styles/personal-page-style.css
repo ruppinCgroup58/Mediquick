@@ -106,3 +106,69 @@ h2 {
     width: 25%; /* קביעת רוחב קטן יותר לגרף הקוטבי */
     height: 25%; /* קביעת גובה קטן יותר לגרף הקוטבי */
 }
+
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    margin: 20px 0;
+}
+
+.timeline {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    position: relative;
+    padding: 20px 0;
+    list-style-type: none;
+}
+
+.timeline-container {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    margin-left: 50px;
+    overflow-x: scroll; /* כדי לאפשר גלילה אופקית */
+}
+
+.timeline-item {
+    margin-right: 20px;
+    position: relative;
+}
+
+.timeline-item-content {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    width: 250px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+    .timeline-item-content .tag {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        color: white;
+        margin-bottom: 10px;
+    }
+
+    .timeline-item-content .circle {
+        width: 12px;
+        height: 12px;
+        background: #2196F3;
+        border-radius: 50%;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: -20px;
+    }
