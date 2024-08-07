@@ -1,6 +1,6 @@
 let testAPI = localHostAPI + "api/Tests";
 let userConnected = sessionStorage.getItem("id");
-let testId;
+let testID;
 var chosenAnswerIndex = -1;
 let questionsCounter = 1;
 let shuffledQuestion;
@@ -207,9 +207,9 @@ function GoToNextQuestionECB(err) {
 
 
 function EndTest() {
-  let endTestAPI = localHostAPI += "testId/" + testId;
+  let endTestAPI = localHostAPI += "api/Tests/testId/" + testID;
   ajaxCall("POST", endTestAPI, userConnected, endTestSCB, endTestECB);
-}
+} 
 
 function endTestSCB() {
   //render after test stats
