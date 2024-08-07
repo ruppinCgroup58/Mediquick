@@ -239,5 +239,10 @@ h3 {
         align-items: center;
         margin: 16px 0px;
     }
+
+    .primary-btn {
+        max-width: 40%;
+        min-width: fit-content;
+    }
 }
 
