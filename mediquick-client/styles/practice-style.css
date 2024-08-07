@@ -246,3 +246,10 @@ h3 {
     }
 }
 
+@media (max-width: 460px) {
+    .expl-and-arrows {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}

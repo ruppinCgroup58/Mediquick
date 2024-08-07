@@ -74,6 +74,13 @@
             <h2>שאלות מועדפות</h2>
         </div>
         <div id="charts">
+            <div id="TestAverageAndGrades">
+                <span><strong>כמות המבחנים שבוצעו עד כה:</strong></span>
+                <span id="countOfTest"></span>
+                <br />
+                <span><strong>ממוצע ציונים:</strong></span>
+                <span id="avgOfTestGrades"></span>
+            </div>
             <div class="chart-container">
                 <canvas id="questionsChart"></canvas>
             </div>
@@ -83,13 +90,6 @@
             <div class="chart-container small-chart">
                 <canvas id="percentageCorrectChart"></canvas>
             </div>
-        </div>
-        <div id="TestAverageAndGrades">
-            <span>כמות המבחנים שנעשו עד כה:</span>
-            <span id="countOfTest"></span>
-            <br />
-            <span>ממוצע ציונים:</span>
-            <span id="avgOfTestGrades"></span>
         </div>
         <div class="timeline">
             <div class="timeline-container" id="timeline-container"></div>
