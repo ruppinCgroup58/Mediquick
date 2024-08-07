@@ -51,8 +51,8 @@
                 <a href="./personal-page.html">
                     <div><img src="./../images/icons/person.svg" alt=""></div>
                 </a>
-                <a href="#">
-                    <div><img src="./../images/icons/home-clicked.svg" alt=""></div>
+                <a href="main-page.html">
+                    <div><img src="./../images/icons/home.svg" alt=""></div>
                 </a>
                 <div class="menu" onclick="toggleMenu()">
                     <img src="./../images/icons/menu-hamburger.svg" alt="תפריט">
@@ -73,17 +73,13 @@
                 <button id="filter-btn" class="primary-btn">
                     <span>סנן שאלות לפי</span>
                 </button>
-                <div class="arrows">
-                    <img id="prevQ" class="disabled-btn" src="./../images/icons/arrow-right.svg" alt=""
-                        onclick="prevQuestion()">
-                    <img id="nextQ" src="./../images/icons/arrow-left.svg" alt="" onclick="nextQuestion()">
-                </div>
+                
 
             </div>
             <div id="filters" class="filters grid-item">
                 <form id="start-practice-form">
-                    <h3>נושא</h3>
                     <ul id="topicsList" class="topics-list">
+                        
                     </ul>
                     <div id="diffsList">
                         <h3>רמת קושי</h3>
@@ -104,8 +100,8 @@
                                 <label for="diffLevel5">קשה</label>
                             </li>
                         </ul>
+                        <input type="submit" value="התחל תרגול" class="primary-btn" id="start-practice-btn">
                     </div>
-                    <input type="submit" value="התחל תרגול" class="primary-btn" id="start-practice-btn">
                 </form>
             </div>
             <!-- start render -->
@@ -143,13 +139,21 @@
                 </div> -->
             </div>
             <div class="explanation grid-item">
-                <button id="expl-btn" class="secondary-btn">הצג הסבר</button>
+                <div class="expl-and-arrows">
+                    <button id="expl-btn" class="secondary-btn">הצג הסבר</button>
+                    <div class="arrows">
+                        <img id="prevQ" class="disabled-btn" src="./../images/icons/arrow-right.svg" alt=""
+                            onclick="prevQuestion()">
+                        <img id="nextQ" src="./../images/icons/arrow-left.svg" alt="" onclick="nextQuestion()">
+                    </div>
+                </div>
                 <div class="expl-content">
                     <span id="expl">
                         הטקסט מציין שעובדי נדבך הגבול, הבאים במגע ישיר עם לקוחות, הם מקור מידע חשוב
                         לגבי גישות של לקוחות, אסטרטגיות של מתחרים ורעיונות לשיפור השירות.
                     </span>
                 </div>
+                
             </div>
             <!-- end render -->
         </div>
