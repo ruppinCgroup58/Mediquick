@@ -2,10 +2,15 @@
     box-sizing: border-box;
 }
 
+body {
+    overflow-x: hidden;
+}
+
 main {
     direction: rtl;
     font-size: 14px;
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     padding: 50px 25px;
     /* flex-direction: column; */
@@ -149,19 +154,21 @@ h1 {
     white-space: nowrap;
     padding: 20px 0;
     margin: 20px 0;
-    width: 100%;
+    width: 90%;
     display: flex;
     justify-content: center; /* Center the timeline */
     z-index: 0;
 }
 
 .timeline {
+    overflow-x: auto;
+    overflow-y: hidden; /* Disable vertical scroll */
     display: inline-flex;
     align-items: center;
     position: relative;
     padding: 0;
     list-style: none;
-    height: 150px; /* Ensure the timeline has enough height */
+    height: 30dvh; /* Ensure the timeline has enough height */
 }
 
 .timeline-item {
@@ -222,4 +229,39 @@ h1 {
     z-index: 0;
     transform: translateY(-50%);
 }
-    /* timeline */
+/* timeline */
+
+/* עיצוב כללי של פס הגלילה */
+.timeline-container {
+    overflow-x: auto;
+    overflow-y: hidden; /* Disable vertical scroll */
+    white-space: nowrap;
+    padding: 20px 0;
+    margin: 20px 0;
+    width: 90%;
+    display: flex;
+    justify-content: center; /* Center the timeline */
+    z-index: 0;
+} 
+
+/* עיצוב פס הגלילה עצמו */
+.timeline-container::-webkit-scrollbar {
+    height: 8px; /* גובה פס הגלילה */
+}
+
+/* עיצוב מסלול פס הגלילה */
+.timeline-container::-webkit-scrollbar-track {
+    background: #f1f1f1; /* צבע הרקע של מסלול הגלילה */
+    border-radius: 10px; /* פינות מעוגלות למסלול הגלילה */
+}
+
+/* עיצוב האגודל של פס הגלילה */
+.timeline-container::-webkit-scrollbar-thumb {
+    background: #888; /* צבע האגודל של הגלילה */
+    border-radius: 10px; /* פינות מעוגלות לאגודל */
+}
+
+/* עיצוב האגודל של פס הגלילה בעת מעבר עם העכבר */
+.timeline-container::-webkit-scrollbar-thumb:hover {
+    background: #555; /* צבע האגודל בעת מעבר עם העכבר */
+}

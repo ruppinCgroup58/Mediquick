@@ -138,3 +138,14 @@ function executeLogIn(user) {
         alert("Log in failed");
     }
 }
+
+function toggleLoginPassword(element) {
+    const box = element.parentElement.firstElementChild;
+    if (box.type === 'password') {
+      box.type = 'text';
+      element.src = "./../images/icons/eye-closed.svg";
+    } else {
+      box.type = 'password';
+      element.src = "./../images/icons/eye-open.svg";
+    }
+  }
