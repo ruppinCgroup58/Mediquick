@@ -55,11 +55,10 @@ namespace MEDIQUICK.Controllers
 
         // POST api/<TestsController>
         [HttpPost("/HandleTestQuestionAnswer")]
-
         public Question Test_HandleQuestionAnswer(TestRequestData trd)
         {
             Test t = new Test();
-            return t.Test_HandleQuestionAnswer(trd.userId, trd.testId, trd.questionId, trd.isCorrect);
+            return t.Test_HandleQuestionAnswer(trd.userId, trd.testId, trd.questionId, trd.isCorrect, trd.lastQ);
         }
 
         // POST api/<TestsController>

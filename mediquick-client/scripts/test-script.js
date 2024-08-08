@@ -4,7 +4,14 @@ let testID;
 var chosenAnswerIndex = -1;
 let questionsCounter = 1;
 let shuffledQuestion;
-
+let countdownInterval;
+let testCompleted = false; // משתנה לבדיקה אם המבחן כבר הושלם
+let questionArray = [];
+window.addEventListener('beforeunload', function (event) {
+    if (!testCompleted) {
+        EndTest();
+    }
+});
 function startTest() {
   let startTestAPI = testAPI + "/userId/" + userConnected;
   ajaxCall("POST", startTestAPI, userConnected, startTestSCB, startTestECB);
@@ -55,7 +62,7 @@ function startCountdown(duration, display) {
     hours,
     minutes,
     seconds;
-  setInterval(function () {
+    countdownInterval = setInterval(function () {
     hours = parseInt(timer / 3600, 10);
     minutes = parseInt((timer % 3600) / 60, 10);
     seconds = parseInt(timer % 60, 10);
@@ -66,10 +73,12 @@ function startCountdown(duration, display) {
 
     display.textContent = hours + ":" + minutes + ":" + seconds;
 
-    if (--timer < 0) {
-      timer = 0;
-      alert("הזמן נגמר!");
-    }
+      if (--timer < 0) {
+          timer = 0;
+          clearInterval(countdownInterval); // עצור את הטיימר
+          alert("הזמן נגמר!");
+          EndTest(); // קריאה לפונקציית סיום מבחן
+      }
   }, 1000);
 }
 
@@ -178,7 +187,8 @@ function GoToNextQuestion() {
         userId: userConnected,
         testId: testID,
         questionId: document.querySelector('.question-wrapper').id,
-        isCorrect: shuffledQuestion.shuffledAnswers[chosenAnswerIndex].isCorrect
+        isCorrect: shuffledQuestion.shuffledAnswers[chosenAnswerIndex].isCorrect,
+        lastQ: false
     }
     let testNextQuestionAPI = localHostAPI + "HandleTestQuestionAnswer";
     ajaxCall("POST", testNextQuestionAPI, JSON.stringify(testReq), GoToNextQuestionSCB, GoToNextQuestionECB)
@@ -188,13 +198,14 @@ function GoToNextQuestion() {
     document.querySelector(`[data-number="${currentQuestionIndex}"]`).classList.add("q-answered")
 
     chosenAnswerIndex = -1;
-    if (currentQuestionIndex == 30) {
-      EndTest()
+    if (currentQuestionIndex == 29) {
+        document.getElementById("GoToNextQuestion").style.display = "none";
     }
 }
 
 function GoToNextQuestionSCB(data) {
-    console.log(data);
+    //console.log(data);
+    questionArray.push(data);
     document.querySelector(".question-wrapper").innerHTML = renderSingleQuestion(data);
     
     HandleSelectedAnswer();
@@ -207,12 +218,46 @@ function GoToNextQuestionECB(err) {
 
 
 function EndTest() {
-  let endTestAPI = localHostAPI += "api/Tests/testId/" + testID;
-  ajaxCall("POST", endTestAPI, userConnected, endTestSCB, endTestECB);
-} 
+    if (testCompleted) return; // להבטיח שהפונקציה לא מופעלת פעמיים
+
+    testCompleted = true; // שינוי המשתנה כך שהמבחן יסומן כושלם
+
+    let selectedOptionElement = document.querySelector('.selected-option');
+
+    if (selectedOptionElement) {
+        let chosenAnswerIndex = selectedOptionElement.dataset.number;
+
+        let testReq = {
+            userId: userConnected,
+            testId: testID,
+            questionId: document.querySelector('.question-wrapper').id,
+            isCorrect: shuffledQuestion.shuffledAnswers[chosenAnswerIndex].isCorrect,
+            lastQ: true
+        }
+
+        let testNextQuestionAPI = localHostAPI + "HandleTestQuestionAnswer";
+        ajaxCall("POST", testNextQuestionAPI, JSON.stringify(testReq), function () {
+            // graphics grid
+            let currentQuestionIndex = document.querySelector('.question-wrapper').dataset.number;
+            document.querySelector(`[data-number="${currentQuestionIndex}"]`).classList.add("q-answered");
+
+            chosenAnswerIndex = -1;
+
+            submitEndTest(); // Call to end the test after submitting the last answer
+        }, GoToNextQuestionECB);
+    } else {
+        submitEndTest();
+    }
+}
+
+function submitEndTest() {
+    let endTestAPI = localHostAPI + "api/Tests/testId/" + testID;
+    ajaxCall("POST", endTestAPI, userConnected, endTestSCB, endTestECB);
+}
 
 function endTestSCB() {
-  //render after test stats
+    window.location.href = "./forum.html";
+
 }
 
 function endTestECB(err) {

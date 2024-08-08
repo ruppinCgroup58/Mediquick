@@ -54,6 +54,8 @@ h1 {
     width: 200px;
     height: 180px;
     cursor: pointer;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1), -5px -5px 10px rgba(255, 255, 255, 0.7); /* Soft shadow */
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition */
 }
 
 .percentage-circle {
@@ -131,4 +133,9 @@ h1 {
 
 .card .title {
     color: #03a696;
+}
+
+.card:hover {
+    transform: scale(1.05); /* Hover effect */
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2), -10px -10px 20px rgba(255, 255, 255, 0.8); /* Enhanced shadow on hover */
 }

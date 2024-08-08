@@ -7,5 +7,6 @@
         public int testId { get; set; }
         public int userId { get; set; }
         public bool isCorrect { get; set; }
+        public bool lastQ { get; set; }
     }
 }

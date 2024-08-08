@@ -1578,7 +1578,7 @@ public class DBServices
         }
     }
 
-    public Question Test_HandleQuestionAnswer(int userId, int testId, int questionId, bool isCorrect)
+    public Question Test_HandleQuestionAnswer(int userId, int testId, int questionId, bool isCorrect, bool lastQ)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -1593,7 +1593,7 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = Test_HandleQuestionAnswerWithStoredProcedure("sp_Test_HandleQuestionAnswer", con, userId, testId, questionId,isCorrect);             // create the command
+        cmd = Test_HandleQuestionAnswerWithStoredProcedure("sp_Test_HandleQuestionAnswer", con, userId, testId, questionId, isCorrect, lastQ);             // create the command
 
         try
         {
@@ -1750,7 +1750,7 @@ public class DBServices
         return cmd;
     }
 
-    private SqlCommand Test_HandleQuestionAnswerWithStoredProcedure(String spName, SqlConnection con, int userId,int testId, int questionId, bool isCorrect)
+    private SqlCommand Test_HandleQuestionAnswerWithStoredProcedure(String spName, SqlConnection con, int userId,int testId, int questionId, bool isCorrect, bool lastQ)
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
@@ -1767,6 +1767,7 @@ public class DBServices
         cmd.Parameters.AddWithValue("@testId", testId);
         cmd.Parameters.AddWithValue("@questionId", questionId);
         cmd.Parameters.AddWithValue("@isCorrect", isCorrect);
+        cmd.Parameters.AddWithValue("@lastQ", lastQ);
 
         return cmd;
     }
