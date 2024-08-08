@@ -391,38 +391,126 @@ function CheckSimilarityLevel(item) {
     }, getQuestionByTopicGetECB);
 }
 
-function getQuestionByTopicGetSCB(stringQuestionToCheck,data) {
-    listOfQuestions = JSON.stringify(data);
-    textToGemini = `תספק לי רמת דמיון סמנטי בין ${stringQuestionToCheck} ל-${listOfQuestions} - תבדוק את רמת הדמיון לפי תוכן השאלה (CONTENT). תן לי את התשובה בדירוג רמת דמיון באחוזים מהגבוה לנמוך. החזר את חמש השאלות עם הדירוג הכי גבוה, אך לא לכלול את השאלה הנבדקת עצמה בתוצאות. התשובה תהיה במבנה הבא:
+//function getQuestionByTopicGetSCB(stringQuestionToCheck, data) {
 
-json{
-  "questionToCheck": {
-    "questionSerialNumber": "", "Content": "", "CorrectAnswer": "",
-    "WrongAnswer1": "", "WrongAnswer2": "", "WrongAnswer3": "",
-    "Explanation": "", "topic": "", "difficulty": "",
-    "status": "", "creator": "", "totalAnswers": "", "totalCorrectAnswers": ""
-  },
-  topQuestions: [
-            {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
-            'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
-            'creator' 'totalAnswers' 'totalCorrectAnswers'},  
-            {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
-            'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
-            'creator' 'totalAnswers' 'totalCorrectAnswers'}, 
-            {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
-            'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
-            'creator' 'totalAnswers' 'totalCorrectAnswers'}                     
-  ]
-}`;
+//    listOfQuestions = JSON.stringify(data);
+//    textToGemini = `תספק לי רמת דמיון סמנטי בין ${stringQuestionToCheck} ל-${listOfQuestions} - תבדוק את רמת הדמיון לפי תוכן השאלה (CONTENT). תן לי את התשובה בדירוג רמת דמיון באחוזים מהגבוה לנמוך. החזר את חמש השאלות עם הדירוג הכי גבוה, אך לא לכלול את השאלה הנבדקת עצמה בתוצאות. התשובה תהיה במבנה הבא:
 
-    var geminiForSimilarity = localHostAPI + 'GeminiForSimilarity'; 
-    ajaxCall("POST", geminiForSimilarity, JSON.stringify(textToGemini), geminiForSimilaritySCB, geminiForSimilarityECB);
+//json{
+//  "questionToCheck": {
+//    "questionSerialNumber": "", "Content": "", "CorrectAnswer": "",
+//    "WrongAnswer1": "", "WrongAnswer2": "", "WrongAnswer3": "",
+//    "Explanation": "", "topic": "", "difficulty": "",
+//    "status": "", "creator": "", "totalAnswers": "", "totalCorrectAnswers": ""
+//  },
+//  topQuestions: [
+//            {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+//            'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+//            'creator' 'totalAnswers' 'totalCorrectAnswers'},  
+//            {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+//            'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+//            'creator' 'totalAnswers' 'totalCorrectAnswers'}, 
+//            {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+//            'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+//            'creator' 'totalAnswers' 'totalCorrectAnswers'}                     
+//  ]
+//}`;
 
-}
+//    var geminiForSimilarity = localHostAPI + 'GeminiForSimilarity'; 
+//    ajaxCall("POST", geminiForSimilarity, JSON.stringify(textToGemini), geminiForSimilaritySCB, geminiForSimilarityECB);
+
+//}
 function getQuestionByTopicGetECB(data) {
     document.getElementById('spinner').style.display = 'none';
     console.log('ERROR');
 }
+
+function splitArray(array, chunkSize) {
+    let result = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+        let chunk = array.slice(i, i + chunkSize);
+        result.push(chunk);
+    }
+    return result;
+}
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function getQuestionByTopicGetSCB(stringQuestionToCheck, data) {
+    const splitData = splitArray(data, 20); // מחלקים את המערך למערכים קטנים של עד 20 שאלות
+    let combinedResults = [];
+
+    for (let chunk of splitData) {
+        try {
+            let result = await sendToGeminiForSimilarity(stringQuestionToCheck, chunk);
+            combinedResults = combinedResults.concat(result.topQuestions);
+            await sleep(2000); // מחכה 2 שניות לפני שליחת הבקשה הבאה
+        } catch (error) {
+            console.error("Error in processing chunk:", error);
+            alert("Error in processing chunk, please try again later.");
+            return;
+        }
+    }
+
+    // שליחת התוצאות המשולבות לבדיקה סופית בגמיני
+    sendFinalComparisonToGemini(stringQuestionToCheck, combinedResults);
+}
+
+function sendToGeminiForSimilarity(stringQuestionToCheck, chunk) {
+    return new Promise((resolve, reject) => {
+        const textToGemini = `תספק לי רמת דמיון סמנטי בין ${stringQuestionToCheck} ל-${JSON.stringify(chunk)} - תבדוק את רמת הדמיון לפי תוכן השאלה (CONTENT). תן לי את התשובה בדירוג רמת דמיון באחוזים מהגבוה לנמוך. החזר את שתי השאלות עם הדירוג הכי גבוה, אך לא לכלול את השאלה הנבדקת עצמה בתוצאות. התשובה תהיה במבנה הבא:
+
+        json{
+          "questionToCheck": {
+            "questionSerialNumber": "", "Content": "", "CorrectAnswer": "",
+            "WrongAnswer1": "", "WrongAnswer2": "", "WrongAnswer3": "",
+            "Explanation": "", "topic": "", "difficulty": "",
+            "status": "", "creator": "", "totalAnswers": "", "totalCorrectAnswers": ""
+          },
+          topQuestions: [
+                    {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+                    'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+                    'creator' 'totalAnswers' 'totalCorrectAnswers'},  
+                    {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+                    'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+                    'creator' 'totalAnswers' 'totalCorrectAnswers'} 
+          ]
+        }`;
+
+        let geminiForSimilarity = localHostAPI + 'GeminiForSimilarity';
+        ajaxCall("POST", geminiForSimilarity, JSON.stringify(textToGemini), data => resolve(data), error => reject(error));
+    });
+}
+
+function sendFinalComparisonToGemini(stringQuestionToCheck, combinedResults) {
+    const textToGemini = `תספק לי רמת דמיון סמנטי בין ${stringQuestionToCheck} ל-${JSON.stringify(combinedResults)} - תבדוק את רמת הדמיון לפי תוכן השאלה (CONTENT). תן לי את התשובה בדירוג רמת דמיון באחוזים מהגבוה לנמוך. החזר את שלוש השאלות עם הדירוג הכי גבוה, אך לא לכלול את השאלה הנבדקת עצמה בתוצאות. התשובה תהיה במבנה הבא:
+
+    json{
+      "questionToCheck": {
+        "questionSerialNumber": "", "Content": "", "CorrectAnswer": "",
+        "WrongAnswer1": "", "WrongAnswer2": "", "WrongAnswer3": "",
+        "Explanation": "", "topic": "", "difficulty": "",
+        "status": "", "creator": "", "totalAnswers": "", "totalCorrectAnswers": ""
+      },
+      topQuestions: [
+                {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+                'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+                'creator' 'totalAnswers' 'totalCorrectAnswers'},  
+                {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+                'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+                'creator' 'totalAnswers' 'totalCorrectAnswers'}, 
+                {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+                'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+                'creator' 'totalAnswers' 'totalCorrectAnswers'}                     
+      ]
+    }`;
+
+    let geminiForFinalComparison = localHostAPI + 'GeminiForSimilarity';
+    ajaxCall("POST", geminiForFinalComparison, JSON.stringify(textToGemini), geminiForSimilaritySCB, geminiForSimilarityECB);
+}
+
+
 
 function geminiForSimilaritySCB(data) {
     document.getElementById('spinner').style.display = 'none';

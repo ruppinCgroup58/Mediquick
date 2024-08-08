@@ -31,7 +31,7 @@ function closeMenu() {
 function checkScreenSize() {
     var menu = document.getElementById('mobileMenu');
     if (window.innerWidth > 600) {
-        menu.classList.remove('open');
+    //    menu.classList.remove('open');
     }
 }
 
