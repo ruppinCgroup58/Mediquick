@@ -1597,20 +1597,28 @@ public class DBServices
 
         try
         {
-            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection); // execute the command
-            dataReader.Read();
-            Question q = new Question();
+            using (SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+            {
+                if (!dataReader.Read())
+                {
+                    return null;
+                }
 
-            q.QuestionSerialNumber = Convert.ToInt32(dataReader["questionSerialNumber"]);
-            q.Difficulty = Convert.ToInt32(dataReader["difficulty"]);
-            q.Content = dataReader["content"].ToString();
-            q.CorrectAnswer = dataReader["correctAnswer"].ToString();
-            q.WrongAnswer1 = dataReader["wrongAnswer1"].ToString();
-            q.WrongAnswer2 = dataReader["wrongAnswer2"].ToString();
-            q.WrongAnswer3 = dataReader["wrongAnswer3"].ToString();
-            q.Explanation = dataReader["explanation"].ToString();
-            q.Topic = dataReader["topicId"].ToString();
-            return q;
+                Question q = new Question();
+
+                q.QuestionSerialNumber = Convert.ToInt32(dataReader["questionSerialNumber"]);
+                q.Difficulty = Convert.ToInt32(dataReader["difficulty"]);
+                q.Content = dataReader["content"].ToString();
+                q.CorrectAnswer = dataReader["correctAnswer"].ToString();
+                q.WrongAnswer1 = dataReader["wrongAnswer1"].ToString();
+                q.WrongAnswer2 = dataReader["wrongAnswer2"].ToString();
+                q.WrongAnswer3 = dataReader["wrongAnswer3"].ToString();
+                q.Explanation = dataReader["explanation"].ToString();
+                q.Topic = dataReader["topicId"].ToString();
+
+                return q;
+            }
+
         }
         catch (Exception ex)
         {

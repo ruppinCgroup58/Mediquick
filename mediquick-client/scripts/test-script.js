@@ -83,6 +83,7 @@ function startCountdown(duration, display) {
 }
 
 var testTimeLimit = 60 * 90, // 1.5 hours in seconds
+
   display = document.querySelector("#countdown");
 startCountdown(testTimeLimit, display);
 
