@@ -192,7 +192,7 @@ h3 {
 .expl-and-arrows {
     display: flex;
     justify-content: space-evenly;
-    width: 80%
+    width: auto;
 }
 
 .expl-and-arrows > * {
@@ -205,8 +205,12 @@ h3 {
         flex-wrap: wrap;
     }
 
+    .question {
+        height: 50dvh;
+    }
+
     .buttons {
-        height: 20%;
+        height: 15%;
         width: 100%
     }
 
