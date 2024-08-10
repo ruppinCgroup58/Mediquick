@@ -2,9 +2,11 @@
 using MEDIQUICK.BL;
 using MEDIQUICK.Controllers;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 using System.Data;
 using System.Data.SqlClient;
 using static Google.Api.Gax.Grpc.Gcp.AffinityConfig.Types;
+using static System.Net.Mime.MediaTypeNames;
 
 public class DBServices
 {
@@ -67,18 +69,18 @@ public class DBServices
                 ObjectList.Add(new
                 {
                     QuestionSerialNumber = Convert.ToInt32(dataReader["questionSerialNumber"]),
-                    Content = dataReader["content"].ToString(),
-                    CorrectAnswer = dataReader["correctAnswer"].ToString(),
-                    WrongAnswer1 = dataReader["wrongAnswer1"].ToString(),
-                    WrongAnswer2 = dataReader["wrongAnswer2"].ToString(),
-                    WrongAnswer3 = dataReader["wrongAnswer3"].ToString(),
-                    Explanation = dataReader["explanation"].ToString(),
-                    Topic = dataReader["topicId"].ToString(),
-                    difficulty = Convert.ToInt32(dataReader["difficulty"]),
-                    status = Convert.ToInt32(dataReader["status"]),
-                    creator = dataReader["topicId"].ToString(),
-                    totalAnswers = Convert.ToInt32(dataReader["totalAnswers"]),
-                    totalCorrectAnswers =Convert.ToInt32(dataReader["correctAnswers"])
+                    Content = dataReader["content"].ToString()
+                    //CorrectAnswer = dataReader["correctAnswer"].ToString(),
+                    //WrongAnswer1 = dataReader["wrongAnswer1"].ToString(),
+                    //WrongAnswer2 = dataReader["wrongAnswer2"].ToString(),
+                    //WrongAnswer3 = dataReader["wrongAnswer3"].ToString(),
+                    //Explanation = dataReader["explanation"].ToString(),
+                    //Topic = dataReader["topicId"].ToString(),
+                    //difficulty = Convert.ToInt32(dataReader["difficulty"]),
+                    //status = Convert.ToInt32(dataReader["status"]),
+                    //creator = dataReader["topicId"].ToString(),
+                    //totalAnswers = Convert.ToInt32(dataReader["totalAnswers"]),
+                    //totalCorrectAnswers =Convert.ToInt32(dataReader["correctAnswers"])
                 });
             }
 
@@ -134,6 +136,65 @@ public class DBServices
                     Explanation = dataReader["explanation"].ToString(),
                     isFavourite = dataReader["isFavourite"].ToString(),
                     userAnswered = dataReader["userAnswered"].ToString()
+                });
+            }
+
+            return ObjectList;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+    public List<Object> GetQuestionsDetailsFromArray(List<int> questionIds)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = CreateGetQuestionsDetailsFromArrayCommandWithStoredProcedure("sp_Question_GetQuestionsDetailsFromArray", con, questionIds);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection); // execute the command
+            List<Object> ObjectList = new List<Object>();
+
+            while (dataReader.Read())
+            {
+                ObjectList.Add(new
+                {
+                QuestionSerialNumber = Convert.ToInt32(dataReader["questionSerialNumber"]),
+                Difficulty = Convert.ToInt32(dataReader["difficulty"]),
+                Content = dataReader["content"].ToString(),
+                CorrectAnswer = dataReader["correctAnswer"].ToString(),
+                WrongAnswer1 = dataReader["wrongAnswer1"].ToString(),
+                WrongAnswer2 = dataReader["wrongAnswer2"].ToString(),
+                WrongAnswer3 = dataReader["wrongAnswer3"].ToString(),
+                Explanation = dataReader["explanation"].ToString(),
+                Status = Convert.ToInt32(dataReader["status"]),
+                Creator = dataReader["creatorID"].ToString(),
+                TotalAnswers = Convert.ToInt32(dataReader["totalAnswers"]),
+                TotalCorrectAnswers = Convert.ToInt32(dataReader["correctAnswers"]),
+                Topic = dataReader["topicId"].ToString()
                 });
             }
 
@@ -581,6 +642,31 @@ public class DBServices
         cmd.Parameters.AddWithValue("@topicId", topicId);
 
         cmd.Parameters.AddWithValue("@userId", userId);
+
+        return cmd;
+    }
+    private SqlCommand CreateGetQuestionsDetailsFromArrayCommandWithStoredProcedure(string spName, SqlConnection con, List<int> questionIds)
+    {
+        SqlCommand cmd = new SqlCommand
+        {
+            Connection = con,              // הגדרת החיבור לאובייקט הפקודה
+            CommandText = spName,          // הגדרת שם הפרוצדורה
+            CommandTimeout = 10,           // זמן המתנה לביצוע הפקודה, ברירת המחדל היא 30 שניות
+            CommandType = System.Data.CommandType.StoredProcedure // סוג הפקודה הוא פרוצדורה מאוחסנת
+        };
+
+        // המרת ה-List<int> ל-DataTable כדי לשלוח אותו כטיפוס טבלאי
+        DataTable questionIdsTable = new DataTable();
+        questionIdsTable.Columns.Add("QuestionId", typeof(int));
+        foreach (var id in questionIds)
+        {
+            questionIdsTable.Rows.Add(id);
+        }
+
+        // הוספת הפרמטר עם הטיפוס הטבלאי
+        SqlParameter param = cmd.Parameters.AddWithValue("@questionIds", questionIdsTable);
+        param.SqlDbType = SqlDbType.Structured;
+        param.TypeName = "dbo.QuestionIdTableType"; // ודא שזה שם הטיפוס שהגדרת ב-SQL
 
         return cmd;
     }

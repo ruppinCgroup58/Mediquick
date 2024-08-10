@@ -41,6 +41,13 @@ namespace MEDIQUICK.Controllers
         }
 
         // GET: api/<QuestionsController>
+        [HttpPost("GetQuestionsDetailsFromArray")]
+        public List<Object> GetQuestionsDetailsFromArray([FromBody] List<int> questionIds)
+        {
+            Question q = new Question();
+            return q.GetQuestionsDetailsFromArray(questionIds);
+        }
+        // GET: api/<QuestionsController>
         [HttpGet("qId/{qId}/topicName/{topicName}")]
         public List<Object> GetQuestionsByTopic(int qId, string topicName)
         {
