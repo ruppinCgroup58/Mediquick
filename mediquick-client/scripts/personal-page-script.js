@@ -171,73 +171,116 @@ function displayCharts(data) {
   const correctAnswers = data.map(item => item.correctAnswers);
   const percentageCorrect = data.map(item => item.percentageCorrect);
 
-  const ctx1 = document.getElementById('questionsChart').getContext('2d');
-  const ctx2 = document.getElementById('correctAnswersChart').getContext('2d');
+  //const ctx1 = document.getElementById('questionsChart').getContext('2d');
+    //const ctx2 = document.getElementById('correctAnswersChart').getContext('2d');
+    const ctx = document.getElementById('questionsChart').getContext('2d');
   const ctx3 = document.getElementById('percentageCorrectChart').getContext('2d');
 
-  new Chart(ctx1, {
-      type: 'bar',
-      data: {
-          labels: topicNames,
-          datasets: [{
-              label: 'כמות שאלות',
-              data: totalQuestions,
-              backgroundColor: 'rgba(75, 192, 192, 0.2)',
-              borderColor: 'rgba(75, 192, 192, 1)',
-              borderWidth: 1
-          }]
-      },
-      options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-              y: {
-                  beginAtZero: true
-              }
-          },
-          plugins: {
-              legend: {
-                  position: 'top',
-              },
-              title: {
-                  display: true,
-                  text: 'כמות שאלות שנענו מכל נושא'
-              }
-          }
-      }
-  });
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: topicNames,
+            datasets: [
+                {
+                    label: 'כמות שאלות',
+                    data: totalQuestions,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'תשובות נכונות',
+                    data: correctAnswers,
+                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                    borderColor: 'rgba(153, 102, 255, 1)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'מספר השאלות והתשובות הנכונות בכל נושא'
+                }
+            }
+        }
+    });
 
-  new Chart(ctx2, {
-      type: 'bar',
-      data: {
-          labels: topicNames,
-          datasets: [{
-              label: 'תשובות נכונות',
-              data: correctAnswers,
-              backgroundColor: 'rgba(153, 102, 255, 0.2)',
-              borderColor: 'rgba(153, 102, 255, 1)',
-              borderWidth: 1
-          }]
-      },
-      options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-              y: {
-                  beginAtZero: true
-              }
-          },
-          plugins: {
-              legend: {
-                  position: 'top',
-              },
-              title: {
-                  display: true,
-                  text: 'מספר התשובות הנכונות לפי נושא'
-              }
-          }
-      }
-  });
+
+  //new Chart(ctx1, {
+  //    type: 'bar',
+  //    data: {
+  //        labels: topicNames,
+  //        datasets: [{
+  //            label: 'כמות שאלות',
+  //            data: totalQuestions,
+  //            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+  //            borderColor: 'rgba(75, 192, 192, 1)',
+  //            borderWidth: 1
+  //        }]
+  //    },
+  //    options: {
+  //        responsive: true,
+  //        maintainAspectRatio: false,
+  //        scales: {
+  //            y: {
+  //                beginAtZero: true
+  //            }
+  //        },
+  //        plugins: {
+  //            legend: {
+  //                position: 'top',
+  //            },
+  //            title: {
+  //                display: true,
+  //                text: 'כמות שאלות שנענו מכל נושא'
+  //            }
+  //        }
+  //    }
+  //});
+
+  //new Chart(ctx2, {
+  //    type: 'bar',
+  //    data: {
+  //        labels: topicNames,
+  //        datasets: [{
+  //            label: 'תשובות נכונות',
+  //            data: correctAnswers,
+  //            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+  //            borderColor: 'rgba(153, 102, 255, 1)',
+  //            borderWidth: 1
+  //        }]
+  //    },
+  //    options: {
+  //        responsive: true,
+  //        maintainAspectRatio: false,
+  //        scales: {
+  //            y: {
+  //                beginAtZero: true
+  //            }
+  //        },
+  //        plugins: {
+  //            legend: {
+  //                position: 'top',
+  //            },
+  //            title: {
+  //                display: true,
+  //                text: 'מספר התשובות הנכונות לפי נושא'
+  //            }
+  //        }
+  //    }
+  //});
 
   new Chart(ctx3, {
       type: 'polarArea',
@@ -367,3 +410,136 @@ function displayTestStatsPerMonth(data) {
             timeline.style.setProperty('--before-width', fullWidth + 'px'); // הגדרת הרוחב למשתנה CSS
 }
 
+/*        לוח שנה*/
+const calendarDates = document.getElementById('calendar-dates');
+const monthYear = document.getElementById('month-year');
+const prevMonth = document.getElementById('prev-month');
+const nextMonth = document.getElementById('next-month');
+const taskTooltip = document.getElementById('task-tooltip');
+const taskInput = document.getElementById('task-input');
+const saveTask = document.getElementById('save-task');
+const cancelTask = document.getElementById('cancel-task');
+
+let currentMonth = new Date().getMonth();
+let currentYear = new Date().getFullYear();
+let selectedDateElement = null;
+let userId = userConnected;// מקבל את המזהה של המשתמש המחובר
+
+const monthNames = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
+
+function renderCalendar(month, year) {
+    const firstDay = new Date(year, month, 1).getDay();
+    const lastDate = new Date(year, month + 1, 0).getDate();
+
+    calendarDates.innerHTML = '';
+
+    // Fill the dates before the first day of the month
+    for (let i = 0; i < firstDay; i++) {
+        calendarDates.innerHTML += `<div></div>`;
+    }
+
+    // Fill the dates of the current month
+    for (let i = 1; i <= lastDate; i++) {
+        const taskKey = `${year}-${month + 1}-${i}`;
+        calendarDates.innerHTML += `<div class="date" data-date="${taskKey}">${i}</div>`;
+    }
+
+    monthYear.textContent = `${monthNames[month]} ${year}`;
+
+    // Add event listeners for each date
+    const dateElements = document.querySelectorAll('.date');
+    dateElements.forEach(dateElement => {
+        dateElement.addEventListener('click', (e) => {
+            showTaskTooltip(e, dateElement);
+            fetchTaskForDate(dateElement.dataset.date); // Fetch task for this date from the server
+        });
+    });
+}
+
+function showTaskTooltip(e, dateElement) {
+    selectedDateElement = dateElement;
+    taskInput.value = ''; // Clear input before showing tooltip
+    taskTooltip.style.display = 'block';
+    taskTooltip.style.left = `${e.pageX}px`;
+    taskTooltip.style.top = `${e.pageY}px`;
+}
+
+function hideTaskTooltip() {
+    taskTooltip.style.display = 'none';
+}
+
+function saveTaskForDate() {
+    const task = taskInput.value;
+    const dateKey = selectedDateElement.dataset.date;
+
+    if (task) {
+        fetch('/api/tasks', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userId: userId, date: dateKey, task: task })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+                selectedDateElement.classList.add('task-exists');
+            })
+            .catch(error => console.error('Error:', error));
+    } else {
+        deleteTaskForDate(dateKey); // If the task is empty, delete it from the server
+    }
+
+    hideTaskTooltip();
+}
+
+// Fetch task from server for a specific date
+function fetchTaskForDate(date) {
+    fetch(`/api/tasks/${userId}/${date}`)
+        .then(response => response.json())
+        .then(task => {
+            if (task.task) {
+                taskInput.value = task.task;
+                selectedDateElement.classList.add('task-exists');
+            } else {
+                selectedDateElement.classList.remove('task-exists');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+// Delete task from server for a specific date
+function deleteTaskForDate(date) {
+    fetch(`/api/tasks/${userId}/${date}`, {
+        method: 'DELETE'
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+            selectedDateElement.classList.remove('task-exists');
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+prevMonth.addEventListener('click', () => {
+    currentMonth--;
+    if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+    }
+    renderCalendar(currentMonth, currentYear);
+});
+
+nextMonth.addEventListener('click', () => {
+    currentMonth++;
+    if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+    }
+    renderCalendar(currentMonth, currentYear);
+});
+
+saveTask.addEventListener('click', saveTaskForDate);
+cancelTask.addEventListener('click', hideTaskTooltip);
+
+renderCalendar(currentMonth, currentYear);

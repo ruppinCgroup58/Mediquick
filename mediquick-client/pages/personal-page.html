@@ -86,12 +86,37 @@
             <div class="chart-container">
                 <canvas id="questionsChart"></canvas>
             </div>
-            <div class="chart-container">
-                <canvas id="correctAnswersChart"></canvas>
-            </div>
             <div class="chart-container small-chart">
                 <canvas id="percentageCorrectChart"></canvas>
             </div>
+            <div id="calendar-container">
+                <div id="calendar-header">
+                    <button id="prev-month">‹</button>
+                    <div id="month-year"></div>
+                    <button id="next-month">›</button>
+                </div>
+                <div id="calendar-days">
+                    <div>א'</div>
+                    <div>ב'</div>
+                    <div>ג'</div>
+                    <div>ד'</div>
+                    <div>ה'</div>
+                    <div>ו'</div>
+                    <div>ש'</div>
+                </div>
+                <div id="calendar-dates"></div>
+            </div>
+            <!-- Tooltip for adding tasks -->
+            <div id="task-tooltip" class="tooltip">
+                <div>
+                    <input type="text" id="task-input" placeholder="הזן משימה">
+                </div>
+                <div>
+                    <button id="save-task">שמור</button>
+                    <button id="cancel-task">בטל</button>
+                </div>
+            </div>
+
         </div>
         <div id="questions-container" class="container">
             <h2>שאלות מועדפות</h2>

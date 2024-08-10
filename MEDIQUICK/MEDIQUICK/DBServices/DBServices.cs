@@ -2476,6 +2476,58 @@ public class DBServices
     }
 
     #endregion
+
+
+    //calender
+        public void SaveTask(string userId, string date, string task)
+        {
+            using (SqlConnection con = new SqlConnection("myProjDB"))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand("sp_SaveTask", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    cmd.Parameters.AddWithValue("@Date", date);
+                    cmd.Parameters.AddWithValue("@Task", task);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public string GetTask(string userId, string date)
+        {
+            using (SqlConnection con = new SqlConnection("myProjDB"))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand("sp_GetTask", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    cmd.Parameters.AddWithValue("@Date", date);
+
+                    object result = cmd.ExecuteScalar();
+                    return result != null ? result.ToString() : null;
+                }
+            }
+        }
+
+        public void DeleteTask(string userId, string date)
+        {
+            using (SqlConnection con = new SqlConnection("myProjDB"))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand("sp_DeleteTask", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserId", userId);
+                    cmd.Parameters.AddWithValue("@Date", date);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+    
+
 }
 
 
