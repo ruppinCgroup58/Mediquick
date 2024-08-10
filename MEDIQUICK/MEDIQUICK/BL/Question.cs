@@ -1,4 +1,6 @@
-﻿namespace MEDIQUICK.BL
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace MEDIQUICK.BL
 {
     public class Question
     {
@@ -106,6 +108,10 @@
         public List<Object> GetQuestionsByTopicAndId(int topicId, int userId)
         {
             return dbs.GetQuestionsByTopicAndId(topicId, userId);
+        }
+        public List<Object> GetQuestionsDetailsFromArray(List<int> questionIds)
+        {
+            return dbs.GetQuestionsDetailsFromArray(questionIds);
         }
 
         public List<Object> GetQuestionsByTopic(int qId, string topicName)

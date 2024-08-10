@@ -6,7 +6,7 @@ var apiQuestion = localHostAPI + 'api/Questions/';
 var apiUpdateUserDetails = localHostAPI + 'updateUserDetails';
 var apiUpdateQuestionDetails = localHostAPI + 'updateQuestionDetails';
 var topicApi = localHostAPI + 'api/Topics';
-
+let topicToShow;
 $(document).ready(function () {
     $('.toggle-row-btn').click(function () {
         $(this).find('i').toggleClass('fa-chevron-down fa-chevron-up');
@@ -358,6 +358,7 @@ function CheckSimilarityLevel(item) {
     showSpinner();
     var idQuestionToCheck = item.parentElement.parentElement.children[0].innerHTML;
     var topicQuestionToCheck = item.parentElement.parentElement.children[7].innerHTML;
+    topicToShow = item.parentElement.parentElement.children[7].innerHTML;
     var apiQuestionByTopic = localHostAPI + 'api/Questions/qId/';
     apiQuestionByTopic = apiQuestionByTopic + idQuestionToCheck + '/topicName/' + topicQuestionToCheck;
     stringStatus = item.parentElement.parentElement.children[9].firstElementChild.value;
@@ -372,18 +373,18 @@ function CheckSimilarityLevel(item) {
     }
     QuestionToCheck= {
         questionSerialNumber: idQuestionToCheck,
-        content: item.parentElement.parentElement.children[1].innerHTML,
-        correctAnswer: item.parentElement.parentElement.children[2].innerHTML,
-        wrongAnswer1: item.parentElement.parentElement.children[3].innerHTML,
-        wrongAnswer2: item.parentElement.parentElement.children[4].innerHTML,
-        wrongAnswer3: item.parentElement.parentElement.children[5].innerHTML,
-        explanation: item.parentElement.parentElement.children[6].innerHTML,      
-        topic: item.parentElement.parentElement.children[7].innerHTML,     
-        difficulty: item.parentElement.parentElement.children[8].innerHTML,     
-        status: intStatus,
-        creator: item.parentElement.parentElement.children[10].innerHTML,     
-        totalAnswers: item.parentElement.parentElement.children[11].innerHTML,     
-        totalCorrectAnswers: item.parentElement.parentElement.children[12].innerHTML
+        content: item.parentElement.parentElement.children[1].innerHTML
+        //correctAnswer: item.parentElement.parentElement.children[2].innerHTML,
+        //wrongAnswer1: item.parentElement.parentElement.children[3].innerHTML,
+        //wrongAnswer2: item.parentElement.parentElement.children[4].innerHTML,
+        //wrongAnswer3: item.parentElement.parentElement.children[5].innerHTML,
+        //explanation: item.parentElement.parentElement.children[6].innerHTML    
+        //topic: item.parentElement.parentElement.children[7].innerHTML,     
+        //difficulty: item.parentElement.parentElement.children[8].innerHTML,     
+        //status: intStatus,
+        //creator: item.parentElement.parentElement.children[10].innerHTML,     
+        //totalAnswers: item.parentElement.parentElement.children[11].innerHTML,     
+        //totalCorrectAnswers: item.parentElement.parentElement.children[12].innerHTML
     }
     stringQuestionToCheck = JSON.stringify(QuestionToCheck);
     ajaxCall("GET", apiQuestionByTopic, '', function (data) {
@@ -391,141 +392,178 @@ function CheckSimilarityLevel(item) {
     }, getQuestionByTopicGetECB);
 }
 
-//function getQuestionByTopicGetSCB(stringQuestionToCheck, data) {
+function getQuestionByTopicGetSCB(stringQuestionToCheck, data) {
 
-//    listOfQuestions = JSON.stringify(data);
-//    textToGemini = `תספק לי רמת דמיון סמנטי בין ${stringQuestionToCheck} ל-${listOfQuestions} - תבדוק את רמת הדמיון לפי תוכן השאלה (CONTENT). תן לי את התשובה בדירוג רמת דמיון באחוזים מהגבוה לנמוך. החזר את חמש השאלות עם הדירוג הכי גבוה, אך לא לכלול את השאלה הנבדקת עצמה בתוצאות. התשובה תהיה במבנה הבא:
+    listOfQuestions = JSON.stringify(data);
+    textToGemini = `תספק לי רמת דמיון סמנטי בין ${stringQuestionToCheck} ל-${listOfQuestions} - תבדוק את רמת הדמיון לפי תוכן השאלה (CONTENT). תן לי את התשובה בדירוג רמת דמיון באחוזים מהגבוה לנמוך. החזר את חמש השאלות עם הדירוג הכי גבוה, אך לא לכלול את השאלה הנבדקת עצמה בתוצאות. התשובה תהיה במבנה הבא:
 
-//json{
-//  "questionToCheck": {
-//    "questionSerialNumber": "", "Content": "", "CorrectAnswer": "",
-//    "WrongAnswer1": "", "WrongAnswer2": "", "WrongAnswer3": "",
-//    "Explanation": "", "topic": "", "difficulty": "",
-//    "status": "", "creator": "", "totalAnswers": "", "totalCorrectAnswers": ""
-//  },
-//  topQuestions: [
-//            {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
-//            'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
-//            'creator' 'totalAnswers' 'totalCorrectAnswers'},  
-//            {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
-//            'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
-//            'creator' 'totalAnswers' 'totalCorrectAnswers'}, 
-//            {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
-//            'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
-//            'creator' 'totalAnswers' 'totalCorrectAnswers'}                     
-//  ]
-//}`;
+json{
+  "questionToCheck": {
+    "questionSerialNumber": "", "Content": ""
+  },
+  topQuestions: [
+            {   'questionSerialNumber' 'Content'},                      
+            {   'questionSerialNumber' 'Content'},                      
+            {   'questionSerialNumber' 'Content'}                      
+  ]
+}`;
 
-//    var geminiForSimilarity = localHostAPI + 'GeminiForSimilarity'; 
-//    ajaxCall("POST", geminiForSimilarity, JSON.stringify(textToGemini), geminiForSimilaritySCB, geminiForSimilarityECB);
+    var geminiForSimilarity = localHostAPI + 'GeminiForSimilarity'; 
+    ajaxCall("POST", geminiForSimilarity, JSON.stringify(textToGemini), geminiForSimilaritySCB, geminiForSimilarityECB);
 
-//}
+}
+
 function getQuestionByTopicGetECB(data) {
     document.getElementById('spinner').style.display = 'none';
     console.log('ERROR');
 }
+//json{
+//    "questionToCheck": {
+//        "questionSerialNumber": "", "Content": "", "CorrectAnswer": "",
+//            "WrongAnswer1": "", "WrongAnswer2": "", "WrongAnswer3": "",
+//                "Explanation": "", "topic": "", "difficulty": "",
+//                    "status": "", "creator": "", "totalAnswers": "", "totalCorrectAnswers": ""
+//    },
+//    topQuestions: [
+//        {
+//            'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+//            'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+//            'creator' 'totalAnswers' 'totalCorrectAnswers'},
+//        {
+//            'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+//            'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+//            'creator' 'totalAnswers' 'totalCorrectAnswers'},
+//        {
+//            'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+//            'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+//            'creator' 'totalAnswers' 'totalCorrectAnswers'}
+//    ]
+//}`;
 
-function splitArray(array, chunkSize) {
-    let result = [];
-    for (let i = 0; i < array.length; i += chunkSize) {
-        let chunk = array.slice(i, i + chunkSize);
-        result.push(chunk);
-    }
-    return result;
-}
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+//function splitArray(array, chunkSize) {
+//    let result = [];
+//    for (let i = 0; i < array.length; i += chunkSize) {
+//        let chunk = array.slice(i, i + chunkSize);
+//        result.push(chunk);
+//    }
+//    return result;
+//}
+//function sleep(ms) {
+//    return new Promise(resolve => setTimeout(resolve, ms));
+//}
 
-async function getQuestionByTopicGetSCB(stringQuestionToCheck, data) {
-    const splitData = splitArray(data, 20); // מחלקים את המערך למערכים קטנים של עד 20 שאלות
-    let combinedResults = [];
+//async function getQuestionByTopicGetSCB(stringQuestionToCheck, data) {
+//    const splitData = splitArray(data, 20); // מחלקים את המערך למערכים קטנים של עד 20 שאלות
+//    let combinedResults = [];
 
-    for (let chunk of splitData) {
-        try {
-            let result = await sendToGeminiForSimilarity(stringQuestionToCheck, chunk);
-            combinedResults = combinedResults.concat(result.topQuestions);
-            await sleep(2000); // מחכה 2 שניות לפני שליחת הבקשה הבאה
-        } catch (error) {
-            console.error("Error in processing chunk:", error);
-            alert("Error in processing chunk, please try again later.");
-            return;
-        }
-    }
+//    for (let chunk of splitData) {
+//        try {
+//            let result = await sendToGeminiForSimilarity(stringQuestionToCheck, chunk);
+//            combinedResults = combinedResults.concat(result.topQuestions);
+//            await sleep(2000); // מחכה 2 שניות לפני שליחת הבקשה הבאה
+//        } catch (error) {
+//            console.error("Error in processing chunk:", error);
+//            alert("Error in processing chunk, please try again later.");
+//            return;
+//        }
+//    }
 
-    // שליחת התוצאות המשולבות לבדיקה סופית בגמיני
-    sendFinalComparisonToGemini(stringQuestionToCheck, combinedResults);
-}
+//    // שליחת התוצאות המשולבות לבדיקה סופית בגמיני
+//    sendFinalComparisonToGemini(stringQuestionToCheck, combinedResults);
+//}
 
-function sendToGeminiForSimilarity(stringQuestionToCheck, chunk) {
-    return new Promise((resolve, reject) => {
-        const textToGemini = `תספק לי רמת דמיון סמנטי בין ${stringQuestionToCheck} ל-${JSON.stringify(chunk)} - תבדוק את רמת הדמיון לפי תוכן השאלה (CONTENT). תן לי את התשובה בדירוג רמת דמיון באחוזים מהגבוה לנמוך. החזר את שתי השאלות עם הדירוג הכי גבוה, אך לא לכלול את השאלה הנבדקת עצמה בתוצאות. התשובה תהיה במבנה הבא:
+//function sendToGeminiForSimilarity(stringQuestionToCheck, chunk) {
+//    return new Promise((resolve, reject) => {
+//        const textToGemini = `תספק לי רמת דמיון סמנטי בין ${stringQuestionToCheck} ל-${JSON.stringify(chunk)} - תבדוק את רמת הדמיון לפי תוכן השאלה (CONTENT). תן לי את התשובה בדירוג רמת דמיון באחוזים מהגבוה לנמוך. החזר את שתי השאלות עם הדירוג הכי גבוה, אך לא לכלול את השאלה הנבדקת עצמה בתוצאות. התשובה תהיה במבנה הבא:
 
-        json{
-          "questionToCheck": {
-            "questionSerialNumber": "", "Content": "", "CorrectAnswer": "",
-            "WrongAnswer1": "", "WrongAnswer2": "", "WrongAnswer3": "",
-            "Explanation": "", "topic": "", "difficulty": "",
-            "status": "", "creator": "", "totalAnswers": "", "totalCorrectAnswers": ""
-          },
-          topQuestions: [
-                    {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
-                    'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
-                    'creator' 'totalAnswers' 'totalCorrectAnswers'},  
-                    {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
-                    'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
-                    'creator' 'totalAnswers' 'totalCorrectAnswers'} 
-          ]
-        }`;
+//        json{
+//          "questionToCheck": {
+//            "questionSerialNumber": "", "Content": "", "CorrectAnswer": "",
+//            "WrongAnswer1": "", "WrongAnswer2": "", "WrongAnswer3": "",
+//            "Explanation": "", "topic": "", "difficulty": "",
+//            "status": "", "creator": "", "totalAnswers": "", "totalCorrectAnswers": ""
+//          },
+//          topQuestions: [
+//                    {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+//                    'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+//                    'creator' 'totalAnswers' 'totalCorrectAnswers'},  
+//                    {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+//                    'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+//                    'creator' 'totalAnswers' 'totalCorrectAnswers'} 
+//          ]
+//        }`;
 
-        let geminiForSimilarity = localHostAPI + 'GeminiForSimilarity';
-        ajaxCall("POST", geminiForSimilarity, JSON.stringify(textToGemini), data => resolve(data), error => reject(error));
-    });
-}
+//        let geminiForSimilarity = localHostAPI + 'GeminiForSimilarity';
+//        ajaxCall("POST", geminiForSimilarity, JSON.stringify(textToGemini), data => resolve(data), error => reject(error));
+//    });
+//}
 
-function sendFinalComparisonToGemini(stringQuestionToCheck, combinedResults) {
-    const textToGemini = `תספק לי רמת דמיון סמנטי בין ${stringQuestionToCheck} ל-${JSON.stringify(combinedResults)} - תבדוק את רמת הדמיון לפי תוכן השאלה (CONTENT). תן לי את התשובה בדירוג רמת דמיון באחוזים מהגבוה לנמוך. החזר את שלוש השאלות עם הדירוג הכי גבוה, אך לא לכלול את השאלה הנבדקת עצמה בתוצאות. התשובה תהיה במבנה הבא:
+//function sendFinalComparisonToGemini(stringQuestionToCheck, combinedResults) {
+//    const textToGemini = `תספק לי רמת דמיון סמנטי בין ${stringQuestionToCheck} ל-${JSON.stringify(combinedResults)} - תבדוק את רמת הדמיון לפי תוכן השאלה (CONTENT). תן לי את התשובה בדירוג רמת דמיון באחוזים מהגבוה לנמוך. החזר את שלוש השאלות עם הדירוג הכי גבוה, אך לא לכלול את השאלה הנבדקת עצמה בתוצאות. התשובה תהיה במבנה הבא:
 
-    json{
-      "questionToCheck": {
-        "questionSerialNumber": "", "Content": "", "CorrectAnswer": "",
-        "WrongAnswer1": "", "WrongAnswer2": "", "WrongAnswer3": "",
-        "Explanation": "", "topic": "", "difficulty": "",
-        "status": "", "creator": "", "totalAnswers": "", "totalCorrectAnswers": ""
-      },
-      topQuestions: [
-                {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
-                'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
-                'creator' 'totalAnswers' 'totalCorrectAnswers'},  
-                {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
-                'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
-                'creator' 'totalAnswers' 'totalCorrectAnswers'}, 
-                {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
-                'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
-                'creator' 'totalAnswers' 'totalCorrectAnswers'}                     
-      ]
-    }`;
+//    json{
+//      "questionToCheck": {
+//        "questionSerialNumber": "", "Content": "", "CorrectAnswer": "",
+//        "WrongAnswer1": "", "WrongAnswer2": "", "WrongAnswer3": "",
+//        "Explanation": "", "topic": "", "difficulty": "",
+//        "status": "", "creator": "", "totalAnswers": "", "totalCorrectAnswers": ""
+//      },
+//      topQuestions: [
+//                {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+//                'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+//                'creator' 'totalAnswers' 'totalCorrectAnswers'},  
+//                {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+//                'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+//                'creator' 'totalAnswers' 'totalCorrectAnswers'}, 
+//                {   'questionSerialNumber' 'Content' 'CorrectAnswer' 'WrongAnswer1'
+//                'WrongAnswer2' 'WrongAnswer3' 'Explanation' 'topic' 'difficulty' 'status' 
+//                'creator' 'totalAnswers' 'totalCorrectAnswers'}                     
+//      ]
+//    }`;
 
-    let geminiForFinalComparison = localHostAPI + 'GeminiForSimilarity';
-    ajaxCall("POST", geminiForFinalComparison, JSON.stringify(textToGemini), geminiForSimilaritySCB, geminiForSimilarityECB);
-}
+//    let geminiForFinalComparison = localHostAPI + 'GeminiForSimilarity';
+//    ajaxCall("POST", geminiForFinalComparison, JSON.stringify(textToGemini), geminiForSimilaritySCB, geminiForSimilarityECB);
+//}
 
 
 
 function geminiForSimilaritySCB(data) {
-    document.getElementById('spinner').style.display = 'none';
-    let combinedQuestions = data.topQuestions;
-    data.questionToCheck.value = 1;
-    combinedQuestions.unshift(data.questionToCheck);
-    document.getElementById("renderQuestionTableAgain").style.display = "block";
-    for (var i = 1; i < combinedQuestions.length; i++) {
-        combinedQuestions[i].topic = combinedQuestions[0].topic;
+    let questionsArray = [];
+    questionsArray.push(data.questionToCheck.questionSerialNumber);
+    for (var i = 0; i < data.topQuestions.length; i++) {
+        questionsArray.push(data.topQuestions[i].questionSerialNumber);
     }
+    apiGetQuestionDetails = localHostAPI + 'api/Questions/GetQuestionsDetailsFromArray';
+    ajaxCall("POST", apiGetQuestionDetails, JSON.stringify(questionsArray), GetQuestionDetailsPostSCB, GetQuestionDetailsPostECB)
+
+    //document.getElementById('spinner').style.display = 'none';
+    //let combinedQuestions = data.topQuestions;
+    //data.questionToCheck.value = 1;
+    //combinedQuestions.unshift(data.questionToCheck);
+    //document.getElementById("renderQuestionTableAgain").style.display = "block";
+    //for (var i = 1; i < combinedQuestions.length; i++) {
+    //    combinedQuestions[i].topic = combinedQuestions[0].topic;
+    //}
+    ////questionsTableGetSCB(combinedQuestions);
+    ////questionsTableGetSCB(combinedQuestions, true); // Send true to disable ordering
+    //disableOrdering = true; // Disable ordering for this specific case
     //questionsTableGetSCB(combinedQuestions);
-    //questionsTableGetSCB(combinedQuestions, true); // Send true to disable ordering
+    //disableOrdering = false; // Reset the ordering to default after rendering
+}
+
+function GetQuestionDetailsPostSCB(data) {
+    document.getElementById('spinner').style.display = 'none';
+    for (var i = 0; i < data.length; i++) {
+        data[i].topic = topicToShow;
+    }
+    data[0].value = 1;
+    document.getElementById("renderQuestionTableAgain").style.display = "block";
     disableOrdering = true; // Disable ordering for this specific case
-    questionsTableGetSCB(combinedQuestions);
+    questionsTableGetSCB(data);
     disableOrdering = false; // Reset the ordering to default after rendering
+}
+function GetQuestionDetailsPostECB(err) {
+    console.log("שליפת נתוני השאלות נכשלה");
 }
 
 function renderQuestionTableAgain() {
