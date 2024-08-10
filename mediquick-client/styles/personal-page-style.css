@@ -4,6 +4,7 @@
 
 body {
     overflow-x: hidden;
+    max-width: 1600px;
 }
 
 main {
@@ -13,6 +14,7 @@ main {
     justify-content: center;
     flex-wrap: wrap;
     padding: 50px 25px;
+    max-width: 100%;
     /* flex-direction: column; */
 }
 /* may be needed for page design
@@ -35,6 +37,7 @@ main {
 
 .options {
     margin-right: 25px;
+    height: auto;
 }
 
 .question {
@@ -50,6 +53,46 @@ main {
     /* transition: align-items 0.6s;
     transition: height 0.6s ease;
     transition: max-height 0.6s ease;*/
+
+    /* scrollbar-width: thin;  /* Firefox */
+    /* scrollbar-color: rgba(3, 166, 150,0.2) transparent;  */
+}
+
+/* question scroll bar start */
+
+/* מסתיר את החצים בקצוות פס הגלילה */
+/* .question::-webkit-scrollbar-button {
+    display: none;
+} */
+
+.question::-webkit-scrollbar {
+    width: 7px; /* רוחב פס הגלילה */
+    
+}
+
+.question::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 173, 181, 0.4); /* צבע כהה חצי שקוף */
+    border-radius: 10px; /* קצוות מעוגלים */
+    border: 2px solid transparent; /* מרווח סביב פס הגלילה */
+    background-clip: content-box; /* תוחם את פס הגלילה בתוך המרווח */
+}
+
+.question::-webkit-scrollbar-thumb::before {
+    content: '';
+    display: block;
+    height: 20%; /* הגדר גובה מקסימלי לפס הגלילה */
+    margin: auto; /* מרכז את ה-thumb כך שהוא לא ימתח לאורך כל פס הגלילה */
+    width: 100%;
+    background-color: rgba(0, 173, 181, 0.4); /* צבע זהה לצבע של פס הגלילה */
+    border-radius: 10px; /* קצוות מעוגלים */
+}
+
+
+/* question scroll bar end */
+
+
+.question.open {
+    overflow-y: auto;
 }
 
 .closed {
@@ -64,13 +107,14 @@ main {
     height: 30dvh;
     min-height: 65px;
     width: 30dvw;
-    padding: 30px 18px;
+    padding: 5%;
     transition: 0.6s ease;
 }
 
 .question-content {
     width: 100%;
     display: inline-block;
+    height: auto;
 }
 
 .question img {
@@ -102,6 +146,11 @@ h2 {
 .open .options {
     /* height: auto; */
     opacity: 1;
+}
+
+.open .explanation {
+    height: auto;
+    margin-top: 0px !important;
 }
 
 #charts {
@@ -151,10 +200,11 @@ h1 {
 .timeline-container {
     overflow-x: auto;
     overflow-y: hidden; /* Disable vertical scroll */
+    direction: ltr;
     white-space: nowrap;
     padding: 20px 0;
     margin: 20px 0;
-    width: 90%;
+    max-width: 100%;
     display: flex;
     justify-content: center; /* Center the timeline */
     z-index: 0;
@@ -223,7 +273,7 @@ h1 {
     position: absolute;
     top: 50%;
     left: 0;
-    width: 100%;
+    width: var(--before-width, 100%); /* השתמש במשתנה CSS דינמי עבור רוחב */
     height: 2px;
     background-color: #00bfa5;
     z-index: 0;
@@ -232,21 +282,9 @@ h1 {
 /* timeline */
 
 /* עיצוב כללי של פס הגלילה */
-.timeline-container {
-    overflow-x: auto;
-    overflow-y: hidden; /* Disable vertical scroll */
-    white-space: nowrap;
-    padding: 20px 0;
-    margin: 20px 0;
-    width: 90%;
-    display: flex;
-    justify-content: center; /* Center the timeline */
-    z-index: 0;
-} 
-
-/* עיצוב פס הגלילה עצמו */
+/* עיצוב כללי של פס הגלילה */
 .timeline-container::-webkit-scrollbar {
-    height: 8px; /* גובה פס הגלילה */
+    height: 6px; /* גובה פס הגלילה */
 }
 
 /* עיצוב מסלול פס הגלילה */
@@ -257,11 +295,44 @@ h1 {
 
 /* עיצוב האגודל של פס הגלילה */
 .timeline-container::-webkit-scrollbar-thumb {
-    background: #888; /* צבע האגודל של הגלילה */
+    background: #bfbfbf; /* צבע האגודל של הגלילה */
     border-radius: 10px; /* פינות מעוגלות לאגודל */
 }
 
 /* עיצוב האגודל של פס הגלילה בעת מעבר עם העכבר */
 .timeline-container::-webkit-scrollbar-thumb:hover {
-    background: #555; /* צבע האגודל בעת מעבר עם העכבר */
+    background: #a0a0a0; /* צבע האגודל בעת מעבר עם העכבר */
+}
+
+@media (max-width: 1000px) {
+    main {
+        flex-direction: column;
+        align-items: center
+    }
+
+    .container {
+        width: 90%;
+    }
+
+    .question.open {
+        width: 55dvw;
+    }
+
+    .question.closed {
+        width: 55dvw;
+    }
+
+    #charts {
+        width: 90%;
+    }
+}
+
+@media (max-width: 600px) {
+    .question.open {
+        width: 75dvw;
+    }
+
+    .question.closed {
+        width: 75dvw;
+    }
 }

@@ -123,11 +123,13 @@ nav {
     }
 
     .mobile-menu.open {
-        height: 35dvh;
+        height: 40dvh;
+        width: 100%;
+        z-index: 100;
     }
 
     .mobile-menu a {
-        padding: 15px;
+        padding: 2%;
         text-decoration: none;
         color: rgba(43, 47, 53, 0.5);
         width: 100%;
@@ -135,7 +137,7 @@ nav {
         display: block;
         text-align: center;
         color: #03a696;
-        height: 7dvh;
+        height: 20%;
     }
 
     .mobile-menu a:hover {

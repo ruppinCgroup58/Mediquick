@@ -13,7 +13,7 @@
     <script src="./../scripts/ajaxCalls.js"></script>
     <!-- Page script -->
     <script src="./../scripts/general-script.js"></script>
-    <script src="./../scripts/personal-page-script.js"></script>
+    <script src="./../scripts/personal-page-script.js" defer></script>
     <!-- Styles -->
     <link rel="stylesheet" href="./../styles/navbar-style.css">
     <link rel="stylesheet" href="./../styles/personal-page-style.css">
@@ -75,9 +75,6 @@
                 <!-- Elements will be dynamically added here -->
             </div>
         </div>
-        <div id="questions-container" class="container">
-            <h2>שאלות מועדפות</h2>
-        </div>
         <div id="charts">
             <div id="TestAverageAndGrades">
                 <span><strong>כמות המבחנים שבוצעו עד כה:</strong></span>
@@ -95,6 +92,9 @@
             <div class="chart-container small-chart">
                 <canvas id="percentageCorrectChart"></canvas>
             </div>
+        </div>
+        <div id="questions-container" class="container">
+            <h2>שאלות מועדפות</h2>
         </div>
     </main>
 </body>

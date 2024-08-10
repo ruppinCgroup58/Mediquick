@@ -3,7 +3,7 @@ var localHostAPI = 'https://localhost:7253/';
 var ruppinServerAPI = 'https://proj.ruppin.ac.il/cgroup58/test2/tar1/';
 let currentURL = window.location.href;
 
-if (currentURL.includes('login') || currentURL.includes('admin')) {
+if (!(currentURL.includes('login') || currentURL.includes('admin'))) {
     function toggleMenu() {
         var menu = document.getElementById('mobileMenu');
         if (menu.classList.contains('open')) {

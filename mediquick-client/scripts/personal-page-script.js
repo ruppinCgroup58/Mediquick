@@ -359,5 +359,11 @@ function displayTestStatsPerMonth(data) {
         itemElement.appendChild(content);
 
         timeline.appendChild(itemElement);
+
+        
     });
+    var timeline = document.querySelector('#timeline');
+            var fullWidth = timeline.scrollWidth; // רוחב הגלילה המלא של האלמנט
+            timeline.style.setProperty('--before-width', fullWidth + 'px'); // הגדרת הרוחב למשתנה CSS
 }
+

@@ -7,10 +7,10 @@ let shuffledQuestion;
 let countdownInterval;
 let testCompleted = false; // משתנה לבדיקה אם המבחן כבר הושלם
 let questionArray = [];
-window.addEventListener('beforeunload', function (event) {
-    if (!testCompleted) {
-        EndTest();
-    }
+window.addEventListener("beforeunload", function (event) {
+  if (!testCompleted) {
+    EndTest();
+  }
 });
 function startTest() {
   let startTestAPI = testAPI + "/userId/" + userConnected;
@@ -35,7 +35,7 @@ function startTest() {
 
 function startTestSCB(testQuestionObject) {
   testID = testQuestionObject.testID; //אובייקט שחוזר מהשרת ומכיל testId ושאר פרטי השאלה
-//   let testContentDiv = document.querySelector(".test-content");
+  //   let testContentDiv = document.querySelector(".test-content");
   let str = "";
   let i = 1;
   str += `<div class="grid-list">`;
@@ -46,10 +46,17 @@ function startTestSCB(testQuestionObject) {
   str += `</div>
             <div id="0" class="question-wrapper"></div>`;
   console.log(str);
-  document.querySelector(".upDiv").innerHTML += AddStringToStart(str, document.querySelector(".upDiv").innerHTML);
-  document.querySelector(".question-wrapper").innerHTML += renderSingleQuestion(testQuestionObject);
+  document.querySelector(".upDiv").innerHTML += AddStringToStart(
+    str,
+    document.querySelector(".upDiv").innerHTML
+  );
+  document.querySelector(".question-wrapper").innerHTML +=
+    renderSingleQuestion(testQuestionObject);
   //testContentDiv.innerHTML = AddStringToStart(str, testContentDiv.innerHTML);
   HandleSelectedAnswer();
+  var testTimeLimit = 60 * 90, // 1.5 hours in seconds
+    countDownDisplay = document.querySelector("#countdown");
+  startCountdown(testTimeLimit, countDownDisplay);
 }
 
 function startTestECB(err) {
@@ -62,7 +69,7 @@ function startCountdown(duration, display) {
     hours,
     minutes,
     seconds;
-    countdownInterval = setInterval(function () {
+  countdownInterval = setInterval(function () {
     hours = parseInt(timer / 3600, 10);
     minutes = parseInt((timer % 3600) / 60, 10);
     seconds = parseInt(timer % 60, 10);
@@ -73,19 +80,14 @@ function startCountdown(duration, display) {
 
     display.textContent = hours + ":" + minutes + ":" + seconds;
 
-      if (--timer < 0) {
-          timer = 0;
-          clearInterval(countdownInterval); // עצור את הטיימר
-          alert("הזמן נגמר!");
-          EndTest(); // קריאה לפונקציית סיום מבחן
-      }
+    if (--timer < 0) {
+      timer = 0;
+      clearInterval(countdownInterval); // עצור את הטיימר
+      alert("הזמן נגמר!");
+      EndTest(); // קריאה לפונקציית סיום מבחן
+    }
   }, 1000);
 }
-
-var testTimeLimit = 60 * 90, // 1.5 hours in seconds
-
-  display = document.querySelector("#countdown");
-startCountdown(testTimeLimit, display);
 
 function AddStringToStart(textToAdd, currentString) {
   return textToAdd + currentString;
@@ -93,8 +95,9 @@ function AddStringToStart(textToAdd, currentString) {
 //Get a question object as input, shuffles the answers and returns it as a string, ready to render
 function renderSingleQuestion(question) {
   shuffledQuestion = shuffleSingleQuestionAnswers(question);
-  document.querySelector('.question-wrapper').dataset.number = questionsCounter;
-  document.querySelector('.question-wrapper').id = shuffledQuestion.questionSerialNumber;
+  document.querySelector(".question-wrapper").dataset.number = questionsCounter;
+  document.querySelector(".question-wrapper").id =
+    shuffledQuestion.questionSerialNumber;
   /*<div id="q-${counter}" class="question-wrapper">*/
   str = "";
   str += `
@@ -139,8 +142,8 @@ function renderSingleQuestion(question) {
                     </li>
                 </ul>
             </div>`;
-            return str;
-            //</div>`;
+  return str;
+  //</div>`;
 }
 
 function shuffleSingleQuestionAnswers(question) {
@@ -166,101 +169,118 @@ function shuffleSingleQuestionAnswers(question) {
 }
 
 function HandleSelectedAnswer() {
-    // בוחרים את כל האלמנטים מסוג p עם המחלקה option
-const options = document.querySelectorAll('.options .option');
+  // בוחרים את כל האלמנטים מסוג p עם המחלקה option
+  const options = document.querySelectorAll(".options .option");
 
-options.forEach(option => {
-    option.addEventListener('click', function() {
-        // הסרת המחלקה selected מכל האפשרויות
-        options.forEach(opt => opt.classList.remove('selected-option'));
+  options.forEach((option) => {
+    option.addEventListener("click", function () {
+      // הסרת המחלקה selected מכל האפשרויות
+      options.forEach((opt) => opt.classList.remove("selected-option"));
 
-        // הוספת המחלקה selected לאלמנט שנלחץ
-        this.classList.add('selected-option');
-        chosenAnswerIndex = this.dataset.number;
+      // הוספת המחלקה selected לאלמנט שנלחץ
+      this.classList.add("selected-option");
+      chosenAnswerIndex = this.dataset.number;
     });
-});
+  });
 }
 
 function GoToNextQuestion() {
-    let chosenAnswerIndex = document.querySelector('.selected-option').dataset.number;
+  let chosenAnswerIndex =
+    document.querySelector(".selected-option").dataset.number;
 
-    let testReq = {
-        userId: userConnected,
-        testId: testID,
-        questionId: document.querySelector('.question-wrapper').id,
-        isCorrect: shuffledQuestion.shuffledAnswers[chosenAnswerIndex].isCorrect,
-        lastQ: false
-    }
-    let testNextQuestionAPI = localHostAPI + "HandleTestQuestionAnswer";
-    ajaxCall("POST", testNextQuestionAPI, JSON.stringify(testReq), GoToNextQuestionSCB, GoToNextQuestionECB)
+  let testReq = {
+    userId: userConnected,
+    testId: testID,
+    questionId: document.querySelector(".question-wrapper").id,
+    isCorrect: shuffledQuestion.shuffledAnswers[chosenAnswerIndex].isCorrect,
+    lastQ: false,
+  };
+  let testNextQuestionAPI = localHostAPI + "HandleTestQuestionAnswer";
+  ajaxCall(
+    "POST",
+    testNextQuestionAPI,
+    JSON.stringify(testReq),
+    GoToNextQuestionSCB,
+    GoToNextQuestionECB
+  );
 
-    //graphics grid
-    let currentQuestionIndex = document.querySelector('.question-wrapper').dataset.number;
-    document.querySelector(`[data-number="${currentQuestionIndex}"]`).classList.add("q-answered")
+  //graphics grid
+  let currentQuestionIndex =
+    document.querySelector(".question-wrapper").dataset.number;
+  document
+    .querySelector(`[data-number="${currentQuestionIndex}"]`)
+    .classList.add("q-answered");
 
-    chosenAnswerIndex = -1;
-    if (currentQuestionIndex == 29) {
-        document.getElementById("GoToNextQuestion").style.display = "none";
-    }
+  chosenAnswerIndex = -1;
+  if (currentQuestionIndex == 29) {
+    document.getElementById("GoToNextQuestion").style.display = "none";
+  }
 }
 
 function GoToNextQuestionSCB(data) {
-    //console.log(data);
-    questionArray.push(data);
-    document.querySelector(".question-wrapper").innerHTML = renderSingleQuestion(data);
-    
-    HandleSelectedAnswer();
+  //console.log(data);
+  questionArray.push(data);
+  document.querySelector(".question-wrapper").innerHTML =
+    renderSingleQuestion(data);
 
+  HandleSelectedAnswer();
 }
 
 function GoToNextQuestionECB(err) {
-    alert(err.statusText);
+  alert(err.statusText);
 }
 
-
 function EndTest() {
-    if (testCompleted) return; // להבטיח שהפונקציה לא מופעלת פעמיים
+  if (testCompleted) return; // להבטיח שהפונקציה לא מופעלת פעמיים
 
-    testCompleted = true; // שינוי המשתנה כך שהמבחן יסומן כושלם
+  testCompleted = true; // שינוי המשתנה כך שהמבחן יסומן כושלם
 
-    let selectedOptionElement = document.querySelector('.selected-option');
+  let selectedOptionElement = document.querySelector(".selected-option");
 
-    if (selectedOptionElement) {
-        let chosenAnswerIndex = selectedOptionElement.dataset.number;
+  if (selectedOptionElement) {
+    let chosenAnswerIndex = selectedOptionElement.dataset.number;
 
-        let testReq = {
-            userId: userConnected,
-            testId: testID,
-            questionId: document.querySelector('.question-wrapper').id,
-            isCorrect: shuffledQuestion.shuffledAnswers[chosenAnswerIndex].isCorrect,
-            lastQ: true
-        }
+    let testReq = {
+      userId: userConnected,
+      testId: testID,
+      questionId: document.querySelector(".question-wrapper").id,
+      isCorrect: shuffledQuestion.shuffledAnswers[chosenAnswerIndex].isCorrect,
+      lastQ: true,
+    };
 
-        let testNextQuestionAPI = localHostAPI + "HandleTestQuestionAnswer";
-        ajaxCall("POST", testNextQuestionAPI, JSON.stringify(testReq), function () {
-            // graphics grid
-            let currentQuestionIndex = document.querySelector('.question-wrapper').dataset.number;
-            document.querySelector(`[data-number="${currentQuestionIndex}"]`).classList.add("q-answered");
+    let testNextQuestionAPI = localHostAPI + "HandleTestQuestionAnswer";
+    ajaxCall(
+      "POST",
+      testNextQuestionAPI,
+      JSON.stringify(testReq),
+      function () {
+        // graphics grid
+        let currentQuestionIndex =
+          document.querySelector(".question-wrapper").dataset.number;
+        document
+          .querySelector(`[data-number="${currentQuestionIndex}"]`)
+          .classList.add("q-answered");
 
-            chosenAnswerIndex = -1;
+        chosenAnswerIndex = -1;
 
-            submitEndTest(); // Call to end the test after submitting the last answer
-        }, GoToNextQuestionECB);
-    } else {
-        submitEndTest();
-    }
+        submitEndTest(); // Call to end the test after submitting the last answer
+      },
+      GoToNextQuestionECB
+    );
+  } else {
+    submitEndTest();
+  }
 }
 
 function submitEndTest() {
-    let endTestAPI = localHostAPI + "api/Tests/testId/" + testID;
-    ajaxCall("POST", endTestAPI, userConnected, endTestSCB, endTestECB);
+  let endTestAPI = localHostAPI + "api/Tests/testId/" + testID;
+  ajaxCall("POST", endTestAPI, userConnected, endTestSCB, endTestECB);
 }
 
 function endTestSCB() {
-    window.location.href = "./forum.html";
-
+  window.location.href = "./forum.html";
 }
 
 function endTestECB(err) {
-  alert(err.statusText)
+  alert(err.statusText);
 }
