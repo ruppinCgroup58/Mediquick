@@ -43,50 +43,47 @@ main {
 .question {
     border: 1px solid rgba(0, 0, 0, 0.6);
     border-radius: 15px;
-    padding: 15px;
+    padding: 3%;
     margin: 8px;
     transition: 0.3s ease;
     overflow: hidden;
     display: flex;
     align-items: start;
     justify-content: space-between;
-    /* transition: align-items 0.6s;
-    transition: height 0.6s ease;
-    transition: max-height 0.6s ease;*/
+    transition: background-color 0.5s ease;
+    position: relative; /* נדרש כדי לשלוט בפס הגלילה */
 
-    /* scrollbar-width: thin;  /* Firefox */
-    /* scrollbar-color: rgba(3, 166, 150,0.2) transparent;  */
 }
 
 /* question scroll bar start */
 
-/* מסתיר את החצים בקצוות פס הגלילה */
-/* .question::-webkit-scrollbar-button {
-    display: none;
-} */
-
 .question::-webkit-scrollbar {
-    width: 7px; /* רוחב פס הגלילה */
+    width: 10px;
+    opacity: 0.5;
+}
+
+.question::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 20px;
+    margin-block: 0.5em;
     
 }
 
 .question::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 173, 181, 0.4); /* צבע כהה חצי שקוף */
-    border-radius: 10px; /* קצוות מעוגלים */
-    border: 2px solid transparent; /* מרווח סביב פס הגלילה */
-    background-clip: content-box; /* תוחם את פס הגלילה בתוך המרווח */
+    background-color: rgba(52, 147, 138, 0);
+    transition: background-color 1.5s ease;
+    border-radius: 100px;
+    border: 3px solid white;
 }
 
-.question::-webkit-scrollbar-thumb::before {
-    content: '';
-    display: block;
-    height: 20%; /* הגדר גובה מקסימלי לפס הגלילה */
-    margin: auto; /* מרכז את ה-thumb כך שהוא לא ימתח לאורך כל פס הגלילה */
-    width: 100%;
-    background-color: rgba(0, 173, 181, 0.4); /* צבע זהה לצבע של פס הגלילה */
-    border-radius: 10px; /* קצוות מעוגלים */
+.question:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(52, 147, 138, 0.5);
+    /* transition: background-color 1.5s ease; */
 }
 
+.timeline::-webkit-scrollbar {
+    height: 6px;
+}
 
 /* question scroll bar end */
 
@@ -107,7 +104,7 @@ main {
     height: 30dvh;
     min-height: 65px;
     width: 30dvw;
-    padding: 5%;
+    padding: 3%;
     transition: 0.6s ease;
 }
 
@@ -181,6 +178,10 @@ h2 {
 #percentageCorrectChart {
     width: 100%;
     height: 100%;;
+}
+
+.icon {
+    margin: 1%
 }
 
 
@@ -281,28 +282,6 @@ h1 {
 }
 /* timeline */
 
-/* עיצוב כללי של פס הגלילה */
-/* עיצוב כללי של פס הגלילה */
-.timeline-container::-webkit-scrollbar {
-    height: 6px; /* גובה פס הגלילה */
-}
-
-/* עיצוב מסלול פס הגלילה */
-.timeline-container::-webkit-scrollbar-track {
-    background: #f1f1f1; /* צבע הרקע של מסלול הגלילה */
-    border-radius: 10px; /* פינות מעוגלות למסלול הגלילה */
-}
-
-/* עיצוב האגודל של פס הגלילה */
-.timeline-container::-webkit-scrollbar-thumb {
-    background: #bfbfbf; /* צבע האגודל של הגלילה */
-    border-radius: 10px; /* פינות מעוגלות לאגודל */
-}
-
-/* עיצוב האגודל של פס הגלילה בעת מעבר עם העכבר */
-.timeline-container::-webkit-scrollbar-thumb:hover {
-    background: #a0a0a0; /* צבע האגודל בעת מעבר עם העכבר */
-}
 
 @media (max-width: 1000px) {
     main {
