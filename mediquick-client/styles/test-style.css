@@ -162,6 +162,7 @@ li {
 .instructions {
     max-width: 70%;
     padding: 14px;
+    text-align:center;
 }
 
 .pre-test {
