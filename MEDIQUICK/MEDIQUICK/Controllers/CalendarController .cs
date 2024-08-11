@@ -1,41 +1,50 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace MEDIQUICK.Controllers
+[Route("api/[controller]")]
+[ApiController]
+public class TasksController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class TasksController : ControllerBase
+    private readonly DBServices _dbServices = new DBServices();
+
+    // GET: api/Tasks/GetTaskByDate
+    [HttpGet("GetTaskByDate")]
+    public ActionResult<TaskModel> GetTaskByDate(string userId, System.DateTime date)
     {
-        private DBServices dbServices = new DBServices();
+        TaskModel task = _dbServices.GetTaskByDate(userId, date);
 
-        [HttpPost]
-        public IActionResult SaveTask([FromBody] TaskModel taskModel)
+        if (task == null)
         {
-            dbServices.SaveTask(taskModel.UserId, taskModel.Date, taskModel.Task);
-            return Ok(new { message = "Task saved successfully" });
+            return NotFound();
         }
 
-        [HttpGet("{userId}/{date}")]
-        public IActionResult GetTask(string userId, string date)
-        {
-            string task = dbServices.GetTask(userId, date);
-            return Ok(new { task });
-        }
-
-        [HttpDelete("{userId}/{date}")]
-        public IActionResult DeleteTask(string userId, string date)
-        {
-            dbServices.DeleteTask(userId, date);
-            return Ok(new { message = "Task deleted successfully" });
-        }
+        return Ok(task);
     }
 
-    public class TaskModel
+    // POST: api/Tasks/SaveTask
+    [HttpPost("SaveTask")]
+    public ActionResult SaveTask([FromBody] TaskModel task)
     {
-        public string UserId { get; set; }
-        public string Date { get; set; }
-        public string Task { get; set; }
+        int result = _dbServices.SaveTask(task);
+
+        if (result > 0)
+        {
+            return Ok();
+        }
+
+        return BadRequest("Failed to save task.");
     }
 
+    // DELETE: api/Tasks/DeleteTask/{id}
+    [HttpDelete("DeleteTask/{id}")]
+    public ActionResult DeleteTaskCalender(int id)
+    {
+        int result = _dbServices.DeleteTask(id);
+
+        if (result > 0)
+        {
+            return Ok();
+        }
+
+        return NotFound("Task not found.");
+    }
 }

@@ -36,7 +36,6 @@
             var existingTask = _tasks.FirstOrDefault(t => t.Id == id);
             if (existingTask != null)
             {
-                existingTask.Title = task.Title;
                 existingTask.Description = task.Description;
                 existingTask.Date = task.Date;
                 return existingTask;
@@ -45,11 +44,12 @@
         }
     }
 
-    public class TaskModel
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public DateTime Date { get; set; }
-    }
+public class TaskModel
+{
+    public int Id { get; set; }
+    public string UserId { get; set; }
+    public DateTime Date { get; set; }
+    public string Description { get; set; }
+}
+
 
