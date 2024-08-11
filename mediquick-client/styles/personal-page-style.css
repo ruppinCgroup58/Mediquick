@@ -25,7 +25,7 @@ main {
 
 .container {
     direction: rtl;
-    display: flex;
+    /*display: flex;*/
     flex-direction: column;
     align-items: center;
     flex-wrap: wrap;
@@ -121,9 +121,11 @@ main {
 
 h2 {
     color: #03a696;
+    width:100%;
     margin: 0;
     margin-top: 10px;
     text-align: center;
+    padding:10px;
 }
 
 .question-wrapper {
@@ -156,7 +158,7 @@ h2 {
     justify-content: flex-start;
     flex-direction: column;
     align-items: center;
-    width: 60%;
+    width: 55%;
     padding: 25px;
 }
 
@@ -339,11 +341,13 @@ h1 {
 
 
 #calendar-container {
-    width: 600px;
+    width: 70%;
+    align-content:center;
     height: 500px;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin:50px;
     padding:20px;
 }
 
@@ -423,3 +427,42 @@ h1 {
     .tooltip button {
         margin-right: 5px;
     }
+
+
+
+#questions-container {
+    max-height: 1010px;
+    width:520px;
+    overflow-y: auto; /* אפשר גלילה אנכית */
+    direction: rtl; /* הגדר כיוון גלילה מימין לשמאל */
+    overflow-x: hidden; /* מניעת גלילה אופקית */
+    position: relative;
+    margin:30px;
+    align-content:center;
+}
+
+#questions-container::-webkit-scrollbar {
+    direction: ltr; /* כיוון הגלילה */
+    width: 10px; /* רוחב פס הגלילה */
+    opacity: 0.5;
+
+}
+
+
+#questions-container::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 20px;
+    margin-block: 0.5em;
+}
+
+#questions-container::-webkit-scrollbar-thumb {
+    background-color: rgba(52, 147, 138, 0);
+    transition: background-color 1.5s ease;
+    border-radius: 100px;
+    border: 3px solid white;
+}
+
+#questions-container:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(52, 147, 138, 0.5);
+    /* transition: background-color 1.5s ease; */
+}

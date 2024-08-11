@@ -29,6 +29,19 @@ namespace MEDIQUICK.Controllers
             return new Test().CalculateAndUpdateScoreAndGetDuration(testId);
         }
 
+
+        [HttpGet("GetTestSummary/{testId}")]
+        public Object GetTestSummary(int testId)
+        {
+            return new Test().GetTestSummary(testId);
+        }
+
+        [HttpGet("GetQuestionDetailsInTest/{testId}")]
+        public Object GetQuestionDetailsInTest(int testId)
+        {
+            return new Test().GetQuestionDetailsInTest(testId);
+        }
+
         // POST api/<TestsController>
         [HttpPost]
         public void Post([FromBody] string value)

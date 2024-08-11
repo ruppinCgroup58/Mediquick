@@ -267,8 +267,35 @@ function EndTest() {
       },
       GoToNextQuestionECB
     );
-  } else {
-    submitEndTest();
+  }
+  else {
+      let testReq = {
+          userId: userConnected,
+          testId: testID,
+          questionId: document.querySelector(".question-wrapper").id,
+          isCorrect: false,
+          lastQ: true,
+      };
+
+      let testNextQuestionAPI = localHostAPI + "HandleTestQuestionAnswer";
+      ajaxCall(
+          "POST",
+          testNextQuestionAPI,
+          JSON.stringify(testReq),
+          function () {
+              // graphics grid
+              let currentQuestionIndex =
+                  document.querySelector(".question-wrapper").dataset.number;
+              document
+                  .querySelector(`[data-number="${currentQuestionIndex}"]`)
+                  .classList.add("q-answered");
+
+              chosenAnswerIndex = -1;
+
+              submitEndTest(); // Call to end the test after submitting the last answer
+          },
+          GoToNextQuestionECB
+      );
   }
 }
 
@@ -278,7 +305,7 @@ function submitEndTest() {
 }
 
 function endTestSCB() {
-  window.location.href = "./forum.html";
+    window.location.href = `./testSummary.html?testId=${testID}`;
 }
 
 function endTestECB(err) {

@@ -1812,6 +1812,115 @@ public class DBServices
             }
         }
     }
+
+
+    public Object GetTestSummary(int testId)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        List<Object> objectList = new List<Object>();       
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = GetTestSummaryWithStoredProcedureWithParameters("sp_Stat_Test_GetTestSummary", con, testId);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            while (dataReader.Read())
+            {
+                objectList.Add(new
+                {
+                    TestID = Convert.ToInt32(dataReader["TestID"]),
+                    topicid = Convert.ToInt32(dataReader["topicid"]),
+                    TopicName = dataReader["TopicName"].ToString(),
+                    TotalQuestions = Convert.ToInt32(dataReader["TotalQuestions"]),
+                    CorrectAnswers = Convert.ToInt32(dataReader["CorrectAnswers"]),
+                    AverageResponseTimeSeconds = Convert.ToInt32(dataReader["AverageResponseTimeSeconds"])
+                });
+            }
+            return objectList;
+        }
+
+
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+
+    public Object GetQuestionDetailsInTest(int testId)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        List<Object> objectList = new List<Object>();
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = GetQuestionDetailsInTestWithStoredProcedureWithParameters("sp_Stat_Test_GetQuestionDetailsInTest", con, testId);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+            while (dataReader.Read())
+            {
+                objectList.Add(new
+                {
+                    Content = dataReader["content"].ToString(),
+                    QuestionNumber = Convert.ToInt32(dataReader["QuestionNumber"]),
+                    TopicID = Convert.ToInt32(dataReader["TopicID"]),
+                    TopicName = dataReader["TopicName"].ToString(),
+                    DifficultyLevel = Convert.ToInt32(dataReader["DifficultyLevel"]),
+                    ResponseTimeSeconds = Convert.ToInt32(dataReader["ResponseTimeSeconds"]),
+                    IsAnswerCorrect = Convert.ToBoolean(dataReader["IsAnswerCorrect"]),
+                    Explanation = dataReader["Explanation"].ToString()
+
+                });
+            }
+            return objectList;
+        }
+
+
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
     private SqlCommand CreateTestWithStoredProcedure(String spName, SqlConnection con, int userId)
     {
 
@@ -1885,6 +1994,40 @@ public class DBServices
     }
 
     private SqlCommand CalculateAndUpdateScoreAndGetDurationWithStoredProcedureWithParameters(String spName, SqlConnection con, int testId)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@TestID", testId);
+        return cmd;
+    }
+     private SqlCommand GetTestSummaryWithStoredProcedureWithParameters(String spName, SqlConnection con, int testId)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@TestID", testId);
+        return cmd;
+    }
+
+
+    private SqlCommand GetQuestionDetailsInTestWithStoredProcedureWithParameters(String spName, SqlConnection con, int testId)
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
