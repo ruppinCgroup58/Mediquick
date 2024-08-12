@@ -410,7 +410,150 @@ function displayTestStatsPerMonth(data) {
             timeline.style.setProperty('--before-width', fullWidth + 'px'); // הגדרת הרוחב למשתנה CSS
 }
 
-/*        לוח שנה*/
+///*        לוח שנה*/
+//const calendarDates = document.getElementById('calendar-dates');
+//const monthYear = document.getElementById('month-year');
+//const prevMonth = document.getElementById('prev-month');
+//const nextMonth = document.getElementById('next-month');
+//const taskTooltip = document.getElementById('task-tooltip');
+//const taskInput = document.getElementById('task-input');
+//const saveTask = document.getElementById('save-task');
+//const cancelTask = document.getElementById('cancel-task');
+
+//let currentMonth = new Date().getMonth();
+//let currentYear = new Date().getFullYear();
+//let selectedDateElement = null;
+//let userId = userConnected;// מקבל את המזהה של המשתמש המחובר
+
+//const monthNames = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
+
+//function renderCalendar(month, year) {
+//    const firstDay = new Date(year, month, 1).getDay();
+//    const lastDate = new Date(year, month + 1, 0).getDate();
+
+//    calendarDates.innerHTML = '';
+
+//    // Fill the dates before the first day of the month
+//    for (let i = 0; i < firstDay; i++) {
+//        calendarDates.innerHTML += `<div></div>`;
+//    }
+
+//    // Fill the dates of the current month
+//    for (let i = 1; i <= lastDate; i++) {
+//        const taskKey = `${year}-${month + 1}-${i}`;
+//        calendarDates.innerHTML += `<div class="date" data-date="${taskKey}">${i}</div>`;
+//    }
+
+//    monthYear.textContent = `${monthNames[month]} ${year}`;
+
+//    // Add event listeners for each date
+//    const dateElements = document.querySelectorAll('.date');
+//    dateElements.forEach(dateElement => {
+//        dateElement.addEventListener('click', (e) => {
+//            showTaskTooltip(e, dateElement);
+//            fetchTaskForDate(dateElement.dataset.date); // Fetch task for this date from the server
+//        });
+//    });
+//}
+
+//function showTaskTooltip(e, dateElement) {
+//    selectedDateElement = dateElement;
+//    taskInput.value = ''; // Clear input before showing tooltip
+//    taskTooltip.style.display = 'block';
+//    taskTooltip.style.left = `${e.pageX}px`;
+//    taskTooltip.style.top = `${e.pageY}px`;
+//}
+
+//function hideTaskTooltip() {
+//    taskTooltip.style.display = 'none';
+//}
+
+function saveTaskForDate() {
+    const taskDescription = taskInput.value; // קח את התוכן מהשדה
+    const taskDate = selectedDateElement.dataset.date; // קח את התאריך מהתאריך הנבחר
+
+    if (taskDescription) {
+        fetch(`${localHostAPI}api/calendarTasks/AddTask/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                taskDescription1: taskDescription, // שם השדה תואם למודל בשרת
+                taskDate: taskDate // התאריך שמועבר לשרת
+            })
+        })
+            .then(response => response.json()) // מצפה לקבל JSON
+            .then(data => {
+                if (data && data.success) {
+                    console.log('Task saved successfully.');
+                    selectedDateElement.classList.add('task-exists');
+                    renderCalendar(currentMonth, currentYear); // רנדר מחדש את לוח השנה
+                } else {
+                    console.error('Failed to save task.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    } else {
+        deleteTaskForDate(dateKey); // אם התוכן ריק, מחק את המשימה
+    }
+
+    hideTaskTooltip();
+}
+
+
+
+//// Fetch task from server for a specific date
+//function fetchTaskForDate(date) {
+//    fetch(`/api/tasks/${userId}/${date}`)
+//        .then(response => response.json())
+//        .then(task => {
+//            if (task.task) {
+//                taskInput.value = task.task;
+//                selectedDateElement.classList.add('task-exists');
+//            } else {
+//                selectedDateElement.classList.remove('task-exists');
+//            }
+//        })
+//        .catch(error => console.error('Error:', error));
+//}
+
+//// Delete task from server for a specific date
+//function deleteTaskForDate(date) {
+//    fetch(`/api/tasks/${userId}/${date}`, {
+//        method: 'DELETE'
+//    })
+//        .then(response => response.json())
+//        .then(data => {
+//            console.log(data.message);
+//            selectedDateElement.classList.remove('task-exists');
+//        })
+//        .catch(error => console.error('Error:', error));
+//}
+
+//prevMonth.addEventListener('click', () => {
+//    currentMonth--;
+//    if (currentMonth < 0) {
+//        currentMonth = 11;
+//        currentYear--;
+//    }
+//    renderCalendar(currentMonth, currentYear);
+//});
+
+//nextMonth.addEventListener('click', () => {
+//    currentMonth++;
+//    if (currentMonth > 11) {
+//        currentMonth = 0;
+//        currentYear++;
+//    }
+//    renderCalendar(currentMonth, currentYear);
+//});
+
+//saveTask.addEventListener('click', saveTaskForDate);
+//cancelTask.addEventListener('click', hideTaskTooltip);
+
+//renderCalendar(currentMonth, currentYear);
+
 const calendarDates = document.getElementById('calendar-dates');
 const monthYear = document.getElementById('month-year');
 const prevMonth = document.getElementById('prev-month');
@@ -423,7 +566,7 @@ const cancelTask = document.getElementById('cancel-task');
 let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 let selectedDateElement = null;
-let userId = userConnected;// מקבל את המזהה של המשתמש המחובר
+let userId = userConnected; // מזהה המשתמש המחובר
 
 const monthNames = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
 
@@ -433,32 +576,38 @@ function renderCalendar(month, year) {
 
     calendarDates.innerHTML = '';
 
-    // Fill the dates before the first day of the month
+    // מילוי הימים לפני היום הראשון של החודש
     for (let i = 0; i < firstDay; i++) {
         calendarDates.innerHTML += `<div></div>`;
     }
 
-    // Fill the dates of the current month
+    // מילוי הימים של החודש הנוכחי עם פורמט תאריך נכון (YYYY-MM-DD)
     for (let i = 1; i <= lastDate; i++) {
-        const taskKey = `${year}-${month + 1}-${i}`;
+        const day = i.toString().padStart(2, '0'); // הוספת אפס בתחילת המספר אם הוא חד-ספרתי
+        const monthFormatted = (month + 1).toString().padStart(2, '0'); // אותו דבר לחודש
+        const taskKey = `${year}-${monthFormatted}-${day}`;
         calendarDates.innerHTML += `<div class="date" data-date="${taskKey}">${i}</div>`;
     }
 
     monthYear.textContent = `${monthNames[month]} ${year}`;
 
-    // Add event listeners for each date
+    // הוספת מאזיני אירועים לכל תאריך
     const dateElements = document.querySelectorAll('.date');
     dateElements.forEach(dateElement => {
         dateElement.addEventListener('click', (e) => {
             showTaskTooltip(e, dateElement);
-            fetchTaskForDate(dateElement.dataset.date); // Fetch task for this date from the server
+            fetchTaskForDate(dateElement.dataset.date); // שליפת משימה לתאריך הזה מהשרת
         });
     });
+
+    // שליפת כל המשימות והצבתן בלוח השנה
+    fetchAllTasksForUser();
 }
+
 
 function showTaskTooltip(e, dateElement) {
     selectedDateElement = dateElement;
-    taskInput.value = ''; // Clear input before showing tooltip
+    taskInput.value = ''; // איפוס השדה לפני הצגת הכלי
     taskTooltip.style.display = 'block';
     taskTooltip.style.left = `${e.pageX}px`;
     taskTooltip.style.top = `${e.pageY}px`;
@@ -468,39 +617,17 @@ function hideTaskTooltip() {
     taskTooltip.style.display = 'none';
 }
 
-function saveTaskForDate() {
-    const task = taskInput.value;
-    const dateKey = selectedDateElement.dataset.date;
 
-    if (task) {
-        fetch('/api/tasks', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ userId: userId, date: dateKey, task: task })
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data.message);
-                selectedDateElement.classList.add('task-exists');
-            })
-            .catch(error => console.error('Error:', error));
-    } else {
-        deleteTaskForDate(dateKey); // If the task is empty, delete it from the server
-    }
-
-    hideTaskTooltip();
-}
-
-// Fetch task from server for a specific date
 function fetchTaskForDate(date) {
-    fetch(`/api/tasks/${userId}/${date}`)
+    apiGetTasks = localHostAPI + `api/calendarTasks/GetTaskByUser?userId=${userId}`;
+    fetch(apiGetTasks)
         .then(response => response.json())
-        .then(task => {
-            if (task.task) {
+        .then(tasks => {
+            const task = tasks.find(t => t.taskDate === date);
+            if (task && task.task) {
                 taskInput.value = task.task;
                 selectedDateElement.classList.add('task-exists');
+                selectedDateElement.title = task.task; // הצגת התוכן ב-Tooltip
             } else {
                 selectedDateElement.classList.remove('task-exists');
             }
@@ -508,18 +635,102 @@ function fetchTaskForDate(date) {
         .catch(error => console.error('Error:', error));
 }
 
-// Delete task from server for a specific date
-function deleteTaskForDate(date) {
-    fetch(`/api/tasks/${userId}/${date}`, {
-        method: 'DELETE'
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data.message);
-            selectedDateElement.classList.remove('task-exists');
+function deleteTaskForDate(taskId) {
+    apiDeleteTask = localHostAPI + `api/calendarTasks/makeTaskInActive/${taskId}`;
+
+        fetch(apiDeleteTask, {
+            method: 'PATCH'
         })
-        .catch(error => console.error('Error:', error));
+            .then(response => response.json())
+            .then(success => {
+                if (success) {  // אם המחיקה הצליחה
+                    console.log('Task deleted successfully.');
+
+                    // רנדר מחדש את כל המשימות על המסך
+                    renderCalendar(currentMonth, currentYear);
+                } else {
+                    console.error('Failed to delete task.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+//function fetchTasksForMonth(year, month) {
+//    const apiGetTasks = localHostAPI + `api/calendarTasks/GetTaskByUser?userId=${userId}`;
+//    fetch(apiGetTasks)
+//        .then(response => response.json())
+//        .then(tasks => {
+//            tasks.forEach(task => {
+//                if (task.taskDate) {
+//                    const formattedDate = task.taskDate.split('T')[0];
+//                    console.log("Formatted task date:", formattedDate);
+
+//                    const dateElement = document.querySelector(`[data-date="${formattedDate}"]`);
+//                    if (dateElement) {
+//                        console.log("Date element found:", dateElement);
+
+//                        const taskButton = document.createElement('button');
+//                        taskButton.classList.add('task-button');
+//                        taskButton.title = task.description;
+//                        taskButton.textContent = '•'; // סימן נקודה כדי לוודא שהכפתור מופיע
+//                        taskButton.addEventListener('click', (e) => {
+//                            e.stopPropagation();
+//                            showOptionsMenu(e, task);
+//                        });
+
+//                        dateElement.appendChild(taskButton);
+//                        console.log("Task button added:", taskButton);
+//                    } else {
+//                        console.error("Date element not found for date:", formattedDate);
+//                    }
+//                } else {
+//                    console.error("taskDate is undefined for task:", task);
+//                }
+//            });
+//        })
+//        .catch(error => console.error('Error fetching tasks:', error));
+//}
+function fetchAllTasksForUser() {
+    const apiGetTasks = localHostAPI + `api/calendarTasks/GetTaskByUser?userId=${userId}`;
+    fetch(apiGetTasks)
+        .then(response => response.json())
+        .then(tasks => {
+            tasks.forEach(task => {
+                if (task.taskDate) {
+                    const formattedDate = task.taskDate.split('T')[0];
+                    console.log("Formatted task date:", formattedDate);
+
+                    const dateElement = document.querySelector(`[data-date="${formattedDate}"]`);
+                    if (dateElement) {
+                        console.log("Date element found:", dateElement);
+
+                        // יצירת כפתור משימה עבור כל משימה באותו תאריך
+                        const taskButton = document.createElement('button');
+                        taskButton.classList.add('task-button');
+                        taskButton.title = task.description;
+                        taskButton.textContent = '•'; // סימן נקודה כדי לוודא שהכפתור מופיע
+                        taskButton.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            showOptionsMenu(e, task);
+                        });
+
+                        // הוספת כפתור המשימה לתא התאריך בלוח השנה
+                        dateElement.appendChild(taskButton);
+                        console.log("Task button added:", taskButton);
+                    } else {
+                        console.error("Date element not found for date:", formattedDate);
+                    }
+                } else {
+                    console.error("taskDate is undefined for task:", task);
+                }
+            });
+        })
+        .catch(error => console.error('Error fetching tasks:', error));
 }
+
+
+
+
 
 prevMonth.addEventListener('click', () => {
     currentMonth--;
@@ -543,3 +754,124 @@ saveTask.addEventListener('click', saveTaskForDate);
 cancelTask.addEventListener('click', hideTaskTooltip);
 
 renderCalendar(currentMonth, currentYear);
+
+function showEditTaskForm(task) {
+    // יצירת טופס לעריכה
+    const form = document.createElement('div');
+    form.classList.add('edit-task-form');
+
+    form.innerHTML = `
+        <label for="task-date">תאריך:</label>
+        <input type="date" id="task-date" value="${task.taskDate.split('T')[0]}">
+        <label for="task-description">תוכן:</label>
+        <input type="text" id="task-description" value="${task.description}">
+        <button id="save-edit">שמור</button>
+        <button id="cancel-edit">בטל</button>
+    `;
+
+    document.body.appendChild(form);
+
+    // מאזין לאירוע שמירה
+    document.getElementById('save-edit').addEventListener('click', () => {
+        const updatedTask = {
+            taskId: task.taskId,
+            taskDate: document.getElementById('task-date').value,
+            taskDescription1: document.getElementById('task-description').value
+        };
+        updateTask(updatedTask);
+    });
+
+    // מאזין לאירוע ביטול
+    document.getElementById('cancel-edit').addEventListener('click', () => {
+        form.remove();
+    });
+}
+
+function updateTask(task) {
+    const apiUpdateTask = localHostAPI + `api/calendarTasks/updateTask`;
+
+    fetch(apiUpdateTask, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(task)
+    })
+        .then(response => response.json())
+        .then(success => {
+            if (success) {  // אם העדכון הצליח
+                console.log('Task updated successfully.');
+                renderCalendar(currentMonth, currentYear); // רנדר מחדש את כל המשימות על המסך
+
+                // סגור את הטופס לאחר העדכון
+                const form = document.querySelector('.edit-task-form');
+                if (form) {
+                    form.remove();
+                }
+            } else {
+                console.error('Failed to update task.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+
+
+function showOptionsMenu(event, task) {
+    // בדיקה אם כבר קיים תפריט אופציות, אם כן נמחוק אותו
+    let existingMenu = document.querySelector('.options-menu');
+    if (existingMenu) {
+        existingMenu.remove();
+    }
+
+    // יצירת דיב עבור תפריט האופציות
+    const optionsMenu = document.createElement('div');
+    optionsMenu.classList.add('options-menu');
+
+    // יצירת כפתור עריכה
+    const editButton = document.createElement('button');
+    editButton.textContent = 'עריכה';
+    editButton.addEventListener('click', () => {
+        // הצגת טופס לעריכת התאריך והתוכן
+        showEditTaskForm(task);
+    });
+
+    // יצירת כפתור מחיקה
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'מחיקה';
+    deleteButton.addEventListener('click', () => {
+        deleteTaskForDate(task.taskId);
+    });
+
+    // הוספת הכפתורים לתפריט
+    optionsMenu.appendChild(editButton);
+    optionsMenu.appendChild(deleteButton);
+
+    // מיקום התפריט בהתאם ללחיצה
+    optionsMenu.style.left = `${event.pageX}px`;
+    optionsMenu.style.top = `${event.pageY}px`;
+
+    // הוספת התפריט לדף
+    document.body.appendChild(optionsMenu);
+
+    // הפיכת התפריט לנראה
+    setTimeout(() => {
+        optionsMenu.classList.add('active');
+    }, 0);
+}
+
+// פונקציה להסתיר את התפריט כשנלחץ מחוץ לו
+document.addEventListener('click', function (event) {
+    let optionsMenu = document.querySelector('.options-menu');
+    if (optionsMenu && !optionsMenu.contains(event.target)) {
+        optionsMenu.remove();
+    }
+});
+
+// פונקציה להסתיר את התפריט כשנלחץ מחוץ לו
+document.addEventListener('click', function (event) {
+    let optionsMenu = document.querySelector('.options-menu');
+    if (optionsMenu && !optionsMenu.contains(event.target)) {
+        optionsMenu.remove();
+    }
+});

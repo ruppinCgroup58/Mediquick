@@ -1,10 +1,13 @@
 ﻿const urlParams = new URLSearchParams(window.location.search);
 const TESTID = urlParams.get('testId');
+const userId = sessionStorage.getItem('id');
 
 $(document).ready(function () {
     calculateAndUpdateScoreAndGetDuration(TESTID);
     getTestSummary(TESTID);
     getQuestionDetailsInTest(TESTID);
+    saveHtmlSummary(TESTID, userId);
+
 });
 
 function calculateAndUpdateScoreAndGetDuration(testId) {
@@ -136,3 +139,93 @@ function renderQuestionDetails(questions) {
 
 }
 
+//document.getElementById('save-pdf-btn').addEventListener('click', function () {
+//    // תופס את האלמנט שברצונך להמיר ל-PDF
+//    const element = document.querySelector('.container');
+
+//    // יצירת תאריך נוכחי בפורמט YYYY-MM-DD
+//    const today = new Date();
+//    const formattedDate = today.toISOString().slice(0, 10); // מחזיר YYYY-MM-DD
+
+//    // יצירת שם קובץ עם התאריך
+//    const fileName = `test-summary-${formattedDate}.pdf`;
+
+//    // המרת האלמנט ל-PDF ושמירתו כ-Blob
+//    html2pdf()
+//        .from(element)
+//        .set({
+//            margin: 1, // ניתן להתאים את השוליים לפי הצורך
+//            filename: fileName, // שם הקובץ, כולל התאריך
+//            html2canvas: { scale: 2 }, // סקייל גבוה יותר כדי לשפר את איכות התמונה
+//            jsPDF: {
+//                unit: 'pt',
+//                format: 'a4',
+//                orientation: 'portrait',
+//                fontStyle: 'normal',
+//                fontName: 'Arial' // ודאי שאת משתמשת בפונט שתומך בעברית
+//            }
+//        })
+//        .output('blob')  // מחזיר את ה-PDF כ-Blob
+//        .then(function (blob) {
+//            // יצירת אובייקט FormData להכיל את קובץ ה-PDF
+//            const formData = new FormData();
+//            formData.append('pdf', blob, fileName);
+
+//            // הגדרת URL של ה-API לשמירת ה-PDF
+//            const pdfApiUrl = `${localHostAPI}api/Tests/save-pdf`;
+
+//            // שליחת ה-PDF לשרת בעזרת AJAX
+//            fetch(pdfApiUrl, {
+//                method: 'POST',
+//                body: formData
+//            })
+//                .then(response => {
+//                    if (!response.ok) {
+//                        throw new Error('Network response was not ok');
+//                    }
+//                    alert('PDF נשמר בהצלחה בשרת');
+//                })
+//                .catch(error => {
+//                    console.error('Error:', error);
+//                    alert('Failed to save PDF on server.');
+//                });
+//        });
+//});
+
+function saveHtmlSummary(testId, userId) {
+    const element = document.querySelector('.container');
+
+    // יצירת תאריך נוכחי בפורמט YYYY-MM-DD
+    const today = new Date();
+    const formattedDate = today.toISOString().slice(0, 10); // מחזיר YYYY-MM-DD
+
+    // יצירת שם קובץ עם התאריך
+    const fileName = `test-summary-${userId}-${testId}-${formattedDate}.html`;
+
+    // קבלת התוכן של ה-HTML
+    const htmlContent = element.innerHTML;
+
+    // יצירת אובייקט FormData להכיל את קובץ ה-HTML
+    const formData = new FormData();
+    formData.append('htmlContent', htmlContent);
+    formData.append('fileName', fileName);
+
+    // הגדרת URL של ה-API לשמירת ה-HTML
+    const apiUrl = `${localHostAPI}api/Tests/save-html-summary`;
+
+    // שליחת ה-HTML לשרת בעזרת AJAX
+    fetch(apiUrl, {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            alert('סיכום המבחן נשמר בהצלחה בשרת');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to save test summary on server.');
+        });
+}

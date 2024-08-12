@@ -95,6 +95,43 @@ namespace MEDIQUICK.Controllers
         {
         }
 
+        //[HttpPost]
+        //[Route("save-pdf")]
+        //public async Task<IActionResult> SavePdf(IFormFile pdf)
+        //{
+        //    if (pdf == null || pdf.Length == 0)
+        //        return BadRequest("No file uploaded.");
+
+        //    // נתיב לשמירת הקובץ בשרת
+        //    var savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "pdfs", pdf.FileName);
+
+        //    using (var stream = new FileStream(savePath, FileMode.Create))
+        //    {
+        //        await pdf.CopyToAsync(stream);
+        //    }
+
+        //    return Ok("PDF saved successfully.");
+        //}
+
+        [HttpPost]
+        [Route("save-html-summary")]
+        public async Task<IActionResult> SaveHtmlSummary([FromForm] int userId, [FromForm] int testId, [FromForm] string htmlContent, [FromForm] string fileName)
+        {
+            if (string.IsNullOrEmpty(htmlContent))
+                return BadRequest("No content provided.");
+
+            // יצירת נתיב השמירה
+            var savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "summaries", $"user-{userId}");
+            if (!Directory.Exists(savePath))
+                Directory.CreateDirectory(savePath);
+
+            var filePath = Path.Combine(savePath, fileName);
+
+            await System.IO.File.WriteAllTextAsync(filePath, htmlContent);
+
+            return Ok("Summary saved successfully.");
+        }
+
 
     }
 }

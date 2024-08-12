@@ -1,3 +1,5 @@
+
+
 * {
     box-sizing: border-box;
 }
@@ -15,17 +17,10 @@ main {
     flex-wrap: wrap;
     padding: 50px 25px;
     max-width: 100%;
-    /* flex-direction: column; */
 }
-/* may be needed for page design
-main {
-    display: flex;
-    justify-content: end;
-} */
 
 .container {
     direction: rtl;
-    /*display: flex;*/
     flex-direction: column;
     align-items: center;
     flex-wrap: wrap;
@@ -51,42 +46,34 @@ main {
     align-items: start;
     justify-content: space-between;
     transition: background-color 0.5s ease;
-    position: relative; /* נדרש כדי לשלוט בפס הגלילה */
-
+    position: relative;
 }
 
-/* question scroll bar start */
+    .question::-webkit-scrollbar {
+        width: 10px;
+        opacity: 0.5;
+    }
 
-.question::-webkit-scrollbar {
-    width: 10px;
-    opacity: 0.5;
-}
+    .question::-webkit-scrollbar-track {
+        background-color: transparent;
+        border-radius: 20px;
+        margin-block: 0.5em;
+    }
 
-.question::-webkit-scrollbar-track {
-    background-color: transparent;
-    border-radius: 20px;
-    margin-block: 0.5em;
-    
-}
+    .question::-webkit-scrollbar-thumb {
+        background-color: rgba(52, 147, 138, 0);
+        transition: background-color 1.5s ease;
+        border-radius: 100px;
+        border: 3px solid white;
+    }
 
-.question::-webkit-scrollbar-thumb {
-    background-color: rgba(52, 147, 138, 0);
-    transition: background-color 1.5s ease;
-    border-radius: 100px;
-    border: 3px solid white;
-}
-
-.question:hover::-webkit-scrollbar-thumb {
-    background-color: rgba(52, 147, 138, 0.5);
-    /* transition: background-color 1.5s ease; */
-}
+    .question:hover::-webkit-scrollbar-thumb {
+        background-color: rgba(52, 147, 138, 0.5);
+    }
 
 .timeline::-webkit-scrollbar {
     height: 6px;
 }
-
-/* question scroll bar end */
-
 
 .question.open {
     overflow-y: auto;
@@ -121,11 +108,11 @@ main {
 
 h2 {
     color: #03a696;
-    width:100%;
+    width: 100%;
     margin: 0;
     margin-top: 10px;
     text-align: center;
-    padding:10px;
+    padding: 10px;
 }
 
 .question-wrapper {
@@ -143,7 +130,6 @@ h2 {
 }
 
 .open .options {
-    /* height: auto; */
     opacity: 1;
 }
 
@@ -164,18 +150,17 @@ h2 {
 
 .chart-container {
     width: 100%;
-    height: 400px; /* גובה ברירת מחדל - ניתן לשנות לפי הצורך */
+    height: 400px;
     margin: 20px 0;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.chart-container canvas {
-    width: 100% !important;
-    height: 100% !important;
-}
-
+    .chart-container canvas {
+        width: 100% !important;
+        height: 100% !important;
+    }
 
 #percentageCorrectChart {
     width: 100%;
@@ -184,7 +169,7 @@ h2 {
 
 .chart-container.small-chart {
     width: 100%;
-    height: 500px; /* הגדרת גובה הקונטיינר של הגרף */
+    height: 500px;
     margin: 20px 0;
     display: flex;
     justify-content: center;
@@ -194,7 +179,6 @@ h2 {
 .icon {
     margin: 1%
 }
-
 
 body {
     font-family: Arial, sans-serif;
@@ -211,26 +195,26 @@ h1 {
 
 .timeline-container {
     overflow-x: auto;
-    overflow-y: hidden; /* Disable vertical scroll */
+    overflow-y: hidden;
     direction: ltr;
     white-space: nowrap;
     padding: 20px 0;
     margin: 20px 0;
     max-width: 100%;
     display: flex;
-    justify-content: center; /* Center the timeline */
+    justify-content: center;
     z-index: 0;
 }
 
 .timeline {
     overflow-x: auto;
-    overflow-y: hidden; /* Disable vertical scroll */
+    overflow-y: hidden;
     display: inline-flex;
     align-items: center;
     position: relative;
     padding: 0;
     list-style: none;
-    height: 30dvh; /* Ensure the timeline has enough height */
+    height: 30dvh;
 }
 
 .timeline-item {
@@ -239,14 +223,14 @@ h1 {
     flex: 0 0 auto;
     min-width: 200px;
     white-space: normal;
-    margin: 0 10px; /* Add some spacing between items */
+    margin: 0 10px;
 }
 
 .timeline-date {
     font-size: 1.2em;
     margin-bottom: 10px;
     position: absolute;
-    top: -30px; /* Move the date above the line */
+    top: -30px;
     left: 50%;
     transform: translateX(-50%);
     font-weight: bold;
@@ -259,10 +243,10 @@ h1 {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: absolute;
-    top: 30px; /* Move the content below the line */
+    top: 30px;
     left: 50%;
     transform: translateX(-50%);
-    min-width: 150px; /* Ensure minimum width for content boxes */
+    min-width: 150px;
     z-index: 2;
 }
 
@@ -285,14 +269,12 @@ h1 {
     position: absolute;
     top: 50%;
     left: 0;
-    width: var(--before-width, 100%); /* השתמש במשתנה CSS דינמי עבור רוחב */
+    width: var(--before-width, 100%);
     height: 2px;
     background-color: #00bfa5;
     z-index: 0;
     transform: translateY(-50%);
 }
-/* timeline */
-
 
 @media (max-width: 1000px) {
     main {
@@ -328,27 +310,26 @@ h1 {
 }
 
 #TestAverageAndGrades {
-    background-color: #f7f7f7; /* צבע הרקע של הבועה */
-    padding: 15px; /* רווח פנימי */
-    border-radius: 15px; /* עיגול הפינות ליצירת מראה של בועה */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* הצללה */
-    text-align: center; /* יישור הטקסט למרכז */
-    font-size: 16px; /* גודל גופן */
-    color: #333; /* צבע טקסט */
-    display: inline-block; /* יישור הבועה כך שתתאים לגודל התוכן */
-    margin: 10px; /* רווח חיצוני כדי להפריד בין בועות */
+    background-color: #f7f7f7;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+    display: inline-block;
+    margin: 10px;
 }
-
 
 #calendar-container {
     width: 70%;
-    align-content:center;
+    align-content: center;
     height: 500px;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin:50px;
-    padding:20px;
+    margin: 50px;
+    padding: 20px;
 }
 
 #calendar-header {
@@ -392,20 +373,17 @@ h1 {
 }
 
     #calendar-dates div {
-        padding: 20px;
+        padding: 15px;
         border-radius: 4px;
         cursor: pointer;
         transition: background-color 0.3s;
+        position: relative;
     }
 
         #calendar-dates div:hover {
             background-color: #03a696;
             color: #fff;
         }
-
-
-
-/* הסטיילינג הקודם */
 
 .tooltip {
     display: none;
@@ -428,41 +406,136 @@ h1 {
         margin-right: 5px;
     }
 
-
-
 #questions-container {
     max-height: 1010px;
-    width:520px;
-    overflow-y: auto; /* אפשר גלילה אנכית */
-    direction: rtl; /* הגדר כיוון גלילה מימין לשמאל */
-    overflow-x: hidden; /* מניעת גלילה אופקית */
+    width: 520px;
+    overflow-y: auto;
+    direction: rtl;
+    overflow-x: hidden;
     position: relative;
-    margin:30px;
-    align-content:center;
+    margin: 30px;
+    align-content: center;
 }
 
-#questions-container::-webkit-scrollbar {
-    direction: ltr; /* כיוון הגלילה */
-    width: 10px; /* רוחב פס הגלילה */
-    opacity: 0.5;
+    #questions-container::-webkit-scrollbar {
+        direction: ltr;
+        width: 10px;
+        opacity: 0.5;
+    }
 
+    #questions-container::-webkit-scrollbar-track {
+        background-color: transparent;
+        border-radius: 20px;
+        margin-block: 0.5em;
+    }
+
+    #questions-container::-webkit-scrollbar-thumb {
+        background-color: rgba(52, 147, 138, 0);
+        transition: background-color 1.5s ease;
+        border-radius: 100px;
+        border: 3px solid white;
+    }
+
+    #questions-container:hover::-webkit-scrollbar-thumb {
+        background-color: rgba(52, 147, 138, 0.5);
+    }
+
+/*.task-button {
+    width: 10px;
+    height: 10px;
+    background-color: gray;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    
+    display: block;
+    margin: 2px auto;
+    position: relative;
+    z-index: 10;
+}*/
+.task-button {
+    width: 10px;
+    height: 10px;
+    background-color: gray;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    margin: 1px auto; /* מרווח קטן יותר כדי למנוע עומס */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
 }
 
-
-#questions-container::-webkit-scrollbar-track {
-    background-color: transparent;
-    border-radius: 20px;
-    margin-block: 0.5em;
+.date {
+    position: relative;
+    display: flex;
+    flex-direction: column; /* מיקום הכפתורים אחד מתחת לשני */
+    align-items: center; /* מיקום הכפתורים במרכז התא */
+    justify-content: center; /* מיקום הכפתורים במרכז התא אנכית */
+    gap: 2px; /* מרווח בין הכפתורים */
 }
 
-#questions-container::-webkit-scrollbar-thumb {
-    background-color: rgba(52, 147, 138, 0);
-    transition: background-color 1.5s ease;
-    border-radius: 100px;
-    border: 3px solid white;
+    .task-button:hover {
+        background-color: darkgray;
+    }
+
+.options-menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    z-index: 100;
 }
 
-#questions-container:hover::-webkit-scrollbar-thumb {
-    background-color: rgba(52, 147, 138, 0.5);
-    /* transition: background-color 1.5s ease; */
+    .options-menu.active {
+        display: block;
+    }
+
+    .options-menu button {
+        display: block;
+        width: 100%;
+        padding: 5px 10px;
+        margin: 5px 0;
+        cursor: pointer;
+        background-color: #f1f1f1;
+        border: none;
+        border-radius: 3px;
+    }
+
+        .options-menu button:hover {
+            background-color: #ddd;
+        }
+
+.edit-task-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+    .edit-task-form label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .edit-task-form input {
+        width: 100%;
+        padding: 5px;
+        margin-bottom: 10px;
+    }
+
+    .edit-task-form button {
+        margin-right: 10px;
+    }
+
+.date {
+    position: relative;
 }

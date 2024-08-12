@@ -15,13 +15,22 @@ public class calendarTasksController : ControllerBase
         return t.GetTaskByUser(userId);
     }
 
-    // POST: api/Tasks/SaveTask
+    //// POST: api/Tasks/SaveTask
+    //[HttpPost("AddTask/{userId}")]
+    //public bool AddTask(int userId,[FromBody] calendarTasks task)
+    //{
+    //    calendarTasks t = new calendarTasks();
+    //    return t.AddTask(userId, task);
+
+    //}
+
     [HttpPost("AddTask/{userId}")]
-    public bool AddTask(int userId,[FromBody] calendarTasks task)
+    public IActionResult AddTask(int userId, [FromBody] calendarTasks task)
     {
         calendarTasks t = new calendarTasks();
-        return t.AddTask(userId, task);
+        bool result = t.AddTask(userId, task);
 
+        return Ok(new { success = result }); // החזרת JSON תקין
     }
 
     // DELETE: api/Tasks/DeleteTask/{id}

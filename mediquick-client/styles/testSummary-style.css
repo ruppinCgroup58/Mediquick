@@ -145,3 +145,20 @@ table tr:hover {
     .question-card:hover {
         transform: translateY(-5px);
     }
+
+#save-pdf-btn{
+    position:absolute;
+    left:20px;
+    top:70px;
+}
+
+@media print {
+    body {
+        direction: rtl;
+        font-family: 'Arial', sans-serif; /* פונט שתומך בעברית */
+    }
+
+    .container {
+        text-align: right;
+    }
+}
