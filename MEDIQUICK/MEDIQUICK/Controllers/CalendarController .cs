@@ -1,50 +1,41 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MEDIQUICK.BL;
+using Microsoft.AspNetCore.Mvc;
 
 [Route("api/[controller]")]
 [ApiController]
-public class TasksController : ControllerBase
+public class calendarTasksController : ControllerBase
 {
     private readonly DBServices _dbServices = new DBServices();
 
     // GET: api/Tasks/GetTaskByDate
-    [HttpGet("GetTaskByDate")]
-    public ActionResult<TaskModel> GetTaskByDate(string userId, System.DateTime date)
+    [HttpGet("GetTaskByUser")]
+    public List<Object> GetTaskByUser(int userId)
     {
-        TaskModel task = _dbServices.GetTaskByDate(userId, date);
-
-        if (task == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(task);
+        calendarTasks t=new calendarTasks();
+        return t.GetTaskByUser(userId);
     }
 
     // POST: api/Tasks/SaveTask
-    [HttpPost("SaveTask")]
-    public ActionResult SaveTask([FromBody] TaskModel task)
+    [HttpPost("AddTask/{userId}")]
+    public bool AddTask(int userId,[FromBody] calendarTasks task)
     {
-        int result = _dbServices.SaveTask(task);
+        calendarTasks t = new calendarTasks();
+        return t.AddTask(userId, task);
 
-        if (result > 0)
-        {
-            return Ok();
-        }
-
-        return BadRequest("Failed to save task.");
     }
 
     // DELETE: api/Tasks/DeleteTask/{id}
-    [HttpDelete("DeleteTask/{id}")]
-    public ActionResult DeleteTaskCalender(int id)
+    [HttpPatch("makeTaskInActive/{taskId}")]
+    public bool makeTaskInActive(int taskId)
     {
-        int result = _dbServices.DeleteTask(id);
-
-        if (result > 0)
-        {
-            return Ok();
-        }
-
-        return NotFound("Task not found.");
+        calendarTasks t= new calendarTasks();
+        return t.makeTaskInActive(taskId);
+    }
+    
+    [HttpPatch("updateTask")]
+    public bool updateTask([FromBody] calendarTasks task)
+    {
+        calendarTasks t= new calendarTasks();
+        return t.updateTask(task);
     }
 }

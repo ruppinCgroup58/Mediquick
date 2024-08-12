@@ -4,6 +4,7 @@ using MEDIQUICK.BL;
 using MEDIQUICK.Controllers;
 using Microsoft.EntityFrameworkCore;
 using SendGrid.Helpers.Mail;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using static Google.Api.Gax.Grpc.Gcp.AffinityConfig.Types;
@@ -2623,7 +2624,7 @@ public class DBServices
 
 
     //calender
-    public int SaveTask(TaskModel task)
+    public bool AddTask(int userId, calendarTasks task)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -2638,12 +2639,12 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateSaveTaskCommandWithStoredProcedure("sp_Calendar_AddTask", con, task); // יצירת הפקודה
+        cmd = CreateAddTaskCommandWithStoredProcedure("sp_calender_AddTask", con,userId, task); // יצירת הפקודה
 
         try
         {
-            int numEffected = cmd.ExecuteNonQuery(); // ביצוע הפקודה
-            return numEffected;
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            if (numEffected > 0) { return true; } else { return false; }
         }
         catch (Exception ex)
         {
@@ -2661,80 +2662,7 @@ public class DBServices
         }
     }
 
-    private SqlCommand CreateSaveTaskCommandWithStoredProcedure(string spName, SqlConnection con, TaskModel task)
-    {
-        SqlCommand cmd = new SqlCommand(); // יצירת אובייקט הפקודה
-
-        cmd.Connection = con;              // שיוך החיבור לאובייקט הפקודה
-
-        cmd.CommandText = spName;          // שם הפרוצדורה המאוחסנת
-
-        cmd.CommandTimeout = 10;           // הזמן לחכות לביצוע (ברירת מחדל היא 30 שניות)
-
-        cmd.CommandType = System.Data.CommandType.StoredProcedure; // סוג הפקודה
-
-        // הוספת פרמטרים לפרוצדורה המאוחסנת
-        cmd.Parameters.AddWithValue("@UserId", task.@UserId);
-        cmd.Parameters.AddWithValue("@date", task.Date);
-        cmd.Parameters.AddWithValue("@@Description", task.Description);
-
-
-        return cmd;
-    }
-
-
-    public TaskModel GetTaskByDate(string userId, System.DateTime dateTask)
-    {
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("myProjDB"); // יצירת החיבור
-        }
-        catch (Exception ex)
-        {
-            // כתיבה ללוג
-            throw (ex);
-        }
-
-        cmd = CreateGetTaskByDateCommandWithStoredProcedure("sp_Calendar_GetTaskByDate", con, userId, dateTask); // יצירת הפקודה
-
-        try
-        {
-            SqlDataReader dr = cmd.ExecuteReader(); // ביצוע הפקודה וקריאת התוצאות
-            TaskModel task = null;
-
-            if (dr.Read())
-            {
-                task = new TaskModel()
-                {
-                    Id = Convert.ToInt32(dr["Id"]),
-                    UserId = dr["UserId"].ToString(),
-                    Date = Convert.ToDateTime(dr["date"]),
-                    Description = dr["Description"].ToString()
-                };
-            }
-
-            return task;
-        }
-        catch (Exception ex)
-        {
-            // כתיבה ללוג
-            throw (ex);
-        }
-
-        finally
-        {
-            if (con != null)
-            {
-                // סגירת החיבור למסד הנתונים
-                con.Close();
-            }
-        }
-    }
-
-    private SqlCommand CreateGetTaskByDateCommandWithStoredProcedure(string spName, SqlConnection con, string userId, System.DateTime dateTask)
+    private SqlCommand CreateAddTaskCommandWithStoredProcedure(string spName, SqlConnection con,int userId, calendarTasks task)
     {
         SqlCommand cmd = new SqlCommand(); // יצירת אובייקט הפקודה
 
@@ -2748,13 +2676,14 @@ public class DBServices
 
         // הוספת פרמטרים לפרוצדורה המאוחסנת
         cmd.Parameters.AddWithValue("@userId", userId);
-        cmd.Parameters.AddWithValue("@date", dateTask);
+        cmd.Parameters.AddWithValue("@taskDate", task.TaskDate);
+        cmd.Parameters.AddWithValue("@TaskDescription", task.TaskDescription1);
 
         return cmd;
     }
 
 
-    public int DeleteTask(int Id)
+    public List<Object> GetTaskByUser(int userId)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -2769,12 +2698,26 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateDeleteTaskCommandWithStoredProcedure("sp_Calendar_DeleteTask", con, Id); // יצירת הפקודה
+        cmd = CreateGetTaskByUserCommandWithStoredProcedure("sp_calender_GetTasksByUser", con, userId); // יצירת הפקודה
 
         try
         {
-            int numEffected = cmd.ExecuteNonQuery(); // ביצוע הפקודה
-            return numEffected;
+            SqlDataReader dr = cmd.ExecuteReader(); // ביצוע הפקודה וקריאת התוצאות
+             List<object> taskList= new List<object>();
+
+            while (dr.Read())
+            {
+                taskList.Add(new
+                    {
+                    taskId = Convert.ToInt32(dr["taskId"]),
+                    userId = dr["userId"].ToString(),
+                    taskDate = Convert.ToDateTime(dr["taskDate"]),
+                    Description = dr["Description"].ToString(),
+                    isActive = bool.Parse(dr["isActive"].ToString())
+                });
+            }
+
+            return taskList;
         }
         catch (Exception ex)
         {
@@ -2792,7 +2735,7 @@ public class DBServices
         }
     }
 
-    private SqlCommand CreateDeleteTaskCommandWithStoredProcedure(string spName, SqlConnection con, int Id)
+    private SqlCommand CreateGetTaskByUserCommandWithStoredProcedure(string spName, SqlConnection con, int userId)
     {
         SqlCommand cmd = new SqlCommand(); // יצירת אובייקט הפקודה
 
@@ -2805,13 +2748,70 @@ public class DBServices
         cmd.CommandType = System.Data.CommandType.StoredProcedure; // סוג הפקודה
 
         // הוספת פרמטרים לפרוצדורה המאוחסנת
-        cmd.Parameters.AddWithValue("@Id", Id);
+        cmd.Parameters.AddWithValue("@userId", userId);
 
         return cmd;
     }
 
 
-    public int DeleteTaskCalender(int id)
+    public bool makeTaskInActive(int taskId)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("myProjDB"); // יצירת החיבור
+        }
+        catch (Exception ex)
+        {
+            // כתיבה ללוג
+            throw (ex);
+        }
+
+        cmd = makeTaskInActiveCommandWithStoredProcedure("sp_calender_makeTaskInActive", con, taskId); // יצירת הפקודה
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            if (numEffected > 0) { return true; } else { return false; }
+        }
+        catch (Exception ex)
+        {
+            // כתיבה ללוג
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // סגירת החיבור למסד הנתונים
+                con.Close();
+            }
+        }
+    }
+
+    private SqlCommand makeTaskInActiveCommandWithStoredProcedure(string spName, SqlConnection con, int taskId)
+    {
+        SqlCommand cmd = new SqlCommand(); // יצירת אובייקט הפקודה
+
+        cmd.Connection = con;              // שיוך החיבור לאובייקט הפקודה
+
+        cmd.CommandText = spName;          // שם הפרוצדורה המאוחסנת
+
+        cmd.CommandTimeout = 10;           // הזמן לחכות לביצוע (ברירת מחדל היא 30 שניות)
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // סוג הפקודה
+
+        // הוספת פרמטרים לפרוצדורה המאוחסנת
+        cmd.Parameters.AddWithValue("@taskId", taskId);
+
+        return cmd;
+    }
+
+
+    public bool updateTask(calendarTasks task)
     {
         SqlConnection con;
         SqlCommand cmd;
@@ -2826,12 +2826,12 @@ public class DBServices
             throw (ex);
         }
 
-        cmd = CreateDeleteCommandWithStoredProcedure("sp_Calendar_DeleteTask", con, id); // create the command
+        cmd = updateTaskCommandWithStoredProcedure("sp_calender_UpdateTask", con, task); // create the command
 
         try
         {
             int numEffected = cmd.ExecuteNonQuery(); // execute the command
-            return numEffected;
+            if (numEffected > 0) { return true; } else { return false; }
         }
         catch (Exception ex)
         {
@@ -2849,7 +2849,7 @@ public class DBServices
         }
     }
 
-    private SqlCommand CreateDeleteCommandWithStoredProcedure(string spName, SqlConnection con, int id)
+    private SqlCommand updateTaskCommandWithStoredProcedure(string spName, SqlConnection con, calendarTasks task)
     {
         SqlCommand cmd = new SqlCommand(); // create the command object
 
@@ -2861,7 +2861,9 @@ public class DBServices
 
         cmd.CommandType = CommandType.StoredProcedure; // the type of the command, can also be text
 
-        cmd.Parameters.AddWithValue("@Id", id); // add parameter
+        cmd.Parameters.AddWithValue("@taskId", task.TaskId); // add parameter
+        cmd.Parameters.AddWithValue("@TaskDescription", task.TaskDescription1); // add parameter
+        cmd.Parameters.AddWithValue("@TaskDate", task.TaskDate); // add parameter
 
         return cmd;
     }
