@@ -12,7 +12,7 @@ function topicGetSCB(topicList) {
     cont.innerHTML += str;
   }
   function topicGetECB(err) {
-    alert(err.statusText);
+    alert("קריאת הנושאים נכשלה");
   }
 function GoToForumTopicPage(topicId, topicName) {
     window.location.href = `forum-topic.html?topicId=${topicId}&topicName=${topicName}`

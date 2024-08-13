@@ -52,7 +52,7 @@ function getFavouriteQuestionsSCB(questionsList) {
 }
 
 function getFavouriteQuestionsECB(err) {
-  alert(err.statusText);
+  alert("טעינת השאלות המועדפות נכשלה " + err.status);
 }
 
 function HeartIconEL() {
@@ -125,7 +125,7 @@ function toggleFavouriteSCB(num) {
 }
 
 function toggleFavouriteECB(err) {
-  alert(err.statusText);
+  alert("הוספת / הסרת השאלה למועדפים נכשלה " + err.status);
 }
 
 function calculateMargin() {
@@ -208,7 +208,7 @@ function loadUserSummariesSCB(data) {
 
 
 function loadUserSummariesECB(err) {
-    console.log("טעינת המבחנים נכשלה");
+    console.log("טעינת המבחנים נכשלה " + err.status);
 }
 function loadUserTopicStats(userID) {
     $.ajax({
@@ -392,7 +392,7 @@ function loadAllTestAverageAndGrades(userID) {
         },
         error: function (error) {
             console.error(error);
-            alert("BLAT.");
+            alert("שגיאה בטעינת נתוני המבחנים");
         }
     });
 }

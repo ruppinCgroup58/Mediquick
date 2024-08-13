@@ -109,7 +109,7 @@ function topicGetSCB(topicList) {
 }
 
 function topicGetECB(err) {
-  alert(err.statusText);
+  alert("קריאת רשימת הנושאים נכשלה " + err.status);
 }
 
 function shuffleAnswers(questionsList) {
@@ -226,7 +226,7 @@ function startPracticeSCB(questionsList) {
 }
 
 function startPracticeECB(err) {
-  alert(err.statusText);
+  alert("לא ניתן להתחיל תרגול, אנא נסה שוב מאוחר יותר " + err.status);
 }
 
 function toggleFavourite(questionId) {
@@ -260,7 +260,7 @@ function toggleFavouriteSCB(num) {
 }
 
 function toggleFavouriteECB(err) {
-  alert(err.statusText);
+  alert("הוספת / הסרת השאלה ממועדפים נכשלה " + err.status);
 }
 
 //Practice: render questions, going next and previous
@@ -386,5 +386,5 @@ function handleQuestionAnswerSCB(num) {
 }
 
 function handleQuestionAnswerECB(err) {
-  alert(err.statusText);
+  alert("שגיאה במענה על שאלה " + err.status);
 }

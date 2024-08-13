@@ -60,7 +60,7 @@ function startTestSCB(testQuestionObject) {
 }
 
 function startTestECB(err) {
-  alert(err.statusText);
+  alert("לא ניתן להתחיל מבחן כעת, אנא נסה שוב במועד מאוחר יותר " + err.status);
 }
 
 // Test timer Function
@@ -231,7 +231,7 @@ function GoToNextQuestionSCB(data) {
 }
 
 function GoToNextQuestionECB(err) {
-  alert(err.statusText);
+  alert("שגיאה במענה על שאלה " + err.status);
 }
 
 function EndTest() {
@@ -323,5 +323,5 @@ function endTestSCB() {
 }
 
 function endTestECB(err) {
-  alert(err.statusText);
+  alert("שגיאה בסיום המבחן " + err.status);
 }

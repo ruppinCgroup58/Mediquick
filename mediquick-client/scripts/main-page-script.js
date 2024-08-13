@@ -32,7 +32,7 @@ function getUserProgressSCB(objectList) {
 }
 
 function getUserProgressECB(err) {
-    alert(err.statusText);
+    alert("טעינת העמוד נכשלה " + err.status);
 }
 
 function goToQBTPage(topicId, topicName) {

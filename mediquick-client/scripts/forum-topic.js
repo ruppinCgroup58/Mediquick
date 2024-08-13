@@ -59,7 +59,7 @@ function issuesGetSCB(issuesList) {
     console.log(issuesList)
 }
 function issuesGetECB(err) {
-    alert(err.statusText);
+    alert("קריאת הסוגיה נכשלה" + err.status);
 }
 
 function ToggleOpenCloseIssue(item) {
@@ -169,5 +169,5 @@ function ToggleIssueStatusSCB(obj) {
 }
 
 function ToggleIssueStatusECB(err) {
-    alert(err.statusText)
+    alert("הפעולה נכשלה")
 }

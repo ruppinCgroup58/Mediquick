@@ -95,7 +95,7 @@ function suPostSCB(user) {
 }
 
 function suPostECB(err) {
-    alert(err.statusText);
+    alert("ההרשמה נכשלה" + err.status);
 }
 
 function loginPostSCB(user) {
@@ -107,12 +107,6 @@ function loginPostSCB(user) {
 }
 
 function loginPostECB(err) {
-    //if (err.responseText.includes("User Not Found")) {
-    //    alert ("Wrong email or password, please try again");
-    //    $("#emailText").focus();
-    //}
-    // Clear previous error messages
-    // Clear previous error messages
     document.getElementById("passwordError").style.display = "block";
 } 
 

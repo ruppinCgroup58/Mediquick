@@ -126,7 +126,7 @@ function getQuestionsByTopicSCB(questionsList) {
 }
 
 function getQuestionsByTopicECB(err) {
-  alert(err.statusText);
+  alert("שגיאה בטעינת השאלות " + err.status);
 }
 
 function toggleFavourite(questionId) {
@@ -145,7 +145,7 @@ function toggleFavouriteSCB(num) {
 }
 
 function toggleFavouriteECB(err) {
-  alert(err.statusText);
+  alert("הוספת / הסרת השאלה ממועדפים נכשלה " + err.status);
 }
 
 function calculateMargin() {

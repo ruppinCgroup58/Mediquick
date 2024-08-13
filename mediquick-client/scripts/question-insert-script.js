@@ -49,7 +49,7 @@ function qiPostSCB(isSuccess) {
 }
 
 function qiPostECB(err) {
-  alert(err.statusText);
+  alert("הוספת השאלה נכשלה " + err.status);
 }
 
 function topicGetSCB(topicList) {
@@ -62,5 +62,5 @@ function topicGetSCB(topicList) {
 }
 
 function topicGetECB(err) {
-  alert(err.statusText);
+  alert("קריאת רשימת הנושאים נכשלה " + err.status);
 }

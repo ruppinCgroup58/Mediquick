@@ -64,24 +64,10 @@ function issueGetSCB(issue) {
       }
   }
   cont.innerHTML = str;
-  /*<div class="issue close">
-                <div class="issue-headers">
-                    <div class="create-details">
-                        <div class="date-time">${issuesList[i].createdAt}</div>
-                        <div class="creator">${issuesList[i].userFullName}</div>
-                    </div>
-                    <div class="title" onclick="GoToIssuePage(${issuesList[i].issueId})">${issuesList[i].title}</div>
-                    <div class="issue-content">${issuesList[i].issueContent}</div>
-                    <div class="num-of-comments">${issuesList[i].commentCount} תגובות</div>
-                </div>
-                <div class="expand">
-                    <img class="expand-icon" src="./../images/icons/plus-circle.svg" alt="הצג עוד" onclick="ToggleOpenCloseIssue(${issuesList[i].commentCount})">
-                </div>
-            </div>*/
-}
+  }
 
 function issueGetECB(err) {
-  alert(err.statusText);
+  alert("שגיאה בקריאת הסוגיה" + err.status);
 }
 
 function formatDateTime(dateTime) {
@@ -116,7 +102,7 @@ function deleteCommentPostSCB(data) {
     ajaxCall("GET", getIssueAPI, "", issueGetSCB, issueGetECB);
 }
 function deleteCommentPostECB(err) {
-    console.log("המחיקת תגובה נכשל");
+    console.log("מחיקת התגובה נכשלה");
 }
 
 function editComment(commemntId) {
@@ -253,7 +239,7 @@ function EditIssuePostSCB(data) {
 }
 
 function EditIssuePostECB(err) {
-    console.log("עדכון סוגיה נכשלה");
+    console.log("עדכון הסוגיה נכשל");
 }
 function resetFormIssue() {
     $("#editIssueForm")[0].reset();
