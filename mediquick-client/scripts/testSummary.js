@@ -207,6 +207,8 @@ function saveHtmlSummary(testId, userId) {
 
     // יצירת אובייקט FormData להכיל את קובץ ה-HTML
     const formData = new FormData();
+    formData.append('userId', userId);        // הוספת userId ל-FormData
+    formData.append('testId', testId);        // הוספת testId ל-FormData
     formData.append('htmlContent', htmlContent);
     formData.append('fileName', fileName);
 
@@ -229,3 +231,4 @@ function saveHtmlSummary(testId, userId) {
             alert('Failed to save test summary on server.');
         });
 }
+

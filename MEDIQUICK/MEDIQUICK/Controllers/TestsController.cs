@@ -71,7 +71,7 @@ namespace MEDIQUICK.Controllers
         public Question Test_HandleQuestionAnswer(TestRequestData trd)
         {
             Test t = new Test();
-            return t.Test_HandleQuestionAnswer(trd.userId, trd.testId, trd.questionId, trd.isCorrect, trd.lastQ);
+            return t.Test_HandleQuestionAnswer(trd.userId, trd.testId, trd.questionId, trd.isCorrect, trd.lastQ,trd.answerChosen);
         }
 
         // POST api/<TestsController>
@@ -131,6 +131,31 @@ namespace MEDIQUICK.Controllers
 
             return Ok("Summary saved successfully.");
         }
+
+        [HttpGet]
+        [Route("get-summaries")]
+        public IActionResult GetSummaries(int userId)
+        {
+            var savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "summaries", $"user-{userId}");
+
+            if (!Directory.Exists(savePath))
+                return NotFound("No summaries found for this user.");
+
+            var files = Directory.GetFiles(savePath, "*.html");
+
+            if (files.Length == 0)
+                return NotFound("No summaries found for this user.");
+
+            var summaries = files.Select(file => new
+            {
+                FileName = Path.GetFileName(file),
+                FilePath = $"/summaries/user-{userId}/{Path.GetFileName(file)}", // וודא שהנתיב תקין
+                DateCreated = System.IO.File.GetCreationTime(file)
+            }).ToList();
+
+            return Ok(summaries);
+        }
+
 
 
     }
