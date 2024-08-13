@@ -285,6 +285,7 @@ h1 {
 position:absolute;
 left:30px;
 top:100px;
+z-index:100;
 }
 
 @media (max-width: 1000px) {
