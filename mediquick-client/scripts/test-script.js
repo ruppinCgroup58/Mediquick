@@ -187,13 +187,14 @@ function HandleSelectedAnswer() {
 function GoToNextQuestion() {
   let chosenAnswerIndex =
     document.querySelector(".selected-option").dataset.number;
-
+console.log(shuffledQuestion.shuffledAnswers[chosenAnswerIndex].content)
   let testReq = {
     userId: userConnected,
     testId: testID,
     questionId: document.querySelector(".question-wrapper").id,
     isCorrect: shuffledQuestion.shuffledAnswers[chosenAnswerIndex].isCorrect,
     lastQ: false,
+    answerChosen: shuffledQuestion.shuffledAnswers[chosenAnswerIndex].content
   };
   let testNextQuestionAPI = localHostAPI + "HandleTestQuestionAnswer";
   ajaxCall(
