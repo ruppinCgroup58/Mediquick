@@ -32,9 +32,9 @@ namespace MEDIQUICK.BL
             
         }
 
-        public Question Test_HandleQuestionAnswer(int userId, int testId, int questionId, bool isCorrect, bool lastQ)
+        public Question Test_HandleQuestionAnswer(int userId, int testId, int questionId, bool isCorrect, bool lastQ,string answerChosen)
         {
-            return dbs.Test_HandleQuestionAnswer(userId, testId, questionId, isCorrect, lastQ);
+            return dbs.Test_HandleQuestionAnswer(userId, testId, questionId, isCorrect, lastQ,answerChosen);
 
         }
 

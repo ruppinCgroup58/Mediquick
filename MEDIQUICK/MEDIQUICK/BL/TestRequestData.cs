@@ -8,5 +8,6 @@
         public int userId { get; set; }
         public bool isCorrect { get; set; }
         public bool lastQ { get; set; }
+        public string answerChosen { get; set; }
     }
 }

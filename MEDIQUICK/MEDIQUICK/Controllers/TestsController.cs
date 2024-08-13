@@ -71,7 +71,7 @@ namespace MEDIQUICK.Controllers
         public Question Test_HandleQuestionAnswer(TestRequestData trd)
         {
             Test t = new Test();
-            return t.Test_HandleQuestionAnswer(trd.userId, trd.testId, trd.questionId, trd.isCorrect, trd.lastQ);
+            return t.Test_HandleQuestionAnswer(trd.userId, trd.testId, trd.questionId, trd.isCorrect, trd.lastQ,trd.answerChosen);
         }
 
         // POST api/<TestsController>
