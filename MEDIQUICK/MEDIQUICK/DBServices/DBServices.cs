@@ -1229,7 +1229,7 @@ public class DBServices
                     testSerialNumber = Convert.ToInt32(dataReader["testSerialNumber"]),
                     grade = Math.Round(Convert.ToDouble(dataReader["grade"]), 2),
                     TestStartDate = dataReader.GetDateTime(dataReader.GetOrdinal("TestStartDate")),
-                    durationSeconds = Convert.ToInt32(dataReader.GetOrdinal("durationSeconds"))
+                    durationSeconds = Convert.ToInt32(dataReader["durationSeconds"])
                 });
             }
 
@@ -1973,7 +1973,9 @@ public class DBServices
                     DifficultyLevel = Convert.ToInt32(dataReader["DifficultyLevel"]),
                     ResponseTimeSeconds = Convert.ToInt32(dataReader["ResponseTimeSeconds"]),
                     IsAnswerCorrect = Convert.ToBoolean(dataReader["IsAnswerCorrect"]),
-                    Explanation = dataReader["Explanation"].ToString()
+                    Explanation = dataReader["Explanation"].ToString(),
+                    AnswerChosen = dataReader["AnswerChosen"].ToString(),
+                    correctAnswer = dataReader["correctAnswer"].ToString()
 
                 });
             }

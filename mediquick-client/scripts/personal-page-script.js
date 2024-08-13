@@ -195,9 +195,8 @@ function loadUserSummariesSCB(data) {
         // עמודת הקישור לסיכום מבחן
         const linkCell = document.createElement('td');
         const link = document.createElement('a');
-        link.href = `./testSummary.html?testId=${summary.testSerialNumber}&userId=${userConnected}&testGrade=${summary.grade}`;
+        link.href = `./testSummary.html?testId=${summary.testSerialNumber}&userId=${userConnected}&testGrade=${summary.grade}&durationSeconds=${summary.durationSeconds}`;
         link.textContent = 'קישור לסיכום מבחן';
-        link.target = '_blank'; // פתיחת הקישור בלשונית חדשה
         linkCell.appendChild(link);
         row.appendChild(linkCell);
 
@@ -934,47 +933,3 @@ document.addEventListener('click', function (event) {
         optionsMenu.remove();
     }
 });
-
-//function loadUserSummaries(userId) {
-//    const apiUrl = `${localHostAPI}api/Tests/get-summaries?userId=${userId}`;
-
-//    fetch(apiUrl, {
-//        method: 'GET',
-//        headers: {
-//            'Content-Type': 'application/json'
-//        }
-//    })
-//        .then(response => {
-//            if (!response.ok) {
-//                throw new Error('Network response was not ok');
-//            }
-//            return response.json();
-//        })
-//        .then(data => {
-//            renderSummaries(data);
-//        })
-//        .catch(error => {
-//            console.error('Error:', error);
-//            alert('Failed to load summaries.');
-//        });
-//}
-//function renderSummaries(summaries) {
-//    const container = document.getElementById('testContainer');
-//    container.innerHTML = ''; // ניקוי המיכל לפני הוספת הסיכומים החדשים
-
-//    summaries.forEach(summary => {
-//        if (summary.filePath) { // בדיקה אם ה-FilePath מוגדר
-//            const summaryLink = `
-//                <div class="summary-item">
-//                    <a href="${summary.filePath}" target="_blank">
-//                        סיכום למבחן - תאריך: ${new Date(summary.dateCreated).toLocaleDateString()}
-//                    </a>
-//                </div>
-//            `;
-//            container.innerHTML += summaryLink;
-//        } else {
-//            console.error('FilePath is undefined for summary:', summary);
-//        }
-//    });
-//}
-

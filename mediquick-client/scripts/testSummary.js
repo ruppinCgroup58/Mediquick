@@ -2,6 +2,8 @@
 const TESTID = urlParams.get('testId');
 var userId = sessionStorage.getItem('id');
 var testGrade = urlParams.get('testGrade');
+var durationSeconds = urlParams.get('durationSeconds');
+
 if (!userId) {
      userId = urlParams.get('userId');
 } 
@@ -9,7 +11,7 @@ if (!userId) {
 $(document).ready(function () {
     if (testGrade != undefined) {
         document.getElementById('tesGrade').textContent = testGrade;       
-
+        document.getElementById('tesTime').textContent = formatDuration(durationSeconds);
     }
     else {
         calculateAndUpdateScoreAndGetDuration(TESTID);
@@ -134,17 +136,39 @@ function renderQuestionDetails(questions) {
     let counter = 1;  // התחלת המונה מ-1
 
     questions.forEach(question => {
-        const questionCard = `
-        <div class="question-card">
-            <h4>שאלה מספר: ${counter}</h4>
-            <p><strong>תוכן השאלה:</strong> ${question.content}</p>
-            <p><strong>נושא:</strong> ${question.topicName}</p>
-            <p><strong>רמת קושי:</strong> ${question.difficultyLevel}</p>
-            <p><strong>זמן מענה:</strong> ${formatDuration(question.responseTimeSeconds)}</p>
-            <p><strong>תשובה נכונה:</strong> ${question.isAnswerCorrect ? 'כן' : 'לא'}</p>
-            <p><strong>הסבר:</strong> ${question.explanation}</p>
-        </div>
+        if (question.isAnswerCorrect) {
+            var questionCard = `
+            <div class="question-card">
+                <h4>שאלה מספר: ${counter}</h4>
+                <p><strong>תוכן השאלה:</strong> ${question.content}</p>
+                <p><strong>נושא:</strong> ${question.topicName}</p>
+                <p><strong>רמת קושי:</strong> ${question.difficultyLevel}</p>
+                <p><strong>זמן מענה:</strong> ${formatDuration(question.responseTimeSeconds)}</p>
+                <p><strong>תשובה שנבחרה:</strong> ${question.answerChosen}</p>
+                <p><strong>האם צדק?</strong> ${question.isAnswerCorrect ? 'כן' : 'לא'}</p>            
+                <p><strong>הסבר:</strong> ${question.explanation}</p>
+            </div>
+        
+        
     `;
+        }
+        else {
+            var questionCard = `
+            <div class="question-card">
+                <h4>שאלה מספר: ${counter}</h4>
+                <p><strong>תוכן השאלה:</strong> ${question.content}</p>
+                <p><strong>נושא:</strong> ${question.topicName}</p>
+                <p><strong>רמת קושי:</strong> ${question.difficultyLevel}</p>
+                <p><strong>זמן מענה:</strong> ${formatDuration(question.responseTimeSeconds)}</p>
+                <p><strong>תשובה שנבחרה:</strong> ${question.answerChosen}</p>
+                <p><strong>האם צדק?</strong> ${question.isAnswerCorrect ? 'כן' : 'לא'}</p>            
+                <p><strong>תשובה נכונה:</strong> ${question.correctAnswer}</p>            
+                <p><strong>הסבר:</strong> ${question.explanation}</p>
+            </div>
+        
+        
+    `;
+        }
         container.innerHTML += questionCard;
         counter++;  // העלאה של המונה ב-1 עבור כל שאלה
     }); 

@@ -112,7 +112,7 @@ h2 {
     margin: 0;
     margin-top: 10px;
     text-align: center;
-    padding: 10px;
+    padding: 5px;
 }
 
 .question-wrapper {
@@ -204,6 +204,7 @@ h1 {
     display: flex;
     justify-content: center;
     z-index: 0;
+    width:100%;
 }
 
 .timeline {
@@ -417,26 +418,26 @@ h1 {
     align-content: center;
 }
 
-    #questions-container::-webkit-scrollbar {
+    #questions-container::-webkit-scrollbar{
         direction: ltr;
         width: 10px;
         opacity: 0.5;
     }
 
-    #questions-container::-webkit-scrollbar-track {
+    #questions-container::-webkit-scrollbar-track{
         background-color: transparent;
         border-radius: 20px;
         margin-block: 0.5em;
     }
 
-    #questions-container::-webkit-scrollbar-thumb {
+    #questions-container::-webkit-scrollbar-thumb{
         background-color: rgba(52, 147, 138, 0);
         transition: background-color 1.5s ease;
         border-radius: 100px;
         border: 3px solid white;
     }
 
-    #questions-container:hover::-webkit-scrollbar-thumb {
+    #questions-container:hover::-webkit-scrollbar-thumb{
         background-color: rgba(52, 147, 138, 0.5);
     }
 
@@ -561,3 +562,100 @@ th, td {
 th {
     background-color: #f2f2f2;
 }
+#testContainer {
+    padding-left:80px;
+/*    padding-top: 15px;
+*/    width: 600px;
+    max-width: 100%;
+    overflow-x: auto;
+    margin: 0 auto; /* ממקם את הקונטיינר במרכז */
+}
+
+#testSummaryTable {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* הוספת הצללה קלה */
+    border-radius: 10px; /* פינות מעוגלות */
+    overflow: hidden; /* חיתוך התוכן העודף */
+}
+
+    #testSummaryTable th {
+        background-color: #03a696; /* צבע רקע לראש הטבלה */
+        color: #fff; /* צבע הטקסט בלבן */
+        padding: 10px; /* מרווח גדול יותר */
+        text-align: center;
+        font-weight: bold;
+        border-bottom: 1px solid #ddd; /* הוספת גבול תחתון עדין */
+    }
+
+    #testSummaryTable td {
+        padding: 12px; /* מרווח גדול יותר */
+        text-align: center;
+        color: #333; /* צבע טקסט כהה יותר */
+        border-bottom: 1px solid #eee; /* הוספת גבול תחתון עדין */
+        background-color: white; /* צבע רקע בהיר יותר */
+        word-wrap: break-word;
+    }
+
+    #testSummaryTable tbody {
+        max-height: 448px;
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+    }
+
+        #testSummaryTable thead, #testSummaryTable tbody tr {
+            display: table;
+            table-layout: fixed;
+            width: 100%;
+        }
+
+    #testSummaryTable thead {
+/*        width: calc(100% - 1em);
+*/
+width:100%;
+    }
+
+    #testSummaryTable td a {
+        color: #03a696; /* צבע טקסט של הקישורים */
+        text-decoration: none;
+    }
+
+        #testSummaryTable td a:hover {
+            text-decoration: underline;
+        }
+
+    #testSummaryTable tbody tr:hover {
+        background-color: #e9f7f5; /* שינוי צבע רקע בשורה הנבחרת */
+    }
+
+    /* סגנון פסים כל שורה שנייה */
+    #testSummaryTable tbody tr:nth-child(odd) {
+        background-color: #f2f2f2;
+    }
+
+    #testSummaryTable th:first-child,
+    #testSummaryTable td:first-child {
+        width: 60px; /* הגדרת רוחב ספציפי לעמודה הראשונה */
+        text-align: center; /* יישור הטקסט למרכז */
+    }
+
+    #testSummaryTable tbody::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    #testSummaryTable tbody::-webkit-scrollbar-track {
+        background-color: transparent;
+        border-radius: 20px;
+        margin-block: 0.5em;
+    }
+
+    #testSummaryTable tbody::-webkit-scrollbar-thumb {
+        background-color: rgba(52, 147, 138, 0.5);
+        border-radius: 100px;
+        border: 3px solid white;
+    }
+
+    #testSummaryTable tbody:hover::-webkit-scrollbar-thumb {
+        background-color: rgba(52, 147, 138, 0.8);
+    }
