@@ -277,11 +277,14 @@ h1 {
     transform: translateY(-50%);
 }
 
-.change-password {
+.changePassword {
     display: flex;
-    justify-content: center;
+/*    justify-content: center;
     align-items: center;
-    padding: 8px;
+    padding: 8px;*/
+position:absolute;
+left:30px;
+top:100px;
 }
 
 @media (max-width: 1000px) {

@@ -966,28 +966,34 @@ $("#changePasswordModal").submit(function (event) {
         return false;
     }
     else {
-    if (newPassword == nowPassword) {
-        document.getElementById("errorM").innerHTML = "סיסמה חדשה חייבת להיות שונה מהסיסמה הנוכחית. אנא הזן סיסמה חדשה."
-    }
-    else if (newPassword != newAgainPassword) {
-        document.getElementById("errorM").innerHTML = "אימות סיסמא חייב להיות זהה לסיסמא החדשה. אנא הזן מחדש"
-    }      
-    else {
-        document.getElementById("errorM").innerHTML = "";
+        if (newPassword == nowPassword) {
+            document.getElementById("errorM").innerHTML = "סיסמה חדשה חייבת להיות שונה מהסיסמה הנוכחית. אנא הזן סיסמה חדשה."
+        }
+        else if (newPassword != newAgainPassword) {
+            document.getElementById("errorM").innerHTML = "אימות סיסמא חייב להיות זהה לסיסמא החדשה. אנא הזן מחדש"
+        }
+        else {
+            document.getElementById("errorM").innerHTML = "";
 
+        }
+
+        newPassword = {
+            userId: userConnected,
+            currentPassword: nowPassword,
+            newPassword: newPassword
+        }
+        apiChangePassword = localHostAPI + "ChangePassword";
+        ajaxCall("Post", apiChangePassword, JSON.stringify(newPassword), changePasswordPostSCB, changePasswordPostECB);
+        return false;
     }
-    
-    //newIssue = {
-    //    topicId: topicId,
-    //    userId: userConnected,
-    //    title: $("#issueTitle").val(),
-    //    content: $("#issueContent").val()
-    //}
-    apiChangePassword = localHostAPI + "InsertIssue";
-    ajaxCall("Post", apiInsertIssue, JSON.stringify(newIssue), InsertIssuePostSCB, InsertIssuePostECB);
-    return false;
 });
-
+function changePasswordPostSCB(data) {
+    document.getElementById("changePasswordModal").style.display = "none";
+    alert("הסיסמא שונתה בהצלחה!");
+}
+function changePasswordPostECB(err) {
+    document.getElementById("errorM").innerHTML = "שינוי הסיסמא לא הצליח - נסה שנית";
+}
 function resetFormPassword() {
     $("#changePasswordForm")[0].reset();
 }
