@@ -151,9 +151,66 @@ $(document).ready(function () {
     loadAllTestAverageAndGrades(userConnected);
     loadUserAverageAndGradesPerMonth(userConnected);
     loadUserSummaries(userConnected);
-
+    
 });
 
+function loadUserSummaries(userId) {
+    TestsApi = localHostAPI + '';
+    ajaxCall("GET", TestsApi, '', loadUserSummariesSCB, loadUserSummariesECB)
+
+}
+function loadUserSummariesSCB(data) {
+    const tableBody = document.querySelector("#testSummaryTable tbody");
+
+    // ננקה את תוכן הטבלה לפני כל שימוש
+    tableBody.innerHTML = '';
+
+    // נעבור על כל מבחן ברשימה ונתעד את הפרטים בטבלה
+    data.forEach((summary, index) => {
+        const row = document.createElement('tr');
+
+        // עמודת המספור
+        const serialNumberCell = document.createElement('td');
+        serialNumberCell.textContent = index + 1;
+        row.appendChild(serialNumberCell);
+
+        // עמודת הציון
+        const gradeCell = document.createElement('td');
+        gradeCell.textContent = summary.grade;
+        row.appendChild(gradeCell);
+
+        // עמודת התאריך
+        const dateCell = document.createElement('td');
+        const testDate = new Date(summary.TestStartDate);
+
+        // עיצוב התאריך בפורמט dd-mm-yy
+        const day = String(testDate.getDate()).padStart(2, '0');
+        const month = String(testDate.getMonth() + 1).padStart(2, '0'); // חודשים הם 0-מבוססים
+        const year = String(testDate.getFullYear()).slice(-2); // להציג רק את 2 הספרות האחרונות
+
+        const formattedDate = `${day}-${month}-${year}`;
+        dateCell.textContent = formattedDate;
+        row.appendChild(dateCell);
+
+        // עמודת הקישור לסיכום מבחן
+        const linkCell = document.createElement('td');
+        const link = document.createElement('a');
+        link.href = `testSummary.html?testId=${summary.testId}&userId=${summary.userId}`;
+        link.textContent = 'קישור לסיכום מבחן';
+        link.target = '_blank'; // פתיחת הקישור בלשונית חדשה
+        linkCell.appendChild(link);
+        row.appendChild(linkCell);
+
+        // הוספת השורה לטבלה
+        tableBody.appendChild(row);
+    });
+}
+
+
+
+function loadUserSummariesECB(err) {
+    console.log("טעינת המבחנים נכשלה");
+}
 function loadUserTopicStats(userID) {
     $.ajax({
         url: localHostAPI + `api/Users/UserTopicStats/${userID}`,
@@ -878,46 +935,46 @@ document.addEventListener('click', function (event) {
     }
 });
 
-function loadUserSummaries(userId) {
-    const apiUrl = `${localHostAPI}api/Tests/get-summaries?userId=${userId}`;
+//function loadUserSummaries(userId) {
+//    const apiUrl = `${localHostAPI}api/Tests/get-summaries?userId=${userId}`;
 
-    fetch(apiUrl, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            renderSummaries(data);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Failed to load summaries.');
-        });
-}
-function renderSummaries(summaries) {
-    const container = document.getElementById('testContainer');
-    container.innerHTML = ''; // ניקוי המיכל לפני הוספת הסיכומים החדשים
+//    fetch(apiUrl, {
+//        method: 'GET',
+//        headers: {
+//            'Content-Type': 'application/json'
+//        }
+//    })
+//        .then(response => {
+//            if (!response.ok) {
+//                throw new Error('Network response was not ok');
+//            }
+//            return response.json();
+//        })
+//        .then(data => {
+//            renderSummaries(data);
+//        })
+//        .catch(error => {
+//            console.error('Error:', error);
+//            alert('Failed to load summaries.');
+//        });
+//}
+//function renderSummaries(summaries) {
+//    const container = document.getElementById('testContainer');
+//    container.innerHTML = ''; // ניקוי המיכל לפני הוספת הסיכומים החדשים
 
-    summaries.forEach(summary => {
-        if (summary.filePath) { // בדיקה אם ה-FilePath מוגדר
-            const summaryLink = `
-                <div class="summary-item">
-                    <a href="${summary.filePath}" target="_blank">
-                        סיכום למבחן - תאריך: ${new Date(summary.dateCreated).toLocaleDateString()}
-                    </a>
-                </div>
-            `;
-            container.innerHTML += summaryLink;
-        } else {
-            console.error('FilePath is undefined for summary:', summary);
-        }
-    });
-}
+//    summaries.forEach(summary => {
+//        if (summary.filePath) { // בדיקה אם ה-FilePath מוגדר
+//            const summaryLink = `
+//                <div class="summary-item">
+//                    <a href="${summary.filePath}" target="_blank">
+//                        סיכום למבחן - תאריך: ${new Date(summary.dateCreated).toLocaleDateString()}
+//                    </a>
+//                </div>
+//            `;
+//            container.innerHTML += summaryLink;
+//        } else {
+//            console.error('FilePath is undefined for summary:', summary);
+//        }
+//    });
+//}
 
