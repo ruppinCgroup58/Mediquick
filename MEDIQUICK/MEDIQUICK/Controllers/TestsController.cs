@@ -113,48 +113,48 @@ namespace MEDIQUICK.Controllers
         //    return Ok("PDF saved successfully.");
         //}
 
-        [HttpPost]
-        [Route("save-html-summary")]
-        public async Task<IActionResult> SaveHtmlSummary([FromForm] int userId, [FromForm] int testId, [FromForm] string htmlContent, [FromForm] string fileName)
-        {
-            if (string.IsNullOrEmpty(htmlContent))
-                return BadRequest("No content provided.");
+        //[HttpPost]
+        //[Route("save-html-summary")]
+        //public async Task<IActionResult> SaveHtmlSummary([FromForm] int userId, [FromForm] int testId, [FromForm] string htmlContent, [FromForm] string fileName)
+        //{
+        //    if (string.IsNullOrEmpty(htmlContent))
+        //        return BadRequest("No content provided.");
 
-            // יצירת נתיב השמירה
-            var savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "summaries", $"user-{userId}");
-            if (!Directory.Exists(savePath))
-                Directory.CreateDirectory(savePath);
+        //    // יצירת נתיב השמירה
+        //    var savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "summaries", $"user-{userId}");
+        //    if (!Directory.Exists(savePath))
+        //        Directory.CreateDirectory(savePath);
 
-            var filePath = Path.Combine(savePath, fileName);
+        //    var filePath = Path.Combine(savePath, fileName);
 
-            await System.IO.File.WriteAllTextAsync(filePath, htmlContent);
+        //    await System.IO.File.WriteAllTextAsync(filePath, htmlContent);
 
-            return Ok("Summary saved successfully.");
-        }
+        //    return Ok("Summary saved successfully.");
+        //}
 
-        [HttpGet]
-        [Route("get-summaries")]
-        public IActionResult GetSummaries(int userId)
-        {
-            var savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "summaries", $"user-{userId}");
+        //[HttpGet]
+        //[Route("get-summaries")]
+        //public IActionResult GetSummaries(int userId)
+        //{
+        //    var savePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "summaries", $"user-{userId}");
 
-            if (!Directory.Exists(savePath))
-                return NotFound("No summaries found for this user.");
+        //    if (!Directory.Exists(savePath))
+        //        return NotFound("No summaries found for this user.");
 
-            var files = Directory.GetFiles(savePath, "*.html");
+        //    var files = Directory.GetFiles(savePath, "*.html");
 
-            if (files.Length == 0)
-                return NotFound("No summaries found for this user.");
+        //    if (files.Length == 0)
+        //        return NotFound("No summaries found for this user.");
 
-            var summaries = files.Select(file => new
-            {
-                FileName = Path.GetFileName(file),
-                FilePath = $"/summaries/user-{userId}/{Path.GetFileName(file)}", // וודא שהנתיב תקין
-                DateCreated = System.IO.File.GetCreationTime(file)
-            }).ToList();
+        //    var summaries = files.Select(file => new
+        //    {
+        //        FileName = Path.GetFileName(file),
+        //        FilePath = $"/summaries/user-{userId}/{Path.GetFileName(file)}", // וודא שהנתיב תקין
+        //        DateCreated = System.IO.File.GetCreationTime(file)
+        //    }).ToList();
 
-            return Ok(summaries);
-        }
+        //    return Ok(summaries);
+        //}
 
 
 
