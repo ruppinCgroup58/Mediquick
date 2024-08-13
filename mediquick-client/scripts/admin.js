@@ -300,8 +300,8 @@ function questionsTableGetSCB(questionsList) {
                     }
                 },
                 { data: "creator" },
-                { data: "totalAnswers" },
-                { data: "totalCorrectAnswers" },
+                // { data: "totalAnswers" },
+                // { data: "totalCorrectAnswers" },
                 {
                     data: null,
                     render: function (data, type, row, meta) {
