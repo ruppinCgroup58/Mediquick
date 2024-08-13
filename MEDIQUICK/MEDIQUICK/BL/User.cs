@@ -83,5 +83,11 @@ namespace MEDIQUICK.BL
             return dbs.getTestSummaryPerUser(userID);
         }
 
+        public int ChangePassword(int userId, string currentPassword, string newPassword)
+        {
+            return dbs.ChangePassword(userId,currentPassword,newPassword);
+
+        }
+
     }
 }
