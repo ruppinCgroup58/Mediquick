@@ -197,7 +197,6 @@ function loadUserSummariesSCB(data) {
         const link = document.createElement('a');
         link.href = `./testSummary.html?testId=${summary.testSerialNumber}&userId=${userConnected}&testGrade=${summary.grade}&durationSeconds=${summary.durationSeconds}`;
         link.textContent = 'קישור לסיכום מבחן';
-        link.target = '_blank'; // פתיחת הקישור בלשונית חדשה
         linkCell.appendChild(link);
         row.appendChild(linkCell);
 
