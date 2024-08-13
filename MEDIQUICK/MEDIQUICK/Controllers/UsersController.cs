@@ -100,5 +100,15 @@ namespace MEDIQUICK.Controllers
         {
             return new User().AllTestAverageAndGrades(userID);
         }
+
+
+        [HttpGet("getTestSummaryPerUser/{userID}")]
+        public List<Object> getTestSummaryPerUser(int userID)
+        {
+            User u = new User();
+            return u.getTestSummaryPerUser(userID);
+        }
+
+
     }
 }

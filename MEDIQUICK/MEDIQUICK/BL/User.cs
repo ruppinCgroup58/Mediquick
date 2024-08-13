@@ -78,6 +78,10 @@ namespace MEDIQUICK.BL
             return dbs.AllTestAverageAndGrades(userID);
         }
 
+        public List<Object> getTestSummaryPerUser(int userID)
+        {
+            return dbs.getTestSummaryPerUser(userID);
+        }
 
     }
 }

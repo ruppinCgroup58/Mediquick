@@ -1197,6 +1197,60 @@ public class DBServices
         }
     }
 
+    public List<Object> getTestSummaryPerUser(int userID)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        Object o = new Object();
+
+        try
+        {
+            con = connect("myProjDB"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        cmd = getTestSummaryPerUserWithStoredProcedureWithParameters("sp_Test_getTestSummary", con, userID);             // create the command
+
+        try
+        {
+            SqlDataReader dataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
+
+            List<Object> ObjectList = new List<Object>();
+
+            while (dataReader.Read())
+            {
+                ObjectList.Add(new
+                {
+                    testSerialNumber = Convert.ToInt32(dataReader["testSerialNumber"]),
+                    grade = Math.Round(Convert.ToDouble(dataReader["grade"]), 2),
+                    TestStartDate = dataReader.GetDateTime(dataReader.GetOrdinal("TestStartDate"))
+                });
+            }
+
+            return ObjectList;
+        }
+
+
+        catch (Exception ex)
+        {
+            throw (ex);
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
     public Object AllTestAverageAndGrades(int userID)
     {
         SqlConnection con;
@@ -1370,6 +1424,23 @@ public class DBServices
     }
 
     private SqlCommand StatUserTestAverageAndGradesPerMonthWithStoredProcedureWithParameters(String spName, SqlConnection con, int userID)
+    {
+
+        SqlCommand cmd = new SqlCommand(); // create the command object
+
+        cmd.Connection = con;              // assign the connection to the command object
+
+        cmd.CommandText = spName;      // can be Select, Insert, Update, Delete
+
+        cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
+
+        cmd.CommandType = System.Data.CommandType.StoredProcedure; // the type of the command, can also be text
+
+        cmd.Parameters.AddWithValue("@UserID", userID);
+        return cmd;
+    }
+
+    private SqlCommand getTestSummaryPerUserWithStoredProcedureWithParameters(String spName, SqlConnection con, int userID)
     {
 
         SqlCommand cmd = new SqlCommand(); // create the command object
