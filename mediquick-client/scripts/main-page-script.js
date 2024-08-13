@@ -38,3 +38,8 @@ function getUserProgressECB(err) {
 function goToQBTPage(topicId, topicName) {
   window.location.href = `questions-by-topic.html?topicId=${topicId}&topicName=${topicName}`
 }
+
+function LogOut() {
+  window.location.href = `login.html`;
+  sessionStorage.clear();
+}
