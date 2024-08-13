@@ -1229,7 +1229,7 @@ public class DBServices
                     testSerialNumber = Convert.ToInt32(dataReader["testSerialNumber"]),
                     grade = Math.Round(Convert.ToDouble(dataReader["grade"]), 2),
                     TestStartDate = dataReader.GetDateTime(dataReader.GetOrdinal("TestStartDate")),
-                    durationSeconds = Convert.ToInt32(dataReader.GetOrdinal("durationSeconds"))
+                    durationSeconds = Convert.ToInt32(dataReader["durationSeconds"])
                 });
             }
 

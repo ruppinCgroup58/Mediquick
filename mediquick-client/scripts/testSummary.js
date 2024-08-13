@@ -2,6 +2,8 @@
 const TESTID = urlParams.get('testId');
 var userId = sessionStorage.getItem('id');
 var testGrade = urlParams.get('testGrade');
+var durationSeconds = urlParams.get('durationSeconds');
+
 if (!userId) {
      userId = urlParams.get('userId');
 } 
@@ -9,7 +11,7 @@ if (!userId) {
 $(document).ready(function () {
     if (testGrade != undefined) {
         document.getElementById('tesGrade').textContent = testGrade;       
-
+        document.getElementById('tesTime').textContent = formatDuration(durationSeconds);
     }
     else {
         calculateAndUpdateScoreAndGetDuration(TESTID);
