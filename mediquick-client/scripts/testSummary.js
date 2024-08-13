@@ -6,6 +6,7 @@ $(document).ready(function () {
     calculateAndUpdateScoreAndGetDuration(TESTID);
     getTestSummary(TESTID);
     getQuestionDetailsInTest(TESTID);
+    saveSammary(TESTID, userId);
     saveHtmlSummary(TESTID, userId);
 
 });
@@ -232,3 +233,6 @@ function saveHtmlSummary(testId, userId) {
         });
 }
 
+function saveSammary(TESTID, userId) {
+    container = document.getElementById
+}
