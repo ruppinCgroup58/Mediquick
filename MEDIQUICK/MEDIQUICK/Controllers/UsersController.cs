@@ -53,6 +53,13 @@ namespace MEDIQUICK.Controllers
             return new User().Login(email, password);
         }
 
+        // POST api/<UsersController>
+        [HttpPost("/ChangePassword")]
+        public int ChangePassword([FromBody] ChangePassword o)
+        {
+            return new User().ChangePassword( o.userId, o.currentPassword, o.newPassword);
+        }
+
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
