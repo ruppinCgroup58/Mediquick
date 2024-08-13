@@ -151,9 +151,66 @@ $(document).ready(function () {
     loadAllTestAverageAndGrades(userConnected);
     loadUserAverageAndGradesPerMonth(userConnected);
     loadUserSummaries(userConnected);
-
+    
 });
 
+function loadUserSummaries(userId) {
+    TestsApi = localHostAPI + '';
+    ajaxCall("GET", TestsApi, '', loadUserSummariesSCB, loadUserSummariesECB)
+
+}
+function loadUserSummariesSCB(data) {
+    const tableBody = document.querySelector("#testSummaryTable tbody");
+
+    // ננקה את תוכן הטבלה לפני כל שימוש
+    tableBody.innerHTML = '';
+
+    // נעבור על כל מבחן ברשימה ונתעד את הפרטים בטבלה
+    data.forEach((summary, index) => {
+        const row = document.createElement('tr');
+
+        // עמודת המספור
+        const serialNumberCell = document.createElement('td');
+        serialNumberCell.textContent = index + 1;
+        row.appendChild(serialNumberCell);
+
+        // עמודת הציון
+        const gradeCell = document.createElement('td');
+        gradeCell.textContent = summary.grade;
+        row.appendChild(gradeCell);
+
+        // עמודת התאריך
+        const dateCell = document.createElement('td');
+        const testDate = new Date(summary.TestStartDate);
+
+        // עיצוב התאריך בפורמט dd-mm-yy
+        const day = String(testDate.getDate()).padStart(2, '0');
+        const month = String(testDate.getMonth() + 1).padStart(2, '0'); // חודשים הם 0-מבוססים
+        const year = String(testDate.getFullYear()).slice(-2); // להציג רק את 2 הספרות האחרונות
+
+        const formattedDate = `${day}-${month}-${year}`;
+        dateCell.textContent = formattedDate;
+        row.appendChild(dateCell);
+
+        // עמודת הקישור לסיכום מבחן
+        const linkCell = document.createElement('td');
+        const link = document.createElement('a');
+        link.href = `testSummary.html?testId=${summary.testId}&userId=${summary.userId}`;
+        link.textContent = 'קישור לסיכום מבחן';
+        link.target = '_blank'; // פתיחת הקישור בלשונית חדשה
+        linkCell.appendChild(link);
+        row.appendChild(linkCell);
+
+        // הוספת השורה לטבלה
+        tableBody.appendChild(row);
+    });
+}
+
+
+
+function loadUserSummariesECB(err) {
+    console.log("טעינת המבחנים נכשלה");
+}
 function loadUserTopicStats(userID) {
     $.ajax({
         url: localHostAPI + `api/Users/UserTopicStats/${userID}`,
