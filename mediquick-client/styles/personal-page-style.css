@@ -277,10 +277,17 @@ h1 {
     transform: translateY(-50%);
 }
 
+.change-password {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+}
+
 @media (max-width: 1000px) {
     main {
         flex-direction: column;
-        align-items: center
+        align-items: start;
     }
 
     .container {
