@@ -667,3 +667,117 @@ width:100%;
     #testSummaryTable tbody:hover::-webkit-scrollbar-thumb {
         background-color: rgba(52, 147, 138, 0.8);
     }
+
+/****************************/
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6); /* Black semi-transparent background */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #f9f9f9; /* Light gray background */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Light shadow */
+    padding: 30px; /* Inner spacing */
+    width: 90%;
+    max-width: 450px; /* Maximum width */
+    position: relative;
+    animation: slide-down 0.4s ease-out; /* Slide down animation */
+}
+
+    .modal-content h2 {
+        margin-top: 0;
+        color: #333; /* Dark text color */
+        font-size: 1.5em; /* Heading size */
+        text-align: center; /* Center alignment */
+    }
+
+    .modal-content .input-box {
+        margin: 15px 0; /* Spacing between elements */
+    }
+
+        .modal-content .input-box label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666; /* Dark gray text color */
+            font-weight: bold;
+        }
+
+        .modal-content .input-box input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc; /* Light gray border */
+            border-radius: 8px; /* Rounded corners */
+            font-size: 1em; /* Font size */
+            color: #333; /* Text color */
+        }
+
+    .modal-content .primary-btn {
+        background-color: #03a696; /* Button background color */
+        color: #fff; /* Button text color */
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px; /* Rounded corners */
+        cursor: pointer;
+        width: 100%; /* Full width button */
+        font-size: 1em;
+        margin-top: 15px;
+        transition: background-color 0.3s ease;
+    }
+
+        .modal-content .primary-btn:hover {
+            background-color: #028d75; /* Darker background on hover */
+        }
+
+    .modal-content .closePassword {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 1.5em; /* Close button size */
+        cursor: pointer;
+        color: #999; /* Close button color */
+    }
+
+        .modal-content .closePassword:hover {
+            color: #666; /* Darker color on hover */
+        }
+
+.clear-form-logo {
+    position: absolute;
+    left: 30px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+    .clear-form-logo:hover {
+        opacity: 0.7; /* Slight fade on hover */
+    }
+
+#changePasswordForm #errorM {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 10px;
+    display: block;
+    text-align: center;
+}
+
+@keyframes slide-down {
+    from {
+        transform: translateY(-50px); /* Slide from above */
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0); /* Final position */
+        opacity: 1;
+    }
+}

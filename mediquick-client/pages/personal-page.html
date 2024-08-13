@@ -70,7 +70,7 @@
         </nav>
     </header>
     <main>
-        <div class="change-password">
+        <div class="changePassword" onclick="ChangePasswordModal()">
             <img src="./../images/icons/edit-pencil.svg" alt="" srcset="">
             שנה סיסמה
         </div>
@@ -141,6 +141,32 @@
                         <!-- השורות יתווספו כאן דינאמית -->
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <div id="changePasswordModal" class="modal">
+            <div class="modal-content" id="changePasswordModal">
+                <span class="closePassword">&times;</span>
+                <div class="clear-form suForm">
+                    <img src="./../images/icons/clear-form-24.svg" alt="" class="clear-form-logo"
+                         title="Delete details" onclick="resetFormPassword()">
+                </div>
+                <form action="" id="changePasswordForm" class="AIForm">
+
+                    <div class="input-box">
+                        <label>סיסמא נוכחית</label>
+                        <input class="hebrew form-control" type="text" id="nowPassword" placeholder="סיסמא נוכחית" required>
+                    </div>
+                    <div class="input-box">
+                        <label>סיסמא חדשה:</label>
+                        <input class="hebrew form-control" type="text" id="newPassword" placeholder="סיסמא חדשה" required>
+                    </div>
+                    <div class="input-box">
+                        <label>אימות סיסמא חדשה</label>
+                        <input class="hebrew form-control" type="text" id="newAgainPassword" placeholder="אימות סיסמא חדשה" required>
+                    </div>
+                    <span id="errorM"></span>
+                    <input type="submit" value="שלח" class="primary-btn btn btn-primary" id="change-Password-modal-btn">
+                </form>
             </div>
         </div>
     </main>

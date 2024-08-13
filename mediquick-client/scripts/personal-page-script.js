@@ -933,3 +933,61 @@ document.addEventListener('click', function (event) {
         optionsMenu.remove();
     }
 });
+
+function ChangePasswordModal() {
+    const modal = document.getElementById("changePasswordModal");
+    const closeModalSpan = document.querySelector(".closePassword");
+    modal.style.display = "flex";
+
+    // סגירת המודאל בעת לחיצה על ה-x
+    closeModalSpan.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    // סגירת המודאל בעת לחיצה מחוץ למודאל
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+}
+
+
+$("#changePasswordModal").submit(function (event) {
+    nowPassword = document.getElementById("nowPassword").value;
+    newPassword = document.getElementById("newPassword").value;
+    newAgainPassword = document.getElementById("newAgainPassword").value;
+
+    // Password validation using regex
+    // At least 8 characters, at least one uppercase letter, one lowercase letter, one number, and one special character
+    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/;
+    if (!newPassword.match(passwordRegex) || !newAgainPassword.match(passwordRegex)) {
+        document.getElementById("errorM").innerHTML = "סיסמא לא תקינה. סיסמא חייבת להכין אות גדולה באנגלית אות קטנה, מספר, סימן ולפחות 8 תווים";
+        return false;
+    }
+    else {
+    if (newPassword == nowPassword) {
+        document.getElementById("errorM").innerHTML = "סיסמה חדשה חייבת להיות שונה מהסיסמה הנוכחית. אנא הזן סיסמה חדשה."
+    }
+    else if (newPassword != newAgainPassword) {
+        document.getElementById("errorM").innerHTML = "אימות סיסמא חייב להיות זהה לסיסמא החדשה. אנא הזן מחדש"
+    }      
+    else {
+        document.getElementById("errorM").innerHTML = "";
+
+    }
+    
+    //newIssue = {
+    //    topicId: topicId,
+    //    userId: userConnected,
+    //    title: $("#issueTitle").val(),
+    //    content: $("#issueContent").val()
+    //}
+    apiChangePassword = localHostAPI + "InsertIssue";
+    ajaxCall("Post", apiInsertIssue, JSON.stringify(newIssue), InsertIssuePostSCB, InsertIssuePostECB);
+    return false;
+});
+
+function resetFormPassword() {
+    $("#changePasswordForm")[0].reset();
+}
