@@ -185,16 +185,19 @@ function HandleSelectedAnswer() {
 }
 
 function GoToNextQuestion() {
-  let chosenAnswerIndex =
+  chosenAnswerIndex =
     document.querySelector(".selected-option").dataset.number;
-console.log(shuffledQuestion.shuffledAnswers[chosenAnswerIndex].content)
+let asnwerChosenContent = shuffledQuestion.shuffledAnswers[chosenAnswerIndex].content;
+// if (asnwerChosenContent) {
+//   asnwerChosenContent = "לא נבחרה תשובה"
+// }
   let testReq = {
     userId: userConnected,
     testId: testID,
     questionId: document.querySelector(".question-wrapper").id,
     isCorrect: shuffledQuestion.shuffledAnswers[chosenAnswerIndex].isCorrect,
     lastQ: false,
-    answerChosen: shuffledQuestion.shuffledAnswers[chosenAnswerIndex].content
+    answerChosen: asnwerChosenContent
   };
   let testNextQuestionAPI = localHostAPI + "HandleTestQuestionAnswer";
   ajaxCall(
@@ -239,15 +242,20 @@ function EndTest() {
   let selectedOptionElement = document.querySelector(".selected-option");
 
   if (selectedOptionElement) {
-    let chosenAnswerIndex = selectedOptionElement.dataset.number;
-
+    // chosenAnswerIndex = selectedOptionElement.dataset.number;
+    let asnwerChosenContent = shuffledQuestion.shuffledAnswers[chosenAnswerIndex].content;
+    // if (asnwerChosenContent) {
+    //   asnwerChosenContent = "לא נבחרה תשובה"
+    // }
     let testReq = {
       userId: userConnected,
       testId: testID,
       questionId: document.querySelector(".question-wrapper").id,
       isCorrect: shuffledQuestion.shuffledAnswers[chosenAnswerIndex].isCorrect,
       lastQ: true,
+      answerChosen: asnwerChosenContent
     };
+    chosenAnswerIndex = -1;
 
     let testNextQuestionAPI = localHostAPI + "HandleTestQuestionAnswer";
     ajaxCall(
@@ -270,13 +278,18 @@ function EndTest() {
     );
   }
   else {
+    
+  asnwerChosenContent = "לא נבחרה תשובה"
+
       let testReq = {
           userId: userConnected,
           testId: testID,
           questionId: document.querySelector(".question-wrapper").id,
           isCorrect: false,
           lastQ: true,
+          answerChosen: asnwerChosenContent
       };
+      chosenAnswerIndex = -1;
 
       let testNextQuestionAPI = localHostAPI + "HandleTestQuestionAnswer";
       ajaxCall(
