@@ -155,7 +155,7 @@ $(document).ready(function () {
 });
 
 function loadUserSummaries(userId) {
-    TestsApi = localHostAPI + '';
+    TestsApi = localHostAPI + `api/Users/getTestSummaryPerUser/${userId}`;
     ajaxCall("GET", TestsApi, '', loadUserSummariesSCB, loadUserSummariesECB)
 
 }
@@ -181,7 +181,7 @@ function loadUserSummariesSCB(data) {
 
         // עמודת התאריך
         const dateCell = document.createElement('td');
-        const testDate = new Date(summary.TestStartDate);
+        const testDate = new Date(summary.testStartDate);
 
         // עיצוב התאריך בפורמט dd-mm-yy
         const day = String(testDate.getDate()).padStart(2, '0');
@@ -195,7 +195,7 @@ function loadUserSummariesSCB(data) {
         // עמודת הקישור לסיכום מבחן
         const linkCell = document.createElement('td');
         const link = document.createElement('a');
-        link.href = `testSummary.html?testId=${summary.testId}&userId=${summary.userId}`;
+        link.href = `./testSummary.html?testId=${summary.testSerialNumber}&userId=${userConnected}&testGrade=${summary.grade}`;
         link.textContent = 'קישור לסיכום מבחן';
         link.target = '_blank'; // פתיחת הקישור בלשונית חדשה
         linkCell.appendChild(link);

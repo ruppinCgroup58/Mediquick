@@ -1,13 +1,24 @@
 ﻿const urlParams = new URLSearchParams(window.location.search);
 const TESTID = urlParams.get('testId');
-const userId = sessionStorage.getItem('id');
+var userId = sessionStorage.getItem('id');
+var testGrade = urlParams.get('testGrade');
+if (!userId) {
+     userId = urlParams.get('userId');
+} 
 
 $(document).ready(function () {
-    calculateAndUpdateScoreAndGetDuration(TESTID);
+    if (testGrade != undefined) {
+        document.getElementById('tesGrade').textContent = testGrade;       
+
+    }
+    else {
+        calculateAndUpdateScoreAndGetDuration(TESTID);
+
+    }
     getTestSummary(TESTID);
     getQuestionDetailsInTest(TESTID);
-    saveSammary(TESTID, userId);
-    saveHtmlSummary(TESTID, userId);
+    //saveSammary(TESTID, userId);
+    //saveHtmlSummary(TESTID, userId);
 
 });
 
@@ -193,46 +204,43 @@ function renderQuestionDetails(questions) {
 //        });
 //});
 
-function saveHtmlSummary(testId, userId) {
-    const element = document.querySelector('.container');
+//function saveHtmlSummary(testId, userId) {
+//    const element = document.querySelector('.container');
 
-    // יצירת תאריך נוכחי בפורמט YYYY-MM-DD
-    const today = new Date();
-    const formattedDate = today.toISOString().slice(0, 10); // מחזיר YYYY-MM-DD
+//    // יצירת תאריך נוכחי בפורמט YYYY-MM-DD
+//    const today = new Date();
+//    const formattedDate = today.toISOString().slice(0, 10); // מחזיר YYYY-MM-DD
 
-    // יצירת שם קובץ עם התאריך
-    const fileName = `test-summary-${userId}-${testId}-${formattedDate}.html`;
+//    // יצירת שם קובץ עם התאריך
+//    const fileName = `test-summary-${userId}-${testId}-${formattedDate}.html`;
 
-    // קבלת התוכן של ה-HTML
-    const htmlContent = element.innerHTML;
+//    // קבלת התוכן של ה-HTML
+//    const htmlContent = element.innerHTML;
 
-    // יצירת אובייקט FormData להכיל את קובץ ה-HTML
-    const formData = new FormData();
-    formData.append('userId', userId);        // הוספת userId ל-FormData
-    formData.append('testId', testId);        // הוספת testId ל-FormData
-    formData.append('htmlContent', htmlContent);
-    formData.append('fileName', fileName);
+//    // יצירת אובייקט FormData להכיל את קובץ ה-HTML
+//    const formData = new FormData();
+//    formData.append('userId', userId);        // הוספת userId ל-FormData
+//    formData.append('testId', testId);        // הוספת testId ל-FormData
+//    formData.append('htmlContent', htmlContent);
+//    formData.append('fileName', fileName);
 
-    // הגדרת URL של ה-API לשמירת ה-HTML
-    const apiUrl = `${localHostAPI}api/Tests/save-html-summary`;
+//    // הגדרת URL של ה-API לשמירת ה-HTML
+//    const apiUrl = `${localHostAPI}api/Tests/save-html-summary`;
 
-    // שליחת ה-HTML לשרת בעזרת AJAX
-    fetch(apiUrl, {
-        method: 'POST',
-        body: formData
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            alert('סיכום המבחן נשמר בהצלחה בשרת');
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Failed to save test summary on server.');
-        });
-}
+//    // שליחת ה-HTML לשרת בעזרת AJAX
+//    fetch(apiUrl, {
+//        method: 'POST',
+//        body: formData
+//    })
+//        .then(response => {
+//            if (!response.ok) {
+//                throw new Error('Network response was not ok');
+//            }
+//            alert('סיכום המבחן נשמר בהצלחה בשרת');
+//        })
+//        .catch(error => {
+//            console.error('Error:', error);
+//            alert('Failed to save test summary on server.');
+//        });
+//}
 
-function saveSammary(TESTID, userId) {
-    container = document.getElementById
-}

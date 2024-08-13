@@ -540,11 +540,7 @@ h1 {
     position: relative;
 }
 
-#testContainer {
-    width: 500px;
-    height: 500px;
-    border: solid 1px #03a696;
-}
+
 
 
 table {
@@ -554,7 +550,7 @@ table {
 }
 
 table, th, td {
-    border: 1px solid black;
+    border: 1px solid #03a696;
 }
 
 th, td {
