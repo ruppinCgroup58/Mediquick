@@ -1973,7 +1973,9 @@ public class DBServices
                     DifficultyLevel = Convert.ToInt32(dataReader["DifficultyLevel"]),
                     ResponseTimeSeconds = Convert.ToInt32(dataReader["ResponseTimeSeconds"]),
                     IsAnswerCorrect = Convert.ToBoolean(dataReader["IsAnswerCorrect"]),
-                    Explanation = dataReader["Explanation"].ToString()
+                    Explanation = dataReader["Explanation"].ToString(),
+                    AnswerChosen = dataReader["AnswerChosen"].ToString(),
+                    correctAnswer = dataReader["correctAnswer"].ToString()
 
                 });
             }
