@@ -73,8 +73,20 @@ nav {
 .logo {
     padding-left: 1%;
     cursor: pointer;
-    margin-right: auto;
+    /* margin-right: auto; */
     align-self: normal;
+}
+
+.log-out {
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: 1%;
+}
+
+.log-out img {
+    cursor: pointer;
 }
 
 .clicked {
